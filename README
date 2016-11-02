@@ -5,6 +5,7 @@ details.
 
 See the file 'INSTALL' for instructions on building from source.
 
-Walltime-panel is a GUI applet for remotely controlling the segment timer
-on a Paravel Systems WallTime NTP Clock and Notification system.
+Rivendell-browser is a collection of applets for remotely accessing a Rivendell
+system.
+
  
