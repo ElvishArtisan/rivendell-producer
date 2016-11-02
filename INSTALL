@@ -1,0 +1,41 @@
+This is the INSTALL file for the 'rivendell-browser' package.
+
+PREREQUISITES
+-------------
+To build the package from source, you will need the following packages
+installed and properly configured:
+
+Qt4 Toolkit, v4.6 or later (http://www.qt.io/).
+
+
+BUILDING
+--------
+Once the prequisites are set up, building the software is mostly a matter of
+doing:
+
+    ./configure
+    make
+    make install  [as 'root']
+
+On RedHat-ish systems (RHEL, CentOS, Fedora, etc) you can also make an
+RPM by doing:
+
+    make rpm
+
+
+BUILDING WINDOWS BINARIES
+-------------------------
+The build system for rivendell-browser uses the MinGW (Minimalist GNU for
+Windows) environment for building Windows binaries, available at
+http://www.mingw.org/. It is also possible to build such binaries on CentOS 7
+using the MinGW cross-compiler packages (available in EPEL). The following
+environmental variables need to be configured in the MinGW configuration on
+CentOS 7:
+
+Environmental Variables for Cross-compiling for Windows
+-------------------------------------------------------
+export MINGW32_SYS_ROOT=/usr/i686-w64-mingw32/sys-root/mingw
+export PKG_CONFIG_PATH=$MINGW32_SYS_ROOT/lib/pkgconfig
+
+export CXX=i686-w64-mingw32-g++
+export WINDRES=i686-w64-mingw32-windres

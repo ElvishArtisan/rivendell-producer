@@ -1,0 +1,10 @@
+This is the README file for the rivendell-browser package.
+
+This software comes with ABSOLUTELY NO WARRANTY.  See the file 'COPYING' for
+details.
+
+See the file 'INSTALL' for instructions on building from source.
+
+Walltime-panel is a GUI applet for remotely controlling the segment timer
+on a Paravel Systems WallTime NTP Clock and Notification system.
+ 

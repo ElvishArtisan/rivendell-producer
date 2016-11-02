@@ -1,0 +1,82 @@
+## rivendell-browser.spec.in
+##
+##    Remote applets for the Rivendell Radio Automation System
+##
+##    Copyright (C) 2016 Fred Gleason <fredg@paravelsystems.com>
+##
+##    This program is free software; you can redistribute it and/or modify
+##    it under the terms of version 2 of the GNU General Public License as
+##    published by the Free Software Foundation;
+##
+##    This program is distributed in the hope that it will be useful,
+##    but WITHOUT ANY WARRANTY; without even the implied warranty of
+##    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+##    GNU General Public License for more details.
+##
+##    You should have received a copy of the GNU General Public License
+##    along with this program; if not, write to the Free Software
+##    Foundation, Inc., 59 Temple Place, Suite 330, 
+##    Boston, MA  02111-1307  USA
+##
+
+Summary: Remote applets for the Rivendell Radio Automation System
+Name: rivendell-browser
+Version: @VERSION@
+Release: @RPM_RELEASE@%{?dist}
+License: GPLv2
+Packager: Fred Gleason <fredg@paravelsystems.com>
+Group: Productivity/Multimedia/Other
+Source: %{name}-@VERSION@.tar.gz
+BuildRequires: qt-devel
+BuildRoot: /var/tmp/%{name}-@VERSION@
+
+
+%description
+Rivendell-browser is a collection of applets for accessing a Rivendell
+system remotely.
+
+
+%prep
+
+
+%setup
+
+
+%build
+%configure
+make
+
+
+%install
+rm -rf $RPM_BUILD_ROOT
+make install DESTDIR=$RPM_BUILD_ROOT
+
+
+%post
+if [ -x %{_bindir}/gtk-update-icon-cache ] ; then
+  %{_bindir}/gtk-update-icon-cache -f --quiet %{_datadir}/icons/hicolor || :
+fi
+
+
+%clean
+rm -rf $RPM_BUILD_ROOT
+
+
+%files
+%defattr(-,root,root)
+%{_bindir}/walltime-panel
+%{_datadir}/applications/walltime-panel.desktop
+%{_datadir}/icons/hicolor/16x16/apps/walltime-panel.png
+%{_datadir}/icons/hicolor/22x22/apps/walltime-panel.png
+%{_datadir}/icons/hicolor/32x32/apps/walltime-panel.png
+%{_datadir}/icons/hicolor/48x48/apps/walltime-panel.png
+%doc AUTHORS
+%doc ChangeLog
+%doc COPYING 
+%doc NEWS 
+%doc README 
+
+
+%changelog
+* Sun Aug 28 2016 Fred Gleason <fredg@paravelsystems.com>
+-- Initial RPM creation.
