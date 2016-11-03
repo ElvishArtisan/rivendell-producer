@@ -2,3 +2,5 @@
 	* Initial package creation.
 2016-11-02 Fred Gleason <fredg@paravelsystems.com>
 	* Updated 'README'.
+2016-11-03 Fred Gleason <fredg@paravelsystems.com>
+	* Stubbed out rdlibraryb(1).

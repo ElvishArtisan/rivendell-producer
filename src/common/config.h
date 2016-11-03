@@ -1,6 +1,6 @@
-// rdlibraryb.h
+// config.h
 //
-// Remote cart browser for Rivendell
+// Rivendell-Browser configuration
 //
 //   (C) Copyright 2016 Fred Gleason <fredg@paravelsystems.com>
 //
@@ -19,36 +19,35 @@
 //   Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 //
 
-#ifndef RDLIBRARYB_H
-#define RDLIBRARYB_H
+#ifndef CONFIG_H
+#define CONFIG_H
 
-#include <vector>
+#include <QString>
 
-#include <QLabel>
-#include <QMainWindow>
+#define DEFAULT_CONF_FILE QString("/etc/rivendell-browser.conf")
+#define DEFAULT_SERVER_HOSTNAME "localhost"
+#define DEFAULT_SERVER_USERNAME "user"
+#define DEFAULT_SERVER_PASSWORD ""
 
-#include "combobox.h"
-#include "librarymodel.h"
-#include "tableview.h"
-
-#define RDLIBRARYB_USAGE "\n"
-
-class MainWidget : public QMainWindow
+class Config
 {
-  Q_OBJECT
  public:
-  MainWidget(QWidget *parent=0);
-  QSize sizeHint() const;
-
- protected:
-  void resizeEvent(QResizeEvent *e);
+  Config();
+  QString serverHostname() const;
+  void setServerHostname(const QString &str);
+  QString serverUsername() const;
+  void setServerUsername(const QString &str);
+  QString serverPassword() const;
+  void setServerPassword(const QString &str);
+  bool load();
+  bool save();
 
  private:
-  QLabel *main_group_label;
-  ComboBox *main_group_box;
-  LibraryModel *main_library_model;
-  TableView *main_library_view;
+  QString conf_server_hostname;
+  QString conf_server_username;
+  QString conf_server_password;
 };
 
+extern Config *cnf; 
 
-#endif  // RDLIBRARYB_H
+#endif  // CONFIG_H

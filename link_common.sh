@@ -27,3 +27,22 @@ ln -s ../../src/common/cmdswitch.cpp src/$DESTDIR/cmdswitch.cpp
 rm -f src/$DESTDIR/cmdswitch.h
 ln -s ../../src/common/cmdswitch.h src/$DESTDIR/cmdswitch.h
 
+rm -f src/$DESTDIR/combobox.cpp
+ln -s ../../src/common/combobox.cpp src/$DESTDIR/combobox.cpp
+rm -f src/$DESTDIR/combobox.h
+ln -s ../../src/common/combobox.h src/$DESTDIR/combobox.h
+
+rm -f src/$DESTDIR/config.cpp
+ln -s ../../src/common/config.cpp src/$DESTDIR/config.cpp
+rm -f src/$DESTDIR/config.h
+ln -s ../../src/common/config.h src/$DESTDIR/config.h
+
+rm -f src/$DESTDIR/profile.cpp
+ln -s ../../src/common/profile.cpp src/$DESTDIR/profile.cpp
+rm -f src/$DESTDIR/profile.h
+ln -s ../../src/common/profile.h src/$DESTDIR/profile.h
+
+rm -f src/$DESTDIR/tableview.cpp
+ln -s ../../src/common/tableview.cpp src/$DESTDIR/tableview.cpp
+rm -f src/$DESTDIR/tableview.h
+ln -s ../../src/common/tableview.h src/$DESTDIR/tableview.h

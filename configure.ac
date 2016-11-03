@@ -39,6 +39,11 @@ AC_CHECK_PROG(MOC_NAME,moc-qt4,[moc-qt4],[moc])
 AC_SUBST(MOC,$MOC_NAME)
 
 #
+# Check for Rivendell C API (Mandatory)
+#
+PKG_CHECK_MODULES(RIVCAPI,rivendell,[],[AC_MSG_ERROR([*** Rivendell C API not found ***])])
+
+#
 # Determine the target architecture
 #
 AR_GCC_TARGET()

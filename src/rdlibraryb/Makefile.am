@@ -19,7 +19,7 @@
 ##
 ## Use automake to process this into a Makefile.in
 
-AM_CPPFLAGS = -Wall -DPREFIX=\"$(prefix)\" -Wno-strict-aliasing @QT4_CFLAGS@
+AM_CPPFLAGS = -Wall -DPREFIX=\"$(prefix)\" -Wno-strict-aliasing @QT4_CFLAGS@ @RIVCAPI_CFLAGS@
 MOC = @QT4_MOC@
 
 # The dependency for qt's Meta Object Compiler (moc)
@@ -32,14 +32,22 @@ moc_%.cpp:	%.h
 
 bin_PROGRAMS = rdlibraryb
 
-dist_rdlibraryb_SOURCES = rdlibraryb.cpp rdlibraryb.h
+dist_rdlibraryb_SOURCES = librarymodel.cpp librarymodel.h\
+                          rdlibraryb.cpp rdlibraryb.h
 
 nodist_rdlibraryb_SOURCES = cmdswitch.cpp cmdswitch.h\
-                            moc_rdlibraryb.cpp
+                            combobox.cpp combobox.h\
+                            config.cpp config.h\
+                            moc_combobox.cpp\
+                            moc_librarymodel.cpp\
+                            moc_rdlibraryb.cpp\
+                            moc_tableview.cpp\
+                            profile.cpp profile.h\
+                            tableview.cpp tableview.h
 
 EXTRA_rdlibraryb_DEPENDENCIES = @RESOURCES@
 
-rdlibraryb_LDADD = @QT4_LIBS@ @RESOURCES@
+rdlibraryb_LDADD = @QT4_LIBS@ @RIVCAPI_LIBS@ @RESOURCES@
 rdlibraryb_LDFLAGS = @LDFLAGS@
 
 CLEANFILES = *~\
@@ -48,7 +56,13 @@ CLEANFILES = *~\
              *.idb\
              *.pdb\
              *ilk
+
 DISTCLEANFILES = *.ico\
-                 cmdswitch.cpp cmdswitch.h
+                 cmdswitch.cpp cmdswitch.h\
+                 combobox.cpp combobox.h\
+                 config.cpp config.h\
+                 profile.cpp profile.h\
+                 tableview.cpp tableview.h
+
 MAINTAINERCLEANFILES = *~\
                        Makefile.in
