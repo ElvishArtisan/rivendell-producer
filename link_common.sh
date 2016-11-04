@@ -42,7 +42,17 @@ ln -s ../../src/common/profile.cpp src/$DESTDIR/profile.cpp
 rm -f src/$DESTDIR/profile.h
 ln -s ../../src/common/profile.h src/$DESTDIR/profile.h
 
+rm -f src/$DESTDIR/streamplayer.cpp
+ln -s ../../src/common/streamplayer.cpp src/$DESTDIR/streamplayer.cpp
+rm -f src/$DESTDIR/streamplayer.h
+ln -s ../../src/common/streamplayer.h src/$DESTDIR/streamplayer.h
+
 rm -f src/$DESTDIR/tableview.cpp
 ln -s ../../src/common/tableview.cpp src/$DESTDIR/tableview.cpp
 rm -f src/$DESTDIR/tableview.h
 ln -s ../../src/common/tableview.h src/$DESTDIR/tableview.h
+
+rm -f src/$DESTDIR/transportbutton.cpp
+ln -s ../../src/common/transportbutton.cpp src/$DESTDIR/transportbutton.cpp
+rm -f src/$DESTDIR/transportbutton.h
+ln -s ../../src/common/transportbutton.h src/$DESTDIR/transportbutton.h

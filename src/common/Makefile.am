@@ -24,7 +24,9 @@ EXTRA_DIST = cmdswitch.cpp cmdswitch.h\
              combobox.cpp combobox.h\
              config.cpp config.h\
              profile.cpp profile.h\
-             tableview.cpp tableview.h
+             streamplayer.cpp streamplayer.h\
+             tableview.cpp tableview.h\
+             transportbutton.cpp transportbutton.h
 
 CLEANFILES = *~\
              *.idb\

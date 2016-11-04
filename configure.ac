@@ -34,7 +34,7 @@ AC_LANG(C++)
 #
 # Check for Qt4 (Mandatory)
 #
-PKG_CHECK_MODULES(QT4,QtGui QtCore QtNetwork,[],[AC_MSG_ERROR([*** Qt4 not found ***])])
+PKG_CHECK_MODULES(QT4,QtGui QtCore QtNetwork Qt3Support,[],[AC_MSG_ERROR([*** Qt4 not found ***])])
 AC_CHECK_PROG(MOC_NAME,moc-qt4,[moc-qt4],[moc])
 AC_SUBST(MOC,$MOC_NAME)
 
@@ -81,6 +81,8 @@ else
 fi 
 
 AC_CONFIG_FILES([ \
+    conf/Makefile \
+    icons/Makefile \
     src/Makefile \
     src/common/Makefile \
     src/rdlibraryb/Makefile \

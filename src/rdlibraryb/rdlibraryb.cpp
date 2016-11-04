@@ -49,6 +49,11 @@ MainWidget::MainWidget(QWidget *parent)
   cnf->load();
 
   //
+  // Stream Player
+  //
+  main_stream_player=new StreamPlayer(this);
+
+  //
   // Window Title Bar
   //
   setWindowTitle(tr("RDLibrary Browser"));
@@ -97,6 +102,26 @@ MainWidget::MainWidget(QWidget *parent)
   main_library_view->resizeColumnsToContents();
   connect(main_group_box,SIGNAL(activated(const QString &)),
 	  main_library_model,SLOT(setGroupName(const QString &)));
+
+  //
+  // Play Button
+  //
+  main_play_button=new TransportButton(TransportButton::Play,this);
+  connect(main_play_button,SIGNAL(clicked()),this,SLOT(playData()));
+
+  //
+  // Stop Button
+  //
+  main_stop_button=new TransportButton(TransportButton::Stop,this);
+  connect(main_stop_button,SIGNAL(clicked()),this,SLOT(stopData()));
+
+  //
+  // Close Button
+  //
+  main_close_button=new QPushButton(tr("Close"),this);
+  main_close_button->setFont(bold_font);
+  connect(main_close_button,SIGNAL(clicked()),qApp,SLOT(quit()));
+
 }
 
 
@@ -106,12 +131,32 @@ QSize MainWidget::sizeHint() const
 }
 
 
+void MainWidget::playData()
+{
+  QItemSelectionModel *s=main_library_view->selectionModel();
+  if(s->hasSelection()) {
+    unsigned cartnum=main_library_model->cartNumber(s->selectedRows()[0].row());
+    main_stream_player->play(cartnum,1,-1,-1);
+  }
+}
+
+
+void MainWidget::stopData()
+{
+  main_stream_player->stop();
+}
+
+
 void MainWidget::resizeEvent(QResizeEvent *e)
 {
   main_group_label->setGeometry(10,10,60,20);
   main_group_box->setGeometry(75,10,100,20);
 
-  main_library_view->setGeometry(10,32,size().width()-20,size().height()-42);
+  main_library_view->setGeometry(10,32,size().width()-20,size().height()-112);
+
+  main_play_button->setGeometry(10,size().height()-60,80,50);
+  main_stop_button->setGeometry(100,size().height()-60,80,50);
+  main_close_button->setGeometry(size().width()-90,size().height()-60,80,50);
 }
 
 

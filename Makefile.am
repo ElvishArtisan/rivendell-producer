@@ -20,7 +20,9 @@
 ##   Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 ##
 
-SUBDIRS = src
+SUBDIRS = conf\
+          icons\
+          src
 
 rpm:	dist
 	cp rivendell-browser-$(VERSION).tar.gz $(HOME)/rpmbuild/SOURCES/

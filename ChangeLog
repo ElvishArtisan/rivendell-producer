@@ -4,3 +4,6 @@
 	* Updated 'README'.
 2016-11-03 Fred Gleason <fredg@paravelsystems.com>
 	* Stubbed out rdlibraryb(1).
+2016-11-03 Fred Gleason <fredg@paravelsystems.com>
+	* Stubbed out a stream player in 'src/common/streamplayer.cpp' and
+	'src/common/streamplayer.h'.

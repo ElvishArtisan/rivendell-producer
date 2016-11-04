@@ -26,10 +26,13 @@
 
 #include <QLabel>
 #include <QMainWindow>
+#include <QPushButton>
 
 #include "combobox.h"
 #include "librarymodel.h"
+#include "streamplayer.h"
 #include "tableview.h"
+#include "transportbutton.h"
 
 #define RDLIBRARYB_USAGE "\n"
 
@@ -40,6 +43,10 @@ class MainWidget : public QMainWindow
   MainWidget(QWidget *parent=0);
   QSize sizeHint() const;
 
+ private slots:
+  void playData();
+  void stopData();
+
  protected:
   void resizeEvent(QResizeEvent *e);
 
@@ -48,6 +55,10 @@ class MainWidget : public QMainWindow
   ComboBox *main_group_box;
   LibraryModel *main_library_model;
   TableView *main_library_view;
+  TransportButton *main_play_button;
+  TransportButton *main_stop_button;
+  QPushButton *main_close_button;  
+  StreamPlayer *main_stream_player;
 };
 
 

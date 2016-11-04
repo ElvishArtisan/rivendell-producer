@@ -33,6 +33,7 @@ class LibraryModel : public QAbstractTableModel
  public:
   LibraryModel(QObject *parent=0);
   QString groupName() const;
+  unsigned cartNumber(int row) const;
   int rowCount(const QModelIndex &parent=QModelIndex()) const;
   int columnCount(const QModelIndex &parent=QModelIndex()) const;
   QVariant data(const QModelIndex &index,int role=Qt::DisplayRole) const;
@@ -49,6 +50,7 @@ class LibraryModel : public QAbstractTableModel
   QString model_group_name;
   QList<QVariant> model_column_titles;
   QList<QStringList> model_column_fields;
+  QList<unsigned> model_cart_numbers;
 };
 
 

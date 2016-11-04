@@ -57,6 +57,12 @@ QString LibraryModel::groupName() const
 }
 
 
+unsigned LibraryModel::cartNumber(int row) const
+{
+  return model_cart_numbers.at(row);
+}
+
+
 int LibraryModel::rowCount(const QModelIndex &parent) const
 {
   return model_column_fields.size();
@@ -135,14 +141,16 @@ void LibraryModel::Update()
 		       cnf->serverUsername().toUtf8(),
 		       cnf->serverPassword().toUtf8(),
 		       group_name.toUtf8(),"","",&numrecs))==0) {
-    if(model_column_fields.size()>0) {
+    if(model_cart_numbers.size()>0) {
       beginRemoveRows(QModelIndex(),0,model_column_fields.size()-1);
+      model_cart_numbers.clear();
       model_column_fields.clear();
       endRemoveRows();
     }
     if(numrecs>0) {
       beginInsertRows(QModelIndex(),0,numrecs-1);
       for(unsigned i=0;i<numrecs;i++) {
+	model_cart_numbers.push_back(carts[i].cart_number);
 	model_column_fields.push_back(QStringList());
 	model_column_fields.back().
 	  push_back(QString().sprintf("%u",carts[i].cart_type));

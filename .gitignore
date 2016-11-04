@@ -19,3 +19,5 @@ moc_*
 src/rdlibraryb/cmdswitch.cpp
 src/rdlibraryb/cmdswitch.h
 src/rdlibraryb/rdlibraryb
+src/rdlibraryb/streamplayer.cpp
+src/rdlibraryb/streamplayer.h

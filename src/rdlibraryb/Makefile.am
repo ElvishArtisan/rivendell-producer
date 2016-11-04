@@ -41,9 +41,13 @@ nodist_rdlibraryb_SOURCES = cmdswitch.cpp cmdswitch.h\
                             moc_combobox.cpp\
                             moc_librarymodel.cpp\
                             moc_rdlibraryb.cpp\
+                            moc_streamplayer.cpp\
                             moc_tableview.cpp\
+                            moc_transportbutton.cpp\
                             profile.cpp profile.h\
-                            tableview.cpp tableview.h
+                            streamplayer.cpp streamplayer.h\
+                            tableview.cpp tableview.h\
+                            transportbutton.cpp transportbutton.h
 
 EXTRA_rdlibraryb_DEPENDENCIES = @RESOURCES@
 
@@ -62,7 +66,8 @@ DISTCLEANFILES = *.ico\
                  combobox.cpp combobox.h\
                  config.cpp config.h\
                  profile.cpp profile.h\
-                 tableview.cpp tableview.h
+                 tableview.cpp tableview.h\
+                 transportbutton.cpp transportbutton.h
 
 MAINTAINERCLEANFILES = *~\
                        Makefile.in
