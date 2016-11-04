@@ -30,6 +30,13 @@ StreamPlayer::StreamPlayer(QObject *parent)
 {
   stream_process=NULL;
   stream_state=StreamPlayer::Stopped;
+
+  //
+  // Garbage Collector
+  //
+  stream_garbage_timer=new QTimer(this);
+  stream_garbage_timer->setSingleShot(true);
+  connect(stream_garbage_timer,SIGNAL(timeout()),this,SLOT(garbageData()));
 }
 
 
@@ -58,7 +65,7 @@ void StreamPlayer::play(int cartnum,int cutnum,int start_pos,int end_pos)
       QString().sprintf("BIT_RATE=%u&",cnf->audioBitRate())+
       "QUALITY=0&"+
       QString().sprintf("START_POINT=%d&",start_pos)+
-      QString().sprintf("END_POINT=%d&"+end_pos)+
+      QString().sprintf("END_POINT=%d&",end_pos)+
       "NORMALIZATION_LEVEL=0&"+
       "ENABLE_METADATA=0";
 
@@ -67,7 +74,6 @@ void StreamPlayer::play(int cartnum,int cutnum,int start_pos,int end_pos)
     args.push_back("--alsa-device="+cnf->audioDeviceName());  // FIXME
     args.push_back("--post-data="+post);
     args.push_back("http://"+cnf->serverHostname()+"/rd-bin/rdxport.cgi");
-    printf("ARGS: %s\n",(const char *)args.join(" ").toUtf8());
     stream_process=new QProcess(this);
     stream_process->setReadChannel(QProcess::StandardOutput);
     connect(stream_process,SIGNAL(stateChanged(QProcess::ProcessState)),
@@ -155,6 +161,7 @@ void StreamPlayer::processFinishedData(int exit_code,
       exit(256);
     }
   }
+  stream_garbage_timer->start(1);
   stream_state=StreamPlayer::Stopped;
   emit stateChanged(stream_state);
 }
@@ -166,4 +173,11 @@ void StreamPlayer::processErrorData(QProcess::ProcessError err)
 			tr("Player process error")+" ["+
 			QString().sprintf("%d",err)+"]!");
   exit(256);
+}
+
+
+void StreamPlayer::garbageData()
+{
+  delete stream_process;
+  stream_process=NULL;
 }

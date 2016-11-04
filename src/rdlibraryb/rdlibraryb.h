@@ -44,10 +44,13 @@ class MainWidget : public QMainWindow
   QSize sizeHint() const;
 
  private slots:
+  void cartClickedData(const QModelIndex &index);
   void playData();
   void stopData();
+  void playerStateChangedData(StreamPlayer::State state);
 
  protected:
+  void closeEvent(QCloseEvent *e);
   void resizeEvent(QResizeEvent *e);
 
  private:
@@ -59,6 +62,8 @@ class MainWidget : public QMainWindow
   TransportButton *main_stop_button;
   QPushButton *main_close_button;  
   StreamPlayer *main_stream_player;
+  unsigned main_selected_cart;
+  bool main_is_closing;
 };
 
 

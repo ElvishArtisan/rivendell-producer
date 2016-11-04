@@ -7,3 +7,5 @@
 2016-11-03 Fred Gleason <fredg@paravelsystems.com>
 	* Stubbed out a stream player in 'src/common/streamplayer.cpp' and
 	'src/common/streamplayer.h'.
+2016-11-04 Fred Gleason <fredg@paravelsystems.com>
+	* Got stream audio playout working.

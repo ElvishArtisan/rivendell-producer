@@ -34,6 +34,9 @@
 MainWidget::MainWidget(QWidget *parent)
   :QMainWindow(parent)
 {
+  main_selected_cart=0;
+  main_is_closing=false;
+
   //
   // Read Command Options
   //
@@ -52,6 +55,8 @@ MainWidget::MainWidget(QWidget *parent)
   // Stream Player
   //
   main_stream_player=new StreamPlayer(this);
+  connect(main_stream_player,SIGNAL(stateChanged(StreamPlayer::State)),
+	  this,SLOT(playerStateChangedData(StreamPlayer::State)));
 
   //
   // Window Title Bar
@@ -100,6 +105,8 @@ MainWidget::MainWidget(QWidget *parent)
   main_library_view=new TableView(this);
   main_library_view->setModel(main_library_model);
   main_library_view->resizeColumnsToContents();
+  connect(main_library_view,SIGNAL(clicked(const QModelIndex &)),
+	  this,SLOT(cartClickedData(const QModelIndex &)));
   connect(main_group_box,SIGNAL(activated(const QString &)),
 	  main_library_model,SLOT(setGroupName(const QString &)));
 
@@ -113,6 +120,7 @@ MainWidget::MainWidget(QWidget *parent)
   // Stop Button
   //
   main_stop_button=new TransportButton(TransportButton::Stop,this);
+  main_stop_button->on();
   connect(main_stop_button,SIGNAL(clicked()),this,SLOT(stopData()));
 
   //
@@ -120,14 +128,22 @@ MainWidget::MainWidget(QWidget *parent)
   //
   main_close_button=new QPushButton(tr("Close"),this);
   main_close_button->setFont(bold_font);
-  connect(main_close_button,SIGNAL(clicked()),qApp,SLOT(quit()));
-
+  connect(main_close_button,SIGNAL(clicked()),this,SLOT(close()));
 }
 
 
 QSize MainWidget::sizeHint() const
 {
   return QSize(800,600);
+}
+
+
+void MainWidget::cartClickedData(const QModelIndex &index)
+{
+  if(main_library_model->cartNumber(index.row())!=main_selected_cart) {
+    main_stream_player->stop();
+    main_selected_cart=main_library_model->cartNumber(index.row());
+  }
 }
 
 
@@ -144,6 +160,36 @@ void MainWidget::playData()
 void MainWidget::stopData()
 {
   main_stream_player->stop();
+}
+
+
+void MainWidget::playerStateChangedData(StreamPlayer::State state)
+{
+  switch(state) {
+  case StreamPlayer::Playing:
+    main_play_button->on();
+    main_stop_button->off();
+    break;
+
+  case StreamPlayer::Stopped:
+    if(main_is_closing) {
+      exit(0);
+    }
+    main_play_button->off();
+    main_stop_button->on();
+    break;
+  }
+
+}
+
+
+void MainWidget::closeEvent(QCloseEvent *e)
+{
+  if(main_stream_player->state()==StreamPlayer::Playing) {
+    main_stream_player->stop();
+    main_is_closing=true;
+    e->ignore();
+  }
 }
 
 

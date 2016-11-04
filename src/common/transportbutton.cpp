@@ -388,7 +388,7 @@ void TransportButton::drawOnCap()
 
   case TransportButton::Stop:
     p.fillRect(width()/2-edge*3/10,height()/2-edge*3/10,
-	       edge*3/5,edge*3/5,QColor(on_color));
+	       edge*3/5,edge*3/5,Qt::red);
     p.setPen(QColor(colorGroup().shadow()));
     p.drawLine(width()/2-edge*3/10,height()/2+edge*3/10,
 	       width()/2-edge*3/10,height()/2-edge*3/10);
@@ -668,7 +668,7 @@ void TransportButton::drawOffCap()
 
   case TransportButton::Stop:
     p.fillRect(width()/2-edge*3/10,height()/2-edge*3/10,
-	       edge*3/5,edge*3/5,QColor(colorGroup().shadow()));
+	       edge*3/5,edge*3/5,Qt::black);
     p.setPen(QColor(colorGroup().shadow()));
     p.drawLine(width()/2-edge*3/10,height()/2+edge*3/10,
 	       width()/2-edge*3/10,height()/2-edge*3/10);

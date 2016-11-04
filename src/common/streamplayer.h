@@ -23,6 +23,7 @@
 
 #include <QObject>
 #include <QProcess>
+#include <QTimer>
 
 #include "config.h"
 
@@ -47,10 +48,12 @@ class StreamPlayer : public QObject
   void processReadyReadData();
   void processFinishedData(int exit_code,QProcess::ExitStatus status);
   void processErrorData(QProcess::ProcessError err);
+  void garbageData();
 
  private:
   QProcess *stream_process;
   State stream_state;
+  QTimer *stream_garbage_timer;
 };
 
 
