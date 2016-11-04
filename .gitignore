@@ -18,6 +18,16 @@ missing
 moc_*
 src/rdlibraryb/cmdswitch.cpp
 src/rdlibraryb/cmdswitch.h
+src/rdlibraryb/combobox.cpp
+src/rdlibraryb/combobox.h
+src/rdlibraryb/config.cpp
+src/rdlibraryb/config.h
 src/rdlibraryb/rdlibraryb
+src/rdlibraryb/profile.cpp
+src/rdlibraryb/profile.h
 src/rdlibraryb/streamplayer.cpp
 src/rdlibraryb/streamplayer.h
+src/rdlibraryb/tableview.cpp
+src/rdlibraryb/tableview.h
+src/rdlibraryb/transportbutton.cpp
+src/rdlibraryb/transportbutton.h
