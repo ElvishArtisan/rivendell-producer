@@ -44,6 +44,11 @@ AC_SUBST(MOC,$MOC_NAME)
 PKG_CHECK_MODULES(RIVCAPI,rivendell,[],[AC_MSG_ERROR([*** Rivendell C API not found ***])])
 
 #
+# Check for Webhost Library (Mandatory)
+#
+PKG_CHECK_MODULES(WEBHOST,webhost,[],[AC_MSG_ERROR([*** WebHost Library not found ***])])
+
+#
 # Determine the target architecture
 #
 AR_GCC_TARGET()
@@ -85,6 +90,7 @@ AC_CONFIG_FILES([ \
     icons/Makefile \
     src/Makefile \
     src/common/Makefile \
+    src/rdbrowserd/Makefile \
     src/rdlibraryb/Makefile \
     Makefile \
     rivendell-browser.spec \
@@ -94,6 +100,7 @@ AC_OUTPUT()
 #
 # Link Common Elements
 #
+./link_common.sh rdbrowserd
 ./link_common.sh rdlibraryb
 
 AC_MSG_NOTICE()

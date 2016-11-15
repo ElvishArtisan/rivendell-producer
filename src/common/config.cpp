@@ -139,6 +139,66 @@ void Config::setAudioChannels(unsigned chans)
 }
 
 
+QString Config::mysqlHostname() const
+{
+  return conf_mysql_hostname;
+}
+
+
+void Config::setMysqlHostname(const QString &str)
+{
+  conf_mysql_hostname=str;
+}
+
+
+QString Config::mysqlDbname() const
+{
+  return conf_mysql_dbname;
+}
+
+
+void Config::setMysqlDbname(const QString &str)
+{
+  conf_mysql_dbname=str;
+}
+
+
+QString Config::mysqlUsername() const
+{
+  return conf_mysql_username;
+}
+
+
+void Config::setMysqlUsername(const QString &str)
+{
+  conf_mysql_username=str;
+}
+
+
+QString Config::mysqlPassword() const
+{
+  return conf_mysql_password;
+}
+
+
+void Config::setMysqlPassword(const QString &str)
+{
+  conf_mysql_password=str;
+}
+
+
+uint16_t Config::webserverPort() const
+{
+  return conf_webserver_port;
+}
+
+
+void Config::setWebserverPort(uint16_t port)
+{
+  conf_webserver_port=port;
+}
+
+
 bool Config::load()
 {
   Profile *p=new Profile();
@@ -161,6 +221,14 @@ bool Config::load()
   conf_audio_bit_rate=
     p->intValue("Audio","BitRate",DEFAULT_AUDIO_BIT_RATE);
   conf_audio_channels=p->intValue("Audio","Channels",DEFAULT_AUDIO_CHANNELS);
+
+  conf_mysql_hostname=p->stringValue("MySQL","Hostname",DEFAULT_MYSQL_HOSTNAME);
+  conf_mysql_dbname=p->stringValue("MySQL","Dbname",DEFAULT_MYSQL_DBNAME);
+  conf_mysql_username=p->stringValue("MySQL","Username",DEFAULT_MYSQL_USERNAME);
+  conf_mysql_password=p->stringValue("MySQL","Password",DEFAULT_MYSQL_PASSWORD);
+
+  conf_webserver_port=
+    0xFFFF&p->intValue("WebServer","Port",DEFAULT_WEBSERVER_PORT);
 
   return ret;
 }
@@ -186,6 +254,17 @@ bool Config::save()
   fprintf(f,"SampleRate=%u\n",conf_audio_sample_rate);
   fprintf(f,"BitRate=%u\n",conf_audio_bit_rate);
   fprintf(f,"Channels=%u\n",conf_audio_channels);
+  fprintf(f,"\n");
+
+  fprintf(f,"[MySQL]\n");
+  fprintf(f,"Hostname=%s\n",(const char *)conf_mysql_hostname.toUtf8());
+  fprintf(f,"Dbname=%s\n",(const char *)conf_mysql_dbname.toUtf8());
+  fprintf(f,"Username=%s\n",(const char *)conf_mysql_username.toUtf8());
+  fprintf(f,"Password=%s\n",(const char *)conf_mysql_password.toUtf8());
+  fprintf(f,"\n");
+
+  fprintf(f,"[WebServer]\n");
+  fprintf(f,"Port=%u\n",0xFFFF&conf_webserver_port);
   fprintf(f,"\n");
 
   fclose(f);

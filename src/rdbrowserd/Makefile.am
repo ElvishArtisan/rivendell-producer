@@ -1,6 +1,6 @@
 ## automake.am
 ##
-## Makefile for the walltime-panel applet
+## Makefile for rdbrowserd(8)
 ##
 ## (C) Copyright 2016 Fred Gleason <fredg@paravelsystems.com>
 ##
@@ -19,7 +19,7 @@
 ##
 ## Use automake to process this into a Makefile.in
 
-AM_CPPFLAGS = -Wall -DPREFIX=\"$(prefix)\" -Wno-strict-aliasing @QT4_CFLAGS@ @RIVCAPI_CFLAGS@
+AM_CPPFLAGS = -Wall -DPREFIX=\"$(prefix)\" -Wno-strict-aliasing @QT4_CFLAGS@ @WEBHOST_CFLAGS@
 MOC = @QT4_MOC@
 
 # The dependency for qt's Meta Object Compiler (moc)
@@ -30,29 +30,23 @@ moc_%.cpp:	%.h
 %.o:	%.rc
 	$(WINDRES) -O coff $< $@
 
-bin_PROGRAMS = rdlibraryb
+sbin_PROGRAMS = rdbrowserd
 
-dist_rdlibraryb_SOURCES = librarymodel.cpp librarymodel.h\
-                          rdlibraryb.cpp rdlibraryb.h
+dist_rdbrowserd_SOURCES = db.cpp db.h\
+                          httpserver.cpp httpserver.h\
+                          rdbrowserd.cpp rdbrowserd.h
 
-nodist_rdlibraryb_SOURCES = cmdswitch.cpp cmdswitch.h\
-                            combobox.cpp combobox.h\
+nodist_rdbrowserd_SOURCES = cmdswitch.cpp cmdswitch.h\
                             config.cpp config.h\
-                            moc_combobox.cpp\
-                            moc_librarymodel.cpp\
-                            moc_rdlibraryb.cpp\
-                            moc_streamplayer.cpp\
-                            moc_tableview.cpp\
-                            moc_transportbutton.cpp\
-                            profile.cpp profile.h\
-                            streamplayer.cpp streamplayer.h\
-                            tableview.cpp tableview.h\
-                            transportbutton.cpp transportbutton.h
+                            moc_db.cpp\
+                            moc_httpserver.cpp\
+                            moc_rdbrowserd.cpp\
+                            profile.cpp profile.h
 
-EXTRA_rdlibraryb_DEPENDENCIES = @RESOURCES@
+EXTRA_rdbrowserd_DEPENDENCIES = @RESOURCES@
 
-rdlibraryb_LDADD = @QT4_LIBS@ @RIVCAPI_LIBS@ @RESOURCES@
-rdlibraryb_LDFLAGS = @LDFLAGS@
+rdbrowserd_LDADD = @QT4_LIBS@ @WEBHOST_LIBS@ @RESOURCES@
+rdbrowserd_LDFLAGS = @LDFLAGS@
 
 CLEANFILES = *~\
              moc_*\

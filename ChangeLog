@@ -9,3 +9,5 @@
 	'src/common/streamplayer.h'.
 2016-11-04 Fred Gleason <fredg@paravelsystems.com>
 	* Got stream audio playout working.
+2016-11-15 Fred Gleason <fredg@paravelsystems.com>
+	* Added rdbrowserd(8) in 'src/rdbrowserd/'.

@@ -22,6 +22,8 @@
 #ifndef CONFIG_H
 #define CONFIG_H
 
+#include <stdint.h>
+
 #include <QString>
 
 #define DEFAULT_CONF_FILE QString("/etc/rivendell-browser.conf")
@@ -35,6 +37,14 @@
 #define DEFAULT_AUDIO_SAMPLE_RATE 48000
 #define DEFAULT_AUDIO_BIT_RATE 192000
 #define DEFAULT_AUDIO_CHANNELS 2
+
+#define DEFAULT_MYSQL_HOSTNAME "localhost"
+#define DEFAULT_MYSQL_DBNAME "Rivendell"
+#define DEFAULT_MYSQL_USERNAME "rduser"
+#define DEFAULT_MYSQL_PASSWORD "letmein"
+
+#define DEFAULT_WEBSERVER_PORT 80
+#define WEBSERVER_REALM "Rivendell"
 
 class Config
 {
@@ -58,6 +68,16 @@ class Config
   void setAudioBitRate(unsigned rate);
   unsigned audioChannels() const;
   void setAudioChannels(unsigned chans);
+  QString mysqlHostname() const;
+  void setMysqlHostname(const QString &str);
+  QString mysqlDbname() const;
+  void setMysqlDbname(const QString &str);
+  QString mysqlUsername() const;
+  void setMysqlUsername(const QString &str);
+  QString mysqlPassword() const;
+  void setMysqlPassword(const QString &str);
+  uint16_t webserverPort() const;
+  void setWebserverPort(uint16_t port);
   bool load();
   bool save();
 
@@ -71,6 +91,11 @@ class Config
   unsigned conf_audio_sample_rate;
   unsigned conf_audio_bit_rate;
   unsigned conf_audio_channels;
+  QString conf_mysql_hostname;
+  QString conf_mysql_dbname;
+  QString conf_mysql_username;
+  QString conf_mysql_password;
+  uint16_t conf_webserver_port;
 };
 
 extern Config *cnf; 
