@@ -40,6 +40,7 @@ src/rdlibraryb/config.h
 src/rdlibraryb/rdlibraryb
 src/rdlibraryb/profile.cpp
 src/rdlibraryb/profile.h
+src/rdlibraryb/rdlibrary.ico
 src/rdlibraryb/streamplayer.cpp
 src/rdlibraryb/streamplayer.h
 src/rdlibraryb/tableview.cpp
