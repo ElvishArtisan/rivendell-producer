@@ -48,12 +48,14 @@ class StreamPlayer : public QObject
   void processReadyReadData();
   void processFinishedData(int exit_code,QProcess::ExitStatus status);
   void processErrorData(QProcess::ProcessError err);
-  void garbageData();
 
  private:
   QProcess *stream_process;
   State stream_state;
-  QTimer *stream_garbage_timer;
+  unsigned stream_next_cartnum;
+  int stream_next_cutnum;
+  int stream_next_start_pos;
+  int stream_next_end_pos;
 };
 
 

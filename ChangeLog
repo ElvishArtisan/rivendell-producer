@@ -11,3 +11,8 @@
 	* Got stream audio playout working.
 2016-11-15 Fred Gleason <fredg@paravelsystems.com>
 	* Added rdbrowserd(8) in 'src/rdbrowserd/'.
+2016-12-19 Fred Gleason <fredg@paravelsystems.com>
+	* Removed rdbrowserd(8) in 'src/rdbrowserd/'.
+2016-12-19 Fred Gleason <fredg@paravelsystems.com>
+	* Modified rivendellb(1) to automatically start cart playout when
+	a new cart is selected in 'Play' mode.

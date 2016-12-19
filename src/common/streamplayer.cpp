@@ -30,13 +30,8 @@ StreamPlayer::StreamPlayer(QObject *parent)
 {
   stream_process=NULL;
   stream_state=StreamPlayer::Stopped;
-
-  //
-  // Garbage Collector
-  //
-  stream_garbage_timer=new QTimer(this);
-  stream_garbage_timer->setSingleShot(true);
-  connect(stream_garbage_timer,SIGNAL(timeout()),this,SLOT(garbageData()));
+  stream_next_cartnum=0;
+  stream_next_cutnum=-1;
 }
 
 
@@ -54,26 +49,11 @@ StreamPlayer::State StreamPlayer::state() const
 void StreamPlayer::play(int cartnum,int cutnum,int start_pos,int end_pos)
 {
   if(stream_process==NULL) {
-    QString post=QString("COMMAND=1&")+
-      "LOGIN_NAME="+cnf->serverUsername()+"&"+
-      "PASSWORD="+cnf->serverPassword()+"&"+
-      QString().sprintf("CART_NUMBER=%d&",cartnum)+
-      QString().sprintf("CUT_NUMBER=%d&",cutnum)+
-      QString().sprintf("FORMAT=3&")+
-      QString().sprintf("CHANNELS=%u&",cnf->audioChannels())+
-      QString().sprintf("SAMPLE_RATE=%u&",cnf->audioSampleRate())+
-      QString().sprintf("BIT_RATE=%u&",cnf->audioBitRate())+
-      "QUALITY=0&"+
-      QString().sprintf("START_POINT=%d&",start_pos)+
-      QString().sprintf("END_POINT=%d&",end_pos)+
-      "NORMALIZATION_LEVEL=0&"+
-      "ENABLE_METADATA=0";
-
     QStringList args;
     args.push_back("--audio-device="+cnf->audioDeviceType());
     args.push_back("--alsa-device="+cnf->audioDeviceName());  // FIXME
-    args.push_back("--post-data="+post);
-    args.push_back("http://"+cnf->serverHostname()+"/rd-bin/rdxport.cgi");
+    args.push_back(QString().sprintf("http://localhost/snd/%06u_%03d.wav",
+				     cartnum,cutnum));
     stream_process=new QProcess(this);
     stream_process->setReadChannel(QProcess::StandardOutput);
     connect(stream_process,SIGNAL(stateChanged(QProcess::ProcessState)),
@@ -86,7 +66,41 @@ void StreamPlayer::play(int cartnum,int cutnum,int start_pos,int end_pos)
 	    this,SLOT(processFinishedData(int,QProcess::ExitStatus)));
     stream_process->
       start("glassplayer",args,QIODevice::Unbuffered|QIODevice::ReadOnly);
+    stream_next_cartnum=0;
+    stream_next_cutnum=-1;
+    stream_next_start_pos=start_pos;
+    stream_next_end_pos=end_pos;
   }
+  else {
+    stream_next_cartnum=cartnum;
+    stream_next_cutnum=cutnum;
+    stop();
+  }
+
+  /*
+  if(stream_process==NULL) {
+    QString post=QString().sprintf("cart=%d&cut=%d",cartnum,cutnum);
+    QStringList args;
+    args.push_back("--audio-device="+cnf->audioDeviceType());
+    args.push_back("--alsa-device="+cnf->audioDeviceName());  // FIXME
+    args.push_back("--post-data="+post);
+    args.push_back("--user="+cnf->serverUsername()+":"+cnf->serverPassword());
+    args.push_back("http://"+cnf->serverHostname()+":8080/streamcut");
+    stream_process=new QProcess(this);
+    stream_process->setReadChannel(QProcess::StandardOutput);
+    connect(stream_process,SIGNAL(stateChanged(QProcess::ProcessState)),
+	    this,SLOT(processStateChangedData(QProcess::ProcessState)));
+    connect(stream_process,SIGNAL(readyRead()),
+	    this,SLOT(processReadyReadData()));
+    connect(stream_process,SIGNAL(error(QProcess::ProcessError)),
+	    this,SLOT(processErrorData(QProcess::ProcessError)));
+    connect(stream_process,SIGNAL(finished(int,QProcess::ExitStatus)),
+	    this,SLOT(processFinishedData(int,QProcess::ExitStatus)));
+    stream_process->
+      start("glassplayer",args,QIODevice::Unbuffered|QIODevice::ReadOnly);
+    
+  }
+  */
 }
 
 
@@ -161,9 +175,16 @@ void StreamPlayer::processFinishedData(int exit_code,
       exit(256);
     }
   }
-  stream_garbage_timer->start(1);
-  stream_state=StreamPlayer::Stopped;
-  emit stateChanged(stream_state);
+  stream_process->deleteLater();
+  stream_process=NULL;
+  if(stream_next_cartnum>0) {
+    play(stream_next_cartnum,stream_next_cutnum,
+	 stream_next_start_pos,stream_next_end_pos);
+  }
+  else {
+    stream_state=StreamPlayer::Stopped;
+    emit stateChanged(stream_state);
+  }
 }
 
 
@@ -173,11 +194,4 @@ void StreamPlayer::processErrorData(QProcess::ProcessError err)
 			tr("Player process error")+" ["+
 			QString().sprintf("%d",err)+"]!");
   exit(256);
-}
-
-
-void StreamPlayer::garbageData()
-{
-  delete stream_process;
-  stream_process=NULL;
 }

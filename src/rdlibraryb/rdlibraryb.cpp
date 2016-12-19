@@ -140,8 +140,10 @@ QSize MainWidget::sizeHint() const
 
 void MainWidget::cartClickedData(const QModelIndex &index)
 {
-  if(main_library_model->cartNumber(index.row())!=main_selected_cart) {
-    main_stream_player->stop();
+  if((main_stream_player->state()==StreamPlayer::Playing)&&
+     (main_library_model->cartNumber(index.row())!=main_selected_cart)) {
+    main_stream_player->
+      play(main_library_model->cartNumber(index.row()),1,-1,-1);
     main_selected_cart=main_library_model->cartNumber(index.row());
   }
 }
