@@ -16,3 +16,5 @@
 2016-12-19 Fred Gleason <fredg@paravelsystems.com>
 	* Modified rivendellb(1) to automatically start cart playout when
 	a new cart is selected in 'Play' mode.
+2016-12-19 Fred Gleason <fredg@paravelsystems.com>
+	* Removed the requirement for WebHost.

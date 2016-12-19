@@ -44,11 +44,6 @@ AC_SUBST(MOC,$MOC_NAME)
 PKG_CHECK_MODULES(RIVCAPI,rivendell,[],[AC_MSG_ERROR([*** Rivendell C API not found ***])])
 
 #
-# Check for Webhost Library (Mandatory)
-#
-PKG_CHECK_MODULES(WEBHOST,webhost,[],[AC_MSG_ERROR([*** WebHost Library not found ***])])
-
-#
 # Determine the target architecture
 #
 AR_GCC_TARGET()
