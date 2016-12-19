@@ -51,8 +51,10 @@ nodist_rdlibraryb_SOURCES = cmdswitch.cpp cmdswitch.h\
 
 EXTRA_rdlibraryb_DEPENDENCIES = @RESOURCES@
 
-rdlibraryb_LDADD = @QT4_LIBS@ @RIVCAPI_LIBS@ @RESOURCES@
+rdlibraryb_LDADD = @QT4_LIBS@ @RIVCAPI_LIBS@ -lexpat @RESOURCES@
 rdlibraryb_LDFLAGS = @LDFLAGS@
+
+EXTRA_DIST = icons.rc
 
 CLEANFILES = *~\
              moc_*\

@@ -18,3 +18,6 @@
 	a new cart is selected in 'Play' mode.
 2016-12-19 Fred Gleason <fredg@paravelsystems.com>
 	* Removed the requirement for WebHost.
+2016-12-19 Fred Gleason <fredg@paravelsystems.com>
+	* Added a 'make install-win32' target.
+	* Added a RDLibrary icon in 'icons/rdlibrary.ico'.

@@ -56,3 +56,6 @@ rm -f src/$DESTDIR/transportbutton.cpp
 ln -s ../../src/common/transportbutton.cpp src/$DESTDIR/transportbutton.cpp
 rm -f src/$DESTDIR/transportbutton.h
 ln -s ../../src/common/transportbutton.h src/$DESTDIR/transportbutton.h
+
+rm -f src/$DESTDIR/*.ico
+ln -s ../../icons/rdlibrary.ico src/$DESTDIR/rdlibrary.ico

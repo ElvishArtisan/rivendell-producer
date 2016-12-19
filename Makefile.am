@@ -37,8 +37,15 @@ install-win32:
 	cp $(MINGW32_SYS_ROOT)/bin/QtCore4.dll .
 	cp $(MINGW32_SYS_ROOT)/bin/QtGui4.dll .
 	cp $(MINGW32_SYS_ROOT)/bin/QtNetwork4.dll .
+	cp $(MINGW32_SYS_ROOT)/bin/iconv.dll .
+	cp $(MINGW32_SYS_ROOT)/bin/libcurl-4.dll .
+	cp $(MINGW32_SYS_ROOT)/bin/libcrypto-10.dll .
+	cp $(MINGW32_SYS_ROOT)/bin/libexpat-1.dll .
 	cp $(MINGW32_SYS_ROOT)/bin/libgcc_s_sjlj-1.dll .
+	cp $(MINGW32_SYS_ROOT)/bin/libidn-11.dll .
 	cp $(MINGW32_SYS_ROOT)/bin/libpng16-16.dll .
+	cp $(MINGW32_SYS_ROOT)/bin/libssh2-1.dll .
+	cp $(MINGW32_SYS_ROOT)/bin/libssl-10.dll .
 	cp $(MINGW32_SYS_ROOT)/bin/libstdc++-6.dll .
 	cp $(MINGW32_SYS_ROOT)/bin/libwinpthread-1.dll .
 	cp $(MINGW32_SYS_ROOT)/bin/zlib1.dll .
