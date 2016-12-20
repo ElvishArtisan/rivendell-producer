@@ -19,7 +19,7 @@
 ##
 ## Use automake to process this into a Makefile.in
 
-AM_CPPFLAGS = -Wall -DPREFIX=\"$(prefix)\" -Wno-strict-aliasing @QT4_CFLAGS@ @RIVCAPI_CFLAGS@
+AM_CPPFLAGS = -Wall -DPREFIX=\"$(prefix)\" -Wno-strict-aliasing @QT4_CFLAGS@ @RIVCAPI_CFLAGS@ @CURL_CFLAGS@
 MOC = @QT4_MOC@
 
 # The dependency for qt's Meta Object Compiler (moc)
@@ -54,7 +54,7 @@ nodist_rdlibraryb_SOURCES = cmdswitch.cpp cmdswitch.h\
 
 EXTRA_rdlibraryb_DEPENDENCIES = @RESOURCES@
 
-rdlibraryb_LDADD = @QT4_LIBS@ @RIVCAPI_LIBS@ -lexpat @RESOURCES@
+rdlibraryb_LDADD = @QT4_LIBS@ @RIVCAPI_LIBS@ @CURL_LIBS@ -lexpat @RESOURCES@
 rdlibraryb_LDFLAGS = @LDFLAGS@
 
 EXTRA_DIST = icons.rc

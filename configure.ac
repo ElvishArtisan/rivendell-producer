@@ -44,6 +44,11 @@ AC_SUBST(MOC,$MOC_NAME)
 PKG_CHECK_MODULES(RIVCAPI,rivendell,[],[AC_MSG_ERROR([*** Rivendell C API not found ***])])
 
 #
+# Check for LibCurl
+#
+PKG_CHECK_MODULES(CURL,libcurl,[],[AC_MSG_ERROR([*** LibCurl not found ***])])
+
+#
 # Determine the target architecture
 #
 AR_GCC_TARGET()
