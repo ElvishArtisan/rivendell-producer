@@ -50,6 +50,7 @@ AR_GCC_TARGET()
 AC_SUBST(VENDOR,$ar_gcc_distro)
 AC_SUBST(ARCH,$ar_gcc_arch)
 if test $ar_gcc_os = mingw32 ; then
+  AC_DEFINE(WIN32)
   AC_SUBST(RESOURCES,icons.o)
   AC_SUBST(LDFLAGS,"-mwindows")
 else

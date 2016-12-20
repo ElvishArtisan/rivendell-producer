@@ -1,6 +1,6 @@
-// streamplayer.h
+// streamplayer_glass.h
 //
-// Abstract stream player class
+// Stream player glass for GlassPlayer
 //
 //   (C) Copyright 2015-2016 Fred Gleason <fredg@paravelsystems.com>
 //
@@ -18,36 +18,38 @@
 //   Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 //
 
-#ifndef STREAMPLAYER_H
-#define STREAMPLAYER_H
+#ifndef STREAMPLAYER_GLASS_H
+#define STREAMPLAYER_GLASS_H
 
-#include <QObject>
+#include <QProcess>
+#include <QTimer>
 
-#include "config.h"
+#include "streamplayer.h"
 
-class StreamPlayer : public QObject
+class StreamPlayerGlass : public StreamPlayer
 {
  Q_OBJECT;
  public:
-  enum State {Stopped=0,Playing=1};
-  StreamPlayer(Config *c,QObject *parent=0);
-  State state() const;
-
- signals:
-  void stateChanged(StreamPlayer::State state);
+  StreamPlayerGlass(Config *c,QObject *parent=0);
+  ~StreamPlayerGlass();
 
  public slots:
-  virtual void play(int cartnum,int cutnum,int start_pos,int end_pos)=0;
-  virtual void stop()=0;
+  void play(int cartnum,int cutnum,int start_pos,int end_pos);
+  void stop();
 
- protected:
-  void setState(State state);
-  Config *config() const;
+ private slots:
+  void processStateChangedData(QProcess::ProcessState state);
+  void processReadyReadData();
+  void processFinishedData(int exit_code,QProcess::ExitStatus status);
+  void processErrorData(QProcess::ProcessError err);
 
  private:
-  State stream_state;
-  Config *stream_config;
+  QProcess *stream_process;
+  unsigned stream_next_cartnum;
+  int stream_next_cutnum;
+  int stream_next_start_pos;
+  int stream_next_end_pos;
 };
 
 
-#endif  // STREAMPLAYER_H
+#endif  // STREAMPLAYER_GLASS_H

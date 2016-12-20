@@ -30,7 +30,7 @@
 
 #include "combobox.h"
 #include "librarymodel.h"
-#include "streamplayer.h"
+#include "streamplayer_glass.h"
 #include "tableview.h"
 #include "transportbutton.h"
 

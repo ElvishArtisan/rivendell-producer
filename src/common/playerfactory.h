@@ -1,8 +1,8 @@
-// streamplayer.cpp
+// playerfactory.h
 //
-// Abstract stream player class
+// Instantiate a stream player
 //
-//   (C) Copyright 2015-2016 Fred Gleason <fredg@paravelsystems.com>
+// (C) Copyright 2016 Fred Gleason <fredg@paravelsystems.com>
 //
 //   This program is free software; you can redistribute it and/or modify
 //   it under the terms of the GNU General Public License version 2 as
@@ -18,37 +18,15 @@
 //   Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 //
 
-#include <stdio.h>
+#ifndef PLAYERFACTORY_H
+#define PLAYERFACTORY_H
 
-#include <QMessageBox>
-#include <QStringList>
+#include <QObject>
 
+#include "config.h"
 #include "streamplayer.h"
 
-StreamPlayer::StreamPlayer(Config *c,QObject *parent)
-  : QObject(parent)
-{
-  stream_state=StreamPlayer::Stopped;
-  stream_config=c;
-}
+StreamPlayer *PlayerFactory(Config *c,QObject *parent=0);
 
 
-StreamPlayer::State StreamPlayer::state() const
-{
-  return stream_state;
-}
-
-
-void StreamPlayer::setState(StreamPlayer::State state)
-{
-  if(state!=stream_state) {
-    stream_state=state;
-    emit stateChanged(stream_state);
-  }
-}
-
-
-Config *StreamPlayer::config() const
-{
-  return stream_config;
-}
+#endif  // PLAYERFACTORY_H

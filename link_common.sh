@@ -37,6 +37,11 @@ ln -s ../../src/common/config.cpp src/$DESTDIR/config.cpp
 rm -f src/$DESTDIR/config.h
 ln -s ../../src/common/config.h src/$DESTDIR/config.h
 
+rm -f src/$DESTDIR/playerfactory.cpp
+ln -s ../../src/common/playerfactory.cpp src/$DESTDIR/playerfactory.cpp
+rm -f src/$DESTDIR/playerfactory.h
+ln -s ../../src/common/playerfactory.h src/$DESTDIR/playerfactory.h
+
 rm -f src/$DESTDIR/profile.cpp
 ln -s ../../src/common/profile.cpp src/$DESTDIR/profile.cpp
 rm -f src/$DESTDIR/profile.h
@@ -46,6 +51,11 @@ rm -f src/$DESTDIR/streamplayer.cpp
 ln -s ../../src/common/streamplayer.cpp src/$DESTDIR/streamplayer.cpp
 rm -f src/$DESTDIR/streamplayer.h
 ln -s ../../src/common/streamplayer.h src/$DESTDIR/streamplayer.h
+
+rm -f src/$DESTDIR/streamplayer_glass.cpp
+ln -s ../../src/common/streamplayer_glass.cpp src/$DESTDIR/streamplayer_glass.cpp
+rm -f src/$DESTDIR/streamplayer_glass.h
+ln -s ../../src/common/streamplayer_glass.h src/$DESTDIR/streamplayer_glass.h
 
 rm -f src/$DESTDIR/tableview.cpp
 ln -s ../../src/common/tableview.cpp src/$DESTDIR/tableview.cpp

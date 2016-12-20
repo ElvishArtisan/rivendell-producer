@@ -23,8 +23,10 @@
 EXTRA_DIST = cmdswitch.cpp cmdswitch.h\
              combobox.cpp combobox.h\
              config.cpp config.h\
+             playerfactory.cpp playerfactory.h\
              profile.cpp profile.h\
              streamplayer.cpp streamplayer.h\
+             streamplayer_glass.cpp streamplayer_glass.h\
              tableview.cpp tableview.h\
              transportbutton.cpp transportbutton.h
 

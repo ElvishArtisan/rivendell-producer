@@ -42,10 +42,13 @@ nodist_rdlibraryb_SOURCES = cmdswitch.cpp cmdswitch.h\
                             moc_librarymodel.cpp\
                             moc_rdlibraryb.cpp\
                             moc_streamplayer.cpp\
+                            moc_streamplayer_glass.cpp\
                             moc_tableview.cpp\
                             moc_transportbutton.cpp\
+                            playerfactory.cpp playerfactory.h\
                             profile.cpp profile.h\
                             streamplayer.cpp streamplayer.h\
+                            streamplayer_glass.cpp streamplayer_glass.h\
                             tableview.cpp tableview.h\
                             transportbutton.cpp transportbutton.h
 
@@ -67,8 +70,10 @@ DISTCLEANFILES = *.ico\
                  cmdswitch.cpp cmdswitch.h\
                  combobox.cpp combobox.h\
                  config.cpp config.h\
+                 playerfactory.cpp playerfactory.h\
                  profile.cpp profile.h\
                  streamplayer.cpp streamplayer.h\
+                 streamplayer_glass.cpp streamplayer_glass.h\
                  tableview.cpp tableview.h\
                  transportbutton.cpp transportbutton.h
 

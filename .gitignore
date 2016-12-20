@@ -38,11 +38,15 @@ src/rdlibraryb/combobox.h
 src/rdlibraryb/config.cpp
 src/rdlibraryb/config.h
 src/rdlibraryb/rdlibraryb
+src/rdlibraryb/playerfactory.cpp
+src/rdlibraryb/playerfactory.h
 src/rdlibraryb/profile.cpp
 src/rdlibraryb/profile.h
 src/rdlibraryb/rdlibrary.ico
 src/rdlibraryb/streamplayer.cpp
 src/rdlibraryb/streamplayer.h
+src/rdlibraryb/streamplayer_glass.cpp
+src/rdlibraryb/streamplayer_glass.h
 src/rdlibraryb/tableview.cpp
 src/rdlibraryb/tableview.h
 src/rdlibraryb/transportbutton.cpp

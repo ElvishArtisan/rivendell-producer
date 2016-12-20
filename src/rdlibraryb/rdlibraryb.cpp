@@ -29,6 +29,7 @@
 
 #include "cmdswitch.h"
 #include "config.h"
+#include "playerfactory.h"
 #include "rdlibraryb.h"
 
 MainWidget::MainWidget(QWidget *parent)
@@ -54,7 +55,7 @@ MainWidget::MainWidget(QWidget *parent)
   //
   // Stream Player
   //
-  main_stream_player=new StreamPlayer(this);
+  main_stream_player=PlayerFactory(cnf,this);
   connect(main_stream_player,SIGNAL(stateChanged(StreamPlayer::State)),
 	  this,SLOT(playerStateChangedData(StreamPlayer::State)));
 
