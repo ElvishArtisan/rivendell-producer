@@ -34,3 +34,6 @@
 2016-12-22 Fred Gleason <fredg@paravelsystems.com>
 	* Fixed a bug in 'src/common/streamplayer_alsa.cpp' where an invalid
 	ALSA device name would fail silently.
+2016-12-22 Fred Gleason <fredg@paravelsystems.com>
+	* Fixed a bug in 'src/common/streamplayer_alsa.cpp' that caused a
+	segfault with ALSA devices using large audio buffers.

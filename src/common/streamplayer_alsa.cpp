@@ -134,10 +134,13 @@ bool __StreamPlayerOpenPlayback(StreamPlayerHeader *hdr)
 void *__StreamPlayerAlsa_AlsaCallback(void *priv)
 {
   static AlsaData *alsa_data=NULL;
-  static short pcm16[2048];
-  static float pcm[2048];
+  static short *pcm16=NULL;
+  static float *pcm=NULL;
 
   alsa_data=(AlsaData *)priv;
+  pcm16=new short[alsa_data->alsa_xfer_frames*alsa_data->alsa_channels];
+  pcm=new float[alsa_data->alsa_xfer_frames*alsa_data->alsa_channels];
+
   //
   // Wait for ring buffer to fill
   //
@@ -146,7 +149,8 @@ void *__StreamPlayerAlsa_AlsaCallback(void *priv)
   }
 
   while(alsa_data->running&&(alsa_data->ring->readSpace()>0)) {
-    memset(pcm16,0,2048);
+    memset(pcm16,0,
+	   alsa_data->alsa_xfer_frames*alsa_data->alsa_channels*sizeof(short));
     alsa_data->ring->
       read((char *)pcm16,
 	   alsa_data->alsa_xfer_frames*sizeof(short)*alsa_data->alsa_channels);
@@ -170,6 +174,8 @@ void *__StreamPlayerAlsa_AlsaCallback(void *priv)
 		   alsa_data->alsa_xfer_frames);
   }
   snd_pcm_drain(alsa_data->pcm);
+  delete pcm;
+  delete pcm16;
 
   return NULL;
 }
