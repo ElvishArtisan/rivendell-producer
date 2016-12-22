@@ -39,6 +39,7 @@ class AlsaData {
   AlsaData();
   ~AlsaData();
   snd_pcm_t *pcm;
+  QString alsa_device;
   unsigned alsa_format;
   unsigned alsa_samprate;
   unsigned alsa_channels;
@@ -49,7 +50,7 @@ class AlsaData {
   Ringbuffer *ring;
   pthread_t alsa_pthread;
   bool running;
-  char err_msg[200];
+  QString err_msg;
 };
 
 

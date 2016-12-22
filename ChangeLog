@@ -27,3 +27,7 @@
 2016-12-22 Fred Gleason <fredg@paravelsystems.com>
 	* Added configure check for libcurl.
 	* Added a 'StreamPlayerAlsa' class.
+2016-12-22 Fred Gleason <fredg@paravelsystems.com>
+	* Modified 'src/common/streamplayer_alsa.cpp' so as to use the
+	'DeviceName=' parameter in the [Audio] section of
+	rivendell-browser.conf(5).

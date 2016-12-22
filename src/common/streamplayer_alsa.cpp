@@ -38,9 +38,10 @@ bool __StreamPlayerOpenPlayback(StreamPlayerHeader *hdr)
   int aerr;
   AlsaData *alsa_data=(AlsaData *)hdr->priv;
   
-  if(snd_pcm_open(&alsa_data->pcm,"hw:1",
+  if(snd_pcm_open(&alsa_data->pcm,alsa_data->alsa_device.toUtf8(),
 		  SND_PCM_STREAM_PLAYBACK,0)!=0) {
-    strncpy(alsa_data->err_msg,"unable to open ALSA device",200);
+    alsa_data->err_msg=
+      "unable to open ALSA device \""+alsa_data->alsa_device+"\"";
     return false;
   }
   snd_pcm_hw_params_alloca(&hwparams);
@@ -51,7 +52,7 @@ bool __StreamPlayerOpenPlayback(StreamPlayerHeader *hdr)
   //
   if(snd_pcm_hw_params_test_access(alsa_data->pcm,hwparams,
 				   SND_PCM_ACCESS_RW_INTERLEAVED)<0) {
-    strncpy(alsa_data->err_msg,"interleaved access not supported",200);
+    alsa_data->err_msg="interleaved access not supported";
     return false;
   }
   snd_pcm_hw_params_set_access(alsa_data->pcm,hwparams,
@@ -70,7 +71,7 @@ bool __StreamPlayerOpenPlayback(StreamPlayerHeader *hdr)
       alsa_data->alsa_format=SND_PCM_FORMAT_S16_LE;
     }
     else {
-      strncpy(alsa_data->err_msg,"incompatible sample format",200);
+      alsa_data->err_msg="incompatible sample format";
       return false;
     }
   }
@@ -105,9 +106,7 @@ bool __StreamPlayerOpenPlayback(StreamPlayerHeader *hdr)
   // Fire It Up
   //
   if((aerr=snd_pcm_hw_params(alsa_data->pcm,hwparams))<0) {
-    strncpy(alsa_data->err_msg,
-	    (QString("ALSA device error 1")+": "+snd_strerror(aerr)).toUtf8(),
-	    200);
+    alsa_data->err_msg=QString("ALSA device error 1: ")+snd_strerror(aerr);
     return false;
   }
   alsa_data->alsa_buffer=
@@ -121,9 +120,7 @@ bool __StreamPlayerOpenPlayback(StreamPlayerHeader *hdr)
   snd_pcm_sw_params_set_avail_min(alsa_data->pcm,swparams,
 				  alsa_data->alsa_buffer_size/2);
   if((aerr=snd_pcm_sw_params(alsa_data->pcm,swparams))<0) {
-    strncpy(alsa_data->err_msg,
-	    (QString("ALSA device error 2")+": "+snd_strerror(aerr)).toUtf8(),
-	    200);
+    alsa_data->err_msg=QString("ALSA device error 2: ")+snd_strerror(aerr);
     return false;
   }
 
@@ -307,7 +304,6 @@ AlsaData::AlsaData()
   alsa_buffer=NULL;
   ring=new Ringbuffer(262144);
   running=false;
-  err_msg[0]=0;
 }
 
 
@@ -388,6 +384,7 @@ void StreamPlayerAlsa::CreateMultithread()
 
   alsa_hdr=new StreamPlayerHeader();
   alsa_data=new AlsaData();
+  alsa_data->alsa_device=config()->audioDeviceName();
   alsa_hdr->priv=alsa_data;
   pthread_attr_init(&pthread_attr);
   pthread_create(&alsa_curl_thread,&pthread_attr,__StreamPlayerAlsa_CurlThread,
