@@ -204,6 +204,8 @@ size_t __StreamPlayerAlsa_CurlWriteCallback(char *ptr,size_t size,size_t nmemb,
       alsa_data->ring->write((char *)ptr+data_start,len-data_start);
       hdr->data_bytes-=(len-data_start);
       if(!__StreamPlayerOpenPlayback(hdr)) {
+	alsa_data->err_msg="unable to start ALSA device \""+
+	  alsa_data->alsa_device+"\"";
 	return 0;
       }
       alsa_data->running=true;
@@ -258,6 +260,7 @@ void *__StreamPlayerAlsa_CurlThread(void *priv)
       }
       else {
 	dev->alsa_state_error_string=dev->alsa_data->err_msg;
+	dev->alsa_state=StreamPlayerAlsa::Error;
       }
       break;
 
@@ -349,7 +352,7 @@ void StreamPlayerAlsa::stateData()
     break;
 
   case StreamPlayerAlsa::Error:
-    if(alsa_data->running) {
+      if(!alsa_state_error_string.isEmpty()) {
       sendError(alsa_state_error_string);
     }
     alsa_state=StreamPlayerAlsa::Stopped;

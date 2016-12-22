@@ -31,3 +31,6 @@
 	* Modified 'src/common/streamplayer_alsa.cpp' so as to use the
 	'DeviceName=' parameter in the [Audio] section of
 	rivendell-browser.conf(5).
+2016-12-22 Fred Gleason <fredg@paravelsystems.com>
+	* Fixed a bug in 'src/common/streamplayer_alsa.cpp' where an invalid
+	ALSA device name would fail silently.
