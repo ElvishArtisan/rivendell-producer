@@ -24,5 +24,6 @@
 2016-12-20 Fred Gleason <fredg@paravelsystems.com>
 	* Split the 'StreamPlayer' class into abstract 'StreamPlayer'
 	and implementation-specifc 'StreamPlayerGlass' classes.
-2016-12-20 Fred Gleason <fredg@paravelsystems.com>
+2016-12-22 Fred Gleason <fredg@paravelsystems.com>
 	* Added configure check for libcurl.
+	* Added a 'StreamPlayerAlsa' class.

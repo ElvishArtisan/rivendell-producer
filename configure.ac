@@ -44,9 +44,25 @@ AC_SUBST(MOC,$MOC_NAME)
 PKG_CHECK_MODULES(RIVCAPI,rivendell,[],[AC_MSG_ERROR([*** Rivendell C API not found ***])])
 
 #
+# Check for Secret Rabbit Code
+#
+PKG_CHECK_MODULES(SRC,samplerate,[],[AC_MSG_ERROR([*** libsamplerate not found ***])])
+
+#
 # Check for LibCurl
 #
 PKG_CHECK_MODULES(CURL,libcurl,[],[AC_MSG_ERROR([*** LibCurl not found ***])])
+
+#
+# Check for ALSA
+#
+PKG_CHECK_MODULES(ALSA,alsa,[ALSA_FOUND=y],[PKGCONFIG_FAILED=y])
+if test $ALSA_FOUND ; then
+  if test -z $ALSA_DISABLED ; then
+    AC_DEFINE(ALSA,yes)
+    USING_ALSA=yes
+  fi
+fi
 
 #
 # Determine the target architecture
@@ -102,6 +118,18 @@ AC_OUTPUT()
 #
 ./link_common.sh rdlibraryb
 
+AC_MSG_NOTICE()
+AC_MSG_NOTICE("|-----------------------------------------------------|")
+AC_MSG_NOTICE("|   *** RIVENDELL-BROWSER CONFIGURATION SUMMARY ***   |")
+AC_MSG_NOTICE("|-----------------------------------------------------|")
+AC_MSG_NOTICE("| Audio Outputs:                                      |")
+if test -z $USING_ALSA ; then
+AC_MSG_NOTICE("|  Advanced Linux Sound Architecture (ALSA) ... No    |")
+else
+AC_MSG_NOTICE("|  Advanced Linux Sound Architecture (ALSA) ... Yes   |")
+fi
+AC_MSG_NOTICE("|-----------------------------------------------------|")
+AC_MSG_NOTICE()
 AC_MSG_NOTICE()
 AC_MSG_NOTICE(Now enter 'make' to build the software.)
 AC_MSG_NOTICE()

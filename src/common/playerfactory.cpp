@@ -19,9 +19,10 @@
 //
 
 #include "playerfactory.h"
+#include "streamplayer_alsa.h"
 #include "streamplayer_glass.h"
 
 StreamPlayer *PlayerFactory(Config *c,QObject *parent)
 {
-  return new StreamPlayerGlass(c,parent);
+  return new StreamPlayerAlsa(c,parent);
 }

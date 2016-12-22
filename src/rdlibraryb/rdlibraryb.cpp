@@ -21,6 +21,8 @@
 
 #include <stdio.h>
 
+#include <curl/curl.h>
+
 #include <QApplication>
 #include <QMessageBox>
 #include <QStyleFactory>
@@ -53,11 +55,18 @@ MainWidget::MainWidget(QWidget *parent)
   cnf->load();
 
   //
+  // Initialize Curl
+  //
+  curl_global_init(CURL_GLOBAL_ALL);
+
+  //
   // Stream Player
   //
   main_stream_player=PlayerFactory(cnf,this);
   connect(main_stream_player,SIGNAL(stateChanged(StreamPlayer::State)),
 	  this,SLOT(playerStateChangedData(StreamPlayer::State)));
+  connect(main_stream_player,SIGNAL(error(const QString &)),
+	  this,SLOT(playerErrorData(const QString &)));
 
   //
   // Window Title Bar
@@ -183,6 +192,12 @@ void MainWidget::playerStateChangedData(StreamPlayer::State state)
     break;
   }
 
+}
+
+
+void MainWidget::playerErrorData(const QString &msg)
+{
+  QMessageBox::information(this,"RDLibrary - "+tr("Player Error"),msg);
 }
 
 

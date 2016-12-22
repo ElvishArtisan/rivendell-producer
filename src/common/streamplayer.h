@@ -35,19 +35,50 @@ class StreamPlayer : public QObject
 
  signals:
   void stateChanged(StreamPlayer::State state);
+  void error(const QString &msg);
 
  public slots:
-  virtual void play(int cartnum,int cutnum,int start_pos,int end_pos)=0;
-  virtual void stop()=0;
+  void play(int cartnum,int cutnum,int start_pos,int end_pos);
+  void stop();
 
  protected:
+  virtual void startDevice(const QString &url,int start_pos,int end_pos)=0;
+  virtual void stopDevice()=0;
   void setState(State state);
+  void sendError(const QString &msg);
   Config *config() const;
 
  private:
+  QString stream_next_url;
+  int stream_next_start_pos;
+  int stream_next_end_pos;
   State stream_state;
   Config *stream_config;
 };
 
+
+
+
+class StreamPlayerHeader {
+public:
+  StreamPlayerHeader();
+  void reset();
+  int istate;
+  uint16_t fmt_format;
+  uint16_t fmt_channels;
+  uint32_t fmt_samprate;
+  uint32_t fmt_avgbytes;
+  uint16_t fmt_blockalign;
+  uint16_t fmt_bits;
+  uint32_t data_bytes;
+  QString chunk_name;
+  uint32_t chunk_len;
+  QByteArray chunk_data;
+  uint32_t left_to_skip;
+  void *priv;
+};
+
+
+int StreamPlayerParseHeader(StreamPlayerHeader *hdr,void *buf,unsigned len);
 
 #endif  // STREAMPLAYER_H

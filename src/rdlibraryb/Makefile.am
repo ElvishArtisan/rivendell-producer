@@ -19,7 +19,7 @@
 ##
 ## Use automake to process this into a Makefile.in
 
-AM_CPPFLAGS = -Wall -DPREFIX=\"$(prefix)\" -Wno-strict-aliasing @QT4_CFLAGS@ @RIVCAPI_CFLAGS@ @CURL_CFLAGS@
+AM_CPPFLAGS = -Wall -DPREFIX=\"$(prefix)\" -Wno-strict-aliasing @QT4_CFLAGS@ @RIVCAPI_CFLAGS@ @CURL_CFLAGS@ @SRC_CFLAGS@ @ALSA_CFLAGS@
 MOC = @QT4_MOC@
 
 # The dependency for qt's Meta Object Compiler (moc)
@@ -42,19 +42,22 @@ nodist_rdlibraryb_SOURCES = cmdswitch.cpp cmdswitch.h\
                             moc_librarymodel.cpp\
                             moc_rdlibraryb.cpp\
                             moc_streamplayer.cpp\
+                            moc_streamplayer_alsa.cpp\
                             moc_streamplayer_glass.cpp\
                             moc_tableview.cpp\
                             moc_transportbutton.cpp\
                             playerfactory.cpp playerfactory.h\
                             profile.cpp profile.h\
+                            ringbuffer.cpp ringbuffer.h\
                             streamplayer.cpp streamplayer.h\
+                            streamplayer_alsa.cpp streamplayer_alsa.h\
                             streamplayer_glass.cpp streamplayer_glass.h\
                             tableview.cpp tableview.h\
                             transportbutton.cpp transportbutton.h
 
 EXTRA_rdlibraryb_DEPENDENCIES = @RESOURCES@
 
-rdlibraryb_LDADD = @QT4_LIBS@ @RIVCAPI_LIBS@ @CURL_LIBS@ -lexpat @RESOURCES@
+rdlibraryb_LDADD = @QT4_LIBS@ @RIVCAPI_LIBS@ @CURL_LIBS@ @SRC_LIBS@ @ALSA_LIBS@ -lexpat @RESOURCES@ -lpthread
 rdlibraryb_LDFLAGS = @LDFLAGS@
 
 EXTRA_DIST = icons.rc
@@ -72,7 +75,9 @@ DISTCLEANFILES = *.ico\
                  config.cpp config.h\
                  playerfactory.cpp playerfactory.h\
                  profile.cpp profile.h\
+                 ringbuffer.cpp ringbuffer.h\
                  streamplayer.cpp streamplayer.h\
+                 streamplayer_alsa.cpp streamplayer_alsa.h\
                  streamplayer_glass.cpp streamplayer_glass.h\
                  tableview.cpp tableview.h\
                  transportbutton.cpp transportbutton.h

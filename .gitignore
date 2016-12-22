@@ -43,8 +43,12 @@ src/rdlibraryb/playerfactory.h
 src/rdlibraryb/profile.cpp
 src/rdlibraryb/profile.h
 src/rdlibraryb/rdlibrary.ico
+src/rdlibraryb/ringbuffer.cpp
+src/rdlibraryb/ringbuffer.h
 src/rdlibraryb/streamplayer.cpp
 src/rdlibraryb/streamplayer.h
+src/rdlibraryb/streamplayer_alsa.cpp
+src/rdlibraryb/streamplayer_alsa.h
 src/rdlibraryb/streamplayer_glass.cpp
 src/rdlibraryb/streamplayer_glass.h
 src/rdlibraryb/tableview.cpp

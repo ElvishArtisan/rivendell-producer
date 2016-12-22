@@ -29,8 +29,6 @@ StreamPlayerGlass::StreamPlayerGlass(Config *c,QObject *parent)
   : StreamPlayer(c,parent)
 {
   stream_process=NULL;
-  stream_next_cartnum=0;
-  stream_next_cutnum=-1;
 }
 
 
@@ -39,40 +37,29 @@ StreamPlayerGlass::~StreamPlayerGlass()
 }
 
 
-void StreamPlayerGlass::play(int cartnum,int cutnum,int start_pos,int end_pos)
+void StreamPlayerGlass::startDevice(const QString &url,int start_pos,
+				    int end_pos)
 {
-  if(stream_process==NULL) {
-    QStringList args;
-    args.push_back("--audio-device="+cnf->audioDeviceType());
-    args.push_back("--alsa-device="+cnf->audioDeviceName());  // FIXME
-    args.push_back(QString().sprintf("http://localhost/snd/%06u_%03d.wav",
-				     cartnum,cutnum));
-    stream_process=new QProcess(this);
-    stream_process->setReadChannel(QProcess::StandardOutput);
-    connect(stream_process,SIGNAL(stateChanged(QProcess::ProcessState)),
-	    this,SLOT(processStateChangedData(QProcess::ProcessState)));
-    connect(stream_process,SIGNAL(readyRead()),
-	    this,SLOT(processReadyReadData()));
-    connect(stream_process,SIGNAL(error(QProcess::ProcessError)),
-	    this,SLOT(processErrorData(QProcess::ProcessError)));
-    connect(stream_process,SIGNAL(finished(int,QProcess::ExitStatus)),
-	    this,SLOT(processFinishedData(int,QProcess::ExitStatus)));
-    stream_process->
-      start("glassplayer",args,QIODevice::Unbuffered|QIODevice::ReadOnly);
-    stream_next_cartnum=0;
-    stream_next_cutnum=-1;
-    stream_next_start_pos=start_pos;
-    stream_next_end_pos=end_pos;
-  }
-  else {
-    stream_next_cartnum=cartnum;
-    stream_next_cutnum=cutnum;
-    stop();
-  }
+  QStringList args;
+  args.push_back("--audio-device="+cnf->audioDeviceType());
+  args.push_back("--alsa-device="+cnf->audioDeviceName());  // FIXME
+  args.push_back(url);
+  stream_process=new QProcess(this);
+  stream_process->setReadChannel(QProcess::StandardOutput);
+  connect(stream_process,SIGNAL(stateChanged(QProcess::ProcessState)),
+	  this,SLOT(processStateChangedData(QProcess::ProcessState)));
+  connect(stream_process,SIGNAL(readyRead()),
+	  this,SLOT(processReadyReadData()));
+  connect(stream_process,SIGNAL(error(QProcess::ProcessError)),
+	  this,SLOT(processErrorData(QProcess::ProcessError)));
+  connect(stream_process,SIGNAL(finished(int,QProcess::ExitStatus)),
+	  this,SLOT(processFinishedData(int,QProcess::ExitStatus)));
+  stream_process->
+    start("glassplayer",args,QIODevice::Unbuffered|QIODevice::ReadOnly);
 }
 
 
-void StreamPlayerGlass::stop()
+void StreamPlayerGlass::stopDevice()
 {
   if(stream_process!=NULL) {
     stream_process->terminate();
@@ -84,7 +71,7 @@ void StreamPlayerGlass::processStateChangedData(QProcess::ProcessState state)
 {
   switch(state) {
   case QProcess::NotRunning:
-    setState(StreamPlayerGlass::Stopped);
+    //    setState(StreamPlayerGlass::Stopped);
     break;
 
   case QProcess::Starting:
@@ -143,13 +130,7 @@ void StreamPlayerGlass::processFinishedData(int exit_code,
   }
   stream_process->deleteLater();
   stream_process=NULL;
-  if(stream_next_cartnum>0) {
-    play(stream_next_cartnum,stream_next_cutnum,
-	 stream_next_start_pos,stream_next_end_pos);
-  }
-  else {
-    setState(StreamPlayerGlass::Stopped);
-  }
+  setState(StreamPlayerGlass::Stopped);
 }
 
 

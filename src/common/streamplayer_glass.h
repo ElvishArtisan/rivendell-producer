@@ -33,9 +33,9 @@ class StreamPlayerGlass : public StreamPlayer
   StreamPlayerGlass(Config *c,QObject *parent=0);
   ~StreamPlayerGlass();
 
- public slots:
-  void play(int cartnum,int cutnum,int start_pos,int end_pos);
-  void stop();
+ protected:
+  void startDevice(const QString &url,int start_pos,int end_pos);
+  void stopDevice();
 
  private slots:
   void processStateChangedData(QProcess::ProcessState state);
@@ -45,10 +45,6 @@ class StreamPlayerGlass : public StreamPlayer
 
  private:
   QProcess *stream_process;
-  unsigned stream_next_cartnum;
-  int stream_next_cutnum;
-  int stream_next_start_pos;
-  int stream_next_end_pos;
 };
 
 
