@@ -278,6 +278,7 @@ size_t __StreamPlayerAlsa_CurlWriteCallback(char *ptr,size_t size,size_t nmemb,
 
 	case 24:
 	  alsa_data->ring_format=SND_PCM_FORMAT_S24_3LE;
+	  break;
 
 	default:
 	alsa_data->err_msg=
@@ -286,8 +287,9 @@ size_t __StreamPlayerAlsa_CurlWriteCallback(char *ptr,size_t size,size_t nmemb,
 	break;
 
       case WAVE_FORMAT_MPEG:
-	alsa_data->err_msg="MPEG audio encoding not supported";
-	return 0;
+	alsa_data->ring_format=SND_PCM_FORMAT_FLOAT;
+	hdr->mpeg1_decoder=
+	  new Mpeg1Decoder(alsa_data->ring,&alsa_data->running);
 	break;
 
       default:
@@ -296,7 +298,12 @@ size_t __StreamPlayerAlsa_CurlWriteCallback(char *ptr,size_t size,size_t nmemb,
 			    hdr->fmt_format);
 	return 0;
       }
-      alsa_data->ring->write((char *)ptr+data_start,len-data_start);
+      if(hdr->mpeg1_decoder==NULL) {
+	alsa_data->ring->write((char *)ptr+data_start,len-data_start);
+      }
+      else {
+	hdr->mpeg1_decoder->addData(ptr+data_start,len-data_start);
+      }
       hdr->data_bytes-=(len-data_start);
       if(!__StreamPlayerOpenPlayback(hdr)) {
 	alsa_data->err_msg="unable to start ALSA device \""+
@@ -315,13 +322,20 @@ size_t __StreamPlayerAlsa_CurlWriteCallback(char *ptr,size_t size,size_t nmemb,
     if(len>hdr->data_bytes) {
       len=hdr->data_bytes;
     }
-    while(alsa_data->ring->writeSpace()<len) {
-      if(!alsa_data->running) {
+    if(hdr->mpeg1_decoder==NULL) {
+      while(alsa_data->ring->writeSpace()<len) {
+	if(!alsa_data->running) {
+	  return 0;
+	}
+	usleep(10000);
+      }
+      alsa_data->ring->write(ptr,len);
+    }
+    else {
+      if(!hdr->mpeg1_decoder->addData(ptr,len)) {
 	return 0;
       }
-      usleep(10000);
     }
-    alsa_data->ring->write(ptr,len);
     hdr->data_bytes-=len;
   }
 

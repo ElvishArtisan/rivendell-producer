@@ -24,6 +24,7 @@
 #include <QObject>
 
 #include "config.h"
+#include "mpeg1decoder.h"
 
 class StreamPlayer : public QObject
 {
@@ -62,6 +63,7 @@ class StreamPlayer : public QObject
 class StreamPlayerHeader {
 public:
   StreamPlayerHeader();
+  ~StreamPlayerHeader();
   void reset();
   int istate;
   uint16_t fmt_format;
@@ -75,6 +77,7 @@ public:
   uint32_t chunk_len;
   QByteArray chunk_data;
   uint32_t left_to_skip;
+  Mpeg1Decoder *mpeg1_decoder;
   void *priv;
 };
 

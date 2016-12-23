@@ -46,6 +46,7 @@ nodist_rdlibraryb_SOURCES = cmdswitch.cpp cmdswitch.h\
                             moc_streamplayer_glass.cpp\
                             moc_tableview.cpp\
                             moc_transportbutton.cpp\
+                            mpeg1decoder.cpp mpeg1decoder.h\
                             playerfactory.cpp playerfactory.h\
                             profile.cpp profile.h\
                             ringbuffer.cpp ringbuffer.h\
@@ -73,6 +74,7 @@ DISTCLEANFILES = *.ico\
                  cmdswitch.cpp cmdswitch.h\
                  combobox.cpp combobox.h\
                  config.cpp config.h\
+                 mpeg1decoder.cpp mpeg1decoder.h\
                  playerfactory.cpp playerfactory.h\
                  profile.cpp profile.h\
                  ringbuffer.cpp ringbuffer.h\

@@ -37,6 +37,11 @@ ln -s ../../src/common/config.cpp src/$DESTDIR/config.cpp
 rm -f src/$DESTDIR/config.h
 ln -s ../../src/common/config.h src/$DESTDIR/config.h
 
+rm -f src/$DESTDIR/mpeg1decoder.cpp
+ln -s ../../src/common/mpeg1decoder.cpp src/$DESTDIR/mpeg1decoder.cpp
+rm -f src/$DESTDIR/mpeg1decoder.h
+ln -s ../../src/common/mpeg1decoder.h src/$DESTDIR/mpeg1decoder.h
+
 rm -f src/$DESTDIR/playerfactory.cpp
 ln -s ../../src/common/playerfactory.cpp src/$DESTDIR/playerfactory.cpp
 rm -f src/$DESTDIR/playerfactory.h

@@ -43,3 +43,8 @@
 2016-12-23 Fred Gleason <fredg@paravelsystems.com>
 	* Fixed a bug in 'src/common/streamplayer_alsa.cpp' where the error
 	state was not cleared correctly.
+2016-12-23 Fred Gleason <fredg@paravelsystems.com>
+	* Added a 'Mpeg1Decoder' class in 'src/common/mpeg1decoder.cpp' and
+	'src/common/mpeg1decoder.h'.
+	* Added MPEG-1 support in 'src/common/streamplayer_alsa.cpp' and
+	'src/common/streamplayer_alsa.h'.

@@ -37,11 +37,13 @@ src/rdlibraryb/combobox.cpp
 src/rdlibraryb/combobox.h
 src/rdlibraryb/config.cpp
 src/rdlibraryb/config.h
-src/rdlibraryb/rdlibraryb
+src/rdlibraryb/mpeg1decoder.cpp
+src/rdlibraryb/mpeg1decoder.h
 src/rdlibraryb/playerfactory.cpp
 src/rdlibraryb/playerfactory.h
 src/rdlibraryb/profile.cpp
 src/rdlibraryb/profile.h
+src/rdlibraryb/rdlibraryb
 src/rdlibraryb/rdlibrary.ico
 src/rdlibraryb/ringbuffer.cpp
 src/rdlibraryb/ringbuffer.h

@@ -23,6 +23,7 @@
 EXTRA_DIST = cmdswitch.cpp cmdswitch.h\
              combobox.cpp combobox.h\
              config.cpp config.h\
+             mpeg1decoder.cpp mpeg1decoder.h\
              playerfactory.cpp playerfactory.h\
              profile.cpp profile.h\
              ringbuffer.cpp ringbuffer.h\
