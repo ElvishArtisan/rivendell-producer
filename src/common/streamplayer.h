@@ -80,5 +80,6 @@ public:
 
 
 int StreamPlayerParseHeader(StreamPlayerHeader *hdr,void *buf,unsigned len);
+void StreamPlayerPcm24ToPcm32(const char *pcm24,int *pcm32,unsigned samples);
 
 #endif  // STREAMPLAYER_H

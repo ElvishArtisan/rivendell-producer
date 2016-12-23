@@ -48,6 +48,7 @@ class AlsaData {
   snd_pcm_uframes_t alsa_buffer_size;
   char *alsa_buffer;
   Ringbuffer *ring;
+  unsigned ring_format;
   pthread_t alsa_pthread;
   bool running;
   QString err_msg;

@@ -258,6 +258,16 @@ int StreamPlayerParseHeader(StreamPlayerHeader *hdr,void *buf,unsigned len)
 }
 
 
+void StreamPlayerPcm24ToPcm32(const char *pcm24,int *pcm32,unsigned samples)
+{
+  for(unsigned i=0;i<samples;i++) {
+    pcm32[i]=((0xFF&pcm24[i*3])<<8)+
+      ((0xFF&pcm24[i*3+1])<<16)+
+      ((0xFF&pcm24[i*3+2])<<24);
+  }
+}
+
+
 
 
 

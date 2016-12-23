@@ -37,3 +37,6 @@
 2016-12-22 Fred Gleason <fredg@paravelsystems.com>
 	* Fixed a bug in 'src/common/streamplayer_alsa.cpp' that caused a
 	segfault with ALSA devices using large audio buffers.
+2016-12-23 Fred Gleason <fredg@paravelsystems.com>
+	* Added PCM24 support in 'src/common/streamplayer_alsa.cpp' and
+	'src/common/streamplayer_alsa.h'.

@@ -29,6 +29,9 @@
 
 #include "streamplayer_alsa.h"
 
+#define WAVE_FORMAT_PCM 0x0001
+#define WAVE_FORMAT_MPEG 0x0050
+
 bool __StreamPlayerOpenPlayback(StreamPlayerHeader *hdr)
 {
 #ifdef ALSA
@@ -135,26 +138,74 @@ void *__StreamPlayerAlsa_AlsaCallback(void *priv)
 {
   static AlsaData *alsa_data=NULL;
   static short *pcm16=NULL;
+  static char *pcm24=NULL;
+  static int *pcm32=NULL;
   static float *pcm=NULL;
 
   alsa_data=(AlsaData *)priv;
   pcm16=new short[alsa_data->alsa_xfer_frames*alsa_data->alsa_channels];
+  pcm24=new char[alsa_data->alsa_xfer_frames*alsa_data->alsa_channels*3];
+  pcm32=new int[alsa_data->alsa_xfer_frames*alsa_data->alsa_channels];
   pcm=new float[alsa_data->alsa_xfer_frames*alsa_data->alsa_channels];
 
   //
   // Wait for ring buffer to fill
   //
-  while(alsa_data->ring->readSpace()<alsa_data->alsa_xfer_frames*ALSA_PERIOD_QUANTITY*sizeof(short)) {
-    usleep(10000);
+  switch(alsa_data->ring_format) {
+  case SND_PCM_FORMAT_S16_LE:
+    while(alsa_data->ring->readSpace()<alsa_data->alsa_xfer_frames*ALSA_PERIOD_QUANTITY*sizeof(short)) {
+      usleep(10000);
+    }
+    break;
+
+  case SND_PCM_FORMAT_S24_3LE:
+    while(alsa_data->ring->readSpace()<alsa_data->alsa_xfer_frames*ALSA_PERIOD_QUANTITY*3) {
+      usleep(10000);
+    }
+    break;
+
+  case SND_PCM_FORMAT_FLOAT:
+    while(alsa_data->ring->readSpace()<alsa_data->alsa_xfer_frames*ALSA_PERIOD_QUANTITY*sizeof(float)) {
+      usleep(10000);
+    }
+    break;
   }
 
+  //
+  // Main Loop
+  //
   while(alsa_data->running&&(alsa_data->ring->readSpace()>0)) {
-    memset(pcm16,0,
-	   alsa_data->alsa_xfer_frames*alsa_data->alsa_channels*sizeof(short));
-    alsa_data->ring->
-      read((char *)pcm16,
-	   alsa_data->alsa_xfer_frames*sizeof(short)*alsa_data->alsa_channels);
-    src_short_to_float_array(pcm16,pcm,alsa_data->alsa_xfer_frames*alsa_data->alsa_channels);
+    //
+    // Convert incoming PCM data to FLOAT
+    //
+    switch(alsa_data->ring_format) {
+    case SND_PCM_FORMAT_S16_LE:
+      memset(pcm16,0,
+	    alsa_data->alsa_xfer_frames*alsa_data->alsa_channels*sizeof(short));
+      alsa_data->ring->read((char *)pcm16,
+	  alsa_data->alsa_xfer_frames*sizeof(short)*alsa_data->alsa_channels);
+      src_short_to_float_array(pcm16,pcm,
+		       alsa_data->alsa_xfer_frames*alsa_data->alsa_channels);
+      break;
+
+    case SND_PCM_FORMAT_S24_3LE:
+      alsa_data->ring->read(pcm24,
+	  alsa_data->alsa_xfer_frames*3*alsa_data->alsa_channels);
+      StreamPlayerPcm24ToPcm32(pcm24,pcm32,
+	  alsa_data->alsa_xfer_frames*alsa_data->alsa_channels);
+      src_int_to_float_array(pcm32,pcm,
+	  alsa_data->alsa_xfer_frames*alsa_data->alsa_channels);
+      break;
+
+    case SND_PCM_FORMAT_FLOAT:
+      alsa_data->ring->read((char *)pcm,
+	  alsa_data->alsa_xfer_frames*sizeof(float)*alsa_data->alsa_channels);
+      break;
+    }
+
+    //
+    // Convert FLOAT data to card-specific format
+    //
     switch(alsa_data->alsa_format) {
     case SND_PCM_FORMAT_S32_LE:
       src_float_to_int_array(pcm,(int *)alsa_data->alsa_buffer,
@@ -166,6 +217,10 @@ void *__StreamPlayerAlsa_AlsaCallback(void *priv)
 			 alsa_data->alsa_xfer_frames*alsa_data->alsa_channels);
       break;
     }
+
+    //
+    // Play it
+    //
     if(snd_pcm_state(alsa_data->pcm)!=SND_PCM_STATE_RUNNING) {
       snd_pcm_drop(alsa_data->pcm);
       snd_pcm_prepare(alsa_data->pcm);
@@ -173,9 +228,15 @@ void *__StreamPlayerAlsa_AlsaCallback(void *priv)
     snd_pcm_writei(alsa_data->pcm,alsa_data->alsa_buffer,
 		   alsa_data->alsa_xfer_frames);
   }
+
+  //
+  // Clean up
+  //
   snd_pcm_drain(alsa_data->pcm);
   delete pcm;
   delete pcm16;
+  delete pcm24;
+  delete pcm32;
 
   return NULL;
 }
@@ -207,6 +268,32 @@ size_t __StreamPlayerAlsa_CurlWriteCallback(char *ptr,size_t size,size_t nmemb,
       printf("  bits: %u\n",0xFFFF&hdr->fmt_bits);
       printf("  data_start: 0x%04X\n",data_start);
       */
+      switch(hdr->fmt_format) {
+      case WAVE_FORMAT_PCM:
+	switch(hdr->fmt_bits) {
+	case 16:
+	  alsa_data->ring_format=SND_PCM_FORMAT_S16_LE;
+	  break;
+
+	case 24:
+	  alsa_data->ring_format=SND_PCM_FORMAT_S24_3LE;
+
+	default:
+	alsa_data->err_msg=
+	  QString().sprintf("unsupported PCM bit depth [%d]",hdr->fmt_bits);
+	}
+	break;
+
+      case WAVE_FORMAT_MPEG:
+	alsa_data->err_msg="MPEG audio encoding not supported";
+	break;
+
+      default:
+	alsa_data->err_msg=
+	  QString().sprintf("unsupported audio encoding [wFormatTag: %d]",
+			    hdr->fmt_format);
+	return 0;
+      }
       alsa_data->ring->write((char *)ptr+data_start,len-data_start);
       hdr->data_bytes-=(len-data_start);
       if(!__StreamPlayerOpenPlayback(hdr)) {
