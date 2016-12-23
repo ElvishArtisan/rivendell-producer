@@ -256,6 +256,7 @@ size_t __StreamPlayerAlsa_CurlWriteCallback(char *ptr,size_t size,size_t nmemb,
   dev=(StreamPlayerAlsa *)userdata;
   hdr=(StreamPlayerHeader *)dev->alsa_hdr;
   alsa_data=(AlsaData *)dev->alsa_data;
+  alsa_data->err_msg="";
 
   if(alsa_data->pcm==NULL) {
     if((data_start=StreamPlayerParseHeader(hdr,ptr,len))>=0) {
@@ -286,6 +287,7 @@ size_t __StreamPlayerAlsa_CurlWriteCallback(char *ptr,size_t size,size_t nmemb,
 
       case WAVE_FORMAT_MPEG:
 	alsa_data->err_msg="MPEG audio encoding not supported";
+	return 0;
 	break;
 
       default:
@@ -447,6 +449,7 @@ void StreamPlayerAlsa::stateData()
   case StreamPlayerAlsa::Error:
       if(!alsa_state_error_string.isEmpty()) {
       sendError(alsa_state_error_string);
+      alsa_state_error_string="";
     }
     alsa_state=StreamPlayerAlsa::Stopped;
     FreeMultithread();

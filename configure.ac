@@ -54,6 +54,11 @@ PKG_CHECK_MODULES(SRC,samplerate,[],[AC_MSG_ERROR([*** libsamplerate not found *
 PKG_CHECK_MODULES(CURL,libcurl,[],[AC_MSG_ERROR([*** LibCurl not found ***])])
 
 #
+# Check for MPEG Audio Decoder
+#
+PKG_CHECK_MODULES(MAD,mad,[],[AC_MSG_ERROR([*** MAD not found ***])])
+
+#
 # Check for ALSA
 #
 PKG_CHECK_MODULES(ALSA,alsa,[ALSA_FOUND=y],[PKGCONFIG_FAILED=y])

@@ -57,7 +57,7 @@ nodist_rdlibraryb_SOURCES = cmdswitch.cpp cmdswitch.h\
 
 EXTRA_rdlibraryb_DEPENDENCIES = @RESOURCES@
 
-rdlibraryb_LDADD = @QT4_LIBS@ @RIVCAPI_LIBS@ @CURL_LIBS@ @SRC_LIBS@ @ALSA_LIBS@ -lexpat @RESOURCES@ -lpthread
+rdlibraryb_LDADD = @QT4_LIBS@ @RIVCAPI_LIBS@ @CURL_LIBS@ @SRC_LIBS@ @MAD_LIBS@ @ALSA_LIBS@ -lexpat @RESOURCES@ -lpthread
 rdlibraryb_LDFLAGS = @LDFLAGS@
 
 EXTRA_DIST = icons.rc
