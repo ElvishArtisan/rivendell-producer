@@ -21,6 +21,9 @@
 
 #include <stdio.h>
 
+#include <QCoreApplication>
+#include <QSettings>
+
 #include "config.h"
 #include "profile.h"
 
@@ -28,6 +31,9 @@ Config *cnf;
 
 Config::Config()
 {
+  QCoreApplication::setOrganizationName("Paravel Systems");
+  QCoreApplication::setOrganizationDomain("paravelsystems.com");
+  QCoreApplication::setApplicationName("rivendell-browser");
 }
 
 
@@ -81,6 +87,16 @@ void Config::setAudioDeviceName(const QString &str)
 
 bool Config::load()
 {
+#ifdef WIN32
+  QSettings s();
+  conf_server_hostname=s.value("Server/Hostname").toString();
+  conf_server_username=s.value("Server/Username").toString();
+  conf_server_password=s.value("Server/Password").toString();
+
+  conf_audio_device_name=s.value("Audio/DeviceName").toString();
+
+  return true;
+#else
   Profile *p=new Profile();
   bool ret=p->setSource(DEFAULT_CONF_FILE);
 
@@ -95,11 +111,22 @@ bool Config::load()
     p->stringValue("Audio","DeviceName",DEFAULT_AUDIO_DEVICE_NAME);
 
   return ret;
+#endif  // WIN32
 }
 
 
 bool Config::save()
 {
+#ifdef WIN32
+  QSettings s();
+  s.setValue("Server/Hostname",conf_server_hostname);
+  s.setValue("Server/Username",conf_server_username);
+  s.setValue("Server/Password",conf_server_password);
+
+  s.setValue("Audio/DeviceName",conf_audio_device_name);
+
+  return true;
+#else
   FILE *f=NULL;
 
   if((f=fopen((DEFAULT_CONF_FILE+"-new").toUtf8(),"r"))==NULL) {
@@ -119,4 +146,5 @@ bool Config::save()
   rename((DEFAULT_CONF_FILE+"-new").toUtf8(),DEFAULT_CONF_FILE.toUtf8());
 
   return true;
+#endif  // WIN32
 }

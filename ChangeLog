@@ -66,3 +66,6 @@
 	 'src/common/streamplayer_glass.h'.
 	* Removed superfluous configuratin directives from
 	rivendell-browser.conf(5).
+2016-12-27 Fred Gleason <fredg@paravelsystems.com>
+	* Stubbed out support for registry-based configuration storage
+	in 'src/common/config.cpp'.
