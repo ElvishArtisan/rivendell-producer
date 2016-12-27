@@ -31,8 +31,8 @@ Config *cnf;
 
 Config::Config()
 {
-  QCoreApplication::setOrganizationName("Paravel Systems");
-  QCoreApplication::setOrganizationDomain("paravelsystems.com");
+  QCoreApplication::setOrganizationName("Radio Free Asia");
+  QCoreApplication::setOrganizationDomain("rfa.org");
   QCoreApplication::setApplicationName("rivendell-browser");
 }
 

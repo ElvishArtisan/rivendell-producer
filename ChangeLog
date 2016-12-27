@@ -74,3 +74,5 @@
 	storage in 'src/common/config.cpp'.
 2016-12-27 Fred Gleason <fredg@paravelsystems.com>
 	* Added icons.
+2016-12-27 Fred Gleason <fredg@paravelsystems.com>
+	* Fixed a bug in 'link_common.sh' that broke the build on MingW32.

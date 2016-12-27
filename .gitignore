@@ -29,6 +29,7 @@ src/rdadminb/playerfactory.h
 src/rdadminb/profile.cpp
 src/rdadminb/profile.h
 src/rdadminb/rdadminb
+src/rdadminb/rdadmin.ico
 src/rdadminb/rdlibrary.ico
 src/rdadminb/ringbuffer.cpp
 src/rdadminb/ringbuffer.h
@@ -42,21 +43,6 @@ src/rdadminb/tableview.cpp
 src/rdadminb/tableview.h
 src/rdadminb/transportbutton.cpp
 src/rdadminb/transportbutton.h
-src/rdbrowserd/cmdswitch.cpp
-src/rdbrowserd/cmdswitch.h
-src/rdbrowserd/combobox.cpp
-src/rdbrowserd/combobox.h
-src/rdbrowserd/config.cpp
-src/rdbrowserd/config.h
-src/rdbrowserd/profile.cpp
-src/rdbrowserd/profile.h
-src/rdbrowserd/rdbrowserd
-src/rdbrowserd/streamplayer.cpp
-src/rdbrowserd/streamplayer.h
-src/rdbrowserd/tableview.cpp
-src/rdbrowserd/tableview.h
-src/rdbrowserd/transportbutton.cpp
-src/rdbrowserd/transportbutton.h
 src/rdlibraryb/cmdswitch.cpp
 src/rdlibraryb/cmdswitch.h
 src/rdlibraryb/combobox.cpp
@@ -69,6 +55,7 @@ src/rdlibraryb/playerfactory.cpp
 src/rdlibraryb/playerfactory.h
 src/rdlibraryb/profile.cpp
 src/rdlibraryb/profile.h
+src/rdlibraryb/rdadmin.ico
 src/rdlibraryb/rdlibraryb
 src/rdlibraryb/rdlibrary.ico
 src/rdlibraryb/ringbuffer.cpp
