@@ -1,0 +1,71 @@
+## automake.am
+##
+## Makefile for the rdadminb applet
+##
+## (C) Copyright 2016 Fred Gleason <fredg@paravelsystems.com>
+##
+##   This program is free software; you can redistribute it and/or modify
+##   it under the terms of the GNU General Public License version 2 as
+##   published by the Free Software Foundation.
+##
+##   This program is distributed in the hope that it will be useful,
+##   but WITHOUT ANY WARRANTY; without even the implied warranty of
+##   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+##   GNU General Public License for more details.
+##
+##   You should have received a copy of the GNU General Public
+##   License along with this program; if not, write to the Free Software
+##   Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
+##
+## Use automake to process this into a Makefile.in
+
+AM_CPPFLAGS = -Wall -DPREFIX=\"$(prefix)\" -Wno-strict-aliasing @QT4_CFLAGS@ @RIVCAPI_CFLAGS@
+MOC = @QT4_MOC@
+
+# The dependency for qt's Meta Object Compiler (moc)
+moc_%.cpp:	%.h
+	@MOC@ $< -o $@
+
+# The dependency for Windows resource compiler
+%.o:	%.rc
+	$(WINDRES) -O coff $< $@
+
+bin_PROGRAMS = rdadminb
+
+dist_rdadminb_SOURCES = rdadminb.cpp rdadminb.h
+
+nodist_rdadminb_SOURCES = cmdswitch.cpp cmdswitch.h\
+                          config.cpp config.h\
+                          moc_rdadminb.cpp\
+                          profile.cpp profile.h
+
+EXTRA_rdadminb_DEPENDENCIES = @RESOURCES@
+
+rdadminb_LDADD = @QT4_LIBS@ @RIVCAPI_LIBS@ -lexpat @RESOURCES@ -lpthread
+rdadminb_LDFLAGS = @LDFLAGS@
+
+EXTRA_DIST = icons.rc
+
+CLEANFILES = *~\
+             moc_*\
+             *.obj\
+             *.idb\
+             *.pdb\
+             *ilk
+
+DISTCLEANFILES = *.ico\
+                 cmdswitch.cpp cmdswitch.h\
+                 combobox.cpp combobox.h\
+                 config.cpp config.h\
+                 mpeg1decoder.cpp mpeg1decoder.h\
+                 playerfactory.cpp playerfactory.h\
+                 profile.cpp profile.h\
+                 ringbuffer.cpp ringbuffer.h\
+                 streamplayer.cpp streamplayer.h\
+                 streamplayer_alsa.cpp streamplayer_alsa.h\
+                 streamplayer_mme.cpp streamplayer_mme.h\
+                 tableview.cpp tableview.h\
+                 transportbutton.cpp transportbutton.h
+
+MAINTAINERCLEANFILES = *~\
+                       Makefile.in

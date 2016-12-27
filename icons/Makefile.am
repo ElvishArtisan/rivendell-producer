@@ -20,12 +20,43 @@
 ##
 ## Use automake to process this into a Makefile.in
 
+install-exec-am:	
+	mkdir -p $(DESTDIR)@prefix@/share/icons/hicolor/16x16/apps
+	cp rdadmin-16x16.png $(DESTDIR)@prefix@/share/icons/hicolor/16x16/apps/rdadmin.png
+	cp rdadmin-48x48.png $(DESTDIR)@prefix@/share/icons/hicolor/48x48/apps/rdadmin.png
+	cp rdlibrary-16x16.png $(DESTDIR)@prefix@/share/icons/hicolor/16x16/apps/rdlibrary.png
+	cp rdlibrary-48x48.png $(DESTDIR)@prefix@/share/icons/hicolor/48x48/apps/rdlibrary.png
+	cp rdlogedit-16x16.png $(DESTDIR)@prefix@/share/icons/hicolor/16x16/apps/rdlogedit.png
+	cp rdlogedit-48x48.png $(DESTDIR)@prefix@/share/icons/hicolor/48x48/apps/rdlogedit.png
+
+
+uninstall-local:	
+	rm -f $(DESTDIR)@prefix@/share/icons/hicolor/16x16/apps/rdadmin.png
+	rm -f $(DESTDIR)@prefix@/share/icons/hicolor/48x48/apps/rdadmin.png
+	rm -f $(DESTDIR)@prefix@/share/icons/hicolor/16x16/apps/rdlibrary.png
+	rm -f $(DESTDIR)@prefix@/share/icons/hicolor/48x48/apps/rdlibrary.png
+	rm -f $(DESTDIR)@prefix@/share/icons/hicolor/16x16/apps/rdlogedit.png
+	rm -f $(DESTDIR)@prefix@/share/icons/hicolor/48x48/apps/rdlogedit.png
+
+
 EXTRA_DIST = audio.xpm\
              blueball.xpm\
              checkmark.xpm\
              greenball.xpm\
              greencheckmark.xpm\
              macro.xpm\
+             rdadmin.ico\
+             rdadmin-16x16.png\
+             rdadmin-16x16.xpm\
+             rdadmin-48x48.png\
+             rdlibrary.ico\
+             rdlibrary-16x16.png\
+             rdlibrary-16x16.xpm\
+             rdlibrary-48x48.png\
+             rdlogedit.ico\
+             rdlogedit-16x16.pnmg\
+             rdlogedit-16x16.xpm\
+             rdlogedit-48x48.png\
              redball.xpm\
              redx.xpm\
              whiteball.xpm

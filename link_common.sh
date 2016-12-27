@@ -83,4 +83,7 @@ rm -f src/$DESTDIR/transportbutton.h
 ln -s ../../src/common/transportbutton.h src/$DESTDIR/transportbutton.h
 
 rm -f src/$DESTDIR/*.ico
+ln -s ../../icons/rdadmin.ico src/$DESTDIR/rdadmin.ico
+
+rm -f src/$DESTDIR/*.ico
 ln -s ../../icons/rdlibrary.ico src/$DESTDIR/rdlibrary.ico

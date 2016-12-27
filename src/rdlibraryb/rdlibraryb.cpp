@@ -34,6 +34,8 @@
 #include "playerfactory.h"
 #include "rdlibraryb.h"
 
+#include "../../icons/rdlibrary-16x16.xpm"
+
 MainWidget::MainWidget(QWidget *parent)
   :QMainWindow(parent)
 {
@@ -72,7 +74,7 @@ MainWidget::MainWidget(QWidget *parent)
   // Window Title Bar
   //
   setWindowTitle(tr("RDLibrary Browser"));
-  //  setWindowIcon(QPixmap(walltime_16x16_xpm));
+  setWindowIcon(QPixmap(rdlibrary_16x16_xpm));
 
   //
   // Fix the Window Size

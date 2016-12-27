@@ -129,6 +129,7 @@ AC_CONFIG_FILES([ \
     icons/Makefile \
     src/Makefile \
     src/common/Makefile \
+    src/rdadminb/Makefile \
     src/rdlibraryb/Makefile \
     Makefile \
     rivendell-browser.spec \
@@ -138,6 +139,7 @@ AC_OUTPUT()
 #
 # Link Common Elements
 #
+./link_common.sh rdadminb
 ./link_common.sh rdlibraryb
 
 AC_MSG_NOTICE()

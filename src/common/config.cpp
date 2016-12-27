@@ -133,7 +133,7 @@ bool Config::save()
 #else
   FILE *f=NULL;
 
-  if((f=fopen((DEFAULT_CONF_FILE+"-new").toUtf8(),"r"))==NULL) {
+  if((f=fopen((DEFAULT_CONF_FILE+"-new").toUtf8(),"w"))==NULL) {
     return false;
   }
   fprintf(f,"[Server]\n");
