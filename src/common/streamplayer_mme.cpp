@@ -115,10 +115,11 @@ bool __StreamPlayerMmeOpenPlayback(StreamPlayerHeader *hdr)
   return true;
 #else
   return false;
-#endif  // ALSA
+#endif  // MME
 }
 
 
+#ifdef MME
 void __StreamPlayerMme_ClosePlayback(MmeData *mme_data)
 {
   for(int i=0;i<MME_PERIOD_QUAN;i++) {
@@ -132,6 +133,7 @@ void __StreamPlayerMme_ClosePlayback(MmeData *mme_data)
   waveOutClose(mme_data->mme_handle);
   mme_data->mme_handle=NULL;
 }
+#endif  // MME
 
 
 void *__StreamPlayerMme_MmeCallback(void *priv)
