@@ -54,3 +54,6 @@
 	MingW32.
 2016-12-27 Fred Gleason <fredg@paravelsystems.com>
 	* Added a 'StreamPlayerMme' class.
+2016-12-27 Fred Gleason <fredg@paravelsystems.com>
+	* Fixed a bug in 'src/common/streamplayer_mme.cpp' that caused noise
+	at the start of play-outs.

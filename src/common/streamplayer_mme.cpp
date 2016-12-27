@@ -106,12 +106,12 @@ bool __StreamPlayerMmeOpenPlayback(StreamPlayerHeader *hdr)
   // Start Playout
   //
   for(int i=0;i<MME_PERIOD_QUAN;i++) {
-    memset(mme_data->mme_headers[i].lpData,0,MME_BUFFER_SIZE*hdr->fmt_channels);
+    memset(mme_data->
+	   mme_headers[i].lpData,0,mme_data->mme_headers[i].dwBufferLength);
     mme_data->mme_headers[i].dwUser=true;
     waveOutWrite(mme_data->mme_handle,&(mme_data->mme_headers[i]),
 		 sizeof(mme_data->mme_headers[i]));
   }
-
   return true;
 #else
   return false;
