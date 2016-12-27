@@ -88,12 +88,16 @@ void Config::setAudioDeviceName(const QString &str)
 bool Config::load()
 {
 #ifdef WIN32
-  QSettings s();
-  conf_server_hostname=s.value("Server/Hostname").toString();
-  conf_server_username=s.value("Server/Username").toString();
-  conf_server_password=s.value("Server/Password").toString();
+  QSettings s;
+  conf_server_hostname=
+    s.value("Server/Hostname",DEFAULT_SERVER_HOSTNAME).toString();
+  conf_server_username=
+    s.value("Server/Username",DEFAULT_SERVER_USERNAME).toString();
+  conf_server_password=
+    s.value("Server/Password",DEFAULT_SERVER_PASSWORD).toString();
 
-  conf_audio_device_name=s.value("Audio/DeviceName").toString();
+  conf_audio_device_name=
+    s.value("Audio/DeviceName",DEFAULT_AUDIO_DEVICE_NAME).toString();
 
   return true;
 #else
@@ -118,7 +122,7 @@ bool Config::load()
 bool Config::save()
 {
 #ifdef WIN32
-  QSettings s();
+  QSettings s;
   s.setValue("Server/Hostname",conf_server_hostname);
   s.setValue("Server/Username",conf_server_username);
   s.setValue("Server/Password",conf_server_password);
