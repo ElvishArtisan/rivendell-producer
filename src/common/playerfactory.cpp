@@ -21,8 +21,13 @@
 #include "playerfactory.h"
 #include "streamplayer_alsa.h"
 #include "streamplayer_glass.h"
+#include "streamplayer_mme.h"
 
 StreamPlayer *PlayerFactory(Config *c,QObject *parent)
 {
+#ifdef WIN32
+  return new StreamPlayerMme(c,parent);
+#else
   return new StreamPlayerAlsa(c,parent);
+#endif  // WIN32
 }

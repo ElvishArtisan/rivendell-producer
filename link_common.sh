@@ -72,6 +72,11 @@ ln -s ../../src/common/streamplayer_glass.cpp src/$DESTDIR/streamplayer_glass.cp
 rm -f src/$DESTDIR/streamplayer_glass.h
 ln -s ../../src/common/streamplayer_glass.h src/$DESTDIR/streamplayer_glass.h
 
+rm -f src/$DESTDIR/streamplayer_mme.cpp
+ln -s ../../src/common/streamplayer_mme.cpp src/$DESTDIR/streamplayer_mme.cpp
+rm -f src/$DESTDIR/streamplayer_mme.h
+ln -s ../../src/common/streamplayer_mme.h src/$DESTDIR/streamplayer_mme.h
+
 rm -f src/$DESTDIR/tableview.cpp
 ln -s ../../src/common/tableview.cpp src/$DESTDIR/tableview.cpp
 rm -f src/$DESTDIR/tableview.h

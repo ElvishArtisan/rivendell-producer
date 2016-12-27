@@ -44,6 +44,7 @@ nodist_rdlibraryb_SOURCES = cmdswitch.cpp cmdswitch.h\
                             moc_streamplayer.cpp\
                             moc_streamplayer_alsa.cpp\
                             moc_streamplayer_glass.cpp\
+                            moc_streamplayer_mme.cpp\
                             moc_tableview.cpp\
                             moc_transportbutton.cpp\
                             mpeg1decoder.cpp mpeg1decoder.h\
@@ -53,12 +54,13 @@ nodist_rdlibraryb_SOURCES = cmdswitch.cpp cmdswitch.h\
                             streamplayer.cpp streamplayer.h\
                             streamplayer_alsa.cpp streamplayer_alsa.h\
                             streamplayer_glass.cpp streamplayer_glass.h\
+                            streamplayer_mme.cpp streamplayer_mme.h\
                             tableview.cpp tableview.h\
                             transportbutton.cpp transportbutton.h
 
 EXTRA_rdlibraryb_DEPENDENCIES = @RESOURCES@
 
-rdlibraryb_LDADD = @QT4_LIBS@ @RIVCAPI_LIBS@ @CURL_LIBS@ @SRC_LIBS@ @MAD_LIBS@ @ALSA_LIBS@ -lexpat @RESOURCES@ -lpthread
+rdlibraryb_LDADD = @QT4_LIBS@ @RIVCAPI_LIBS@ @CURL_LIBS@ @SRC_LIBS@ @MAD_LIBS@ @ALSA_LIBS@ @MME_LIBS@ -lexpat @RESOURCES@ -lpthread
 rdlibraryb_LDFLAGS = @LDFLAGS@
 
 EXTRA_DIST = icons.rc
@@ -81,6 +83,7 @@ DISTCLEANFILES = *.ico\
                  streamplayer.cpp streamplayer.h\
                  streamplayer_alsa.cpp streamplayer_alsa.h\
                  streamplayer_glass.cpp streamplayer_glass.h\
+                 streamplayer_mme.cpp streamplayer_mme.h\
                  tableview.cpp tableview.h\
                  transportbutton.cpp transportbutton.h
 

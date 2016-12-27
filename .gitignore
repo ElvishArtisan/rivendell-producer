@@ -53,6 +53,8 @@ src/rdlibraryb/streamplayer_alsa.cpp
 src/rdlibraryb/streamplayer_alsa.h
 src/rdlibraryb/streamplayer_glass.cpp
 src/rdlibraryb/streamplayer_glass.h
+src/rdlibraryb/streamplayer_mme.cpp
+src/rdlibraryb/streamplayer_mme.h
 src/rdlibraryb/tableview.cpp
 src/rdlibraryb/tableview.h
 src/rdlibraryb/transportbutton.cpp

@@ -70,6 +70,22 @@ if test $ALSA_FOUND ; then
 fi
 
 #
+# Check for Windows MME
+#
+AC_CHECK_HEADER(windows.h,[MME_FOUND=yes],[])
+if test $MME_FOUND ; then
+  if test -z $MME_DISABLED ; then
+    AC_DEFINE(MME)
+    AC_SUBST(MME_LIBS,-lwinmm)
+    USING_MME=yes
+  else
+    AC_SUBST(MME_LIBS,"")
+  fi
+else
+  AC_SUBST(MME_LIBS,"")
+fi
+
+#
 # Determine the target architecture
 #
 AR_GCC_TARGET()
@@ -78,7 +94,8 @@ AC_SUBST(ARCH,$ar_gcc_arch)
 if test $ar_gcc_os = mingw32 ; then
   AC_DEFINE(WIN32)
   AC_SUBST(RESOURCES,icons.o)
-  AC_SUBST(LDFLAGS,"-mwindows")
+#  AC_SUBST(LDFLAGS,"-mwindows")
+  AC_SUBST(LDFLAGS,"")
 else
   AC_SUBST(RESOURCES,"")
   AC_SUBST(LDFLAGS,"")
@@ -132,6 +149,11 @@ if test -z $USING_ALSA ; then
 AC_MSG_NOTICE("|  Advanced Linux Sound Architecture (ALSA) ... No    |")
 else
 AC_MSG_NOTICE("|  Advanced Linux Sound Architecture (ALSA) ... Yes   |")
+fi
+if test -z $USING_MME ; then
+AC_MSG_NOTICE("|       Windows Multimedia Extensions (MME) ... No    |")
+else
+AC_MSG_NOTICE("|       Windows Multimedia Extensions (MME) ... Yes   |")
 fi
 AC_MSG_NOTICE("|-----------------------------------------------------|")
 AC_MSG_NOTICE()

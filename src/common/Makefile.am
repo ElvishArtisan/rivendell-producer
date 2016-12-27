@@ -30,6 +30,7 @@ EXTRA_DIST = cmdswitch.cpp cmdswitch.h\
              streamplayer.cpp streamplayer.h\
              streamplayer_alsa.cpp streamplayer_alsa.h\
              streamplayer_glass.cpp streamplayer_glass.h\
+             streamplayer_mme.cpp streamplayer_mme.h\
              tableview.cpp tableview.h\
              transportbutton.cpp transportbutton.h
 
