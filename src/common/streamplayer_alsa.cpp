@@ -136,6 +136,7 @@ bool __StreamPlayerOpenPlayback(StreamPlayerHeader *hdr)
 
 void *__StreamPlayerAlsa_AlsaCallback(void *priv)
 {
+#ifdef ALSA
   static AlsaData *alsa_data=NULL;
   static short *pcm16=NULL;
   static char *pcm24=NULL;
@@ -238,6 +239,7 @@ void *__StreamPlayerAlsa_AlsaCallback(void *priv)
   delete pcm24;
   delete pcm32;
 
+#endif  // ALSA
   return NULL;
 }
 
@@ -245,6 +247,7 @@ void *__StreamPlayerAlsa_AlsaCallback(void *priv)
 size_t __StreamPlayerAlsa_CurlWriteCallback(char *ptr,size_t size,size_t nmemb,
 					    void *userdata)
 {
+#ifdef ALSA
   static unsigned long len=0;
   static StreamPlayerAlsa *dev=NULL;
   static StreamPlayerHeader *hdr=NULL;
@@ -338,13 +341,14 @@ size_t __StreamPlayerAlsa_CurlWriteCallback(char *ptr,size_t size,size_t nmemb,
     }
     hdr->data_bytes-=len;
   }
-
+#endif  // ALSA
   return size*nmemb;
 }
 
 
 void *__StreamPlayerAlsa_CurlThread(void *priv)
 {
+#ifdef ALSA
   static StreamPlayerAlsa *dev=NULL;
   static CURL *curl=NULL;
   static CURLcode curl_code;
@@ -397,13 +401,14 @@ void *__StreamPlayerAlsa_CurlThread(void *priv)
   snd_pcm_close(dev->alsa_data->pcm);
   dev->alsa_data->pcm=NULL;
   dev->alsa_state=StreamPlayerAlsa::Stopped;
-
+#endif  // ALSA
   return NULL;
 }
 
 
 
 
+#ifdef ALSA
 AlsaData::AlsaData()
 {
   pcm=NULL;
@@ -423,19 +428,21 @@ AlsaData::~AlsaData()
 {
   delete ring;
 }
-
+#endif  // ALSA
 
 
 
 StreamPlayerAlsa::StreamPlayerAlsa(Config *c,QObject *parent)
   : StreamPlayer(c,parent)
 {
+#ifdef ALSA
   alsa_state=StreamPlayerAlsa::Stopped;
   alsa_hdr=NULL;
   alsa_data=NULL;
 
   alsa_state_timer=new QTimer(this);
   connect(alsa_state_timer,SIGNAL(timeout()),this,SLOT(stateData()));
+#endif  // ALSA
 }
 
 
@@ -446,6 +453,7 @@ StreamPlayerAlsa::~StreamPlayerAlsa()
 
 void StreamPlayerAlsa::stateData()
 {
+#ifdef ALSA
   switch(alsa_state) {
   case StreamPlayerAlsa::Starting:
     break;
@@ -470,11 +478,13 @@ void StreamPlayerAlsa::stateData()
     setState(StreamPlayer::Stopped);
     break;
   }
+#endif  // ALSA
 }
 
 
 void StreamPlayerAlsa::startDevice(const QString &url,int start_pos,int end_pos)
 {
+#ifdef ALSA
   alsa_url=url;
   alsa_start_pos=start_pos;
   alsa_end_pos=end_pos;
@@ -482,15 +492,19 @@ void StreamPlayerAlsa::startDevice(const QString &url,int start_pos,int end_pos)
   CreateMultithread();
 
   alsa_state=StreamPlayerAlsa::Starting;
+#endif  // ALSA
 }
 
 
 void StreamPlayerAlsa::stopDevice()
 {
+#ifdef ALSA
   alsa_data->running=false;
+#endif  // ALSA
 }
 
 
+#ifdef ALSA
 void StreamPlayerAlsa::CreateMultithread()
 {
   pthread_attr_t pthread_attr;
@@ -515,3 +529,4 @@ void StreamPlayerAlsa::FreeMultithread()
   delete alsa_hdr;
   alsa_hdr=NULL;
 }
+#endif  // ALSA

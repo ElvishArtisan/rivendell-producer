@@ -34,6 +34,7 @@
 
 #define ALSA_PERIOD_QUANTITY 4
 
+#ifdef ALSA
 class AlsaData {
  public:
   AlsaData();
@@ -53,7 +54,7 @@ class AlsaData {
   bool running;
   QString err_msg;
 };
-
+#endif  // ALSA
 
 
 
@@ -72,6 +73,7 @@ class StreamPlayerAlsa : public StreamPlayer
   void stopDevice();
 
  private:
+#ifdef ALSA
   enum State {Stopped=0,Starting=1,Playing=2,Error=3};
   void CreateMultithread();
   void FreeMultithread();
@@ -88,6 +90,7 @@ class StreamPlayerAlsa : public StreamPlayer
   friend size_t __StreamPlayerAlsa_CurlWriteCallback(char *ptr,size_t size,
 						     size_t nmemb,
 						     void *userdata);
+#endif  // ALSA
 };
 
 

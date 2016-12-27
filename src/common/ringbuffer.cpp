@@ -26,7 +26,9 @@
 #include <stdlib.h>
 #include <stdio.h>
 #include <string.h>
+#ifndef WIN32
 #include <sys/mman.h>
+#endif  // WIN32
 
 #include "ringbuffer.h"
 
@@ -50,9 +52,11 @@ Ringbuffer::Ringbuffer(int sz)
 
 Ringbuffer::~Ringbuffer()
 {
+#ifndef WIN32
   if (rb->mlocked) {
     munlock (rb->buf, rb->size);
   }
+#endif  // WIN32
   free (rb->buf);
   free (rb);
 }
@@ -60,9 +64,11 @@ Ringbuffer::~Ringbuffer()
 
 bool Ringbuffer::mlock()
 {
+#ifndef WIN32
   if (::mlock (rb->buf, rb->size)) {
     return false;
   }
+#endif  // WIN32
   rb->mlocked = 1;
   return true;
 }

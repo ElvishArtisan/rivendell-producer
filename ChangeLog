@@ -48,3 +48,7 @@
 	'src/common/mpeg1decoder.h'.
 	* Added MPEG-1 support in 'src/common/streamplayer_alsa.cpp' and
 	'src/common/streamplayer_alsa.h'.
+2016-12-27 Fred Gleason <fredg@paravelsystems.com>
+	* Fixed bugs in 'src/common/streamplayer_alsa.cpp' and
+	'src/common/streamplayer_alsa.h' that broke the build under
+	MingW32.
