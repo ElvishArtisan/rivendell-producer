@@ -43,7 +43,6 @@ nodist_rdlibraryb_SOURCES = cmdswitch.cpp cmdswitch.h\
                             moc_rdlibraryb.cpp\
                             moc_streamplayer.cpp\
                             moc_streamplayer_alsa.cpp\
-                            moc_streamplayer_glass.cpp\
                             moc_streamplayer_mme.cpp\
                             moc_tableview.cpp\
                             moc_transportbutton.cpp\
@@ -53,7 +52,6 @@ nodist_rdlibraryb_SOURCES = cmdswitch.cpp cmdswitch.h\
                             ringbuffer.cpp ringbuffer.h\
                             streamplayer.cpp streamplayer.h\
                             streamplayer_alsa.cpp streamplayer_alsa.h\
-                            streamplayer_glass.cpp streamplayer_glass.h\
                             streamplayer_mme.cpp streamplayer_mme.h\
                             tableview.cpp tableview.h\
                             transportbutton.cpp transportbutton.h
@@ -82,7 +80,6 @@ DISTCLEANFILES = *.ico\
                  ringbuffer.cpp ringbuffer.h\
                  streamplayer.cpp streamplayer.h\
                  streamplayer_alsa.cpp streamplayer_alsa.h\
-                 streamplayer_glass.cpp streamplayer_glass.h\
                  streamplayer_mme.cpp streamplayer_mme.h\
                  tableview.cpp tableview.h\
                  transportbutton.cpp transportbutton.h

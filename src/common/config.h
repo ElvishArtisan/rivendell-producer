@@ -31,20 +31,7 @@
 #define DEFAULT_SERVER_USERNAME "user"
 #define DEFAULT_SERVER_PASSWORD ""
 
-#define DEFAULT_AUDIO_DEVICE_TYPE QString("ALSA")
 #define DEFAULT_AUDIO_DEVICE_NAME QString("plughw:0")
-#define DEFAULT_AUDIO_FORMAT QString("MP2")
-#define DEFAULT_AUDIO_SAMPLE_RATE 48000
-#define DEFAULT_AUDIO_BIT_RATE 192000
-#define DEFAULT_AUDIO_CHANNELS 2
-
-#define DEFAULT_MYSQL_HOSTNAME "localhost"
-#define DEFAULT_MYSQL_DBNAME "Rivendell"
-#define DEFAULT_MYSQL_USERNAME "rduser"
-#define DEFAULT_MYSQL_PASSWORD "letmein"
-
-#define DEFAULT_WEBSERVER_PORT 80
-#define WEBSERVER_REALM "Rivendell"
 
 class Config
 {
@@ -56,28 +43,8 @@ class Config
   void setServerUsername(const QString &str);
   QString serverPassword() const;
   void setServerPassword(const QString &str);
-  QString audioDeviceType() const;
-  void setAudioDeviceType(const QString &str);
   QString audioDeviceName() const;
   void setAudioDeviceName(const QString &str);
-  QString audioFormat() const;
-  void setAudioFormat(const QString &str);
-  unsigned audioSampleRate() const;
-  void setAudioSampleRate(unsigned rate);
-  unsigned audioBitRate() const;
-  void setAudioBitRate(unsigned rate);
-  unsigned audioChannels() const;
-  void setAudioChannels(unsigned chans);
-  QString mysqlHostname() const;
-  void setMysqlHostname(const QString &str);
-  QString mysqlDbname() const;
-  void setMysqlDbname(const QString &str);
-  QString mysqlUsername() const;
-  void setMysqlUsername(const QString &str);
-  QString mysqlPassword() const;
-  void setMysqlPassword(const QString &str);
-  uint16_t webserverPort() const;
-  void setWebserverPort(uint16_t port);
   bool load();
   bool save();
 
@@ -85,17 +52,7 @@ class Config
   QString conf_server_hostname;
   QString conf_server_username;
   QString conf_server_password;
-  QString conf_audio_device_type;
   QString conf_audio_device_name;
-  QString conf_audio_format;
-  unsigned conf_audio_sample_rate;
-  unsigned conf_audio_bit_rate;
-  unsigned conf_audio_channels;
-  QString conf_mysql_hostname;
-  QString conf_mysql_dbname;
-  QString conf_mysql_username;
-  QString conf_mysql_password;
-  uint16_t conf_webserver_port;
 };
 
 extern Config *cnf; 

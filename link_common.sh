@@ -67,11 +67,6 @@ ln -s ../../src/common/streamplayer_alsa.cpp src/$DESTDIR/streamplayer_alsa.cpp
 rm -f src/$DESTDIR/streamplayer_alsa.h
 ln -s ../../src/common/streamplayer_alsa.h src/$DESTDIR/streamplayer_alsa.h
 
-rm -f src/$DESTDIR/streamplayer_glass.cpp
-ln -s ../../src/common/streamplayer_glass.cpp src/$DESTDIR/streamplayer_glass.cpp
-rm -f src/$DESTDIR/streamplayer_glass.h
-ln -s ../../src/common/streamplayer_glass.h src/$DESTDIR/streamplayer_glass.h
-
 rm -f src/$DESTDIR/streamplayer_mme.cpp
 ln -s ../../src/common/streamplayer_mme.cpp src/$DESTDIR/streamplayer_mme.cpp
 rm -f src/$DESTDIR/streamplayer_mme.h

@@ -67,18 +67,6 @@ void Config::setServerPassword(const QString &str)
 }
 
 
-QString Config::audioDeviceType() const
-{
-  return conf_audio_device_type;
-}
-
-
-void Config::setAudioDeviceType(const QString &str)
-{
-  conf_audio_device_type=str;
-}
-
-
 QString Config::audioDeviceName() const
 {
   return conf_audio_device_name;
@@ -88,114 +76,6 @@ QString Config::audioDeviceName() const
 void Config::setAudioDeviceName(const QString &str)
 {
   conf_audio_device_name=str;
-}
-
-
-QString Config::audioFormat() const
-{
-  return conf_audio_format;
-}
-
-
-void Config::setAudioFormat(const QString &str)
-{
-  conf_audio_format=str;
-}
-
-
-unsigned Config::audioSampleRate() const
-{
-  return conf_audio_sample_rate;
-}
-
-
-void Config::setAudioSampleRate(unsigned rate)
-{
-  conf_audio_sample_rate=rate;
-}
-
-
-unsigned Config::audioBitRate() const
-{
-  return conf_audio_bit_rate;
-}
-
-
-void Config::setAudioBitRate(unsigned rate)
-{
-  conf_audio_bit_rate=rate;
-}
-
-
-unsigned Config::audioChannels() const
-{
-  return conf_audio_channels;
-}
-
-
-void Config::setAudioChannels(unsigned chans)
-{
-  conf_audio_channels=chans;
-}
-
-
-QString Config::mysqlHostname() const
-{
-  return conf_mysql_hostname;
-}
-
-
-void Config::setMysqlHostname(const QString &str)
-{
-  conf_mysql_hostname=str;
-}
-
-
-QString Config::mysqlDbname() const
-{
-  return conf_mysql_dbname;
-}
-
-
-void Config::setMysqlDbname(const QString &str)
-{
-  conf_mysql_dbname=str;
-}
-
-
-QString Config::mysqlUsername() const
-{
-  return conf_mysql_username;
-}
-
-
-void Config::setMysqlUsername(const QString &str)
-{
-  conf_mysql_username=str;
-}
-
-
-QString Config::mysqlPassword() const
-{
-  return conf_mysql_password;
-}
-
-
-void Config::setMysqlPassword(const QString &str)
-{
-  conf_mysql_password=str;
-}
-
-
-uint16_t Config::webserverPort() const
-{
-  return conf_webserver_port;
-}
-
-
-void Config::setWebserverPort(uint16_t port)
-{
-  conf_webserver_port=port;
 }
 
 
@@ -211,24 +91,8 @@ bool Config::load()
   conf_server_password=
     p->stringValue("Server","Password",DEFAULT_SERVER_PASSWORD);
 
-  conf_audio_device_type=
-    p->stringValue("Audio","DeviceType",DEFAULT_AUDIO_DEVICE_TYPE);
   conf_audio_device_name=
     p->stringValue("Audio","DeviceName",DEFAULT_AUDIO_DEVICE_NAME);
-  conf_audio_format=p->stringValue("Audio","Format",DEFAULT_AUDIO_FORMAT);
-  conf_audio_sample_rate=
-    p->intValue("Audio","SampleRate",DEFAULT_AUDIO_SAMPLE_RATE);
-  conf_audio_bit_rate=
-    p->intValue("Audio","BitRate",DEFAULT_AUDIO_BIT_RATE);
-  conf_audio_channels=p->intValue("Audio","Channels",DEFAULT_AUDIO_CHANNELS);
-
-  conf_mysql_hostname=p->stringValue("MySQL","Hostname",DEFAULT_MYSQL_HOSTNAME);
-  conf_mysql_dbname=p->stringValue("MySQL","Dbname",DEFAULT_MYSQL_DBNAME);
-  conf_mysql_username=p->stringValue("MySQL","Username",DEFAULT_MYSQL_USERNAME);
-  conf_mysql_password=p->stringValue("MySQL","Password",DEFAULT_MYSQL_PASSWORD);
-
-  conf_webserver_port=
-    0xFFFF&p->intValue("WebServer","Port",DEFAULT_WEBSERVER_PORT);
 
   return ret;
 }
@@ -248,23 +112,7 @@ bool Config::save()
   fprintf(f,"\n");
 
   fprintf(f,"[Audio]\n");
-  fprintf(f,"DeviceType=%s\n",(const char *)conf_audio_device_type.toUtf8());
   fprintf(f,"DeviceName=%s\n",(const char *)conf_audio_device_name.toUtf8());
-  fprintf(f,"Format=%s\n",(const char *)conf_audio_format.toUtf8());
-  fprintf(f,"SampleRate=%u\n",conf_audio_sample_rate);
-  fprintf(f,"BitRate=%u\n",conf_audio_bit_rate);
-  fprintf(f,"Channels=%u\n",conf_audio_channels);
-  fprintf(f,"\n");
-
-  fprintf(f,"[MySQL]\n");
-  fprintf(f,"Hostname=%s\n",(const char *)conf_mysql_hostname.toUtf8());
-  fprintf(f,"Dbname=%s\n",(const char *)conf_mysql_dbname.toUtf8());
-  fprintf(f,"Username=%s\n",(const char *)conf_mysql_username.toUtf8());
-  fprintf(f,"Password=%s\n",(const char *)conf_mysql_password.toUtf8());
-  fprintf(f,"\n");
-
-  fprintf(f,"[WebServer]\n");
-  fprintf(f,"Port=%u\n",0xFFFF&conf_webserver_port);
   fprintf(f,"\n");
 
   fclose(f);

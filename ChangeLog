@@ -60,4 +60,9 @@
 2016-12-27 Fred Gleason <fredg@paravelsystems.com>
 	* Fixed a bug in 'src/common/streamplayer_mme.cpp' that broke
 	the build under Linux.
-
+2016-12-27 Fred Gleason <fredg@paravelsystems.com>
+	* Removed the 'StreamPlayerGlass' class in
+	 'src/common/streamplayer_glass.cpp' and
+	 'src/common/streamplayer_glass.h'.
+	* Removed superfluous configuratin directives from
+	rivendell-browser.conf(5).

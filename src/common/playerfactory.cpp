@@ -20,7 +20,6 @@
 
 #include "playerfactory.h"
 #include "streamplayer_alsa.h"
-#include "streamplayer_glass.h"
 #include "streamplayer_mme.h"
 
 StreamPlayer *PlayerFactory(Config *c,QObject *parent)
