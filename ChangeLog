@@ -82,3 +82,5 @@
 2016-12-28 Fred Gleason <fredg@paravelsystems.com>
 	* Modified 'src/common/streamplayer_mme.cpp' to use the audio
 	device value from the configuration.
+2016-12-28 Fred Gleason <fredg@paravelsystems.com>
+	* Added 'rdadminb.exe' to the 'make install-win32' target.

@@ -33,6 +33,7 @@ rpm:	dist
 	rm -rf $(HOME)/rpmbuild/BUILD/rivendell-browser-$(VERSION)
 
 install-win32:	
+	cp src/rdadminb/rdadminb.exe .
 	cp src/rdlibraryb/rdlibraryb.exe .
 	cp $(MINGW32_SYS_ROOT)/bin/QtCore4.dll .
 	cp $(MINGW32_SYS_ROOT)/bin/QtGui4.dll .
