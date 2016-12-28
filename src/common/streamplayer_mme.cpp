@@ -507,7 +507,7 @@ void StreamPlayerMme::CreateMultithread()
 
   mme_hdr=new StreamPlayerHeader();
   mme_data=new MmeData();
-  //  mme_data->mme_device=config()->audioDeviceName();
+  mme_data->mme_device_id=config()->audioDeviceName().toUInt();
   mme_hdr->priv=mme_data;
   pthread_attr_init(&pthread_attr);
   pthread_create(&mme_curl_thread,&pthread_attr,__StreamPlayerMme_CurlThread,
