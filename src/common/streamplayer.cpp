@@ -300,8 +300,8 @@ StreamPlayer::State StreamPlayer::state() const
 
 void StreamPlayer::play(int cartnum,int cutnum,int start_pos,int end_pos)
 {
-  QString url=QString().sprintf("http://localhost/snd/%06u_%03d.wav",
-    				cartnum,cutnum);
+  QString url="http://"+config()->serverHostname()+
+    QString().sprintf("/snd/%06u_%03d.wav",cartnum,cutnum);
   switch(state()) {
   case StreamPlayer::Playing:
     stream_next_url=url;

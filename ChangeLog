@@ -76,3 +76,6 @@
 	* Added icons.
 2016-12-27 Fred Gleason <fredg@paravelsystems.com>
 	* Fixed a bug in 'link_common.sh' that broke the build on MingW32.
+2016-12-28 Fred Gleason <fredg@paravelsystems.com>
+	* Modified 'src/common/streamplayer.cpp' to use the server hostname
+	value from the configuration.
