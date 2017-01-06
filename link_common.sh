@@ -37,6 +37,11 @@ ln -s ../../src/common/config.cpp src/$DESTDIR/config.cpp
 rm -f src/$DESTDIR/config.h
 ln -s ../../src/common/config.h src/$DESTDIR/config.h
 
+rm -f src/$DESTDIR/librarymodel.cpp
+ln -s ../../src/common/librarymodel.cpp src/$DESTDIR/librarymodel.cpp
+rm -f src/$DESTDIR/librarymodel.h
+ln -s ../../src/common/librarymodel.h src/$DESTDIR/librarymodel.h
+
 rm -f src/$DESTDIR/mpeg1decoder.cpp
 ln -s ../../src/common/mpeg1decoder.cpp src/$DESTDIR/mpeg1decoder.cpp
 rm -f src/$DESTDIR/mpeg1decoder.h

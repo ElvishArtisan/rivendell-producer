@@ -32,12 +32,12 @@ moc_%.cpp:	%.h
 
 bin_PROGRAMS = rdlibraryb
 
-dist_rdlibraryb_SOURCES = librarymodel.cpp librarymodel.h\
-                          rdlibraryb.cpp rdlibraryb.h
+dist_rdlibraryb_SOURCES = rdlibraryb.cpp rdlibraryb.h
 
 nodist_rdlibraryb_SOURCES = cmdswitch.cpp cmdswitch.h\
                             combobox.cpp combobox.h\
                             config.cpp config.h\
+                            librarymodel.cpp librarymodel.h\
                             moc_combobox.cpp\
                             moc_librarymodel.cpp\
                             moc_rdlibraryb.cpp\
@@ -74,6 +74,7 @@ DISTCLEANFILES = *.ico\
                  cmdswitch.cpp cmdswitch.h\
                  combobox.cpp combobox.h\
                  config.cpp config.h\
+                 librarymodel.cpp librarymodel.h\
                  mpeg1decoder.cpp mpeg1decoder.h\
                  playerfactory.cpp playerfactory.h\
                  profile.cpp profile.h\
