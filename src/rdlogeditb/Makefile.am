@@ -1,8 +1,8 @@
 ## automake.am
 ##
-## Makefile for rdlibraryb(1)
+## Makefile for rdlogeditb(1)
 ##
-## (C) Copyright 2016 Fred Gleason <fredg@paravelsystems.com>
+## (C) Copyright 2016-2017 Fred Gleason <fredg@paravelsystems.com>
 ##
 ##   This program is free software; you can redistribute it and/or modify
 ##   it under the terms of the GNU General Public License version 2 as
@@ -30,17 +30,19 @@ moc_%.cpp:	%.h
 %.o:	%.rc
 	$(WINDRES) -O coff $< $@
 
-bin_PROGRAMS = rdlibraryb
+bin_PROGRAMS = rdlogeditb
 
-dist_rdlibraryb_SOURCES = rdlibraryb.cpp rdlibraryb.h
+dist_rdlogeditb_SOURCES = loglistmodel.cpp loglistmodel.h\
+                          rdlogeditb.cpp rdlogeditb.h
 
-nodist_rdlibraryb_SOURCES = cmdswitch.cpp cmdswitch.h\
+nodist_rdlogeditb_SOURCES = cmdswitch.cpp cmdswitch.h\
                             combobox.cpp combobox.h\
                             config.cpp config.h\
                             librarymodel.cpp librarymodel.h\
                             moc_combobox.cpp\
                             moc_librarymodel.cpp\
-                            moc_rdlibraryb.cpp\
+                            moc_loglistmodel.cpp\
+                            moc_rdlogeditb.cpp\
                             moc_streamplayer.cpp\
                             moc_streamplayer_alsa.cpp\
                             moc_streamplayer_mme.cpp\
@@ -56,10 +58,10 @@ nodist_rdlibraryb_SOURCES = cmdswitch.cpp cmdswitch.h\
                             tableview.cpp tableview.h\
                             transportbutton.cpp transportbutton.h
 
-EXTRA_rdlibraryb_DEPENDENCIES = @RESOURCES@
+EXTRA_rdlogeditb_DEPENDENCIES = @RESOURCES@
 
-rdlibraryb_LDADD = @QT4_LIBS@ @RIVCAPI_LIBS@ @CURL_LIBS@ @SRC_LIBS@ @MAD_LIBS@ @ALSA_LIBS@ @MME_LIBS@ -lexpat @RESOURCES@ -lpthread
-rdlibraryb_LDFLAGS = @LDFLAGS@
+rdlogeditb_LDADD = @QT4_LIBS@ @RIVCAPI_LIBS@ @CURL_LIBS@ @SRC_LIBS@ @MAD_LIBS@ @ALSA_LIBS@ @MME_LIBS@ -lexpat @RESOURCES@ -lpthread
+rdlogeditb_LDFLAGS = @LDFLAGS@
 
 EXTRA_DIST = icons.rc
 

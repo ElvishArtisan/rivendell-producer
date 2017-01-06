@@ -22,7 +22,8 @@
 
 SUBDIRS = common\
           rdadminb\
-          rdlibraryb
+          rdlibraryb\
+          rdlogeditb
 
 CLEANFILES = *~\
              *.idb\
