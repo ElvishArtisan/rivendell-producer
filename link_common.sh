@@ -90,3 +90,4 @@ ln -s ../../src/common/transportbutton.h src/$DESTDIR/transportbutton.h
 rm -f src/$DESTDIR/*.ico
 ln -s ../../icons/rdadmin.ico src/$DESTDIR/rdadmin.ico
 ln -s ../../icons/rdlibrary.ico src/$DESTDIR/rdlibrary.ico
+ln -s ../../icons/rdlogedit.ico src/$DESTDIR/rdlogedit.ico
