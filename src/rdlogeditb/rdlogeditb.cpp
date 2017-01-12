@@ -75,6 +75,11 @@ MainWidget::MainWidget(QWidget *parent)
   QFont bold_font(font().family(),font().pointSize(),QFont::Bold);
 
   //
+  // Dialog
+  //
+  main_log_dialog=new EditLogDialog(this);
+
+  //
   // Service Selector
   //
   main_service_label=new QLabel(tr("Service")+":",this);
@@ -109,6 +114,27 @@ MainWidget::MainWidget(QWidget *parent)
 	  main_loglist_model,SLOT(setServiceName(const QString &)));
 
   //
+  // Add Button
+  //
+  main_add_button=new QPushButton(tr("Add"),this);
+  main_add_button->setFont(bold_font);
+  connect(main_add_button,SIGNAL(clicked()),this,SLOT(addData()));
+
+  //
+  // Edit Button
+  //
+  main_edit_button=new QPushButton(tr("Edit"),this);
+  main_edit_button->setFont(bold_font);
+  connect(main_edit_button,SIGNAL(clicked()),this,SLOT(editData()));
+
+  //
+  // Delete Button
+  //
+  main_delete_button=new QPushButton(tr("Delete"),this);
+  main_delete_button->setFont(bold_font);
+  connect(main_delete_button,SIGNAL(clicked()),this,SLOT(deleteData()));
+
+  //
   // Close Button
   //
   main_close_button=new QPushButton(tr("Close"),this);
@@ -120,6 +146,26 @@ MainWidget::MainWidget(QWidget *parent)
 QSize MainWidget::sizeHint() const
 {
   return QSize(800,600);
+}
+
+
+void MainWidget::addData()
+{
+}
+
+
+void MainWidget::editData()
+{
+  QItemSelectionModel *s=main_loglist_view->selectionModel();
+  if(s->hasSelection()) {
+    QString logname=main_loglist_model->logName(s->selectedRows()[0].row());
+    main_log_dialog->exec(logname);
+  }
+}
+
+
+void MainWidget::deleteData()
+{
 }
 
 
@@ -135,6 +181,10 @@ void MainWidget::resizeEvent(QResizeEvent *e)
   main_service_box->setGeometry(75,5,100,20);
 
   main_loglist_view->setGeometry(10,32,size().width()-20,size().height()-112);
+
+  main_add_button->setGeometry(10,size().height()-60,80,50);
+  main_edit_button->setGeometry(100,size().height()-60,80,50);
+  main_delete_button->setGeometry(190,size().height()-60,80,50);
 
   main_close_button->setGeometry(size().width()-90,size().height()-60,80,50);
 }

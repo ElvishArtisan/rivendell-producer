@@ -32,16 +32,20 @@ moc_%.cpp:	%.h
 
 bin_PROGRAMS = rdlogeditb
 
-dist_rdlogeditb_SOURCES = loglistmodel.cpp loglistmodel.h\
+dist_rdlogeditb_SOURCES = editlogdialog.cpp editlogdialog.h\
+                          loglistmodel.cpp loglistmodel.h\
                           rdlogeditb.cpp rdlogeditb.h
 
 nodist_rdlogeditb_SOURCES = cmdswitch.cpp cmdswitch.h\
                             combobox.cpp combobox.h\
                             config.cpp config.h\
                             librarymodel.cpp librarymodel.h\
+                            logmodel.cpp logmodel.h\
                             moc_combobox.cpp\
+                            moc_editlogdialog.cpp\
                             moc_librarymodel.cpp\
                             moc_loglistmodel.cpp\
+                            moc_logmodel.cpp\
                             moc_rdlogeditb.cpp\
                             moc_streamplayer.cpp\
                             moc_streamplayer_alsa.cpp\

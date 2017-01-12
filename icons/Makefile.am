@@ -40,11 +40,16 @@ uninstall-local:
 
 
 EXTRA_DIST = audio.xpm\
+             audiocart.xpm\
              blueball.xpm\
+             chain.xpm\
              checkmark.xpm\
              greenball.xpm\
              greencheckmark.xpm\
              macro.xpm\
+             macrocart.xpm\
+             marker.xpm\
+             musiclink.xpm\
              rdadmin.ico\
              rdadmin-16x16.png\
              rdadmin-16x16.xpm\
@@ -54,11 +59,14 @@ EXTRA_DIST = audio.xpm\
              rdlibrary-16x16.xpm\
              rdlibrary-48x48.png\
              rdlogedit.ico\
-             rdlogedit-16x16.pnmg\
+             rdlogedit-16x16.png\
              rdlogedit-16x16.xpm\
              rdlogedit-48x48.png\
              redball.xpm\
              redx.xpm\
+             trackcart.xpm\
+             trackmarker.xpm\
+             trafficlink.xpm\
              whiteball.xpm
 
 CLEANFILES = *~
