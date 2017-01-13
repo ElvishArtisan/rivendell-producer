@@ -31,6 +31,7 @@
 #include "logmodel.h"
 #include "streamplayer.h"
 #include "tableview.h"
+#include "transportbutton.h"
 
 class EditLogDialog : public QDialog
 {
@@ -43,6 +44,11 @@ class EditLogDialog : public QDialog
   int exec(const QString &logname);
 
  private slots:
+  void eventClickedData(const QModelIndex &index);
+  void playData();
+  void stopData();
+  void playerStateChangedData(StreamPlayer::State state);
+  void playerErrorData(const QString &msg);
   void okData();
   void cancelData();
 
@@ -51,10 +57,14 @@ class EditLogDialog : public QDialog
   void resizeEvent(QResizeEvent *e);
 
  private:
-  LogModel *main_log_model;
-  TableView *main_log_view;
-  QPushButton *main_ok_button;  
-  QPushButton *main_cancel_button;  
+  LogModel *edit_log_model;
+  TableView *edit_log_view;
+  TransportButton *edit_play_button;
+  TransportButton *edit_stop_button;
+  StreamPlayer *edit_stream_player;
+  QPushButton *edit_ok_button;  
+  QPushButton *edit_cancel_button;  
+  int edit_selected_logid;
 };
 
 

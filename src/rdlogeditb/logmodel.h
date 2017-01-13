@@ -41,6 +41,9 @@ class LogModel : public QAbstractTableModel
   enum TransType {Play=0,Segue=1,Stop=2,NoTrans=255};
   LogModel(QObject *parent=0);
   QString logName() const;
+  EventType eventType(int row) const;
+  unsigned cartNumber(int row) const;
+  int logId(int row) const;
   void setBoldFont(const QFont &font);
   int rowCount(const QModelIndex &parent=QModelIndex()) const;
   int columnCount(const QModelIndex &parent=QModelIndex()) const;

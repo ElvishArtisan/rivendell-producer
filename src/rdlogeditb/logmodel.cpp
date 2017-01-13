@@ -92,6 +92,24 @@ QString LogModel::logName() const
 }
 
 
+LogModel::EventType LogModel::eventType(int row) const
+{
+  return (LogModel::EventType)model_column_fields.at(row).at(0).toInt();
+}
+
+
+unsigned LogModel::cartNumber(int row) const
+{
+  return model_column_fields.at(row).at(3).toUInt();
+}
+
+
+int LogModel::logId(int row) const
+{
+  return model_column_fields.at(row).at(12).toInt();
+}
+
+
 void LogModel::setBoldFont(const QFont &font)
 {
   model_bold_font=QVariant(font);
