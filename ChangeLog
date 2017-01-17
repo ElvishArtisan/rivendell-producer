@@ -98,3 +98,5 @@
 	* Added audio play and stop buttons to the Edit Log dialog.
 2017-01-17 Fred Gleason <fredg@paravelsystems.com>
 	* Added a test for MingW32 in 'configure.ac'.
+2017-01-17 Fred Gleason <fredg@paravelsystems.com>
+	* Added a check of stream state in the 'StreamPlayer::stop()' method.

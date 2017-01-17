@@ -322,7 +322,9 @@ void StreamPlayer::play(int cartnum,int cutnum,int start_pos,int end_pos)
 
 void StreamPlayer::stop()
 {
-  stopDevice();
+  if(stream_state!=StreamPlayer::Stopped) {
+    stopDevice();
+  }
 }
 
 

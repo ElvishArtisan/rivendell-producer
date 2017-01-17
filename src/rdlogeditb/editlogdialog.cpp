@@ -180,12 +180,14 @@ void EditLogDialog::playerErrorData(const QString &msg)
 
 void EditLogDialog::okData()
 {
+  edit_stream_player->stop();
   done(true);
 }
 
 
 void EditLogDialog::cancelData()
 {
+  edit_stream_player->stop();
   done(false);
 }
 
