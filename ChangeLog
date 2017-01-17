@@ -100,3 +100,6 @@
 	* Added a test for MingW32 in 'configure.ac'.
 2017-01-17 Fred Gleason <fredg@paravelsystems.com>
 	* Added a check of stream state in the 'StreamPlayer::stop()' method.
+2017-01-17 Fred Gleason <fredg@paravelsystems.com>
+	* Fixed a bug in 'src/rdlogeditb/editdialog.cpp' that caused
+	previous selection state to be retained into the next exec() session.
