@@ -96,6 +96,7 @@ if test $ar_gcc_os = mingw32 ; then
   AC_SUBST(RESOURCES,icons.o)
 #  AC_SUBST(LDFLAGS,"-mwindows")
   AC_SUBST(LDFLAGS,"")
+  AC_DEFINE(MINGW32,"yes")
 else
   AC_SUBST(RESOURCES,"")
   AC_SUBST(LDFLAGS,"")
