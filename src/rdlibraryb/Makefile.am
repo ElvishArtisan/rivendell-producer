@@ -74,6 +74,7 @@ DISTCLEANFILES = *.ico\
                  cmdswitch.cpp cmdswitch.h\
                  combobox.cpp combobox.h\
                  config.cpp config.h\
+                 datetime.cpp datetime.h\
                  librarymodel.cpp librarymodel.h\
                  mpeg1decoder.cpp mpeg1decoder.h\
                  playerfactory.cpp playerfactory.h\

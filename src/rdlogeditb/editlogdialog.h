@@ -24,10 +24,15 @@
 
 #include <vector>
 
+#include <QCheckBox>
+#include <QDateTimeEdit>
 #include <QDialog>
 #include <QLabel>
+#include <QLineEdit>
 #include <QPushButton>
 
+#include "combobox.h"
+#include "datedialog.h"
 #include "logmodel.h"
 #include "streamplayer.h"
 #include "tableview.h"
@@ -44,6 +49,10 @@ class EditLogDialog : public QDialog
   int exec(const QString &logname);
 
  private slots:
+  void deleteDateData(bool state);
+  void deleteDateSelectData();
+  void startDateData(bool state);
+  void endDateData(bool state);
   void eventClickedData(const QModelIndex &index);
   void playData();
   void stopData();
@@ -55,8 +64,39 @@ class EditLogDialog : public QDialog
  protected:
   void closeEvent(QCloseEvent *e);
   void resizeEvent(QResizeEvent *e);
+  void paintEvent(QPaintEvent *e);
 
  private:
+  DateDialog *edit_date_dialog;
+
+  QLabel *edit_name_label_label;
+  QLabel *edit_name_label;
+  QLabel *edit_tracks_label_label;
+  QLabel *edit_tracks_label;
+  QLabel *edit_origin_label_label;
+  QLabel *edit_origin_label;
+
+  QLabel *edit_description_label;
+  QLineEdit *edit_description_edit;
+  QCheckBox *edit_logdelete_check;
+  QLabel *edit_logdelete_label;
+  QDateTimeEdit *edit_logdelete_edit;
+  QPushButton *edit_logdelete_button;
+
+  QLabel *edit_service_label;
+  ComboBox *edit_service_box;
+  QLabel *edit_startdate_label;
+  QDateTimeEdit *edit_startdate_edit;
+  QLabel *edit_enddate_label;
+  QDateTimeEdit *edit_enddate_edit;
+
+  QLabel *edit_autorefresh_label;
+  QComboBox *edit_autorefresh_box;
+  QCheckBox *edit_startdate_check;
+  QLabel *edit_startdate_check_label;
+  QCheckBox *edit_enddate_check;
+  QLabel *edit_enddate_check_label;
+
   LogModel *edit_log_model;
   TableView *edit_log_view;
   TransportButton *edit_play_button;

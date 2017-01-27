@@ -37,6 +37,11 @@ ln -s ../../src/common/config.cpp src/$DESTDIR/config.cpp
 rm -f src/$DESTDIR/config.h
 ln -s ../../src/common/config.h src/$DESTDIR/config.h
 
+rm -f src/$DESTDIR/datetime.cpp
+ln -s ../../src/common/datetime.cpp src/$DESTDIR/datetime.cpp
+rm -f src/$DESTDIR/datetime.h
+ln -s ../../src/common/datetime.h src/$DESTDIR/datetime.h
+
 rm -f src/$DESTDIR/librarymodel.cpp
 ln -s ../../src/common/librarymodel.cpp src/$DESTDIR/librarymodel.cpp
 rm -f src/$DESTDIR/librarymodel.h

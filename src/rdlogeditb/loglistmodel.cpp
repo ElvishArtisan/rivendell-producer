@@ -22,6 +22,7 @@
 #include <stdio.h>
 
 #include "config.h"
+#include "datetime.h"
 #include "loglistmodel.h"
 
 #include "../../icons/greencheckmark.xpm"
@@ -193,7 +194,7 @@ void LogListModel::Update()
   if((err=RD_ListLogs(&logs,cnf->serverHostname().toUtf8(),
 		      cnf->serverUsername().toUtf8(),
 		      cnf->serverPassword().toUtf8(),
-		      service_name.toUtf8(),false,&numrecs))==0) {
+		      service_name.toUtf8(),"",false,&numrecs))==0) {
     if(model_log_names.size()>0) {
       beginRemoveRows(QModelIndex(),0,model_column_fields.size()-1);
       model_log_names.clear();
@@ -217,30 +218,37 @@ void LogListModel::Update()
 	model_column_fields.back().
 	  push_back(QString().sprintf("%d / %d",logs[i].log_completed_tracks,
 				      logs[i].log_scheduled_tracks));
+	/*
 	if(strlen(logs[i].log_startdate)==0) {
 	  model_column_fields.back().push_back(tr("Always"));
 	}
 	else {
-	  model_column_fields.back().push_back(logs[i].log_startdate);
-	}
+	*/
+	model_column_fields.back().push_back(DateTime::fromTm(logs[i].log_startdate).toString("MM-dd-yyyy"));
+	  //	}
+	/*
 	if(strlen(logs[i].log_enddate)==0) {
 	  model_column_fields.back().push_back(tr("TFN"));
 	}
 	else {
-	  model_column_fields.back().push_back(logs[i].log_enddate);
-	}
+	*/
+	model_column_fields.back().push_back(DateTime::fromTm(logs[i].log_enddate).toString("MM/dd/yyyy"));
+	  //	}
 	model_column_fields.back().
 	  push_back(QString(logs[i].log_origin_username)+" - "+
-		    QString(logs[i].log_origin_datetime));
+		    DateTime::fromTm(logs[i].log_origin_datetime).toString("MM/dd/yyyy - hh:mm:ss"));
+	/*
 	if(strlen(logs[i].log_link_datetime)==0) {
 	  model_column_fields.back().push_back(tr("Never"));
 	}
 	else {
-	  model_column_fields.back().push_back(logs[i].log_link_datetime);
-	}
-	model_column_fields.back().push_back(logs[i].log_modified_datetime);
+	*/
+	model_column_fields.back().push_back(DateTime::fromTm(logs[i].log_link_datetime).toString("MM/dd/yyyy - hh:mm:ss"));
+	  //	}
+	model_column_fields.back().push_back(DateTime::fromTm(logs[i].log_modified_datetime).toString("MM/dd/yyyy -- hh:mm:ss"));
       }
       endInsertRows();
+      free(logs);
     }
   }
   else {

@@ -32,16 +32,21 @@ moc_%.cpp:	%.h
 
 bin_PROGRAMS = rdlogeditb
 
-dist_rdlogeditb_SOURCES = editlogdialog.cpp editlogdialog.h\
+dist_rdlogeditb_SOURCES = datedialog.cpp datedialog.h\
+                          datepicker.cpp datepicker.h\
+                          editlogdialog.cpp editlogdialog.h\
                           loglistmodel.cpp loglistmodel.h\
                           rdlogeditb.cpp rdlogeditb.h
 
 nodist_rdlogeditb_SOURCES = cmdswitch.cpp cmdswitch.h\
                             combobox.cpp combobox.h\
                             config.cpp config.h\
+                            datetime.cpp datetime.h\
                             librarymodel.cpp librarymodel.h\
                             logmodel.cpp logmodel.h\
                             moc_combobox.cpp\
+                            moc_datedialog.cpp\
+                            moc_datepicker.cpp\
                             moc_editlogdialog.cpp\
                             moc_librarymodel.cpp\
                             moc_loglistmodel.cpp\
@@ -80,6 +85,7 @@ DISTCLEANFILES = *.ico\
                  cmdswitch.cpp cmdswitch.h\
                  combobox.cpp combobox.h\
                  config.cpp config.h\
+                 datetime.cpp datetime.h\
                  librarymodel.cpp librarymodel.h\
                  mpeg1decoder.cpp mpeg1decoder.h\
                  playerfactory.cpp playerfactory.h\

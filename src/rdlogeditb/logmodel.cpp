@@ -330,6 +330,7 @@ void LogModel::Update()
 	}
       }
       endInsertRows();
+      free(loglines);
     }
   }
   else {
