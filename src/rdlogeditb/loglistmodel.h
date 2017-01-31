@@ -36,6 +36,8 @@ class LogListModel : public QAbstractTableModel
   LogListModel(QObject *parent=0);
   QString serviceName() const;
   QString logName(int row) const;
+  QModelIndex index(const QString &logname) const;
+  void update();
   int rowCount(const QModelIndex &parent=QModelIndex()) const;
   int columnCount(const QModelIndex &parent=QModelIndex()) const;
   QVariant data(const QModelIndex &index,int role=Qt::DisplayRole) const;
@@ -46,7 +48,6 @@ class LogListModel : public QAbstractTableModel
   void setServiceName(const QString &str);
 
  private:
-  void Update();
   bool LogReady(struct rd_log *log) const;
   int MusicLinked(struct rd_log *log) const;
   int TrafficLinked(struct rd_log *log) const;

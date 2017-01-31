@@ -27,6 +27,7 @@
 
 #include <rivendell/rd_listlogs.h>
 #include <rivendell/rd_listservices.h>
+#include <rivendell/rd_savelog.h>
 
 #include "cmdswitch.h"
 #include "datetime.h"
@@ -402,6 +403,7 @@ void EditLogDialog::playerErrorData(const QString &msg)
 void EditLogDialog::okData()
 {
   edit_stream_player->stop();
+  Save();
   done(true);
 }
 
@@ -478,3 +480,22 @@ void EditLogDialog::paintEvent(QPaintEvent *e)
 }
 
 
+void EditLogDialog::Save()
+{
+  struct save_loghdr_values hdr;
+  int err;
+
+  memset(&hdr,0,sizeof(hdr));
+  strncpy(hdr.loghdr_service,edit_service_box->currentText().toUtf8(),64);
+  strncpy(hdr.loghdr_description,edit_description_edit->text().toUtf8(),64);
+  hdr.loghdr_autorefresh=edit_autorefresh_box->currentIndex();
+  if((err=RD_SaveLog(&hdr,NULL,0,
+		     cnf->serverHostname().toUtf8(),
+		     cnf->serverUsername().toUtf8(),
+		     cnf->serverPassword().toUtf8(),
+		     edit_log_model->logName().toUtf8()))!=0) {
+    QMessageBox::critical(this,"RDLogEdit - Error",
+			  tr("Unable to save log")+
+			  QString().sprintf(" [Err: %d]",err));
+  }
+}

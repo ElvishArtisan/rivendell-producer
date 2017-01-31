@@ -67,6 +67,7 @@ class EditLogDialog : public QDialog
   void paintEvent(QPaintEvent *e);
 
  private:
+  void Save();
   DateDialog *edit_date_dialog;
 
   QLabel *edit_name_label_label;

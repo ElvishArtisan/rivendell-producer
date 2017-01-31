@@ -27,6 +27,8 @@
 #include <QMessageBox>
 #include <QStyleFactory>
 
+#include <rivendell/rd_addlog.h>
+#include <rivendell/rd_deletelog.h>
 #include <rivendell/rd_listservices.h>
 
 #include "cmdswitch.h"
@@ -75,9 +77,10 @@ MainWidget::MainWidget(QWidget *parent)
   QFont bold_font(font().family(),font().pointSize(),QFont::Bold);
 
   //
-  // Dialog
+  // Dialogs
   //
-  main_log_dialog=new EditLogDialog(this);
+  main_addlog_dialog=new AddLogDialog(this);
+  main_editlog_dialog=new EditLogDialog(this);
 
   //
   // Service Selector
@@ -151,6 +154,34 @@ QSize MainWidget::sizeHint() const
 
 void MainWidget::addData()
 {
+  QString svcname;
+  QString logname;
+  int err;
+
+  if(main_addlog_dialog->exec(&svcname,&logname)) {
+    if((err=RD_AddLog(cnf->serverHostname().toUtf8(),
+		      cnf->serverUsername().toUtf8(),
+		      cnf->serverPassword().toUtf8(),
+		      logname,svcname))!=0) {
+      QMessageBox::critical(this,"RDLogEdit - Add Log",
+			    tr("Unable to add new log")+" ["+tr("error code")+
+			    QString().sprintf(": %d]",err));
+      return;
+    }
+  }
+  if(main_editlog_dialog->exec(logname)) {
+    main_loglist_model->update();
+    QModelIndex index=main_loglist_model->index(logname);
+    main_loglist_view->selectionModel()->
+      select(main_loglist_model->index(logname),QItemSelectionModel::Rows|
+	     QItemSelectionModel::ClearAndSelect);
+  }
+  else {
+    RD_DeleteLog(cnf->serverHostname().toUtf8(),
+		 cnf->serverUsername().toUtf8(),
+		 cnf->serverPassword().toUtf8(),
+		 logname);
+  }
 }
 
 
@@ -159,13 +190,36 @@ void MainWidget::editData()
   QItemSelectionModel *s=main_loglist_view->selectionModel();
   if(s->hasSelection()) {
     QString logname=main_loglist_model->logName(s->selectedRows()[0].row());
-    main_log_dialog->exec(logname);
+    if(main_editlog_dialog->exec(logname)) {
+      main_loglist_model->update();
+    }
   }
 }
 
 
 void MainWidget::deleteData()
 {
+  int err;
+  QItemSelectionModel *s=main_loglist_view->selectionModel();
+  if(s->hasSelection()) {
+    QString logname=main_loglist_model->logName(s->selectedRows()[0].row());
+    if(QMessageBox::question(this,"RDLogEdit - Delete Log",
+			     tr("Are you sure you want to delete the")+
+			     " \""+logname+"\" "+tr("log?"),
+			     QMessageBox::Yes,QMessageBox::No)!=QMessageBox::Yes) {
+      return;
+    }
+    if((err=RD_DeleteLog(cnf->serverHostname().toUtf8(),
+		      cnf->serverUsername().toUtf8(),
+		      cnf->serverPassword().toUtf8(),
+		      logname))!=0) {
+      QMessageBox::critical(this,"RDLogEdit - Delete Log",
+			    tr("Unable to delete log")+" ["+tr("error code")+
+			    QString().sprintf(": %d",err));
+      return;
+    }
+    main_loglist_model->update();
+  }
 }
 
 

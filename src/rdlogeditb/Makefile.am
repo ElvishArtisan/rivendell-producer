@@ -32,7 +32,8 @@ moc_%.cpp:	%.h
 
 bin_PROGRAMS = rdlogeditb
 
-dist_rdlogeditb_SOURCES = datedialog.cpp datedialog.h\
+dist_rdlogeditb_SOURCES = addlogdialog.cpp addlogdialog.h\
+                          datedialog.cpp datedialog.h\
                           datepicker.cpp datepicker.h\
                           editlogdialog.cpp editlogdialog.h\
                           loglistmodel.cpp loglistmodel.h\
@@ -44,6 +45,7 @@ nodist_rdlogeditb_SOURCES = cmdswitch.cpp cmdswitch.h\
                             datetime.cpp datetime.h\
                             librarymodel.cpp librarymodel.h\
                             logmodel.cpp logmodel.h\
+                            moc_addlogdialog.cpp\
                             moc_combobox.cpp\
                             moc_datedialog.cpp\
                             moc_datepicker.cpp\

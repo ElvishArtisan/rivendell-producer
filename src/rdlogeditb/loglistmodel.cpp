@@ -72,7 +72,7 @@ LogListModel::LogListModel(QObject *parent)
   model_column_alignments.push_back((int)Qt::AlignVCenter|Qt::AlignLeft);
 
   model_service_name=QObject::tr("ALL");
-  Update();
+  update();
 }
 
 
@@ -85,6 +85,93 @@ QString LogListModel::serviceName() const
 QString LogListModel::logName(int row) const
 {
   return model_log_names.at(row);
+}
+
+
+QModelIndex LogListModel::index(const QString &logname) const
+{
+  for(int i=0;i<model_log_names.size();i++) {
+    if(model_log_names.at(i)==logname) {
+      return createIndex(i,0);
+    }
+  }
+  return QModelIndex();
+}
+
+
+void LogListModel::update()
+{
+  struct rd_log *logs=NULL;
+  QString service_name="";
+  unsigned numrecs=0;
+  int err=0;
+
+  if(model_service_name!=QObject::tr("ALL")) {
+    service_name=model_service_name;
+  }
+  if((err=RD_ListLogs(&logs,cnf->serverHostname().toUtf8(),
+		      cnf->serverUsername().toUtf8(),
+		      cnf->serverPassword().toUtf8(),
+		      service_name.toUtf8(),"",false,&numrecs))==0) {
+    if(model_log_names.size()>0) {
+      beginRemoveRows(QModelIndex(),0,model_column_fields.size()-1);
+      model_log_names.clear();
+      model_column_fields.clear();
+      endRemoveRows();
+    }
+    if(numrecs>0) {
+      beginInsertRows(QModelIndex(),0,numrecs-1);
+      for(unsigned i=0;i<numrecs;i++) {
+	model_log_names.push_back(logs[i].log_name);
+	model_column_fields.push_back(QStringList());
+	model_column_fields.back().
+	  push_back(QString().sprintf("%u",LogReady(&(logs[i]))));
+	model_column_fields.back().push_back(logs[i].log_name);
+	model_column_fields.back().push_back(logs[i].log_description);
+	model_column_fields.back().push_back(logs[i].log_service);
+	model_column_fields.back().
+	  push_back(QString().sprintf("%d",MusicLinked(&(logs[i]))));
+	model_column_fields.back().
+	  push_back(QString().sprintf("%d",TrafficLinked(&(logs[i]))));
+	model_column_fields.back().
+	  push_back(QString().sprintf("%d / %d",logs[i].log_completed_tracks,
+				      logs[i].log_scheduled_tracks));
+	/*
+	if(strlen(logs[i].log_startdate)==0) {
+	  model_column_fields.back().push_back(tr("Always"));
+	}
+	else {
+	*/
+	model_column_fields.back().push_back(DateTime::fromTm(logs[i].log_startdate).toString("MM-dd-yyyy"));
+	  //	}
+	/*
+	if(strlen(logs[i].log_enddate)==0) {
+	  model_column_fields.back().push_back(tr("TFN"));
+	}
+	else {
+	*/
+	model_column_fields.back().push_back(DateTime::fromTm(logs[i].log_enddate).toString("MM/dd/yyyy"));
+	  //	}
+	model_column_fields.back().
+	  push_back(QString(logs[i].log_origin_username)+" - "+
+		    DateTime::fromTm(logs[i].log_origin_datetime).toString("MM/dd/yyyy - hh:mm:ss"));
+	/*
+	if(strlen(logs[i].log_link_datetime)==0) {
+	  model_column_fields.back().push_back(tr("Never"));
+	}
+	else {
+	*/
+	model_column_fields.back().push_back(DateTime::fromTm(logs[i].log_link_datetime).toString("MM/dd/yyyy - hh:mm:ss"));
+	  //	}
+	model_column_fields.back().push_back(DateTime::fromTm(logs[i].log_modified_datetime).toString("MM/dd/yyyy -- hh:mm:ss"));
+      }
+      endInsertRows();
+      free(logs);
+    }
+  }
+  else {
+    fprintf(stderr,"LogListModel: RD_ListCarts returned error %d\n",err);
+  }
 }
 
 
@@ -176,83 +263,7 @@ void LogListModel::setServiceName(const QString &str)
 {
   if(str!=model_service_name) {
     model_service_name=str;
-    Update();
-  }
-}
-
-
-void LogListModel::Update()
-{
-  struct rd_log *logs=NULL;
-  QString service_name="";
-  unsigned numrecs=0;
-  int err=0;
-
-  if(model_service_name!=QObject::tr("ALL")) {
-    service_name=model_service_name;
-  }
-  if((err=RD_ListLogs(&logs,cnf->serverHostname().toUtf8(),
-		      cnf->serverUsername().toUtf8(),
-		      cnf->serverPassword().toUtf8(),
-		      service_name.toUtf8(),"",false,&numrecs))==0) {
-    if(model_log_names.size()>0) {
-      beginRemoveRows(QModelIndex(),0,model_column_fields.size()-1);
-      model_log_names.clear();
-      model_column_fields.clear();
-      endRemoveRows();
-    }
-    if(numrecs>0) {
-      beginInsertRows(QModelIndex(),0,numrecs-1);
-      for(unsigned i=0;i<numrecs;i++) {
-	model_log_names.push_back(logs[i].log_name);
-	model_column_fields.push_back(QStringList());
-	model_column_fields.back().
-	  push_back(QString().sprintf("%u",LogReady(&(logs[i]))));
-	model_column_fields.back().push_back(logs[i].log_name);
-	model_column_fields.back().push_back(logs[i].log_description);
-	model_column_fields.back().push_back(logs[i].log_service);
-	model_column_fields.back().
-	  push_back(QString().sprintf("%d",MusicLinked(&(logs[i]))));
-	model_column_fields.back().
-	  push_back(QString().sprintf("%d",TrafficLinked(&(logs[i]))));
-	model_column_fields.back().
-	  push_back(QString().sprintf("%d / %d",logs[i].log_completed_tracks,
-				      logs[i].log_scheduled_tracks));
-	/*
-	if(strlen(logs[i].log_startdate)==0) {
-	  model_column_fields.back().push_back(tr("Always"));
-	}
-	else {
-	*/
-	model_column_fields.back().push_back(DateTime::fromTm(logs[i].log_startdate).toString("MM-dd-yyyy"));
-	  //	}
-	/*
-	if(strlen(logs[i].log_enddate)==0) {
-	  model_column_fields.back().push_back(tr("TFN"));
-	}
-	else {
-	*/
-	model_column_fields.back().push_back(DateTime::fromTm(logs[i].log_enddate).toString("MM/dd/yyyy"));
-	  //	}
-	model_column_fields.back().
-	  push_back(QString(logs[i].log_origin_username)+" - "+
-		    DateTime::fromTm(logs[i].log_origin_datetime).toString("MM/dd/yyyy - hh:mm:ss"));
-	/*
-	if(strlen(logs[i].log_link_datetime)==0) {
-	  model_column_fields.back().push_back(tr("Never"));
-	}
-	else {
-	*/
-	model_column_fields.back().push_back(DateTime::fromTm(logs[i].log_link_datetime).toString("MM/dd/yyyy - hh:mm:ss"));
-	  //	}
-	model_column_fields.back().push_back(DateTime::fromTm(logs[i].log_modified_datetime).toString("MM/dd/yyyy -- hh:mm:ss"));
-      }
-      endInsertRows();
-      free(logs);
-    }
-  }
-  else {
-    fprintf(stderr,"LogListModel: RD_ListCarts returned error %d\n",err);
+    update();
   }
 }
 

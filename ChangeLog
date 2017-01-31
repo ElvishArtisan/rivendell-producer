@@ -107,3 +107,5 @@
 	* Implemented header controls in the Edit Log Dialog.
 	* Added a Date Picker Dialog in 'src/rdlogeditb/datedialog.cpp'
 	and 'src/rdlogeditb/datedialog.h'.
+2017-01-31 Fred Gleason <fredg@paravelsystems.com>
+	* Implemented the ability to Add and Delete logs in rdlogeditb(1).

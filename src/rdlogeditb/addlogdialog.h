@@ -1,8 +1,8 @@
-// rdlogeditb.h
+// addlogdialog.h
 //
-// Remote cart browser for Rivendell
+// Log Editing Dialog
 //
-//   (C) Copyright 2016 Fred Gleason <fredg@paravelsystems.com>
+//   (C) Copyright 2017 Fred Gleason <fredg@paravelsystems.com>
 //
 //   This program is free software; you can redistribute it and/or modify
 //   it under the terms of the GNU General Public License as
@@ -19,52 +19,44 @@
 //   Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 //
 
-#ifndef RDLOGEDITB_H
-#define RDLOGEDITB_H
+#ifndef ADDLOGDIALOG_H
+#define ADDLOGDIALOG_H
 
-#include <vector>
-
+#include <QDialog>
 #include <QLabel>
-#include <QMainWindow>
+#include <QLineEdit>
 #include <QPushButton>
 
-#include "addlogdialog.h"
 #include "combobox.h"
-#include "editlogdialog.h"
-#include "loglistmodel.h"
-#include "streamplayer.h"
-#include "tableview.h"
 
-#define RDLOGEDITB_USAGE "\n"
-
-class MainWidget : public QMainWindow
+class AddLogDialog : public QDialog
 {
   Q_OBJECT
  public:
-  MainWidget(QWidget *parent=0);
+  AddLogDialog(QWidget *parent=0);
   QSize sizeHint() const;
 
+ public slots:
+  int exec(QString *svcname,QString *logname);
+
  private slots:
-  void addData();
-  void editData();
-  void deleteData();
+  void okData();
+  void cancelData();
 
  protected:
   void closeEvent(QCloseEvent *e);
   void resizeEvent(QResizeEvent *e);
 
  private:
-  QLabel *main_service_label;
-  ComboBox *main_service_box;
-  LogListModel *main_loglist_model;
-  TableView *main_loglist_view;
-  AddLogDialog *main_addlog_dialog;
-  EditLogDialog *main_editlog_dialog;
-  QPushButton *main_add_button;  
-  QPushButton *main_edit_button;  
-  QPushButton *main_delete_button;  
-  QPushButton *main_close_button;  
+  QLabel *edit_servicename_label;
+  ComboBox *edit_servicename_box;
+  QLabel *edit_logname_label;
+  QLineEdit *edit_logname_edit;
+  QPushButton *edit_ok_button;
+  QPushButton *edit_cancel_button;
+  QString *edit_service_name;
+  QString *edit_log_name;
 };
 
 
-#endif  // RDLOGEDITB_H
+#endif  // ADDLOGDIALOG_H
