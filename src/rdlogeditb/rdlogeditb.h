@@ -47,6 +47,7 @@ class MainWidget : public QMainWindow
  private slots:
   void addData();
   void editData();
+  void doubleClickedData(const QModelIndex &index);
   void deleteData();
 
  protected:

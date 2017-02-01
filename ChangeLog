@@ -109,3 +109,5 @@
 	and 'src/rdlogeditb/datedialog.h'.
 2017-01-31 Fred Gleason <fredg@paravelsystems.com>
 	* Implemented the ability to Add and Delete logs in rdlogeditb(1).
+2017-02-01 Fred Gleason <fredg@paravelsystems.com>
+	* Implemented double-click for the log list in rdlogeditb(1).

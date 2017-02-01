@@ -113,6 +113,8 @@ MainWidget::MainWidget(QWidget *parent)
   main_loglist_view=new TableView(this);
   main_loglist_view->setModel(main_loglist_model);
   main_loglist_view->resizeColumnsToContents();
+  connect(main_loglist_view,SIGNAL(doubleClicked(const QModelIndex &)),
+	  this,SLOT(doubleClickedData(const QModelIndex &)));
   connect(main_service_box,SIGNAL(activated(const QString &)),
 	  main_loglist_model,SLOT(setServiceName(const QString &)));
 
@@ -194,6 +196,12 @@ void MainWidget::editData()
       main_loglist_model->update();
     }
   }
+}
+
+
+void MainWidget::doubleClickedData(const QModelIndex &index)
+{
+  editData();
 }
 
 
