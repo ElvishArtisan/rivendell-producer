@@ -80,7 +80,7 @@ MainWidget::MainWidget(QWidget *parent)
   // Dialogs
   //
   main_addlog_dialog=new AddLogDialog(this);
-  main_editlog_dialog=new EditLogDialog(this);
+  main_editlog_dialog=new EditLogDialog(main_addlog_dialog,this);
 
   //
   // Service Selector
@@ -170,19 +170,19 @@ void MainWidget::addData()
 			    QString().sprintf(": %d]",err));
       return;
     }
-  }
-  if(main_editlog_dialog->exec(logname)) {
-    main_loglist_model->update();
-    QModelIndex index=main_loglist_model->index(logname);
-    main_loglist_view->selectionModel()->
-      select(main_loglist_model->index(logname),QItemSelectionModel::Rows|
-	     QItemSelectionModel::ClearAndSelect);
-  }
-  else {
-    RD_DeleteLog(cnf->serverHostname().toUtf8(),
-		 cnf->serverUsername().toUtf8(),
-		 cnf->serverPassword().toUtf8(),
-		 logname);
+    if(main_editlog_dialog->exec(logname)) {
+      main_loglist_model->update();
+      QModelIndex index=main_loglist_model->index(logname);
+      main_loglist_view->selectionModel()->
+	select(main_loglist_model->index(logname),QItemSelectionModel::Rows|
+	       QItemSelectionModel::ClearAndSelect);
+    }
+    else {
+      RD_DeleteLog(cnf->serverHostname().toUtf8(),
+		   cnf->serverUsername().toUtf8(),
+		   cnf->serverPassword().toUtf8(),
+		   logname);
+    }
   }
 }
 

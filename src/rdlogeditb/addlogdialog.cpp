@@ -30,6 +30,8 @@ AddLogDialog::AddLogDialog(QWidget *parent)
   : QDialog(parent)
 {
   setWindowTitle(tr("RDLogEdit - Add Log"));
+  setMinimumSize(sizeHint());
+  setMaximumHeight(sizeHint().height());
 
   edit_servicename_label=new QLabel(tr("Service Name")+":",this);
   edit_servicename_label->setAlignment(Qt::AlignRight);
@@ -50,7 +52,7 @@ AddLogDialog::AddLogDialog(QWidget *parent)
 
 QSize AddLogDialog::sizeHint() const
 {
-  return QSize(300,130);
+  return QSize(400,130);
 }
 
 
@@ -74,6 +76,8 @@ int AddLogDialog::exec(QString *svcname,QString *logname)
   for(unsigned i=0;i<svc_quan;i++) {
     edit_servicename_box->insertItem(-1,svc[i].service_name);
   }
+  edit_servicename_box->setCurrentItemData(*svcname);
+  edit_logname_edit->setText(*logname);
 
   return QDialog::exec();
 }
@@ -102,11 +106,11 @@ void AddLogDialog::closeEvent(QCloseEvent *e)
 
 void AddLogDialog::resizeEvent(QResizeEvent *e)
 {
-  edit_servicename_label->setGeometry(10,10,110,20);
-  edit_servicename_box->setGeometry(125,10,size().width()-135,20);
+  edit_logname_label->setGeometry(10,10,110,20);
+  edit_logname_edit->setGeometry(125,10,size().width()-135,20);
 
-  edit_logname_label->setGeometry(10,32,110,20);
-  edit_logname_edit->setGeometry(125,32,size().width()-135,20);
+  edit_servicename_label->setGeometry(10,32,110,20);
+  edit_servicename_box->setGeometry(125,32,120,20);
 
   edit_ok_button->setGeometry(size().width()-180,size().height()-60,80,50);
   edit_cancel_button->setGeometry(size().width()-90,size().height()-60,80,50);

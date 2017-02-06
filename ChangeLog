@@ -111,3 +111,6 @@
 	* Implemented the ability to Add and Delete logs in rdlogeditb(1).
 2017-02-01 Fred Gleason <fredg@paravelsystems.com>
 	* Implemented double-click for the log list in rdlogeditb(1).
+2017-02-06 Fred Gleason <fredg@paravelsystems.com>
+	* Implemented 'Save As' for logs.
+

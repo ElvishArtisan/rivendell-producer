@@ -110,6 +110,32 @@ int LogModel::logId(int row) const
 }
 
 
+unsigned LogModel::logLines(struct save_logline_values **loglines) const
+{
+  //  model_column_fields.at(index.row()).at(index.column());
+
+  *loglines=new struct save_logline_values[model_column_fields.size()];
+  for(int i=0;i<model_column_fields.size();i++) {
+    QStringList cols=model_column_fields.at(i);
+    (*loglines)[i].logline_type=cols.at(0).toUInt();
+    (*loglines)[i].logline_starttime=
+      QTime().msecsTo(QTime::fromString(cols.at(1),"hh:mm:ss"));
+    if(cols.at(2)=="PLAY") {
+      (*loglines)[i].logline_transition_type=0;
+    }
+    if(cols.at(2)=="SEGUE") {
+      (*loglines)[i].logline_transition_type=1;
+    }
+    if(cols.at(2)=="STOP") {
+      (*loglines)[i].logline_transition_type=2;
+    }
+    (*loglines)[i].logline_cart_number=cols.at(3).toUInt();
+  }
+
+  return 0;
+}
+
+
 void LogModel::setBoldFont(const QFont &font)
 {
   model_bold_font=QVariant(font);
@@ -345,8 +371,14 @@ void LogModel::InsertCart(struct rd_logline *ll,QTime *current)
   model_column_fields.push_back(QStringList());
   model_column_fields.back().
     push_back(QString().sprintf("%d",ll->logline_type));
-  model_column_fields.back().
-    push_back(GetStartTime(ll,current).toString("hh:mm:ss"));
+  if(ll->logline_time_type==1) {
+    model_column_fields.back().
+      push_back("T"+GetStartTime(ll,current).toString("hh:mm:ss"));
+  }
+  else {
+    model_column_fields.back().
+      push_back(GetStartTime(ll,current).toString("hh:mm:ss"));
+  }
   model_column_fields.back().
     push_back(LogModel::eventTransText((LogModel::TransType)ll->
 				       logline_transition_type));
@@ -495,9 +527,11 @@ QTime LogModel::GetStartTime(struct rd_logline *ll,QTime *current) const
 {
   QTime ret=*current;
 
-  ll->logline_starttime[12]=0; // FIXME: Needed to work around a bug in rivcapi
+  if(ll->logline_starttime>=0) {
+    ret=QTime().addMSecs(ll->logline_starttime);
+  }
   if(ll->logline_time_type==LogModel::Hard) {
-    ret=QTime::fromString(ll->logline_starttime,"hh:mm:ss.zzz");
+    *current=ret;
   }
   *current=current->addMSecs(GetLength(ll));
 

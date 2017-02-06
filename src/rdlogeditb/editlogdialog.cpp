@@ -25,6 +25,7 @@
 #include <QMessageBox>
 #include <QPainter>
 
+#include <rivendell/rd_addlog.h>
 #include <rivendell/rd_listlogs.h>
 #include <rivendell/rd_listservices.h>
 #include <rivendell/rd_savelog.h>
@@ -35,9 +36,11 @@
 
 #include "editlogdialog.h"
 
-EditLogDialog::EditLogDialog(QWidget *parent)
+EditLogDialog::EditLogDialog(AddLogDialog *ad,QWidget *parent)
   :QDialog(parent)
 {
+  edit_addlog_dialog=ad;
+
   //
   // Window Title Bar
   //
@@ -192,6 +195,20 @@ EditLogDialog::EditLogDialog(QWidget *parent)
   edit_log_view->resizeColumnsToContents();
   connect(edit_log_view,SIGNAL(clicked(const QModelIndex &)),
 	  this,SLOT(eventClickedData(const QModelIndex &)));
+
+  //
+  // Save Button
+  //
+  edit_save_button=new QPushButton(tr("Save"),this);
+  edit_save_button->setFont(bold_font);
+  connect(edit_save_button,SIGNAL(clicked()),this,SLOT(saveData()));
+
+  //
+  // Save As Button
+  //
+  edit_saveas_button=new QPushButton(tr("Save")+"\n"+tr("As"),this);
+  edit_saveas_button->setFont(bold_font);
+  connect(edit_saveas_button,SIGNAL(clicked()),this,SLOT(saveasData()));
 
   //
   // Play Button
@@ -400,6 +417,53 @@ void EditLogDialog::playerErrorData(const QString &msg)
 }
 
 
+void EditLogDialog::saveData()
+{
+}
+
+
+void EditLogDialog::saveasData()
+{
+  QString svcname;
+  QString logname;
+  struct rd_log *logs;
+  unsigned log_quan;
+
+  if(edit_addlog_dialog->exec(&svcname,&logname)) {
+    if(RD_ListLogs(&logs,cnf->serverHostname().toUtf8(),
+		   cnf->serverUsername().toUtf8(),
+		   cnf->serverPassword().toUtf8(),
+		   "",logname.toUtf8(),false,&log_quan)==0) {
+      if(log_quan>0) {
+	if(QMessageBox::question(this,"RDLogEdit - Save As",
+				 tr("Log")+" \""+logname+"\" "+
+				 tr("already exists!")+"\n"+
+				 tr("Overwrite?"),
+				 QMessageBox::Yes,QMessageBox::No)!=QMessageBox::Yes) {
+	  return;
+	}
+      }
+      else {
+	if(RD_AddLog(cnf->serverHostname().toUtf8(),
+		     cnf->serverUsername().toUtf8(),
+		     cnf->serverPassword().toUtf8(),
+		     logname.toUtf8(),
+		     svcname.toUtf8())!=0) {
+	  fprintf(stderr,"RD_AddLog error\n");
+	}
+      }
+      edit_log_model->setLogName(logname);
+      edit_name_label->setText(logname);
+      edit_service_box->setCurrentItemData(svcname);
+      Save();
+    }
+    else {
+      printf("FAILURE!\n");
+    }
+  }
+}
+
+
 void EditLogDialog::okData()
 {
   edit_stream_player->stop();
@@ -460,6 +524,9 @@ void EditLogDialog::resizeEvent(QResizeEvent *e)
 
   edit_log_view->setGeometry(10,120,size().width()-20,size().height()-250);
 
+  edit_save_button->setGeometry(10,size().height()-60,80,50);
+  edit_saveas_button->setGeometry(100,size().height()-60,80,50);
+
   edit_play_button->setGeometry(size().width()-390,size().height()-60,80,50);
   edit_stop_button->setGeometry(size().width()-300,size().height()-60,80,50);
 
@@ -483,13 +550,16 @@ void EditLogDialog::paintEvent(QPaintEvent *e)
 void EditLogDialog::Save()
 {
   struct save_loghdr_values hdr;
+  struct save_logline_values *loglines=NULL;
+  unsigned logline_quan=0;
   int err;
 
   memset(&hdr,0,sizeof(hdr));
   strncpy(hdr.loghdr_service,edit_service_box->currentText().toUtf8(),64);
   strncpy(hdr.loghdr_description,edit_description_edit->text().toUtf8(),64);
   hdr.loghdr_autorefresh=edit_autorefresh_box->currentIndex();
-  if((err=RD_SaveLog(&hdr,NULL,0,
+  logline_quan=edit_log_model->logLines(&loglines);
+  if((err=RD_SaveLog(&hdr,loglines,logline_quan,
 		     cnf->serverHostname().toUtf8(),
 		     cnf->serverUsername().toUtf8(),
 		     cnf->serverPassword().toUtf8(),

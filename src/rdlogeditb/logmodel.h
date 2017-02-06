@@ -23,6 +23,7 @@
 #define LOGMODEL_H
 
 #include <rivendell/rd_listlogs.h>
+#include <rivendell/rd_savelog.h>
 
 #include <QAbstractTableModel>
 #include <QFont>
@@ -44,6 +45,7 @@ class LogModel : public QAbstractTableModel
   EventType eventType(int row) const;
   unsigned cartNumber(int row) const;
   int logId(int row) const;
+  unsigned logLines(struct save_logline_values **loglines) const;
   void setBoldFont(const QFont &font);
   int rowCount(const QModelIndex &parent=QModelIndex()) const;
   int columnCount(const QModelIndex &parent=QModelIndex()) const;

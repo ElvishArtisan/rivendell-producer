@@ -31,6 +31,7 @@
 #include <QLineEdit>
 #include <QPushButton>
 
+#include "addlogdialog.h"
 #include "combobox.h"
 #include "datedialog.h"
 #include "logmodel.h"
@@ -42,7 +43,7 @@ class EditLogDialog : public QDialog
 {
   Q_OBJECT
  public:
-  EditLogDialog(QWidget *parent=0);
+  EditLogDialog(AddLogDialog *ad,QWidget *parent=0);
   QSize sizeHint() const;
 
  public slots:
@@ -58,6 +59,8 @@ class EditLogDialog : public QDialog
   void stopData();
   void playerStateChangedData(StreamPlayer::State state);
   void playerErrorData(const QString &msg);
+  void saveData();
+  void saveasData();
   void okData();
   void cancelData();
 
@@ -98,8 +101,11 @@ class EditLogDialog : public QDialog
   QCheckBox *edit_enddate_check;
   QLabel *edit_enddate_check_label;
 
+  AddLogDialog *edit_addlog_dialog;
   LogModel *edit_log_model;
   TableView *edit_log_view;
+  QPushButton *edit_save_button;
+  QPushButton *edit_saveas_button;
   TransportButton *edit_play_button;
   TransportButton *edit_stop_button;
   StreamPlayer *edit_stream_player;
