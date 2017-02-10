@@ -197,6 +197,67 @@ EditLogDialog::EditLogDialog(AddLogDialog *ad,QWidget *parent)
 	  this,SLOT(eventClickedData(const QModelIndex &)));
 
   //
+  // Insert Cart Button
+  //
+  edit_insertcart_button=new QPushButton(tr("Insert")+"\n"+tr("Cart"),this);
+  edit_insertcart_button->setFont(bold_font);
+  connect(edit_insertcart_button,SIGNAL(clicked()),this,SLOT(insertCartData()));
+
+  //
+  // Insert Meta Button
+  //
+  edit_insertmeta_button=new QPushButton(tr("Insert")+"\n"+tr("Meta"),this);
+  edit_insertmeta_button->setFont(bold_font);
+  connect(edit_insertmeta_button,SIGNAL(clicked()),this,SLOT(insertMetaData()));
+
+  //
+  // Edit Button
+  //
+  edit_edit_button=new QPushButton(tr("Edit"),this);
+  edit_edit_button->setFont(bold_font);
+  connect(edit_edit_button,SIGNAL(clicked()),this,SLOT(editData()));
+
+  //
+  // Delete Button
+  //
+  edit_delete_button=new QPushButton(tr("Delete"),this);
+  edit_delete_button->setFont(bold_font);
+  connect(edit_delete_button,SIGNAL(clicked()),this,SLOT(deleteData()));
+
+  //
+  // Up Button
+  //
+  edit_up_button=new TransportButton(TransportButton::Up,this);
+  connect(edit_up_button,SIGNAL(clicked()),this,SLOT(upData()));
+
+  //
+  // Down Button
+  //
+  edit_down_button=new TransportButton(TransportButton::Down,this);
+  connect(edit_down_button,SIGNAL(clicked()),this,SLOT(downData()));
+
+  //
+  // Cut Button
+  //
+  edit_cut_button=new QPushButton(tr("Cut"),this);
+  edit_cut_button->setFont(bold_font);
+  connect(edit_cut_button,SIGNAL(clicked()),this,SLOT(cutData()));
+
+  //
+  // Copy Button
+  //
+  edit_copy_button=new QPushButton(tr("Copy"),this);
+  edit_copy_button->setFont(bold_font);
+  connect(edit_copy_button,SIGNAL(clicked()),this,SLOT(copyData()));
+
+  //
+  // Paste Button
+  //
+  edit_paste_button=new QPushButton(tr("Paste"),this);
+  edit_paste_button->setFont(bold_font);
+  connect(edit_paste_button,SIGNAL(clicked()),this,SLOT(pasteData()));
+
+  //
   // Save Button
   //
   edit_save_button=new QPushButton(tr("Save"),this);
@@ -374,6 +435,51 @@ void EditLogDialog::eventClickedData(const QModelIndex &index)
 }
 
 
+void EditLogDialog::insertCartData()
+{
+}
+
+
+void EditLogDialog::insertMetaData()
+{
+}
+
+
+void EditLogDialog::editData()
+{
+}
+
+
+void EditLogDialog::deleteData()
+{
+}
+
+
+void EditLogDialog::upData()
+{
+}
+
+
+void EditLogDialog::downData()
+{
+}
+
+
+void EditLogDialog::cutData()
+{
+}
+
+
+void EditLogDialog::copyData()
+{
+}
+
+
+void EditLogDialog::pasteData()
+{
+}
+
+
 void EditLogDialog::playData()
 {
   QItemSelectionModel *s=edit_log_view->selectionModel();
@@ -452,13 +558,13 @@ void EditLogDialog::saveasData()
 	  fprintf(stderr,"RD_AddLog error\n");
 	}
       }
-      edit_log_model->setLogName(logname);
       edit_name_label->setText(logname);
       edit_service_box->setCurrentItemData(svcname);
       Save();
+      edit_log_model->setLogName(logname);
     }
     else {
-      printf("FAILURE!\n");
+      printf("RD_ListLog FAILURE!\n");
     }
   }
 }
@@ -524,6 +630,18 @@ void EditLogDialog::resizeEvent(QResizeEvent *e)
 
   edit_log_view->setGeometry(10,120,size().width()-20,size().height()-250);
 
+  edit_insertcart_button->setGeometry(20,size().height()-125,80,50);
+  edit_insertmeta_button->setGeometry(110,size().height()-125,80,50);
+  edit_edit_button->setGeometry(200,size().height()-125,80,50);
+  edit_delete_button->setGeometry(290,size().height()-125,80,50);
+
+  edit_up_button->setGeometry(390,size().height()-125,50,50);
+  edit_down_button->setGeometry(450,size().height()-125,50,50);
+
+  edit_cut_button->setGeometry(size().width()-280,size().height()-125,80,50);
+  edit_copy_button->setGeometry(size().width()-190,size().height()-125,80,50);
+  edit_paste_button->setGeometry(size().width()-100,size().height()-125,80,50);
+
   edit_save_button->setGeometry(10,size().height()-60,80,50);
   edit_saveas_button->setGeometry(100,size().height()-60,80,50);
 
@@ -563,7 +681,7 @@ void EditLogDialog::Save()
 		     cnf->serverHostname().toUtf8(),
 		     cnf->serverUsername().toUtf8(),
 		     cnf->serverPassword().toUtf8(),
-		     edit_log_model->logName().toUtf8()))!=0) {
+		     edit_name_label->text().toUtf8()))!=0) {
     QMessageBox::critical(this,"RDLogEdit - Error",
 			  tr("Unable to save log")+
 			  QString().sprintf(" [Err: %d]",err));

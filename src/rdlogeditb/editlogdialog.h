@@ -55,6 +55,15 @@ class EditLogDialog : public QDialog
   void startDateData(bool state);
   void endDateData(bool state);
   void eventClickedData(const QModelIndex &index);
+  void insertCartData();
+  void insertMetaData();
+  void editData();
+  void deleteData();
+  void upData();
+  void downData();
+  void cutData();
+  void copyData();
+  void pasteData();
   void playData();
   void stopData();
   void playerStateChangedData(StreamPlayer::State state);
@@ -104,6 +113,17 @@ class EditLogDialog : public QDialog
   AddLogDialog *edit_addlog_dialog;
   LogModel *edit_log_model;
   TableView *edit_log_view;
+
+  QPushButton *edit_insertcart_button;
+  QPushButton *edit_insertmeta_button;
+  QPushButton *edit_edit_button;
+  QPushButton *edit_delete_button;
+  TransportButton *edit_up_button;
+  TransportButton *edit_down_button;
+  QPushButton *edit_cut_button;
+  QPushButton *edit_copy_button;
+  QPushButton *edit_paste_button;
+
   QPushButton *edit_save_button;
   QPushButton *edit_saveas_button;
   TransportButton *edit_play_button;

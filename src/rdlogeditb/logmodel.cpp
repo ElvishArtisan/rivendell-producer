@@ -115,13 +115,14 @@ unsigned LogModel::logLines(struct save_logline_values **loglines) const
   //  model_column_fields.at(index.row()).at(index.column());
 
   *loglines=new struct save_logline_values[model_column_fields.size()];
+  memset(*loglines,0,sizeof(struct save_logline_values)*model_column_fields.size());
   for(int i=0;i<model_column_fields.size();i++) {
     QStringList cols=model_column_fields.at(i);
     (*loglines)[i].logline_type=cols.at(0).toUInt();
     (*loglines)[i].logline_starttime=
       QTime().msecsTo(QTime::fromString(cols.at(1),"hh:mm:ss"));
     if(cols.at(2)=="PLAY") {
-      (*loglines)[i].logline_transition_type=0;
+       (*loglines)[i].logline_transition_type=0;
     }
     if(cols.at(2)=="SEGUE") {
       (*loglines)[i].logline_transition_type=1;
@@ -130,9 +131,11 @@ unsigned LogModel::logLines(struct save_logline_values **loglines) const
       (*loglines)[i].logline_transition_type=2;
     }
     (*loglines)[i].logline_cart_number=cols.at(3).toUInt();
+
+    (*loglines)[i].logline_id=cols.at(12).toUInt();
   }
 
-  return 0;
+  return model_column_fields.size();
 }
 
 

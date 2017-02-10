@@ -113,4 +113,5 @@
 	* Implemented double-click for the log list in rdlogeditb(1).
 2017-02-06 Fred Gleason <fredg@paravelsystems.com>
 	* Implemented 'Save As' for logs.
-
+2017-02-10 Fred Gleason <fredg@paravelsystems.com>
+	* Populated editor buttons in the Edit Log dialog.
