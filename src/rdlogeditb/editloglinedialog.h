@@ -34,6 +34,7 @@
 
 #include "combobox.h"
 #include "logline.h"
+#include "pickcartdialog.h"
 
 class EditLogLineDialog : public QDialog
 {
@@ -59,6 +60,7 @@ class EditLogLineDialog : public QDialog
   void closeEvent(QCloseEvent *e);
   
  private:
+  PickCartDialog *edit_cart_dialog;
   QDateTimeEdit *edit_time_edit;
   QLabel *edit_time_label;
   QCheckBox *edit_timetype_box;
@@ -69,7 +71,6 @@ class EditLogLineDialog : public QDialog
   QLineEdit *edit_cart_edit;
   QLineEdit *edit_title_edit;
   QLineEdit *edit_artist_edit;
-  //  RDCartDialog *edit_cart_dialog;
   QGroupBox *edit_grace_box;
   QButtonGroup *edit_grace_group;
   QDateTimeEdit *edit_grace_edit;

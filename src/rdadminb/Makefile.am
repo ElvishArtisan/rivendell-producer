@@ -59,6 +59,10 @@ DISTCLEANFILES = *.ico\
                  config.cpp config.h\
                  datetime.cpp datetime.h\
                  librarymodel.cpp librarymodel.h\
+                 log.cpp log.h\
+                 logline.cpp logline.h\
+                 logmodel.cpp logmodel.h\
+                 loglistmodel.cpp loglistmodel.h\
                  mpeg1decoder.cpp mpeg1decoder.h\
                  playerfactory.cpp playerfactory.h\
                  profile.cpp profile.h\

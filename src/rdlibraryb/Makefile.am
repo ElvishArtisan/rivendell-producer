@@ -37,7 +37,9 @@ dist_rdlibraryb_SOURCES = rdlibraryb.cpp rdlibraryb.h
 nodist_rdlibraryb_SOURCES = cmdswitch.cpp cmdswitch.h\
                             combobox.cpp combobox.h\
                             config.cpp config.h\
+                            datetime.cpp datetime.h\
                             librarymodel.cpp librarymodel.h\
+                            logline.cpp logline.h\
                             moc_combobox.cpp\
                             moc_librarymodel.cpp\
                             moc_rdlibraryb.cpp\
@@ -76,6 +78,10 @@ DISTCLEANFILES = *.ico\
                  config.cpp config.h\
                  datetime.cpp datetime.h\
                  librarymodel.cpp librarymodel.h\
+                 log.cpp log.h\
+                 logline.cpp logline.h\
+                 logmodel.cpp logmodel.h\
+                 loglistmodel.cpp loglistmodel.h\
                  mpeg1decoder.cpp mpeg1decoder.h\
                  playerfactory.cpp playerfactory.h\
                  profile.cpp profile.h\

@@ -164,6 +164,7 @@ class LogLine
   QString extAnncType() const;
   void setExtAnncType(const QString &str);
   int length(PointerSource src) const;
+  void clear();
   static QString sourceText(Source src);
   static QString transText(TransType type);
 

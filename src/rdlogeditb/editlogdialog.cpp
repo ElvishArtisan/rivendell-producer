@@ -455,11 +455,17 @@ void EditLogDialog::insertMetaData()
 
 void EditLogDialog::editData()
 {
+  LogLine *ll=NULL;
   QItemSelectionModel *s=edit_log_view->selectionModel();
   if(s->hasSelection()) {
-    if(edit_logline_dialog->exec(edit_log_model->logLine(s->selectedRows()[0]),
-			    edit_service_box->currentItemData().toString())) {
-      edit_log_model->updateRow(s->selectedRows()[0].row());
+    if((ll=edit_log_model->logLine(s->selectedRows()[0]))==NULL) {
+      insertCartData();
+    }
+    else {
+      if(edit_logline_dialog->
+	 exec(ll,edit_service_box->currentItemData().toString())) {
+	edit_log_model->updateRow(s->selectedRows()[0].row());
+      }
     }
   }
 }

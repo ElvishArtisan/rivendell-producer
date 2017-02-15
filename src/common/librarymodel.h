@@ -27,6 +27,8 @@
 #include <QPixmap>
 #include <QStringList>
 
+#include "logline.h"
+
 class LibraryModel : public QAbstractTableModel
 {
   Q_OBJECT
@@ -34,6 +36,7 @@ class LibraryModel : public QAbstractTableModel
   LibraryModel(QObject *parent=0);
   QString groupName() const;
   unsigned cartNumber(int row) const;
+  void getLogLine(LogLine *ll,int row) const;
   int rowCount(const QModelIndex &parent=QModelIndex()) const;
   int columnCount(const QModelIndex &parent=QModelIndex()) const;
   QVariant data(const QModelIndex &index,int role=Qt::DisplayRole) const;
@@ -45,6 +48,7 @@ class LibraryModel : public QAbstractTableModel
 
  private:
   void Update();
+  QString GetLength(struct rd_cart *cart) const;
   QPixmap *model_audio_map;
   QPixmap *model_macro_map;
   QString model_group_name;

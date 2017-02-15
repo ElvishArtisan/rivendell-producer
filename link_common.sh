@@ -47,6 +47,26 @@ ln -s ../../src/common/librarymodel.cpp src/$DESTDIR/librarymodel.cpp
 rm -f src/$DESTDIR/librarymodel.h
 ln -s ../../src/common/librarymodel.h src/$DESTDIR/librarymodel.h
 
+rm -f src/$DESTDIR/log.cpp
+ln -s ../../src/common/log.cpp src/$DESTDIR/log.cpp
+rm -f src/$DESTDIR/log.h
+ln -s ../../src/common/log.h src/$DESTDIR/log.h
+
+rm -f src/$DESTDIR/logline.cpp
+ln -s ../../src/common/logline.cpp src/$DESTDIR/logline.cpp
+rm -f src/$DESTDIR/logline.h
+ln -s ../../src/common/logline.h src/$DESTDIR/logline.h
+
+rm -f src/$DESTDIR/logmodel.cpp
+ln -s ../../src/common/logmodel.cpp src/$DESTDIR/logmodel.cpp
+rm -f src/$DESTDIR/logmodel.h
+ln -s ../../src/common/logmodel.h src/$DESTDIR/logmodel.h
+
+rm -f src/$DESTDIR/loglistmodel.cpp
+ln -s ../../src/common/loglistmodel.cpp src/$DESTDIR/loglistmodel.cpp
+rm -f src/$DESTDIR/loglistmodel.h
+ln -s ../../src/common/loglistmodel.h src/$DESTDIR/loglistmodel.h
+
 rm -f src/$DESTDIR/mpeg1decoder.cpp
 ln -s ../../src/common/mpeg1decoder.cpp src/$DESTDIR/mpeg1decoder.cpp
 rm -f src/$DESTDIR/mpeg1decoder.h

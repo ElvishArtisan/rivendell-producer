@@ -37,9 +37,7 @@ dist_rdlogeditb_SOURCES = addlogdialog.cpp addlogdialog.h\
                           datepicker.cpp datepicker.h\
                           editlogdialog.cpp editlogdialog.h\
                           editloglinedialog.cpp editloglinedialog.h\
-                          log.cpp log.h\
-                          logline.cpp logline.h\
-                          loglistmodel.cpp loglistmodel.h\
+                          pickcartdialog.cpp pickcartdialog.h\
                           rdlogeditb.cpp rdlogeditb.h
 
 nodist_rdlogeditb_SOURCES = cmdswitch.cpp cmdswitch.h\
@@ -47,6 +45,9 @@ nodist_rdlogeditb_SOURCES = cmdswitch.cpp cmdswitch.h\
                             config.cpp config.h\
                             datetime.cpp datetime.h\
                             librarymodel.cpp librarymodel.h\
+                            log.cpp log.h\
+                            logline.cpp logline.h\
+                            loglistmodel.cpp loglistmodel.h\
                             logmodel.cpp logmodel.h\
                             moc_addlogdialog.cpp\
                             moc_combobox.cpp\
@@ -57,6 +58,7 @@ nodist_rdlogeditb_SOURCES = cmdswitch.cpp cmdswitch.h\
                             moc_librarymodel.cpp\
                             moc_loglistmodel.cpp\
                             moc_logmodel.cpp\
+                            moc_pickcartdialog.cpp\
                             moc_rdlogeditb.cpp\
                             moc_streamplayer.cpp\
                             moc_streamplayer_alsa.cpp\
@@ -93,6 +95,10 @@ DISTCLEANFILES = *.ico\
                  config.cpp config.h\
                  datetime.cpp datetime.h\
                  librarymodel.cpp librarymodel.h\
+                 log.cpp log.h\
+                 logline.cpp logline.h\
+                 logmodel.cpp logmodel.h\
+                 loglistmodel.cpp loglistmodel.h\
                  mpeg1decoder.cpp mpeg1decoder.h\
                  playerfactory.cpp playerfactory.h\
                  profile.cpp profile.h\

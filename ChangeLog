@@ -125,3 +125,12 @@
 	* Added an 'Edit Log Entry' dialog in
 	'src/rdlogeditb/editloglinedialog.cpp' and
 	'src/rdlogeditb/editloglinedialog.h'.
+2017-02-15 Fred Gleason <fredg@paravelsystems.com>
+	* Added a 'Pick Cart' dialog in 'src/rdlogeditb/pickcartdialog.cpp'
+	and 'src/rdlogeditb/pickcartdialog.h'.
+	* Added 'Group', 'Length', 'Label', 'Composer', 'Conductor',
+	'Publisher', 'Client', 'Agency' and 'User Defined' fields to
+	the LibraryModel class in 'src/common/librarymodel.cpp' and
+	'src/common/librarymodel.h'.
+	* Moved the 'Log', 'LogLine', 'LogModel' and 'LogListModel'
+	classes from 'src/rdlogeditb/' to 'src/common/'.

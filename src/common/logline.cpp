@@ -28,44 +28,7 @@
 LogLine::LogLine()
 {
   logline_id=0;
-  logline_type=LogLine::UnknownType;
-  logline_cart_type=LogLine::AudioCart;
-  logline_cart_number=0;
-  logline_cut_number=0;
-  logline_year=0;
-  logline_usage_code=LogLine::UsageFeature;
-  logline_enforce_length=false;
-  logline_forced_length=0;
-  logline_evergreen=false;
-  logline_source=LogLine::Manual;
-  logline_time_type=LogLine::Relative;
-  logline_grace_time=0;
-  logline_trans_type=LogLine::Play;
-  logline_cut_quantity=0;
-  logline_last_cut_played=0;
-  for(int i=0;i<2;i++) {
-    logline_start_point[i]=-1;
-    logline_end_point[i]=-1;
-    logline_segue_start_point[i]=-1;
-    logline_segue_end_point[i]=-1;
-    logline_fadeup_point[i]=-1;
-    logline_fadedown_point[i]=-1;
-  }
-  logline_segue_gain=-3000;
-  logline_duckup_gain=0;
-  logline_duckdown_gain=0;
-  logline_talk_start_point=-1;
-  logline_talk_end_point=-1;
-  logline_hook_start_point=-1;
-  logline_hook_end_point=-1;
-  logline_hook_mode=false;
-  logline_event_length=0;
-  logline_link_length=0;
-  logline_link_start_slop=0;
-  logline_link_end_slop=0;
-  logline_link_id=-1;
-  logline_link_embedded=false;
-  logline_ext_length=0;
+  clear();
 }
 
 
@@ -855,6 +818,49 @@ int LogLine::length(LogLine::PointerSource src) const
     return endPoint(src)-startPoint(src);
   }
   return 0;
+}
+
+
+void LogLine::clear()
+{
+  logline_type=LogLine::UnknownType;
+  logline_cart_type=LogLine::AudioCart;
+  logline_cart_number=0;
+  logline_cut_number=0;
+  logline_year=0;
+  logline_usage_code=LogLine::UsageFeature;
+  logline_enforce_length=false;
+  logline_forced_length=0;
+  logline_evergreen=false;
+  logline_source=LogLine::Manual;
+  logline_time_type=LogLine::Relative;
+  logline_grace_time=0;
+  logline_trans_type=LogLine::Play;
+  logline_cut_quantity=0;
+  logline_last_cut_played=0;
+  for(int i=0;i<2;i++) {
+    logline_start_point[i]=-1;
+    logline_end_point[i]=-1;
+    logline_segue_start_point[i]=-1;
+    logline_segue_end_point[i]=-1;
+    logline_fadeup_point[i]=-1;
+    logline_fadedown_point[i]=-1;
+  }
+  logline_segue_gain=-3000;
+  logline_duckup_gain=0;
+  logline_duckdown_gain=0;
+  logline_talk_start_point=-1;
+  logline_talk_end_point=-1;
+  logline_hook_start_point=-1;
+  logline_hook_end_point=-1;
+  logline_hook_mode=false;
+  logline_event_length=0;
+  logline_link_length=0;
+  logline_link_start_slop=0;
+  logline_link_end_slop=0;
+  logline_link_id=-1;
+  logline_link_embedded=false;
+  logline_ext_length=0;
 }
 
 

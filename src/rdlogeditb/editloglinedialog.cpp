@@ -51,9 +51,9 @@ EditLogLineDialog::EditLogLineDialog(QWidget *parent)
   radio_font.setPixelSize(10);
 
   //
-  // Cart Picker
+  // Dialogs
   //
-  //  edit_cart_dialog=new RDCartDialog(edit_filter,edit_group,edit_schedcode,this);
+  edit_cart_dialog=new PickCartDialog(this);
 
   //
   // Time Type
@@ -265,6 +265,13 @@ int EditLogLineDialog::exec(LogLine *ll,const QString &service)
 
 void EditLogLineDialog::selectCartData()
 {
+  if(edit_cart_dialog->exec(edit_logline)) {
+    edit_cart_edit->
+      setText(QString().sprintf("%06u",edit_logline->cartNumber()));
+    edit_title_edit->setText(edit_logline->title());
+    edit_artist_edit->setText(edit_logline->artist());
+  }
+
   /*
   bool ok;
   int cartnum=edit_cart_edit->text().toInt(&ok);

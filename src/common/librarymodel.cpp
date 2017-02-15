@@ -42,9 +42,19 @@ LibraryModel::LibraryModel(QObject *parent)
   // Column Header Titles
   //
   model_column_titles.push_back("");
-  model_column_titles.push_back(QObject::tr("Number"));
+  model_column_titles.push_back(QObject::tr("Cart"));
+  model_column_titles.push_back(QObject::tr("Group"));
+  model_column_titles.push_back(QObject::tr("Length"));
   model_column_titles.push_back(QObject::tr("Title"));
   model_column_titles.push_back(QObject::tr("Artist"));
+  model_column_titles.push_back(QObject::tr("Album"));
+  model_column_titles.push_back(QObject::tr("Label"));
+  model_column_titles.push_back(QObject::tr("Composer"));
+  model_column_titles.push_back(QObject::tr("Conductor"));
+  model_column_titles.push_back(QObject::tr("Publisher"));
+  model_column_titles.push_back(QObject::tr("Client"));
+  model_column_titles.push_back(QObject::tr("Agency"));
+  model_column_titles.push_back(QObject::tr("User Defined"));
 
   model_group_name=QObject::tr("ALL");
   Update();
@@ -60,6 +70,26 @@ QString LibraryModel::groupName() const
 unsigned LibraryModel::cartNumber(int row) const
 {
   return model_cart_numbers.at(row);
+}
+
+
+void LibraryModel::getLogLine(LogLine *ll,int row) const
+{
+  QStringList fields=model_column_fields.at(row);
+
+  ll->clear();
+  ll->setCartNumber(fields.at(1).toUInt());
+  ll->setGroupName(fields.at(2));
+  ll->setTitle(fields.at(4));
+  ll->setArtist(fields.at(5));
+  ll->setAlbum(fields.at(6));
+  ll->setLabel(fields.at(7));
+  ll->setComposer(fields.at(8));
+  ll->setConductor(fields.at(9));
+  ll->setPublisher(fields.at(10));
+  ll->setClient(fields.at(11));
+  ll->setAgency(fields.at(12));
+  ll->setUserDefined(fields.at(13));
 }
 
 
@@ -156,8 +186,18 @@ void LibraryModel::Update()
 	  push_back(QString().sprintf("%u",carts[i].cart_type));
 	model_column_fields.back().
 	  push_back(QString().sprintf("%06u",carts[i].cart_number));
+	model_column_fields.back().push_back(carts[i].cart_grp_name);
+	model_column_fields.back().push_back(GetLength(&carts[i]));
 	model_column_fields.back().push_back(carts[i].cart_title);
 	model_column_fields.back().push_back(carts[i].cart_artist);
+	model_column_fields.back().push_back(carts[i].cart_album);
+	model_column_fields.back().push_back(carts[i].cart_label);
+	model_column_fields.back().push_back(carts[i].cart_composer);
+	model_column_fields.back().push_back(""); // FIXME: Conductor!
+	model_column_fields.back().push_back(carts[i].cart_publisher);
+	model_column_fields.back().push_back(carts[i].cart_client);
+	model_column_fields.back().push_back(carts[i].cart_agency);
+	model_column_fields.back().push_back(carts[i].cart_user_defined);
       }
       endInsertRows();
     }
@@ -165,4 +205,17 @@ void LibraryModel::Update()
   else {
     fprintf(stderr,"LibraryModel: RD_ListCarts returned error %d\n",err);
   }
+}
+
+
+QString LibraryModel::GetLength(struct rd_cart *cart) const
+{
+  QTime len=QTime().addMSecs(cart->cart_forced_length);
+  if(cart->cart_forced_length<60000) {
+    return len.toString(":ss.zzz").left(5);
+  }
+  if(cart->cart_forced_length<3600000) {
+    return len.toString("mm:ss.zzz").left(9);
+  }
+  return len.toString("hh:mm:ss.zzz").left(12);
 }
