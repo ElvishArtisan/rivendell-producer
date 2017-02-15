@@ -61,6 +61,7 @@ EditLogDialog::EditLogDialog(AddLogDialog *ad,QWidget *parent)
   //
   edit_date_dialog=new DateDialog(QDate::currentDate().year(),
 				  QDate::currentDate().year()+10,this);
+  edit_logline_dialog=new EditLogLineDialog(this);
 
   //
   // Stream Player
@@ -195,6 +196,8 @@ EditLogDialog::EditLogDialog(AddLogDialog *ad,QWidget *parent)
   edit_log_view->resizeColumnsToContents();
   connect(edit_log_view,SIGNAL(clicked(const QModelIndex &)),
 	  this,SLOT(eventClickedData(const QModelIndex &)));
+  connect(edit_log_view,SIGNAL(doubleClicked(const QModelIndex &)),
+	  this,SLOT(eventDoubleClickedData(const QModelIndex &)));
 
   //
   // Insert Cart Button
@@ -413,23 +416,30 @@ void EditLogDialog::endDateData(bool state)
 
 void EditLogDialog::eventClickedData(const QModelIndex &index)
 {
+  LogLine *ll=edit_log_model->logLine(index);
   edit_play_button->
-    setEnabled(edit_log_model->logLine(index).type()==LogLine::Cart);
+    setEnabled((ll!=NULL)&&(ll->type()==LogLine::Cart));
   edit_stop_button->
-    setEnabled(edit_log_model->logLine(index).type()==LogLine::Cart);
+    setEnabled((ll!=NULL)&&(ll->type()==LogLine::Cart));
 
   if(edit_stream_player->state()==StreamPlayer::Playing) {
-    if(edit_log_model->logLine(index).type()==LogLine::Cart) {
-      if(edit_log_model->logLine(index).id()!=edit_selected_logid) {
+    if((ll!=NULL)&&(ll->type()==LogLine::Cart)) {
+      if(ll->id()!=edit_selected_logid) {
 	edit_stream_player->
-	  play(edit_log_model->logLine(index).cartNumber(),1,-1,-1);
-	edit_selected_logid=edit_log_model->logLine(index).id();
+	  play(edit_log_model->logLine(index)->cartNumber(),1,-1,-1);
+	edit_selected_logid=ll->id();
       }
     }
     else {
       edit_stream_player->stop();
     }
   }
+}
+
+
+void EditLogDialog::eventDoubleClickedData(const QModelIndex &index)
+{
+  editData();
 }
 
 
@@ -445,6 +455,13 @@ void EditLogDialog::insertMetaData()
 
 void EditLogDialog::editData()
 {
+  QItemSelectionModel *s=edit_log_view->selectionModel();
+  if(s->hasSelection()) {
+    if(edit_logline_dialog->exec(edit_log_model->logLine(s->selectedRows()[0]),
+			    edit_service_box->currentItemData().toString())) {
+      edit_log_model->updateRow(s->selectedRows()[0].row());
+    }
+  }
 }
 
 
@@ -482,7 +499,8 @@ void EditLogDialog::playData()
 {
   QItemSelectionModel *s=edit_log_view->selectionModel();
   if(s->hasSelection()) {
-    unsigned cartnum=edit_log_model->logLine(s->selectedRows()[0]).cartNumber();
+    unsigned cartnum=
+      edit_log_model->logLine(s->selectedRows()[0])->cartNumber();
     edit_stream_player->play(cartnum,1,-1,-1);
   }
 }

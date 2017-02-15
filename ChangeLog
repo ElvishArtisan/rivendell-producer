@@ -121,3 +121,7 @@
 	* Added a 'Log' class in 'src/rdlogeditb/log.cpp' and
 	'src/rdlogeditb/log.h'.
 	* Refactored the 'LogModel' class to use the 'Log' data store.
+2017-02-15 Fred Gleason <fredg@paravelsystems.com>
+	* Added an 'Edit Log Entry' dialog in
+	'src/rdlogeditb/editloglinedialog.cpp' and
+	'src/rdlogeditb/editloglinedialog.h'.

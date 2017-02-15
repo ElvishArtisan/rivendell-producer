@@ -62,9 +62,10 @@ class LogModel : public QAbstractTableModel
   bool musicLinked() const;
   int trafficLinks() const;
   bool trafficLinked() const;
+  void updateRow(int row);
   bool load(const QString &name,QString *err_msg);
   bool save(const QString &name,QString *err_msg);
-  LogLine logLine(const QModelIndex &index) const;
+  LogLine *logLine(const QModelIndex &index);
   void setBoldFont(const QFont &font);
   int rowCount(const QModelIndex &parent=QModelIndex()) const;
   int columnCount(const QModelIndex &parent=QModelIndex()) const;

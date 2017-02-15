@@ -22,14 +22,59 @@
 #ifndef EDITLOGLINEDIALOG_H
 #define EDITLOGLINEDIALOG_H
 
+#include <QButtonGroup>
+#include <QCheckBox>
+#include <QDateTimeEdit>
 #include <QDialog>
+#include <QGroupBox>
+#include <QLabel>
+#include <QLineEdit>
+#include <QPushButton>
+#include <QRadioButton>
+
+#include "combobox.h"
+#include "logline.h"
 
 class EditLogLineDialog : public QDialog
 {
   Q_OBJECT
  public:
   EditLogLineDialog(QWidget *parent=0);
+  ~EditLogLineDialog();
   QSize sizeHint() const;
+  QSizePolicy sizePolicy() const;
+
+ public slots:
+  int exec(LogLine *ll,const QString &service);
+
+ private slots:
+  void selectCartData();
+  void timeChangedData(const QTime &);
+  void timeToggledData(bool state);
+  void graceClickedData(int id);
+  void okData();
+  void cancelData();
+
+ protected:
+  void closeEvent(QCloseEvent *e);
+  
+ private:
+  QDateTimeEdit *edit_time_edit;
+  QLabel *edit_time_label;
+  QCheckBox *edit_timetype_box;
+  QLabel *edit_timetype_label;
+  ComboBox *edit_transtype_box;
+  QCheckBox *edit_overlap_box;
+  QLabel *edit_overlap_label;
+  QLineEdit *edit_cart_edit;
+  QLineEdit *edit_title_edit;
+  QLineEdit *edit_artist_edit;
+  //  RDCartDialog *edit_cart_dialog;
+  QGroupBox *edit_grace_box;
+  QButtonGroup *edit_grace_group;
+  QDateTimeEdit *edit_grace_edit;
+  QString edit_service;
+  LogLine *edit_logline;
 };
 
 

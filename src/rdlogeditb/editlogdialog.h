@@ -34,6 +34,7 @@
 #include "addlogdialog.h"
 #include "combobox.h"
 #include "datedialog.h"
+#include "editloglinedialog.h"
 #include "logmodel.h"
 #include "streamplayer.h"
 #include "tableview.h"
@@ -55,6 +56,7 @@ class EditLogDialog : public QDialog
   void startDateData(bool state);
   void endDateData(bool state);
   void eventClickedData(const QModelIndex &index);
+  void eventDoubleClickedData(const QModelIndex &index);
   void insertCartData();
   void insertMetaData();
   void editData();
@@ -81,6 +83,7 @@ class EditLogDialog : public QDialog
  private:
   void Save();
   DateDialog *edit_date_dialog;
+  EditLogLineDialog *edit_logline_dialog;
 
   QLabel *edit_name_label_label;
   QLabel *edit_name_label;

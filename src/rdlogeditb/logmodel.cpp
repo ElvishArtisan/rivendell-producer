@@ -233,6 +233,12 @@ bool LogModel::trafficLinked() const
 }
 
 
+void LogModel::updateRow(int row)
+{
+  emit dataChanged(createIndex(row,0),createIndex(row,14));
+}
+
+
 bool LogModel::load(const QString &name,QString *err_msg)
 {
   LoadColorMap();
@@ -256,12 +262,12 @@ bool LogModel::save(const QString &name,QString *err_msg)
 }
 
 
-LogLine LogModel::logLine(const QModelIndex &index) const
+LogLine *LogModel::logLine(const QModelIndex &index)
 {
   if(index.row()>=model_log->size()) {
-    return LogLine();
+    return NULL;
   }
-  return model_log->at(index.row());
+  return &(*model_log)[index.row()];
 }
 
 

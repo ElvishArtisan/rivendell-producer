@@ -33,6 +33,8 @@
 
 #define DEFAULT_AUDIO_DEVICE_NAME QString("plughw:0")
 
+#define RD_FADE_DEPTH -3000
+
 class Config
 {
  public:
