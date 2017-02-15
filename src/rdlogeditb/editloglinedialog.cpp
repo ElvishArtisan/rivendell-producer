@@ -1,6 +1,6 @@
-// datetime.h
+// editloglinedialog.cpp
 //
-// DateTime values for Rivendell Browser
+// Log Event Editing Dialog
 //
 //   (C) Copyright 2017 Fred Gleason <fredg@paravelsystems.com>
 //
@@ -19,22 +19,15 @@
 //   Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 //
 
-#ifndef DATETIME_H
-#define DATETIME_H
+#include "editloglinedialog.h"
 
-#include <time.h>
-
-#include <QDateTime>
-
-class DateTime : public QDateTime
+EditLogLineDialog::EditLogLineDialog(QWidget *parent)
+  : QDialog(this)
 {
- public:
-  DateTime();
-  DateTime(const QDate &date,const QTime &time,Qt::TimeSpec spec=Qt::LocalTime);
-  DateTime(const QDateTime &other);
-  struct tm toTm() const;
-  static QDateTime fromTm(struct tm dt);
-};
+}
 
 
-#endif  // DATETIME_H
+QSize EditLogLineDialog::sizeHint() const
+{
+  return QSize(625,230);
+}

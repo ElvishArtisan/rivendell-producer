@@ -21,6 +21,7 @@
 
 #include <stdio.h>
 
+#include <rivendell/rd_listgroups.h>
 #include <rivendell/rd_listlog.h>
 
 #include <QDateTime>
@@ -40,6 +41,12 @@
 LogModel::LogModel(QObject *parent)
   : QAbstractTableModel(parent)
 {
+  //
+  // Log
+  //
+  model_log=
+    new Log(cnf->serverHostname(),cnf->serverUsername(),cnf->serverPassword());
+
   //
   // Icons
   //
@@ -79,6 +86,8 @@ LogModel::LogModel(QObject *parent)
   model_column_alignments.push_back((int)Qt::AlignVCenter|Qt::AlignLeft);
   model_column_titles.push_back(QObject::tr("Source"));
   model_column_alignments.push_back((int)Qt::AlignVCenter|Qt::AlignLeft);
+  model_column_titles.push_back(QObject::tr("Ext Data"));
+  model_column_alignments.push_back((int)Qt::AlignVCenter|Qt::AlignLeft);
   model_column_titles.push_back(QObject::tr("Line ID"));
   model_column_alignments.push_back((int)Qt::AlignVCenter|Qt::AlignRight);
   model_column_titles.push_back(QObject::tr("Count"));
@@ -88,54 +97,171 @@ LogModel::LogModel(QObject *parent)
 
 QString LogModel::logName() const
 {
-  return model_log_name;
+  return model_log->name();
 }
 
 
-LogModel::EventType LogModel::eventType(int row) const
+QString LogModel::serviceName() const
 {
-  return (LogModel::EventType)model_column_fields.at(row).at(0).toInt();
+  return model_log->serviceName();
 }
 
 
-unsigned LogModel::cartNumber(int row) const
+void LogModel::setServiceName(const QString &str)
 {
-  return model_column_fields.at(row).at(3).toUInt();
+  model_log->setServiceName(str);
 }
 
 
-int LogModel::logId(int row) const
+QString LogModel::description() const
 {
-  return model_column_fields.at(row).at(12).toInt();
+  return model_log->description();
 }
 
 
-unsigned LogModel::logLines(struct save_logline_values **loglines) const
+void LogModel::setDescription(const QString &str)
 {
-  //  model_column_fields.at(index.row()).at(index.column());
+  model_log->setDescription(str);
+}
 
-  *loglines=new struct save_logline_values[model_column_fields.size()];
-  memset(*loglines,0,sizeof(struct save_logline_values)*model_column_fields.size());
-  for(int i=0;i<model_column_fields.size();i++) {
-    QStringList cols=model_column_fields.at(i);
-    (*loglines)[i].logline_type=cols.at(0).toUInt();
-    (*loglines)[i].logline_starttime=
-      QTime().msecsTo(QTime::fromString(cols.at(1),"hh:mm:ss"));
-    if(cols.at(2)=="PLAY") {
-       (*loglines)[i].logline_transition_type=0;
-    }
-    if(cols.at(2)=="SEGUE") {
-      (*loglines)[i].logline_transition_type=1;
-    }
-    if(cols.at(2)=="STOP") {
-      (*loglines)[i].logline_transition_type=2;
-    }
-    (*loglines)[i].logline_cart_number=cols.at(3).toUInt();
 
-    (*loglines)[i].logline_id=cols.at(12).toUInt();
+QString LogModel::originUsername() const
+{
+  return model_log->originUsername();
+}
+
+
+QDateTime LogModel::originDateTime() const
+{
+  return model_log->originDateTime();
+}
+
+
+QDateTime LogModel::linkDateTime() const
+{
+  return model_log->linkDateTime();
+}
+
+
+QDateTime LogModel::modifiedDateTime() const
+{
+  return model_log->modifiedDateTime();
+}
+
+
+QDate LogModel::startDate() const
+{
+  return model_log->startDate();
+}
+
+
+void LogModel::setStartDate(const QDate &date)
+{
+  model_log->setStartDate(date);
+}
+
+
+QDate LogModel::endDate() const
+{
+  return model_log->endDate();
+}
+
+
+void LogModel::setEndDate(const QDate &date)
+{
+  model_log->setEndDate(date);
+}
+
+
+QDate LogModel::purgeDate() const
+{
+  return model_log->purgeDate();
+}
+
+
+void LogModel::setPurgeDate(const QDate &date)
+{
+  model_log->setPurgeDate(date);
+}
+
+
+bool LogModel::autorefresh() const
+{
+  return model_log->autorefresh();
+}
+
+
+void LogModel::setAutorefresh(bool state)
+{
+  model_log->setAutorefresh(state);
+}
+
+
+int LogModel::scheduledTracks() const
+{
+  return model_log->scheduledTracks();
+}
+
+
+int LogModel::completedTracks() const
+{
+  return model_log->completedTracks();
+}
+
+
+int LogModel::musicLinks() const
+{
+  return model_log->musicLinks();
+}
+
+
+bool LogModel::musicLinked() const
+{
+  return model_log->musicLinked();
+}
+
+
+int LogModel::trafficLinks() const
+{
+  return model_log->trafficLinks();
+}
+
+
+bool LogModel::trafficLinked() const
+{
+  return model_log->trafficLinked();
+}
+
+
+bool LogModel::load(const QString &name,QString *err_msg)
+{
+  LoadColorMap();
+  if(model_log->size()>0) {
+    beginRemoveRows(QModelIndex(),0,model_log->size()-1);
+    model_log->clear();
+    endRemoveRows();
   }
+  if(model_log->load(name,err_msg)) {
+    beginInsertRows(QModelIndex(),0,model_log->size()-1);
+    endInsertRows();
+    return true;
+  }
+  return false;
+}
 
-  return model_column_fields.size();
+
+bool LogModel::save(const QString &name,QString *err_msg)
+{
+  return model_log->save(name,err_msg);
+}
+
+
+LogLine LogModel::logLine(const QModelIndex &index) const
+{
+  if(index.row()>=model_log->size()) {
+    return LogLine();
+  }
+  return model_log->at(index.row());
 }
 
 
@@ -147,7 +273,7 @@ void LogModel::setBoldFont(const QFont &font)
 
 int LogModel::rowCount(const QModelIndex &parent) const
 {
-  return model_column_fields.size();
+  return model_log->size()+1;
 }
 
 
@@ -160,6 +286,17 @@ int LogModel::columnCount(const QModelIndex &parent) const
 QVariant LogModel::data(const QModelIndex &index,int role) const
 {
   QStringList f0;
+  LogLine ll;
+
+  //
+  // End of log marker
+  //
+  if(index.row()>=model_log->size()) {
+    if((role==Qt::DisplayRole)&&(index.column()==6)) {
+      return QVariant(tr("--- end of log ---"));
+    }
+    return QVariant();
+  }
 
   switch((Qt::ItemDataRole)role) {
   case Qt::TextAlignmentRole:
@@ -167,7 +304,7 @@ QVariant LogModel::data(const QModelIndex &index,int role) const
 
   case Qt::TextColorRole:
     if(index.column()==4) {
-      return model_group_colors.at(index.row());
+      return model_group_colors[model_log->at(index.row()).groupName()];
     }
     break;
 
@@ -178,45 +315,58 @@ QVariant LogModel::data(const QModelIndex &index,int role) const
     break;
 
   case Qt::DisplayRole:
-    if(index.column()!=0) {
-      /*
-      printf("[%d]: %s\n",index.column(),
-	     (const char *)model_column_fields.at(index.row()).at(index.column()).toUtf8());
-      */
-      return model_column_fields.at(index.row()).at(index.column());
+    ll=model_log->at(index.row());
+    switch(index.column()) {
+    case 0:  // Icon
+      break;
+
+    case 1:  // Start Time
+      return GetStartTime(ll);
+
+    case 2:  // Transition Type
+      return QVariant(LogLine::transText(ll.transType()));
+
+    case 3:  // Cart Number
+      return QVariant(QString().sprintf("%06u",ll.cartNumber()));
+
+    case 4:  // Group Name
+      return QVariant(ll.groupName());
+
+    case 5:  // Length
+      return QVariant(GetLength(ll));
+
+    case 6:  // Title
+      return QVariant(ll.title());
+
+    case 7:  // Artist
+      return QVariant(ll.artist());
+
+    case 8:  // Client
+      return QVariant(ll.client());
+
+    case 9:  // Agency
+      return QVariant(ll.agency());
+
+    case 10: // Label
+      return QVariant(ll.label());
+
+    case 11: // Source
+      return QVariant(LogLine::sourceText(ll.source()));
+
+    case 12: // Ext Data
+      return QVariant(ll.extData());
+
+    case 13: // Line Id
+      return QVariant(QString().sprintf("%d",ll.id()));
+
+    case 14: // Count
+      return QVariant(index.row());
     }
     break;
 
   case Qt::DecorationRole:
     if(index.column()==0) {
-      switch((LogModel::EventType)model_column_fields.at(index.row()).
-	     at(index.column()).toInt()) {
-      case LogModel::Cart:
-	return model_audiocart_map;
-
-      case LogModel::Marker:
-	return model_marker_map;
-
-      case LogModel::Macro:
-	return model_macrocart_map;
-
-      case LogModel::Chain:
-	return model_chain_map;
-
-      case LogModel::Track:
-	return model_trackmarker_map;
-
-      case LogModel::MusicLink:
-	return model_musiclink_map;
-
-      case LogModel::TrafficLink:
-	return model_trafficlink_map;
-
-      case LogModel::OpenBracket:
-      case LogModel::CloseBracket:
-	break;
-      }
-      break;
+      return GetIcon(model_log->at(index.row()));
     }
     break;
 
@@ -245,308 +395,72 @@ QVariant LogModel::headerData(int section,Qt::Orientation orient,
 }
 
 
-QString LogModel::eventSourceText(LogModel::EventSource src)
+void LogModel::LoadColorMap()
 {
-  QString ret=tr("Unknown");
-  switch(src) {
-  case LogModel::Manual:
-    ret=tr("Manual");
-  break;
-
-  case LogModel::Traffic:
-    ret=tr("Traffic");
-    break;
-
-  case LogModel::Music:
-    ret=tr("Music");
-    break;
-
-  case LogModel::Template:
-    ret=tr("RDLogManager");
-    break;
-
- case LogModel::Tracker:
-   ret=tr("Voice Tracker");
-   break;
-  }
-  return ret;
-}
-
-
-QString LogModel::eventTransText(TransType type)
-{
-  QString ret=tr("UNKNOWN");
-
-  switch(type) {
-  case LogModel::Play:
-    ret=tr("PLAY");
-    break;
-
-  case LogModel::Segue:
-    ret=tr("SEGUE");
-    break;
-
-  case LogModel::Stop:
-    ret=tr("STOP");
-    break;
-
-  case LogModel::NoTrans:
-    break;
-  }
-
-  return ret;
-}
-
-
-void LogModel::setLogName(const QString &str)
-{
-  if(str!=model_log_name) {
-    model_log_name=str;
-    Update();
-  }
-}
-
-
-void LogModel::Update()
-{
-  struct rd_logline *loglines=NULL;
-  unsigned numrecs=0;
+  struct rd_group *grps=NULL;
+  unsigned grp_quan=0;
   int err=0;
-  QTime current_time;
 
-  if((err=RD_ListLog(&loglines,cnf->serverHostname().toUtf8(),
-		      cnf->serverUsername().toUtf8(),
-		      cnf->serverPassword().toUtf8(),
-		     model_log_name.toUtf8(),&numrecs))==0) {
-    if(model_log_ids.size()>0) {
-      beginRemoveRows(QModelIndex(),0,model_column_fields.size()-1);
-      model_log_ids.clear();
-      model_column_fields.clear();
-      model_group_colors.clear();
-      endRemoveRows();
-    }
-    if(numrecs>0) {
-      beginInsertRows(QModelIndex(),0,numrecs-1);
-      for(unsigned i=0;i<numrecs;i++) {
-	switch((LogModel::EventType)loglines[i].logline_type) {
-	case LogModel::Cart:
-	case LogModel::Macro:
-	  InsertCart(&(loglines[i]),&current_time);
-	  break;
-
-	case LogModel::Marker:
-	  InsertMarker(&(loglines[i]),&current_time);
-	  break;
-
-	case LogModel::OpenBracket:
-	  break;
-
-	case LogModel::CloseBracket:
-	  break;
-
-	case LogModel::Chain:
-	  InsertChain(&(loglines[i]),&current_time);
-	  break;
-
-	case LogModel::Track:
-	  InsertTrackMarker(&(loglines[i]),&current_time);
-	  break;
-
-	case LogModel::MusicLink:
-	case LogModel::TrafficLink:
-	  InsertLink(&(loglines[i]),&current_time);
-	  break;
-	}
-      }
-      endInsertRows();
-      free(loglines);
-    }
+  if((err=RD_ListGroups(&grps,cnf->serverHostname(),cnf->serverUsername(),
+			cnf->serverPassword(),&grp_quan))!=0) {
+    emit error(QString().sprintf("RD_ListGroups() failed [error: %d]",err));
+    return;
   }
-  else {
-    fprintf(stderr,"LogModel: RD_ListLog returned error %d\n",err);
+  model_group_colors.clear();
+  for(unsigned i=0;i<grp_quan;i++) {
+    model_group_colors[grps[i].grp_name]=QVariant(QColor(grps[i].grp_color));
   }
 }
 
 
-void LogModel::InsertCart(struct rd_logline *ll,QTime *current)
+QVariant LogModel::GetIcon(const LogLine &ll) const
 {
-  model_log_ids.push_back(ll->logline_id);
-  model_column_fields.push_back(QStringList());
-  model_column_fields.back().
-    push_back(QString().sprintf("%d",ll->logline_type));
-  if(ll->logline_time_type==1) {
-    model_column_fields.back().
-      push_back("T"+GetStartTime(ll,current).toString("hh:mm:ss"));
+  switch(ll.type()) {
+  case LogLine::Cart:
+    return model_audiocart_map;
+
+  case LogLine::Marker:
+    return model_marker_map;
+
+  case LogLine::Macro:
+    return model_macrocart_map;
+
+  case LogLine::Chain:
+    return model_chain_map;
+
+  case LogLine::Track:
+    return model_trackmarker_map;
+
+  case LogLine::MusicLink:
+    return model_musiclink_map;
+
+  case LogLine::TrafficLink:
+    return model_trafficlink_map;
+
+  case LogLine::OpenBracket:
+  case LogLine::CloseBracket:
+  case LogLine::UnknownType:
+    break;
   }
-  else {
-    model_column_fields.back().
-      push_back(GetStartTime(ll,current).toString("hh:mm:ss"));
-  }
-  model_column_fields.back().
-    push_back(LogModel::eventTransText((LogModel::TransType)ll->
-				       logline_transition_type));
-  model_column_fields.back().
-    push_back(QString().sprintf("%06u",ll->logline_cart_number));
-  model_column_fields.back().push_back(ll->logline_group_name);
-  model_group_colors.push_back(QVariant(QColor(ll->logline_group_color)));
-  model_column_fields.back().
-    push_back(QTime().addMSecs(GetLength(ll)).toString("mm:ss"));
-  model_column_fields.back().push_back(ll->logline_title);
-  model_column_fields.back().push_back(ll->logline_artist);
-  model_column_fields.back().push_back(ll->logline_client);
-  model_column_fields.back().push_back(ll->logline_agency);
-  model_column_fields.back().push_back(ll->logline_label);
-  model_column_fields.back().
-    push_back(LogModel::eventSourceText((LogModel::EventSource)ll->logline_source));
-  model_column_fields.back().
-    push_back(QString().sprintf("%d",ll->logline_id));
-  model_column_fields.back().
-    push_back(QString().sprintf("%d",ll->logline_line));
+  return QVariant();
 }
 
 
-void LogModel::InsertMarker(struct rd_logline *ll,QTime *current)
+QVariant LogModel::GetStartTime(const LogLine &ll) const
 {
-  model_log_ids.push_back(ll->logline_id);
-  model_column_fields.push_back(QStringList());
-  model_column_fields.back().
-    push_back(QString().sprintf("%d",ll->logline_type));
-  model_column_fields.back().
-    push_back(GetStartTime(ll,current).toString("hh:mm:ss"));
-  model_column_fields.back().
-    push_back(LogModel::eventTransText((LogModel::TransType)ll->
-				       logline_transition_type));
-  model_column_fields.back().push_back(tr("MARKER"));
-  model_column_fields.back().push_back(QString());
-  model_group_colors.push_back(QVariant(QColor(ll->logline_group_color)));
-  model_column_fields.back().push_back(QString());
-  model_column_fields.back().push_back(ll->logline_marker_comment);
-  model_column_fields.back().push_back(QString());
-  model_column_fields.back().push_back(QString());
-  model_column_fields.back().push_back(QString());
-  model_column_fields.back().push_back(QString());
-  model_column_fields.back().
-    push_back(LogModel::eventSourceText((LogModel::EventSource)ll->logline_source));
-  model_column_fields.back().
-    push_back(QString().sprintf("%d",ll->logline_id));
-  model_column_fields.back().
-    push_back(QString().sprintf("%d",ll->logline_line));
-}
-
-
-void LogModel::InsertTrackMarker(struct rd_logline *ll,QTime *current)
-{
-  model_log_ids.push_back(ll->logline_id);
-  model_column_fields.push_back(QStringList());
-  model_column_fields.back().
-    push_back(QString().sprintf("%d",ll->logline_type));
-  model_column_fields.back().
-    push_back(GetStartTime(ll,current).toString("hh:mm:ss"));
-  model_column_fields.back().
-    push_back(LogModel::eventTransText((LogModel::TransType)ll->
-				       logline_transition_type));
-  model_column_fields.back().push_back(tr("TRACK"));
-  model_column_fields.back().push_back(QString());
-  model_group_colors.push_back(QVariant(QColor(ll->logline_group_color)));
-  model_column_fields.back().push_back(QString());
-  model_column_fields.back().push_back(ll->logline_marker_comment);
-  model_column_fields.back().push_back(QString());
-  model_column_fields.back().push_back(QString());
-  model_column_fields.back().push_back(QString());
-  model_column_fields.back().push_back(QString());
-  model_column_fields.back().
-    push_back(LogModel::eventSourceText((LogModel::EventSource)ll->logline_source));
-  model_column_fields.back().
-    push_back(QString().sprintf("%d",ll->logline_id));
-  model_column_fields.back().
-    push_back(QString().sprintf("%d",ll->logline_line));
-}
-
-
-void LogModel::InsertLink(struct rd_logline *ll,QTime *current)
-{
-  model_log_ids.push_back(ll->logline_id);
-  model_column_fields.push_back(QStringList());
-  model_column_fields.back().
-    push_back(QString().sprintf("%d",ll->logline_type));
-  model_column_fields.back().
-    push_back(GetStartTime(ll,current).toString("hh:mm:ss"));
-  model_column_fields.back().
-    push_back(LogModel::eventTransText((LogModel::TransType)ll->
-				       logline_transition_type));
-  model_column_fields.back().push_back(tr("LINK"));
-  model_column_fields.back().push_back(QString());
-  model_group_colors.push_back(QVariant(QColor(ll->logline_group_color)));
-  model_column_fields.back().push_back(QString());
-  if(ll->logline_type==LogModel::TrafficLink) {
-    model_column_fields.back().push_back("["+tr("traffic import")+"]");
+  if(ll.timeType()==LogLine::Hard) {
+    return QVariant("T"+ll.startTime().toString("hh:mm:ss.zzz").left(10));
   }
-  else {
-    model_column_fields.back().push_back("["+tr("music import")+"]");
-  }
-  model_column_fields.back().push_back(QString());
-  model_column_fields.back().push_back(QString());
-  model_column_fields.back().push_back(QString());
-  model_column_fields.back().push_back(QString());
-  model_column_fields.back().
-    push_back(LogModel::eventSourceText((LogModel::EventSource)ll->logline_source));
-  model_column_fields.back().
-    push_back(QString().sprintf("%d",ll->logline_id));
-  model_column_fields.back().
-    push_back(QString().sprintf("%d",ll->logline_line));
+  return QVariant(ll.startTime().toString("hh:mm:ss.zzz").left(10));
 }
 
 
-void LogModel::InsertChain(struct rd_logline *ll,QTime *current)
+QString LogModel::GetLength(const LogLine &ll) const
 {
-  model_log_ids.push_back(ll->logline_id);
-  model_column_fields.push_back(QStringList());
-  model_column_fields.back().
-    push_back(QString().sprintf("%d",ll->logline_type));
-  model_column_fields.back().
-    push_back(GetStartTime(ll,current).toString("hh:mm:ss"));
-  model_column_fields.back().
-    push_back(LogModel::eventTransText((LogModel::TransType)ll->
-				       logline_transition_type));
-  model_column_fields.back().push_back(tr("LOG CHAIN"));
-  model_column_fields.back().push_back(QString());
-  model_group_colors.push_back(QVariant(QColor(ll->logline_group_color)));
-  model_column_fields.back().push_back(QString());
-  model_column_fields.back().push_back(ll->logline_marker_label);
-  model_column_fields.back().push_back(QString());
-  model_column_fields.back().push_back(QString());
-  model_column_fields.back().push_back(QString());
-  model_column_fields.back().push_back(QString());
-  model_column_fields.back().
-    push_back(LogModel::eventSourceText((LogModel::EventSource)ll->logline_source));
-  model_column_fields.back().
-    push_back(QString().sprintf("%d",ll->logline_id));
-  model_column_fields.back().
-    push_back(QString().sprintf("%d",ll->logline_line));
+  int len=ll.length(LogLine::CartPointer);
+  if(len>=3600000) {
+    return QTime().addMSecs(len).toString("hh:mm:ss");
+  }
+  return QTime().addMSecs(len).toString("mm:ss");
 }
 
-
-QTime LogModel::GetStartTime(struct rd_logline *ll,QTime *current) const
-{
-  QTime ret=*current;
-
-  if(ll->logline_starttime>=0) {
-    ret=QTime().addMSecs(ll->logline_starttime);
-  }
-  if(ll->logline_time_type==LogModel::Hard) {
-    *current=ret;
-  }
-  *current=current->addMSecs(GetLength(ll));
-
-  return ret;
-}
-
-
-int LogModel::GetLength(struct rd_logline *logline) const
-{
-  if((logline->logline_start_point_cart<0)||
-     (logline->logline_end_point_cart<0)) {
-    return 0;
-  }
-  return logline->logline_end_point_cart-logline->logline_start_point_cart;
-}

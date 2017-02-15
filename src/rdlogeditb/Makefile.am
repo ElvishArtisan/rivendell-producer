@@ -36,6 +36,9 @@ dist_rdlogeditb_SOURCES = addlogdialog.cpp addlogdialog.h\
                           datedialog.cpp datedialog.h\
                           datepicker.cpp datepicker.h\
                           editlogdialog.cpp editlogdialog.h\
+                          editloglinedialog.cpp editloglinedialog.h\
+                          log.cpp log.h\
+                          logline.cpp logline.h\
                           loglistmodel.cpp loglistmodel.h\
                           rdlogeditb.cpp rdlogeditb.h
 
@@ -50,6 +53,7 @@ nodist_rdlogeditb_SOURCES = cmdswitch.cpp cmdswitch.h\
                             moc_datedialog.cpp\
                             moc_datepicker.cpp\
                             moc_editlogdialog.cpp\
+                            moc_editloglinedialog.cpp\
                             moc_librarymodel.cpp\
                             moc_loglistmodel.cpp\
                             moc_logmodel.cpp\

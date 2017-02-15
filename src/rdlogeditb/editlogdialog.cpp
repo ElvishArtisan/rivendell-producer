@@ -310,71 +310,69 @@ QSize EditLogDialog::sizeHint() const
 
 int EditLogDialog::exec(const QString &logname)
 {
-  struct rd_log *log=NULL;
-  unsigned log_quan=0;
+  //  struct rd_log *log=NULL;
+  //  unsigned log_quan=0;
   QDate date;
+  QString err_msg;
 
   edit_selected_logid=-1;
-  edit_log_model->setLogName(logname);
   edit_log_view->resizeColumnsToContents();
   edit_log_view->clearSelection();
   edit_play_button->setDisabled(true);
   edit_stop_button->setDisabled(true);
-
-  RD_ListLogs(&log,cnf->serverHostname(),cnf->serverUsername(),
-	      cnf->serverPassword(),"",logname.toUtf8(),false,&log_quan);
-  if(log_quan==1) {
-    edit_name_label->setText(logname);
-    edit_tracks_label->
-      setText(QString().sprintf("%d / %d",log->log_completed_tracks,
-				log->log_scheduled_tracks));
-    edit_origin_label->setText(QString(log->log_origin_username)+" - "+
-			       QString(DateTime::fromTm(log->log_origin_datetime).toString("MM/dd/yyyy - hh:mm:ss")));
-    edit_description_edit->setText(log->log_description);
-    date=DateTime::fromTm(log->log_purge_date).date();
-    if(date.isValid()) {
-      edit_logdelete_edit->setDate(date);
-      edit_logdelete_label->setEnabled(true);
-      edit_logdelete_edit->setEnabled(true);
-      edit_logdelete_button->setEnabled(true);
-      edit_logdelete_check->setChecked(true);
-    }
-    else {
-      edit_logdelete_edit->setDate(QDate::currentDate());
-      edit_logdelete_label->setDisabled(true);
-      edit_logdelete_button->setDisabled(true);
-      edit_logdelete_edit->setDisabled(true);
-      edit_logdelete_check->setChecked(false);
-    }
-    edit_service_box->setCurrentItemData(log->log_service);
-    edit_autorefresh_box->setCurrentItem(log->log_autorefresh);
-    date=DateTime::fromTm(log->log_startdate).date();
-    if(date.isValid()) {
-      edit_startdate_edit->setDate(date);
-      edit_startdate_label->setEnabled(true);
-      edit_startdate_edit->setEnabled(true);
-      edit_startdate_check->setChecked(true);
-    }
-    else {
-      edit_startdate_edit->setDate(QDate::currentDate());
-      edit_startdate_label->setDisabled(true);
-      edit_startdate_edit->setDisabled(true);
-      edit_startdate_check->setChecked(false);
-    }
-    date=DateTime::fromTm(log->log_enddate).date();
-    if(date.isValid()) {
-      edit_enddate_edit->setDate(date);
-      edit_enddate_label->setEnabled(true);
-      edit_enddate_edit->setEnabled(true);
-      edit_enddate_check->setChecked(true);
-    }
-    else {
-      edit_enddate_edit->setDate(QDate::currentDate());
-      edit_enddate_label->setDisabled(true);
-      edit_enddate_edit->setDisabled(true);
-      edit_enddate_check->setChecked(false);
-    }
-    free(log);
+  if(!edit_log_model->load(logname,&err_msg)) {
+    QMessageBox::critical(this,tr("RDLogEdit - Error"),
+			  tr("Log load failed")+" ["+err_msg+"].");
+    return QDialog::exec();
+  }
+  edit_log_view->resizeColumnsToContents();
+  edit_name_label->setText(logname);
+  edit_tracks_label->
+    setText(QString().sprintf("%d / %d",edit_log_model->completedTracks(),
+			      edit_log_model->scheduledTracks()));
+  edit_origin_label->setText(edit_log_model->originUsername()+" - "+
+			     edit_log_model->originDateTime().
+			     toString("MM/dd/yyyy - hh:mm:ss"));
+  edit_description_edit->setText(edit_log_model->description());
+  if(edit_log_model->purgeDate().isValid()) {
+    edit_logdelete_edit->setDate(edit_log_model->purgeDate());
+    edit_logdelete_label->setEnabled(true);
+    edit_logdelete_edit->setEnabled(true);
+    edit_logdelete_button->setEnabled(true);
+    edit_logdelete_check->setChecked(true);
+  }
+  else {
+    edit_logdelete_edit->setDate(QDate::currentDate());
+    edit_logdelete_label->setDisabled(true);
+    edit_logdelete_button->setDisabled(true);
+    edit_logdelete_edit->setDisabled(true);
+    edit_logdelete_check->setChecked(false);
+  }
+  edit_service_box->setCurrentItemData(edit_log_model->serviceName());
+  edit_autorefresh_box->setCurrentItem(edit_log_model->autorefresh());
+  if(edit_log_model->startDate().isValid()) {
+    edit_startdate_edit->setDate(edit_log_model->startDate());
+    edit_startdate_label->setEnabled(true);
+    edit_startdate_edit->setEnabled(true);
+    edit_startdate_check->setChecked(true);
+  }
+  else {
+    edit_startdate_edit->setDate(QDate::currentDate());
+    edit_startdate_label->setDisabled(true);
+    edit_startdate_edit->setDisabled(true);
+    edit_startdate_check->setChecked(false);
+  }
+  if(edit_log_model->endDate().isValid()) {
+    edit_enddate_edit->setDate(edit_log_model->endDate());
+    edit_enddate_label->setEnabled(true);
+    edit_enddate_edit->setEnabled(true);
+    edit_enddate_check->setChecked(true);
+  }
+  else {
+    edit_enddate_edit->setDate(QDate::currentDate());
+    edit_enddate_label->setDisabled(true);
+    edit_enddate_edit->setDisabled(true);
+    edit_enddate_check->setChecked(false);
   }
 
   return QDialog::exec();
@@ -416,16 +414,16 @@ void EditLogDialog::endDateData(bool state)
 void EditLogDialog::eventClickedData(const QModelIndex &index)
 {
   edit_play_button->
-    setEnabled(edit_log_model->eventType(index.row())==LogModel::Cart);
+    setEnabled(edit_log_model->logLine(index).type()==LogLine::Cart);
   edit_stop_button->
-    setEnabled(edit_log_model->eventType(index.row())==LogModel::Cart);
+    setEnabled(edit_log_model->logLine(index).type()==LogLine::Cart);
 
   if(edit_stream_player->state()==StreamPlayer::Playing) {
-    if(edit_log_model->eventType(index.row())==LogModel::Cart) {
-      if(edit_log_model->logId(index.row())!=edit_selected_logid) {
+    if(edit_log_model->logLine(index).type()==LogLine::Cart) {
+      if(edit_log_model->logLine(index).id()!=edit_selected_logid) {
 	edit_stream_player->
-	  play(edit_log_model->cartNumber(index.row()),1,-1,-1);
-	edit_selected_logid=edit_log_model->logId(index.row());
+	  play(edit_log_model->logLine(index).cartNumber(),1,-1,-1);
+	edit_selected_logid=edit_log_model->logLine(index).id();
       }
     }
     else {
@@ -484,7 +482,7 @@ void EditLogDialog::playData()
 {
   QItemSelectionModel *s=edit_log_view->selectionModel();
   if(s->hasSelection()) {
-    unsigned cartnum=edit_log_model->cartNumber(s->selectedRows()[0].row());
+    unsigned cartnum=edit_log_model->logLine(s->selectedRows()[0]).cartNumber();
     edit_stream_player->play(cartnum,1,-1,-1);
   }
 }
@@ -534,6 +532,7 @@ void EditLogDialog::saveasData()
   QString logname;
   struct rd_log *logs;
   unsigned log_quan;
+  QString err_str;
 
   if(edit_addlog_dialog->exec(&svcname,&logname)) {
     if(RD_ListLogs(&logs,cnf->serverHostname().toUtf8(),
@@ -560,8 +559,8 @@ void EditLogDialog::saveasData()
       }
       edit_name_label->setText(logname);
       edit_service_box->setCurrentItemData(svcname);
-      Save();
-      edit_log_model->setLogName(logname);
+      //      Save();
+      edit_log_model->save(logname,&err_str);
     }
     else {
       printf("RD_ListLog FAILURE!\n");
@@ -667,6 +666,7 @@ void EditLogDialog::paintEvent(QPaintEvent *e)
 
 void EditLogDialog::Save()
 {
+  /*
   struct save_loghdr_values hdr;
   struct save_logline_values *loglines=NULL;
   unsigned logline_quan=0;
@@ -686,4 +686,5 @@ void EditLogDialog::Save()
 			  tr("Unable to save log")+
 			  QString().sprintf(" [Err: %d]",err));
   }
+  */
 }

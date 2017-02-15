@@ -115,3 +115,9 @@
 	* Implemented 'Save As' for logs.
 2017-02-10 Fred Gleason <fredg@paravelsystems.com>
 	* Populated editor buttons in the Edit Log dialog.
+2017-02-15 Fred Gleason <fredg@paravelsystems.com>
+	* Added a 'LogLine' class in 'src/rdlogeditb/logline.cpp' and
+	'src/rdlogeditb/logline.h'.
+	* Added a 'Log' class in 'src/rdlogeditb/log.cpp' and
+	'src/rdlogeditb/log.h'.
+	* Refactored the 'LogModel' class to use the 'Log' data store.

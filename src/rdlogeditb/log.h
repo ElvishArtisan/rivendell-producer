@@ -1,6 +1,6 @@
-// logmodel.h
+// log.h
 //
-// Remote data model for a Rivendell Log
+// Container class for Rivendell logs
 //
 //   (C) Copyright 2017 Fred Gleason <fredg@paravelsystems.com>
 //
@@ -19,27 +19,20 @@
 //   Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 //
 
-#ifndef LOGMODEL_H
-#define LOGMODEL_H
+#ifndef LOG_H
+#define LOG_H
 
-#include <rivendell/rd_listlogs.h>
-#include <rivendell/rd_savelog.h>
-
-#include <QAbstractTableModel>
-#include <QFont>
+#include <QDateTime>
 #include <QList>
-#include <QMap>
-#include <QPixmap>
-#include <QStringList>
+#include <QString>
 
-#include "log.h"
+#include "logline.h"
 
-class LogModel : public QAbstractTableModel
+class Log : public QList<LogLine>
 {
-  Q_OBJECT
  public:
-  LogModel(QObject *parent=0);
-  QString logName() const;
+  Log(const QString &servername,const QString &username,const QString &passwd);
+  QString name() const;
   QString serviceName() const;
   void setServiceName(const QString &str);
   QString description() const;
@@ -64,36 +57,30 @@ class LogModel : public QAbstractTableModel
   bool trafficLinked() const;
   bool load(const QString &name,QString *err_msg);
   bool save(const QString &name,QString *err_msg);
-  LogLine logLine(const QModelIndex &index) const;
-  void setBoldFont(const QFont &font);
-  int rowCount(const QModelIndex &parent=QModelIndex()) const;
-  int columnCount(const QModelIndex &parent=QModelIndex()) const;
-  QVariant data(const QModelIndex &index,int role=Qt::DisplayRole) const;
-  QVariant headerData(int section,Qt::Orientation orient,
-		      int role=Qt::DisplayRole) const;
-
- signals:
-  void error(const QString &err_msg);
 
  private:
-  void LoadColorMap();
-  QVariant GetIcon(const LogLine &ll) const;
-  QVariant GetStartTime(const LogLine &ll) const;
-  QString GetLength(const LogLine &ll) const;
-  Log *model_log;
-  QVariant model_audiocart_map;
-  QVariant model_chain_map;
-  QVariant model_macrocart_map;
-  QVariant model_marker_map;
-  QVariant model_musiclink_map;
-  QVariant model_trackcart_map;
-  QVariant model_trackmarker_map;
-  QVariant model_trafficlink_map;
-  QVariant model_bold_font;
-  QList<QVariant> model_column_titles;
-  QList<QVariant> model_column_alignments;
-  QMap<QString,QVariant> model_group_colors;
+  void SetStartTimes();
+  QString log_name;
+  QString log_service_name;
+  QString log_description;
+  QString log_origin_username;
+  QDateTime log_origin_date_time;
+  QDateTime log_link_date_time;
+  QDateTime log_modified_date_time;
+  DateTime log_start_date;
+  DateTime log_end_date;
+  DateTime log_purge_date;
+  bool log_autorefresh;
+  int log_scheduled_tracks;
+  int log_completed_tracks;
+  int log_music_links;
+  bool log_music_linked;
+  int log_traffic_links;
+  bool log_traffic_linked;
+  QString log_servername;
+  QString log_username;
+  QString log_password;
 };
 
 
-#endif  // LOGMODEL_H
+#endif  // LOG_H
