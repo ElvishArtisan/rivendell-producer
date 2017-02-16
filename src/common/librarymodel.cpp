@@ -84,6 +84,18 @@ void LibraryModel::getLogLine(LogLine *ll,int row) const
   QStringList fields=model_column_fields.at(row);
 
   ll->clear();
+  switch((LogLine::Type)model_column_fields.at(row).at(0).toInt()) {
+  case LogLine::Cart:
+    ll->setType(LogLine::Cart);
+    break;
+
+  case LogLine::Macro:
+    ll->setType(LogLine::Macro);
+    break;
+
+  default:
+    break;
+  }
   ll->setCartNumber(fields.at(1).toUInt());
   ll->setGroupName(fields.at(2));
   ll->setTitle(fields.at(4));

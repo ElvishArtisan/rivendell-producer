@@ -137,3 +137,5 @@
 2017-02-16 Fred Gleason <fredg@paravelsystems.com>
 	* Added a 'CartFilterWidget' class in 'src/common/cartfilterwidget.cpp'
 	and 'src/common/cartfilterwidget.h'.
+2017-02-16 Fred Gleason <fredg@paravelsystems.com>
+	* Cleaned up cart picking in rdlogeditb(1).

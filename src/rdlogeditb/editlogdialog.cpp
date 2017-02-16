@@ -462,8 +462,15 @@ void EditLogDialog::editData()
       insertCartData();
     }
     else {
+      QList<QTime> start_times;
+      for(int i=0;i<(edit_log_model->rowCount()-1);i++) {
+	if((s->selectedRows()[0].row()!=i)&&
+	   (edit_log_model->logLine(i)->timeType()==LogLine::Hard)) {
+	  start_times.push_back(edit_log_model->logLine(i)->startTime());
+	}
+      }
       if(edit_logline_dialog->
-	 exec(ll,edit_service_box->currentItemData().toString())) {
+	 exec(ll,edit_service_box->currentItemData().toString(),start_times)) {
 	edit_log_model->updateRow(s->selectedRows()[0].row());
       }
     }

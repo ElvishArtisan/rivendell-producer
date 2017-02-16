@@ -29,6 +29,7 @@
 #include <QGroupBox>
 #include <QLabel>
 #include <QLineEdit>
+#include <QList>
 #include <QPushButton>
 #include <QRadioButton>
 
@@ -46,7 +47,7 @@ class EditLogLineDialog : public QDialog
   QSizePolicy sizePolicy() const;
 
  public slots:
-  int exec(LogLine *ll,const QString &service);
+   int exec(LogLine *ll,const QString &service,const QList<QTime> &start_times);
 
  private slots:
   void selectCartData();
@@ -76,6 +77,10 @@ class EditLogLineDialog : public QDialog
   QDateTimeEdit *edit_grace_edit;
   QString edit_service;
   LogLine *edit_logline;
+  LogLine edit_new_logline;
+  QPushButton *edit_ok_button;
+  QPushButton *edit_cancel_button;
+  QList<QTime> edit_start_times;
 };
 
 

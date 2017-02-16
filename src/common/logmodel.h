@@ -66,6 +66,7 @@ class LogModel : public QAbstractTableModel
   bool load(const QString &name,QString *err_msg);
   bool save(const QString &name,QString *err_msg);
   LogLine *logLine(const QModelIndex &index);
+  LogLine *logLine(int row);
   void setBoldFont(const QFont &font);
   int rowCount(const QModelIndex &parent=QModelIndex()) const;
   int columnCount(const QModelIndex &parent=QModelIndex()) const;

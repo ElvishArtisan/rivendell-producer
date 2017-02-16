@@ -41,6 +41,7 @@ class PickCartDialog : public QDialog
   int exec(LogLine *ll);
 
  private slots:
+  void doubleClickedData(const QModelIndex &index);
   void okData();
   void cancelData();
 

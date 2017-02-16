@@ -384,6 +384,12 @@ bool Log::save(const QString &name,QString *err_msg)
 }
 
 
+void Log::update()
+{
+  SetStartTimes();
+}
+
+
 void Log::SetStartTimes()
 {
   QTime current;

@@ -170,22 +170,24 @@ EditLogLineDialog::EditLogLineDialog(QWidget *parent)
   //
   //  Ok Button
   //
-  button=new QPushButton(this);
-  button->setGeometry(sizeHint().width()-180,sizeHint().height()-60,80,50);
-  button->setDefault(true);
-  button->setFont(button_font);
-  button->setText(tr("&OK"));
-  connect(button,SIGNAL(clicked()),this,SLOT(okData()));
+  edit_ok_button=new QPushButton(this);
+  edit_ok_button->
+    setGeometry(sizeHint().width()-180,sizeHint().height()-60,80,50);
+  edit_ok_button->setDefault(true);
+  edit_ok_button->setFont(button_font);
+  edit_ok_button->setText(tr("&OK"));
+  edit_ok_button->setDisabled(true);
+  connect(edit_ok_button,SIGNAL(clicked()),this,SLOT(okData()));
 
   //
   //  Cancel Button
   //
-  button=new QPushButton(this);
-  button->setGeometry(sizeHint().width()-90,sizeHint().height()-60,
-			     80,50);
-  button->setFont(button_font);
-  button->setText(tr("&Cancel"));
-  connect(button,SIGNAL(clicked()),this,SLOT(cancelData()));
+  edit_cancel_button=new QPushButton(this);
+  edit_cancel_button->
+    setGeometry(sizeHint().width()-90,sizeHint().height()-60,80,50);
+  edit_cancel_button->setFont(button_font);
+  edit_cancel_button->setText(tr("&Cancel"));
+  connect(edit_cancel_button,SIGNAL(clicked()),this,SLOT(cancelData()));
 }
 
 
@@ -207,10 +209,12 @@ QSizePolicy EditLogLineDialog::sizePolicy() const
 }
 
 
-int EditLogLineDialog::exec(LogLine *ll,const QString &service)
+int EditLogLineDialog::exec(LogLine *ll,const QString &service,
+			    const QList<QTime> &start_times)
 {
   edit_logline=ll;
   edit_service=service;
+  edit_start_times=start_times;
 
   edit_timetype_box->setChecked(ll->timeType()==LogLine::Hard);
   edit_time_edit->setEnabled(ll->timeType()==LogLine::Hard);
@@ -265,24 +269,13 @@ int EditLogLineDialog::exec(LogLine *ll,const QString &service)
 
 void EditLogLineDialog::selectCartData()
 {
-  if(edit_cart_dialog->exec(edit_logline)) {
+  if(edit_cart_dialog->exec(&edit_new_logline)) {
     edit_cart_edit->
-      setText(QString().sprintf("%06u",edit_logline->cartNumber()));
-    edit_title_edit->setText(edit_logline->title());
-    edit_artist_edit->setText(edit_logline->artist());
+      setText(QString().sprintf("%06u",edit_new_logline.cartNumber()));
+    edit_title_edit->setText(edit_new_logline.title());
+    edit_artist_edit->setText(edit_new_logline.artist());
   }
-
-  /*
-  bool ok;
-  int cartnum=edit_cart_edit->text().toInt(&ok);
-  if(!ok) {
-    cartnum=-1;
-  }
-  if(edit_cart_dialog->exec(&cartnum,RDCart::All,&edit_service,1,
-			   rda->user()->name(),rda->user()->password())==0) {
-    FillCart(cartnum);
-  }
-  */
+  edit_ok_button->setEnabled(true);
 }
 
 
@@ -343,14 +336,13 @@ void EditLogLineDialog::okData()
 			 tr("You must supply a cart number!"));
     return;
   }
-  /*
   if(edit_timetype_box->isChecked()&&
-     edit_log_event->exists(edit_time_edit->time(),edit_line)) {
+     edit_start_times.contains(edit_time_edit->time())) {
       QMessageBox::warning(this,tr("Duplicate Start Time"),
 		  tr("An event is already scheduled with this start time!"));
       return;
   }
-  */
+  *edit_logline=edit_new_logline;
   if(edit_timetype_box->isChecked()) {
     edit_logline->setTimeType(LogLine::Hard);
     edit_logline->setStartTime(edit_time_edit->time());

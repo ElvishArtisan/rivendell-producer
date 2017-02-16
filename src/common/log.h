@@ -57,6 +57,7 @@ class Log : public QList<LogLine>
   bool trafficLinked() const;
   bool load(const QString &name,QString *err_msg);
   bool save(const QString &name,QString *err_msg);
+  void update();
 
  private:
   void SetStartTimes();

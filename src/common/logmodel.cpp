@@ -235,6 +235,7 @@ bool LogModel::trafficLinked() const
 
 void LogModel::updateRow(int row)
 {
+  model_log->update();
   emit dataChanged(createIndex(row,0),createIndex(row,14));
 }
 
@@ -267,7 +268,13 @@ LogLine *LogModel::logLine(const QModelIndex &index)
   if(index.row()>=model_log->size()) {
     return NULL;
   }
-  return &(*model_log)[index.row()];
+  return logLine(index.row());
+}
+
+
+LogLine *LogModel::logLine(int row)
+{
+  return &(*model_log)[row];
 }
 
 

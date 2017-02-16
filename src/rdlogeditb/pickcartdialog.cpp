@@ -38,6 +38,8 @@ PickCartDialog::PickCartDialog(QWidget *parent)
   cart_library_view=new TableView(this);
   cart_library_view->setModel(cart_library_model);
   cart_library_view->resizeColumnsToContents();
+  connect(cart_library_view,SIGNAL(doubleClicked(const QModelIndex &)),
+	  this,SLOT(doubleClickedData(const QModelIndex)));
 
   cart_ok_button=new QPushButton(tr("OK"),this);
   cart_ok_button->setFont(bold_font);
@@ -61,6 +63,12 @@ int PickCartDialog::exec(LogLine *ll)
   cart_library_model->update("",tr("ALL"),true,true);
   cart_library_view->resizeColumnsToContents();
   return QDialog::exec();
+}
+
+
+void PickCartDialog::doubleClickedData(const QModelIndex &index)
+{
+  okData();
 }
 
 
