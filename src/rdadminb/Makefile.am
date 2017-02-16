@@ -54,6 +54,7 @@ CLEANFILES = *~\
              *ilk
 
 DISTCLEANFILES = *.ico\
+                 cartfilterwidget.cpp cartfilterwidget.h\
                  cmdswitch.cpp cmdswitch.h\
                  combobox.cpp combobox.h\
                  config.cpp config.h\

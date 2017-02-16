@@ -25,6 +25,7 @@
 #include <QDialog>
 #include <QPushButton>
 
+#include "cartfilterwidget.h"
 #include "librarymodel.h"
 #include "logline.h"
 #include "tableview.h"
@@ -48,6 +49,7 @@ class PickCartDialog : public QDialog
   void resizeEvent(QResizeEvent *e);
 
  private:
+  CartFilterWidget *cart_filter_widget;
   TableView *cart_library_view;
   LibraryModel *cart_library_model;
   QPushButton *cart_ok_button;

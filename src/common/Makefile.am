@@ -20,7 +20,8 @@
 ##
 ## Use automake to process this into a Makefile.in
 
-EXTRA_DIST = cmdswitch.cpp cmdswitch.h\
+EXTRA_DIST = cartfilterwidget.cpp cartfilterwidget.h\
+             cmdswitch.cpp cmdswitch.h\
              combobox.cpp combobox.h\
              config.cpp config.h\
              datetime.cpp datetime.h\

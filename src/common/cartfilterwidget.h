@@ -1,6 +1,6 @@
-// rdlibraryb.h
+// cartfilterwidget.h
 //
-// Remote cart browser for Rivendell
+// Cart Filter Widget
 //
 //   (C) Copyright 2016 Fred Gleason <fredg@paravelsystems.com>
 //
@@ -19,52 +19,51 @@
 //   Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 //
 
-#ifndef RDLIBRARYB_H
-#define RDLIBRARYB_H
+#ifndef CARTFILTERWIDGET_H
+#define CARTFILTERWIDGET_H
 
 #include <vector>
 
+#include <QCheckBox>
 #include <QLabel>
-#include <QMainWindow>
+#include <QLineEdit>
 #include <QPushButton>
 
-#include "cartfilterwidget.h"
-#include "librarymodel.h"
-#include "streamplayer.h"
-#include "tableview.h"
-#include "transportbutton.h"
+#include "combobox.h"
 
-#define RDLIBRARYB_USAGE "\n"
-
-class MainWidget : public QMainWindow
+class CartFilterWidget : public QWidget
 {
   Q_OBJECT
  public:
-  MainWidget(QWidget *parent=0);
+  CartFilterWidget(QWidget *parent=0);
   QSize sizeHint() const;
 
+ signals:
+  void updateRequested(const QString &filter,const QString &grp_name,
+		       bool show_audio,bool show_macro);
+
  private slots:
-  void cartClickedData(const QModelIndex &index);
-  void playData();
-  void stopData();
-  void playerStateChangedData(StreamPlayer::State state);
-  void playerErrorData(const QString &msg);
+  void filterChangedData(const QString &str);
+  void groupChangedData(int index);
+  void typeChangedData(bool state);
+  void searchData();
+  void clearData();
 
  protected:
-  void closeEvent(QCloseEvent *e);
   void resizeEvent(QResizeEvent *e);
 
  private:
-  LibraryModel *main_library_model;
-  TableView *main_library_view;
-  TransportButton *main_play_button;
-  TransportButton *main_stop_button;
-  QPushButton *main_close_button;  
-  StreamPlayer *main_stream_player;
-  unsigned main_selected_cart;
-  bool main_is_closing;
-  CartFilterWidget *main_filter_widget;
+  QLabel *main_group_label;
+  ComboBox *main_group_box;
+  QLabel *main_filter_label;
+  QLineEdit *main_filter_edit;
+  QPushButton *main_search_button;
+  QPushButton *main_clear_button;
+  QCheckBox *main_audio_check;
+  QLabel *main_audio_label;
+  QCheckBox *main_macro_check;
+  QLabel *main_macro_label;
 };
 
 
-#endif  // RDLIBRARYB_H
+#endif  // CARTFILTERWIDGET_H

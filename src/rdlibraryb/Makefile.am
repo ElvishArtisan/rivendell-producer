@@ -34,12 +34,14 @@ bin_PROGRAMS = rdlibraryb
 
 dist_rdlibraryb_SOURCES = rdlibraryb.cpp rdlibraryb.h
 
-nodist_rdlibraryb_SOURCES = cmdswitch.cpp cmdswitch.h\
+nodist_rdlibraryb_SOURCES = cartfilterwidget.cpp cartfilterwidget.h\
+                            cmdswitch.cpp cmdswitch.h\
                             combobox.cpp combobox.h\
                             config.cpp config.h\
                             datetime.cpp datetime.h\
                             librarymodel.cpp librarymodel.h\
                             logline.cpp logline.h\
+                            moc_cartfilterwidget.cpp\
                             moc_combobox.cpp\
                             moc_librarymodel.cpp\
                             moc_rdlibraryb.cpp\
@@ -73,6 +75,7 @@ CLEANFILES = *~\
              *ilk
 
 DISTCLEANFILES = *.ico\
+                 cartfilterwidget.cpp cartfilterwidget.h\
                  cmdswitch.cpp cmdswitch.h\
                  combobox.cpp combobox.h\
                  config.cpp config.h\

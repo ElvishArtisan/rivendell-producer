@@ -40,7 +40,8 @@ dist_rdlogeditb_SOURCES = addlogdialog.cpp addlogdialog.h\
                           pickcartdialog.cpp pickcartdialog.h\
                           rdlogeditb.cpp rdlogeditb.h
 
-nodist_rdlogeditb_SOURCES = cmdswitch.cpp cmdswitch.h\
+nodist_rdlogeditb_SOURCES = cartfilterwidget.cpp cartfilterwidget.h\
+                            cmdswitch.cpp cmdswitch.h\
                             combobox.cpp combobox.h\
                             config.cpp config.h\
                             datetime.cpp datetime.h\
@@ -50,6 +51,7 @@ nodist_rdlogeditb_SOURCES = cmdswitch.cpp cmdswitch.h\
                             loglistmodel.cpp loglistmodel.h\
                             logmodel.cpp logmodel.h\
                             moc_addlogdialog.cpp\
+                            moc_cartfilterwidget.cpp\
                             moc_combobox.cpp\
                             moc_datedialog.cpp\
                             moc_datepicker.cpp\
@@ -90,6 +92,7 @@ CLEANFILES = *~\
              *ilk
 
 DISTCLEANFILES = *.ico\
+                 cartfilterwidget.cpp cartfilterwidget.h\
                  cmdswitch.cpp cmdswitch.h\
                  combobox.cpp combobox.h\
                  config.cpp config.h\

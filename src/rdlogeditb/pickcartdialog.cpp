@@ -26,21 +26,26 @@ PickCartDialog::PickCartDialog(QWidget *parent)
 {
   setWindowTitle(tr("RDLogEdit - Pick Cart"));
 
-  QFont label_font(font().family(),font().pointSize(),QFont::Bold);
+  QFont bold_font(font().family(),font().pointSize(),QFont::Bold);
+
+  cart_filter_widget=new CartFilterWidget(this);
 
   cart_library_model=new LibraryModel(this);
+  connect(cart_filter_widget,
+	  SIGNAL(updateRequested(const QString &,const QString &,bool,bool)),
+	  cart_library_model,
+	  SLOT(update(const QString &,const QString &,bool,bool)));
   cart_library_view=new TableView(this);
   cart_library_view->setModel(cart_library_model);
   cart_library_view->resizeColumnsToContents();
 
   cart_ok_button=new QPushButton(tr("OK"),this);
-  cart_ok_button->setFont(label_font);
+  cart_ok_button->setFont(bold_font);
   connect(cart_ok_button,SIGNAL(clicked()),this,SLOT(okData()));
 
   cart_cancel_button=new QPushButton(tr("Cancel"),this);
-  cart_cancel_button->setFont(label_font);
+  cart_cancel_button->setFont(bold_font);
   connect(cart_cancel_button,SIGNAL(clicked()),this,SLOT(cancelData()));
-
 }
 
 
@@ -53,6 +58,8 @@ QSize PickCartDialog::sizeHint() const
 int PickCartDialog::exec(LogLine *ll)
 {
   cart_logline=ll;
+  cart_library_model->update("",tr("ALL"),true,true);
+  cart_library_view->resizeColumnsToContents();
   return QDialog::exec();
 }
 
@@ -81,7 +88,9 @@ void PickCartDialog::closeEvent(QCloseEvent *e)
 
 void PickCartDialog::resizeEvent(QResizeEvent *e)
 {
-  cart_library_view->setGeometry(10,10,size().width()-20,size().height()-80);
+  cart_filter_widget->setGeometry(10,10,size().width()-20,84);
+
+  cart_library_view->setGeometry(10,90,size().width()-20,size().height()-165);
 
   cart_ok_button->setGeometry(size().width()-180,size().height()-60,80,50);
   cart_cancel_button->setGeometry(size().width()-90,size().height()-60,80,50);

@@ -87,40 +87,25 @@ MainWidget::MainWidget(QWidget *parent)
   QFont bold_font(font().family(),font().pointSize(),QFont::Bold);
 
   //
-  // Group Selector
+  // Filter
   //
-  main_group_label=new QLabel(tr("Group")+":",this);
-  main_group_label->setFont(bold_font);
-  main_group_label->setAlignment(Qt::AlignRight|Qt::AlignVCenter);
-  main_group_box=new ComboBox(this);
-  struct rd_group *groups;
-  unsigned records=0;
-  int err=0;
-  if((err=RD_ListGroups(&groups,cnf->serverHostname().toUtf8(),
-			cnf->serverUsername().toUtf8(),
-			cnf->serverPassword().toUtf8(),&records))!=0) {
-    QMessageBox::warning(this,tr("RDLibrary Browser - Error"),
-			 tr("Unable to connect to Rivendell server")+
-			 " ["+tr("Error")+QString().sprintf(" %d].",err));
-    exit(256);
-  }
-  main_group_box->insertItem(0,tr("ALL"),tr("ALL"));
-  for(unsigned i=0;i<records;i++) {
-    main_group_box->
-      insertItem(main_group_box->count(),groups[i].grp_name,groups[i].grp_name);
-  }
+  main_filter_widget=new CartFilterWidget(this);
 
   //
   // Carts List
   //
   main_library_model=new LibraryModel(this);
+  main_library_model->setBoldFont(bold_font);
+  connect(main_filter_widget,
+	  SIGNAL(updateRequested(const QString &,const QString &,bool,bool)),
+	  main_library_model,
+	  SLOT(update(const QString &,const QString &,bool,bool)));
   main_library_view=new TableView(this);
   main_library_view->setModel(main_library_model);
-  main_library_view->resizeColumnsToContents();
   connect(main_library_view,SIGNAL(clicked(const QModelIndex &)),
 	  this,SLOT(cartClickedData(const QModelIndex &)));
-  connect(main_group_box,SIGNAL(activated(const QString &)),
-	  main_library_model,SLOT(setGroupName(const QString &)));
+  main_library_model->update("",tr("ALL"),true,true);
+  main_library_view->resizeColumnsToContents();
 
   //
   // Play Button
@@ -215,10 +200,9 @@ void MainWidget::closeEvent(QCloseEvent *e)
 
 void MainWidget::resizeEvent(QResizeEvent *e)
 {
-  main_group_label->setGeometry(10,10,60,20);
-  main_group_box->setGeometry(75,10,100,20);
+  main_filter_widget->setGeometry(10,10,size().width()-20,84);
 
-  main_library_view->setGeometry(10,32,size().width()-20,size().height()-112);
+  main_library_view->setGeometry(10,90,size().width()-20,size().height()-165);
 
   main_play_button->setGeometry(10,size().height()-60,80,50);
   main_stop_button->setGeometry(100,size().height()-60,80,50);

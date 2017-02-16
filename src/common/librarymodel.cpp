@@ -22,6 +22,7 @@
 #include <stdio.h>
 
 #include <rivendell/rd_listcarts.h>
+#include <rivendell/rd_listgroups.h>
 
 #include "config.h"
 #include "librarymodel.h"
@@ -42,28 +43,33 @@ LibraryModel::LibraryModel(QObject *parent)
   // Column Header Titles
   //
   model_column_titles.push_back("");
+  model_column_alignments.push_back((int)Qt::AlignVCenter|Qt::AlignCenter);
   model_column_titles.push_back(QObject::tr("Cart"));
+  model_column_alignments.push_back((int)Qt::AlignVCenter|Qt::AlignCenter);
   model_column_titles.push_back(QObject::tr("Group"));
+  model_column_alignments.push_back((int)Qt::AlignVCenter|Qt::AlignCenter);
   model_column_titles.push_back(QObject::tr("Length"));
+  model_column_alignments.push_back((int)Qt::AlignVCenter|Qt::AlignRight);
   model_column_titles.push_back(QObject::tr("Title"));
+  model_column_alignments.push_back((int)Qt::AlignVCenter|Qt::AlignLeft);
   model_column_titles.push_back(QObject::tr("Artist"));
+  model_column_alignments.push_back((int)Qt::AlignVCenter|Qt::AlignLeft);
   model_column_titles.push_back(QObject::tr("Album"));
+  model_column_alignments.push_back((int)Qt::AlignVCenter|Qt::AlignLeft);
   model_column_titles.push_back(QObject::tr("Label"));
+  model_column_alignments.push_back((int)Qt::AlignVCenter|Qt::AlignLeft);
   model_column_titles.push_back(QObject::tr("Composer"));
+  model_column_alignments.push_back((int)Qt::AlignVCenter|Qt::AlignLeft);
   model_column_titles.push_back(QObject::tr("Conductor"));
+  model_column_alignments.push_back((int)Qt::AlignVCenter|Qt::AlignLeft);
   model_column_titles.push_back(QObject::tr("Publisher"));
+  model_column_alignments.push_back((int)Qt::AlignVCenter|Qt::AlignLeft);
   model_column_titles.push_back(QObject::tr("Client"));
+  model_column_alignments.push_back((int)Qt::AlignVCenter|Qt::AlignLeft);
   model_column_titles.push_back(QObject::tr("Agency"));
+  model_column_alignments.push_back((int)Qt::AlignVCenter|Qt::AlignLeft);
   model_column_titles.push_back(QObject::tr("User Defined"));
-
-  model_group_name=QObject::tr("ALL");
-  Update();
-}
-
-
-QString LibraryModel::groupName() const
-{
-  return model_group_name;
+  model_column_alignments.push_back((int)Qt::AlignVCenter|Qt::AlignLeft);
 }
 
 
@@ -93,6 +99,12 @@ void LibraryModel::getLogLine(LogLine *ll,int row) const
 }
 
 
+void LibraryModel::setBoldFont(const QFont &font)
+{
+  model_bold_font=font;
+}
+
+
 int LibraryModel::rowCount(const QModelIndex &parent) const
 {
   return model_column_fields.size();
@@ -108,6 +120,22 @@ int LibraryModel::columnCount(const QModelIndex &parent) const
 QVariant LibraryModel::data(const QModelIndex &index,int role) const
 {
   switch((Qt::ItemDataRole)role) {
+  case Qt::TextAlignmentRole:
+    return model_column_alignments.at(index.column());
+
+  case Qt::TextColorRole:
+    if(index.column()==2) {
+      return model_group_colors[model_column_fields.at(index.row()).
+				at(index.column())];
+    }
+    break;
+
+  case Qt::FontRole:
+    if(index.column()==2) {
+      return model_bold_font;
+    }
+    break;
+
   case Qt::DisplayRole:
     if(index.column()!=0) {
       return model_column_fields.at(index.row()).at(index.column());
@@ -148,35 +176,36 @@ QVariant LibraryModel::headerData(int section,Qt::Orientation orient,
 }
 
 
-void LibraryModel::setGroupName(const QString &str)
-{
-  if(str!=model_group_name) {
-    model_group_name=str;
-    Update();
-  }
-}
-
-
-void LibraryModel::Update()
+void LibraryModel::update(const QString &filter,const QString &grp_name,
+			  bool show_audio,bool show_macro)
 {
   struct rd_cart *carts=NULL;
-  QString group_name="ALL";
   unsigned numrecs=0;
   int err=0;
 
-  if(model_group_name!=QObject::tr("ALL")) {
-    group_name=model_group_name;
+  LoadColorMap();
+
+  if(model_cart_numbers.size()>0) {
+    beginRemoveRows(QModelIndex(),0,model_column_fields.size()-1);
+    model_cart_numbers.clear();
+    model_column_fields.clear();
+    endRemoveRows();
   }
+  QString type="";
+  if((!show_audio)&&(!show_macro)) {
+    return;
+  }
+  if(show_audio&&(!show_macro)) {
+    type="Audio";
+  }
+  if((!show_audio)&&show_macro) {
+    type="Macro";
+  }
+
   if((err=RD_ListCarts(&carts,cnf->serverHostname().toUtf8(),
 		       cnf->serverUsername().toUtf8(),
 		       cnf->serverPassword().toUtf8(),
-		       group_name.toUtf8(),"","",&numrecs))==0) {
-    if(model_cart_numbers.size()>0) {
-      beginRemoveRows(QModelIndex(),0,model_column_fields.size()-1);
-      model_cart_numbers.clear();
-      model_column_fields.clear();
-      endRemoveRows();
-    }
+		       grp_name.toUtf8(),filter,type,&numrecs))==0) {
     if(numrecs>0) {
       beginInsertRows(QModelIndex(),0,numrecs-1);
       for(unsigned i=0;i<numrecs;i++) {
@@ -193,7 +222,7 @@ void LibraryModel::Update()
 	model_column_fields.back().push_back(carts[i].cart_album);
 	model_column_fields.back().push_back(carts[i].cart_label);
 	model_column_fields.back().push_back(carts[i].cart_composer);
-	model_column_fields.back().push_back(""); // FIXME: Conductor!
+	model_column_fields.back().push_back(carts[i].cart_conductor);
 	model_column_fields.back().push_back(carts[i].cart_publisher);
 	model_column_fields.back().push_back(carts[i].cart_client);
 	model_column_fields.back().push_back(carts[i].cart_agency);
@@ -208,14 +237,39 @@ void LibraryModel::Update()
 }
 
 
+void LibraryModel::LoadColorMap()
+{
+  struct rd_group *grps=NULL;
+  unsigned grp_quan=0;
+  int err=0;
+
+  if((err=RD_ListGroups(&grps,cnf->serverHostname(),cnf->serverUsername(),
+			cnf->serverPassword(),&grp_quan))!=0) {
+    emit error(QString().sprintf("RD_ListGroups() failed [error: %d]",err));
+    return;
+  }
+  model_group_colors.clear();
+  for(unsigned i=0;i<grp_quan;i++) {
+    model_group_colors[grps[i].grp_name]=QVariant(QColor(grps[i].grp_color));
+  }
+}
+
+
 QString LibraryModel::GetLength(struct rd_cart *cart) const
 {
-  QTime len=QTime().addMSecs(cart->cart_forced_length);
+  QTime len;
+
+  if(cart->cart_forced_length>0) {
+    len=QTime().addMSecs(cart->cart_forced_length);
+  }
+  else {
+    len=QTime().addMSecs(cart->cart_average_length);
+  }
   if(cart->cart_forced_length<60000) {
-    return len.toString(":ss.zzz").left(5);
+    return len.toString("ss.zzz").left(4);
   }
   if(cart->cart_forced_length<3600000) {
-    return len.toString("mm:ss.zzz").left(9);
+    return len.toString("mm:ss.zzz").left(7);
   }
-  return len.toString("hh:mm:ss.zzz").left(12);
+  return len.toString("hh:mm:ss.zzz").left(10);
 }

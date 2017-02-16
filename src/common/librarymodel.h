@@ -23,6 +23,7 @@
 #define LIBRARYMODEL_H
 
 #include <QAbstractTableModel>
+#include <QFont>
 #include <QList>
 #include <QPixmap>
 #include <QStringList>
@@ -34,27 +35,33 @@ class LibraryModel : public QAbstractTableModel
   Q_OBJECT
  public:
   LibraryModel(QObject *parent=0);
-  QString groupName() const;
   unsigned cartNumber(int row) const;
   void getLogLine(LogLine *ll,int row) const;
+  void setBoldFont(const QFont &font);
   int rowCount(const QModelIndex &parent=QModelIndex()) const;
   int columnCount(const QModelIndex &parent=QModelIndex()) const;
   QVariant data(const QModelIndex &index,int role=Qt::DisplayRole) const;
   QVariant headerData(int section,Qt::Orientation orient,
 		      int role=Qt::DisplayRole) const;
 
+ signals:
+  void error(const QString &err_msg);
+
  public slots:
-  void setGroupName(const QString &str);
+  void update(const QString &filter,const QString &grp_name,bool show_audio,
+	      bool show_macro);
 
  private:
-  void Update();
+  void LoadColorMap();
   QString GetLength(struct rd_cart *cart) const;
   QPixmap *model_audio_map;
   QPixmap *model_macro_map;
-  QString model_group_name;
   QList<QVariant> model_column_titles;
+  QList<QVariant> model_column_alignments;
   QList<QStringList> model_column_fields;
   QList<unsigned> model_cart_numbers;
+  QMap<QString,QVariant> model_group_colors;
+  QFont model_bold_font;
 };
 
 

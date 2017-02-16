@@ -18,6 +18,8 @@ Makefile.in
 missing
 moc_*
 src/rdadminb/*.ico
+src/rdadminb/cartfilterwidget.cpp
+src/rdadminb/cartfilterwidget.h
 src/rdadminb/cmdswitch.cpp
 src/rdadminb/cmdswitch.h
 src/rdadminb/combobox.cpp
@@ -50,6 +52,8 @@ src/rdadminb/tableview.cpp
 src/rdadminb/tableview.h
 src/rdadminb/transportbutton.cpp
 src/rdadminb/transportbutton.h
+src/rdlibraryb/cartfilterwidget.cpp
+src/rdlibraryb/cartfilterwidget.h
 src/rdlibraryb/*.ico
 src/rdlibraryb/cmdswitch.cpp
 src/rdlibraryb/cmdswitch.h
@@ -84,6 +88,8 @@ src/rdlibraryb/tableview.h
 src/rdlibraryb/transportbutton.cpp
 src/rdlibraryb/transportbutton.h
 src/rdlogeditb/*.ico
+src/rdlogeditb/cartfilterwidget.cpp
+src/rdlogeditb/cartfilterwidget.h
 src/rdlogeditb/cmdswitch.cpp
 src/rdlogeditb/cmdswitch.h
 src/rdlogeditb/combobox.cpp

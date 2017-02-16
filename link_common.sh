@@ -22,6 +22,11 @@
 
 DESTDIR=$1
 
+rm -f src/$DESTDIR/cartfilterwidget.cpp
+ln -s ../../src/common/cartfilterwidget.cpp src/$DESTDIR/cartfilterwidget.cpp
+rm -f src/$DESTDIR/cartfilterwidget.h
+ln -s ../../src/common/cartfilterwidget.h src/$DESTDIR/cartfilterwidget.h
+
 rm -f src/$DESTDIR/cmdswitch.cpp
 ln -s ../../src/common/cmdswitch.cpp src/$DESTDIR/cmdswitch.cpp
 rm -f src/$DESTDIR/cmdswitch.h
