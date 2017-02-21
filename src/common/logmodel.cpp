@@ -240,6 +240,16 @@ void LogModel::updateRow(int row)
 }
 
 
+void LogModel::move(int from_row,int to_row)
+{
+  model_log->move(from_row,to_row);
+  emit dataChanged(createIndex(from_row,0),
+		   createIndex(from_row,columnCount()-1));
+  emit dataChanged(createIndex(to_row,0),
+		   createIndex(to_row,columnCount()-1));
+}
+
+
 void LogModel::insert(int row,LogLine *ll)
 {
   beginInsertRows(QModelIndex(),row,row);

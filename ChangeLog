@@ -145,3 +145,5 @@
 	* Implemented the 'Insert Cart' button in rdlogeditb(1).
 2017-02-21 Fred Gleason <fredg@paravelsystems.com>
 	* Implemented the 'Delete' button in rdlogeditb(1).
+2017-02-21 Fred Gleason <fredg@paravelsystems.com>
+	* Implemented the 'Up' and 'Down' buttons in rdlogeditb(1).

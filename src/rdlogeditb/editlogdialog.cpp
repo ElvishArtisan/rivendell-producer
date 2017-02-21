@@ -496,11 +496,31 @@ void EditLogDialog::deleteData()
 
 void EditLogDialog::upData()
 {
+  QItemSelectionModel *s=edit_log_view->selectionModel();
+  if(s->hasSelection()) {
+    int row=s->selectedRows()[0].row();
+    if((row>0)&&(row<(edit_log_model->rowCount()-1))) {
+      edit_log_model->move(row,row-1);
+      s->select(edit_log_model->
+		index(row-1,0,QModelIndex()),QItemSelectionModel::Rows|
+		QItemSelectionModel::ClearAndSelect);
+    }
+  }
 }
 
 
 void EditLogDialog::downData()
 {
+  QItemSelectionModel *s=edit_log_view->selectionModel();
+  if(s->hasSelection()) {
+    int row=s->selectedRows()[0].row();
+    if(row<(edit_log_model->rowCount()-2)) {
+      edit_log_model->move(row,row+1);
+      s->select(edit_log_model->
+		index(row+1,0,QModelIndex()),QItemSelectionModel::Rows|
+		QItemSelectionModel::ClearAndSelect);
+    }
+  }
 }
 
 
