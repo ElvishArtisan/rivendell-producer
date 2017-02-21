@@ -82,6 +82,8 @@ class EditLogDialog : public QDialog
 
  private:
   void Save();
+  QList<QTime> GetStartTimes(int except_row) const;
+  int GetNextId() const;
   DateDialog *edit_date_dialog;
   EditLogLineDialog *edit_logline_dialog;
 

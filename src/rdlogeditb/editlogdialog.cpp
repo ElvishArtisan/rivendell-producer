@@ -445,6 +445,18 @@ void EditLogDialog::eventDoubleClickedData(const QModelIndex &index)
 
 void EditLogDialog::insertCartData()
 {
+  LogLine *ll=NULL;
+  QItemSelectionModel *s=edit_log_view->selectionModel();
+  if(s->hasSelection()) {
+    ll=new LogLine();
+    ll->setType(LogLine::Cart);
+    if(edit_logline_dialog->
+       exec(ll,edit_service_box->currentItemData().toString(),
+	    GetStartTimes(-1))) {
+      ll->setId(GetNextId());
+      edit_log_model->insert(s->selectedRows()[0].row(),ll);
+    }
+  }
 }
 
 
@@ -462,15 +474,9 @@ void EditLogDialog::editData()
       insertCartData();
     }
     else {
-      QList<QTime> start_times;
-      for(int i=0;i<(edit_log_model->rowCount()-1);i++) {
-	if((s->selectedRows()[0].row()!=i)&&
-	   (edit_log_model->logLine(i)->timeType()==LogLine::Hard)) {
-	  start_times.push_back(edit_log_model->logLine(i)->startTime());
-	}
-      }
       if(edit_logline_dialog->
-	 exec(ll,edit_service_box->currentItemData().toString(),start_times)) {
+	 exec(ll,edit_service_box->currentItemData().toString(),
+	      GetStartTimes(s->selectedRows()[0].row()))) {
 	edit_log_model->updateRow(s->selectedRows()[0].row());
       }
     }
@@ -704,4 +710,30 @@ void EditLogDialog::Save()
 			  tr("Unable to save log")+" ["+err_msg+"]");
     
   }
+}
+
+
+QList<QTime> EditLogDialog::GetStartTimes(int except_row) const
+{
+  QList<QTime> start_times;
+  for(int i=0;i<(edit_log_model->rowCount()-1);i++) {
+    if((except_row!=i)&&
+       (edit_log_model->logLine(i)->timeType()==LogLine::Hard)) {
+      start_times.push_back(edit_log_model->logLine(i)->startTime());
+    }
+  }
+  return start_times;
+}
+
+
+int EditLogDialog::GetNextId() const
+{
+  int id=1;
+
+  for(int i=0;i<(edit_log_model->rowCount()-1);i++) {
+    if(edit_log_model->logLine(i)->id()>=id) {
+      id=edit_log_model->logLine(i)->id()+1;
+    }
+  }
+  return id;
 }

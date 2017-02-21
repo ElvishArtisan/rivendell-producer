@@ -63,6 +63,7 @@ class LogModel : public QAbstractTableModel
   int trafficLinks() const;
   bool trafficLinked() const;
   void updateRow(int row);
+  void insert(int row,LogLine *ll);
   bool load(const QString &name,QString *err_msg);
   bool save(const QString &name,QString *err_msg);
   LogLine *logLine(const QModelIndex &index);

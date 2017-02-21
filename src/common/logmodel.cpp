@@ -240,6 +240,15 @@ void LogModel::updateRow(int row)
 }
 
 
+void LogModel::insert(int row,LogLine *ll)
+{
+  beginInsertRows(QModelIndex(),row,row);
+  model_log->insert(row,*ll);
+  endInsertRows();
+  delete ll;
+}
+
+
 bool LogModel::load(const QString &name,QString *err_msg)
 {
   LoadColorMap();
