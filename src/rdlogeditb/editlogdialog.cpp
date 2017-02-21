@@ -697,25 +697,11 @@ void EditLogDialog::paintEvent(QPaintEvent *e)
 
 void EditLogDialog::Save()
 {
-  /*
-  struct save_loghdr_values hdr;
-  struct save_logline_values *loglines=NULL;
-  unsigned logline_quan=0;
-  int err;
+  QString err_msg;
 
-  memset(&hdr,0,sizeof(hdr));
-  strncpy(hdr.loghdr_service,edit_service_box->currentText().toUtf8(),64);
-  strncpy(hdr.loghdr_description,edit_description_edit->text().toUtf8(),64);
-  hdr.loghdr_autorefresh=edit_autorefresh_box->currentIndex();
-  logline_quan=edit_log_model->logLines(&loglines);
-  if((err=RD_SaveLog(&hdr,loglines,logline_quan,
-		     cnf->serverHostname().toUtf8(),
-		     cnf->serverUsername().toUtf8(),
-		     cnf->serverPassword().toUtf8(),
-		     edit_name_label->text().toUtf8()))!=0) {
+  if(!edit_log_model->save(edit_name_label->text(),&err_msg)) {
     QMessageBox::critical(this,"RDLogEdit - Error",
-			  tr("Unable to save log")+
-			  QString().sprintf(" [Err: %d]",err));
+			  tr("Unable to save log")+" ["+err_msg+"]");
+    
   }
-  */
 }

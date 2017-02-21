@@ -139,3 +139,5 @@
 	and 'src/common/cartfilterwidget.h'.
 2017-02-16 Fred Gleason <fredg@paravelsystems.com>
 	* Cleaned up cart picking in rdlogeditb(1).
+2017-02-21 Fred Gleason <fredg@paravelsystems.com>
+	* Got log saves working in rdlogeditb(1).
