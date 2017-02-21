@@ -249,6 +249,14 @@ void LogModel::insert(int row,LogLine *ll)
 }
 
 
+void LogModel::removeAt(int row)
+{
+  beginRemoveRows(QModelIndex(),row,row);
+  model_log->removeAt(row);
+  endRemoveRows();
+}
+
+
 bool LogModel::load(const QString &name,QString *err_msg)
 {
   LoadColorMap();

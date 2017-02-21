@@ -143,3 +143,5 @@
 	* Got log saves working in rdlogeditb(1).
 2017-02-21 Fred Gleason <fredg@paravelsystems.com>
 	* Implemented the 'Insert Cart' button in rdlogeditb(1).
+2017-02-21 Fred Gleason <fredg@paravelsystems.com>
+	* Implemented the 'Delete' button in rdlogeditb(1).
