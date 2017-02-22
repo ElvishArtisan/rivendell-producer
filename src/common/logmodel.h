@@ -65,7 +65,7 @@ class LogModel : public QAbstractTableModel
   void updateRow(int row);
   void move(int from_row,int to_row);
   void insert(int row,LogLine *ll);
-  void removeAt(int row);
+  void removeAt(int row,int num_rows);
   bool load(const QString &name,QString *err_msg);
   bool save(const QString &name,QString *err_msg);
   LogLine *logLine(const QModelIndex &index);

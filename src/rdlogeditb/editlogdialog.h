@@ -87,6 +87,7 @@ class EditLogDialog : public QDialog
   int GetNextId() const;
   DateDialog *edit_date_dialog;
   EditLogLineDialog *edit_logline_dialog;
+  QList<LogLine *> edit_clipboard;
 
   QLabel *edit_name_label_label;
   QLabel *edit_name_label;

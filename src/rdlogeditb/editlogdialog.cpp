@@ -318,10 +318,18 @@ QSize EditLogDialog::sizeHint() const
 
 int EditLogDialog::exec(const QString &logname)
 {
-  //  struct rd_log *log=NULL;
-  //  unsigned log_quan=0;
   QDate date;
   QString err_msg;
+
+  edit_insertcart_button->setDisabled(true);
+  edit_insertmeta_button->setDisabled(true);
+  edit_edit_button->setDisabled(true);
+  edit_delete_button->setDisabled(true);
+  edit_up_button->setDisabled(true);
+  edit_down_button->setDisabled(true);
+  edit_cut_button->setDisabled(true);
+  edit_copy_button->setDisabled(true);
+  edit_paste_button->setDisabled(true);
 
   edit_selected_logid=-1;
   edit_log_view->resizeColumnsToContents();
@@ -517,8 +525,9 @@ void EditLogDialog::deleteData()
 {
   QItemSelectionModel *s=edit_log_view->selectionModel();
   if(s->hasSelection()&&
-     (s->selectedRows()[0].row()<(edit_log_model->rowCount()-1))) {
-    edit_log_model->removeAt(s->selectedRows()[0].row());
+     (s->selectedRows().at(0).row()<(edit_log_model->rowCount()-1))) {
+    edit_log_model->
+      removeAt(s->selectedRows().at(0).row(),s->selectedRows().size());
   }
 }
 
@@ -555,16 +564,33 @@ void EditLogDialog::downData()
 
 void EditLogDialog::cutData()
 {
+  copyData();
+  deleteData();
 }
 
 
 void EditLogDialog::copyData()
 {
+  QItemSelectionModel *s=edit_log_view->selectionModel();
+  edit_clipboard.clear();
+  for(int i=0;i<s->selectedRows().size();i++) {
+    edit_clipboard.
+      push_back(new LogLine(*edit_log_model->
+			    logLine(s->selectedRows().at(i).row())));
+  }
 }
 
 
 void EditLogDialog::pasteData()
 {
+  QItemSelectionModel *s=edit_log_view->selectionModel();
+  int row=s->selectedRows().at(0).row();
+  for(int i=0;i<edit_clipboard.size();i++) {
+    edit_clipboard.at(i)->setId(GetNextId());
+    edit_log_model->insert(row+i,edit_clipboard.at(i));
+  }
+  s->select(edit_log_model->index(row+edit_clipboard.size(),0,QModelIndex()),
+	    QItemSelectionModel::ClearAndSelect|QItemSelectionModel::Rows);
 }
 
 

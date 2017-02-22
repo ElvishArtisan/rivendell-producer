@@ -255,14 +255,15 @@ void LogModel::insert(int row,LogLine *ll)
   beginInsertRows(QModelIndex(),row,row);
   model_log->insert(row,*ll);
   endInsertRows();
-  delete ll;
 }
 
 
-void LogModel::removeAt(int row)
+void LogModel::removeAt(int row,int num_rows)
 {
-  beginRemoveRows(QModelIndex(),row,row);
-  model_log->removeAt(row);
+  beginRemoveRows(QModelIndex(),row,row+num_rows-1);
+  for(int i=0;i<num_rows;i++) {
+    model_log->removeAt(row);
+  }
   endRemoveRows();
 }
 
