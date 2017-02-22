@@ -259,7 +259,12 @@ int EditLogLineDialog::exec(LogLine *ll,const QString &service,
 
   edit_transtype_box->setCurrentItemData(ll->transType());
 
-  edit_cart_edit->setText(QString().sprintf("%06u",ll->cartNumber()));
+  if(ll->cartNumber()==0) {
+    edit_cart_edit->setText("");
+  }
+  else {
+    edit_cart_edit->setText(QString().sprintf("%06u",ll->cartNumber()));
+  }
   edit_title_edit->setText(ll->title());
   edit_artist_edit->setText(ll->artist());
 

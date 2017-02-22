@@ -156,3 +156,6 @@
 	* Implemented check for modified logs in
 	'src/rdlogeditb/editlogdialog.cpp' and
 	'src/rdlogeditb/editlogdialog.h'.
+2017-02-22 Fred Gleason <fredg@paravelsystems.com>
+	* Modified the 'Edit Log Entry' dialog to display a blank cart
+	number field if no cart has been selected yet.
