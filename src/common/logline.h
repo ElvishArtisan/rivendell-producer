@@ -198,8 +198,8 @@ class LogLine
   TransType logline_trans_type;
   int logline_cut_quantity;
   int logline_last_cut_played;
-  QString logline_marker_comment;
   QString logline_marker_label;
+  QString logline_marker_comment;
   QString logline_origin_user;
   DateTime logline_origin_date_time;
   int logline_start_point[2];

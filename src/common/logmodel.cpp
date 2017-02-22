@@ -368,19 +368,70 @@ QVariant LogModel::data(const QModelIndex &index,int role) const
       return QVariant(LogLine::transText(ll.transType()));
 
     case 3:  // Cart Number
-      return QVariant(QString().sprintf("%06u",ll.cartNumber()));
+      switch(ll.type()) {
+      case LogLine::Cart:
+      case LogLine::Macro:
+	return QVariant(QString().sprintf("%06u",ll.cartNumber()));
+
+      case LogLine::Marker:
+	return QVariant(tr("MARKER"));
+
+      case LogLine::Track:
+	return QVariant(tr("TRACK"));
+
+      case LogLine::Chain:
+	return QVariant(tr("LOG CHAIN"));
+
+      default:
+	break;
+      }
+      break;
 
     case 4:  // Group Name
       return QVariant(ll.groupName());
 
     case 5:  // Length
-      return QVariant(GetLength(ll));
+      switch(ll.type()) {
+      case LogLine::Cart:
+      case LogLine::Macro:
+	return QVariant(GetLength(ll));
+
+      default:
+	break;
+      }
+      break;
 
     case 6:  // Title
-      return QVariant(ll.title());
+      switch(ll.type()) {
+      case LogLine::Cart:
+      case LogLine::Macro:
+	return QVariant(ll.title());
+
+      case LogLine::Chain:
+	return QVariant(ll.markerLabel());
+
+      case LogLine::Marker:
+      case LogLine::Track:
+	return QVariant(ll.markerComment());
+
+      default:
+	break;
+      }
+      break;
 
     case 7:  // Artist
-      return QVariant(ll.artist());
+      switch(ll.type()) {
+      case LogLine::Cart:
+      case LogLine::Macro:
+	return QVariant(ll.artist());
+
+      case LogLine::Chain:
+	return QVariant(ll.markerComment());
+
+      default:
+	break;
+      }
+      break;
 
     case 8:  // Client
       return QVariant(ll.client());
@@ -389,7 +440,18 @@ QVariant LogModel::data(const QModelIndex &index,int role) const
       return QVariant(ll.agency());
 
     case 10: // Label
-      return QVariant(ll.label());
+      switch(ll.type()) {
+      case LogLine::Cart:
+      case LogLine::Macro:
+	return QVariant(ll.label());
+
+      case LogLine::Marker:
+	return QVariant(ll.markerLabel());
+
+      default:
+	break;
+      }
+      break;
 
     case 11: // Source
       return QVariant(LogLine::sourceText(ll.source()));

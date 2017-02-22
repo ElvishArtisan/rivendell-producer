@@ -406,13 +406,13 @@ void LogLine::setMarkerLabel(const QString &str)
 
 QString LogLine::originUser() const
 {
-  return logline_marker_label;
+  return logline_origin_user;
 }
 
 
 void LogLine::setOriginUser(const QString &str)
 {
-  logline_marker_label=str;
+  logline_origin_user=str;
 }
 
 

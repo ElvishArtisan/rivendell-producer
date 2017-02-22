@@ -69,9 +69,26 @@ class EditLogLineDialog : public QDialog
   ComboBox *edit_transtype_box;
   QCheckBox *edit_overlap_box;
   QLabel *edit_overlap_label;
+
+  QLabel *edit_cart_label;
   QLineEdit *edit_cart_edit;
+  QLabel *edit_title_label;
   QLineEdit *edit_title_edit;
+  QLabel *edit_artist_label;
   QLineEdit *edit_artist_edit;
+  QPushButton *edit_cart_button;
+
+  QLabel *edit_comment_label;
+  QLineEdit *edit_comment_edit;
+  QLabel *edit_label_label;
+  QLineEdit *edit_label_edit;
+
+  QLabel *edit_logname_label;
+  QLineEdit *edit_logname_edit;
+  QLabel *edit_logcomment_label;
+  QLineEdit *edit_logcomment_edit;
+  QPushButton *edit_selectlog_button;
+
   QGroupBox *edit_grace_box;
   QButtonGroup *edit_grace_group;
   QDateTimeEdit *edit_grace_edit;

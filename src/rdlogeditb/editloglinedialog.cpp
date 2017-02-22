@@ -128,44 +128,98 @@ EditLogLineDialog::EditLogLineDialog(QWidget *parent)
   edit_overlap_label->setFont(button_font);
   edit_overlap_label->setAlignment(Qt::AlignLeft|Qt::AlignVCenter|Qt::TextShowMnemonic);
   
+
+  //
+  // Cart Picker
   //
   // Cart Number
   //
   edit_cart_edit=new QLineEdit(this);
-  edit_cart_edit->setGeometry(10,116,60,18);
+  edit_cart_edit->setGeometry(10,116,60,20);
   edit_cart_edit->setReadOnly(true);
-  QLabel *label=new QLabel(tr("Cart"),this);
-  label->setFont(label_font);
-  label->setGeometry(12,100,60,14);
+  edit_cart_label=new QLabel(tr("Cart"),this);
+  edit_cart_label->setFont(label_font);
+  edit_cart_label->setGeometry(12,100,60,14);
 
   //
   // Title 
   //
   edit_title_edit=new QLineEdit(this);
-  edit_title_edit->setGeometry(75,116,260,18);
+  edit_title_edit->setGeometry(75,116,260,20);
   edit_title_edit->setReadOnly(true);
-  label=new QLabel(tr("Title"),this);
-  label->setFont(label_font);
-  label->setGeometry(77,100,110,14);
+  edit_title_label=new QLabel(tr("Title"),this);
+  edit_title_label->setFont(label_font);
+  edit_title_label->setGeometry(77,100,110,14);
 
   //
   // Artist 
   //
   edit_artist_edit=new QLineEdit(this);
-  edit_artist_edit->setGeometry(340,116,sizeHint().width()-350,18);
+  edit_artist_edit->setGeometry(340,116,sizeHint().width()-350,20);
   edit_artist_edit->setReadOnly(true);
-  label=new QLabel(tr("Artist"),this);
-  label->setFont(label_font);
-  label->setGeometry(342,100,110,14);
+  edit_artist_label=new QLabel(tr("Artist"),this);
+  edit_artist_label->setFont(label_font);
+  edit_artist_label->setGeometry(342,100,110,14);
 
   //
   // Cart Button
   //
-  QPushButton *button=new QPushButton(this);
-  button->setGeometry(20,144,80,50);
-  button->setFont(button_font);
-  button->setText(tr("Select\nCart"));
-  connect(button,SIGNAL(clicked()),this,SLOT(selectCartData()));
+  edit_cart_button=new QPushButton(this);
+  edit_cart_button->setGeometry(20,144,80,50);
+  edit_cart_button->setFont(button_font);
+  edit_cart_button->setText(tr("Select\nCart"));
+  connect(edit_cart_button,SIGNAL(clicked()),this,SLOT(selectCartData()));
+
+  //
+  // Marker Editor
+  //
+  // Comment
+  //
+  edit_comment_edit=new QLineEdit(this);
+  edit_comment_edit->setGeometry(10,116,sizeHint().width()-20,20);
+  edit_comment_edit->setMaxLength(255);
+  edit_comment_label=new QLabel(tr("Comment"),this);
+  edit_comment_label->setFont(label_font);
+  edit_comment_label->setGeometry(12,100,60,14);
+  
+  //
+  // Label
+  //
+  edit_label_edit=new QLineEdit(this);
+  edit_label_edit->setGeometry(10,166,100,20);
+  edit_label_edit->setMaxLength(64);
+  edit_label_label=new QLabel(tr("Label"),this);
+  edit_label_label->setFont(label_font);
+  edit_label_label->setGeometry(12,150,60,14);
+
+  //
+  // Chain Editor
+  //
+  // Logname
+  //
+  edit_logname_edit=new QLineEdit(this);
+  edit_logname_edit->setGeometry(10,116,sizeHint().width()-100,20);
+  edit_logname_edit->setMaxLength(255);
+  edit_logname_label=new QLabel(tr("Log Name"),this);
+  edit_logname_label->setFont(label_font);
+  edit_logname_label->setGeometry(12,100,60,14);
+  
+  //
+  // Log Select Button
+  //
+  edit_selectlog_button=new QPushButton(tr("Select"),this);
+  edit_selectlog_button->setFont(radio_font);
+  edit_selectlog_button->setGeometry(sizeHint().width()-80,111,70,30);
+
+  //
+  // Log Comment
+  //
+  edit_logcomment_edit=new QLineEdit(this);
+  edit_logcomment_edit->setGeometry(10,166,sizeHint().width()-20,20);
+  edit_logcomment_edit->setMaxLength(64);
+  edit_logcomment_label=new QLabel(tr("Log Description"),this);
+  edit_logcomment_label->setFont(label_font);
+  edit_logcomment_label->setGeometry(12,150,300,14);
 
   //
   //  Ok Button
@@ -176,7 +230,7 @@ EditLogLineDialog::EditLogLineDialog(QWidget *parent)
   edit_ok_button->setDefault(true);
   edit_ok_button->setFont(button_font);
   edit_ok_button->setText(tr("&OK"));
-  edit_ok_button->setDisabled(true);
+  //  edit_ok_button->setDisabled(true);
   connect(edit_ok_button,SIGNAL(clicked()),this,SLOT(okData()));
 
   //
@@ -199,7 +253,7 @@ EditLogLineDialog::~EditLogLineDialog()
 
 QSize EditLogLineDialog::sizeHint() const
 {
-  return QSize(625,230);
+  return QSize(625,260);
 } 
 
 
@@ -213,9 +267,13 @@ int EditLogLineDialog::exec(LogLine *ll,const QString &service,
 			    const QList<QTime> &start_times)
 {
   edit_logline=ll;
+  edit_new_logline=*ll;
   edit_service=service;
   edit_start_times=start_times;
 
+  //
+  // Time Settings
+  //
   edit_timetype_box->setChecked(ll->timeType()==LogLine::Hard);
   edit_time_edit->setEnabled(ll->timeType()==LogLine::Hard);
   edit_time_edit->setTime(ll->startTime());
@@ -239,34 +297,149 @@ int EditLogLineDialog::exec(LogLine *ll,const QString &service,
     break;
   }
 
-  if((ll->segueStartPoint(LogLine::LogPointer)<0)&&
-     (ll->segueEndPoint(LogLine::LogPointer)<0)&&
-     (ll->endPoint(LogLine::LogPointer)<0)&&
-     (ll->fadedownPoint(LogLine::LogPointer)<0)) {
-    edit_overlap_box->setEnabled(true);
-    edit_overlap_label->setEnabled(true);
-    if(ll->segueGain()==0) {
-      edit_overlap_box->setChecked(true);
-    }
-    else {
-      edit_overlap_box->setChecked(false);
-    }
-  }
-  else {
-    edit_overlap_box->setEnabled(false);
-    edit_overlap_label->setEnabled(false);
-  }  
-
   edit_transtype_box->setCurrentItemData(ll->transType());
 
-  if(ll->cartNumber()==0) {
-    edit_cart_edit->setText("");
+  //
+  // Cart Settings
+  //
+  if((ll->type()==LogLine::Cart)||(ll->type()==LogLine::Macro)) {
+    setWindowTitle(tr("Edit Log Entry"));
+    edit_overlap_label->show();
+    edit_overlap_box->show();
+    edit_cart_label->show();
+    edit_cart_edit->show();
+    edit_title_label->show();
+    edit_title_edit->show();
+    edit_artist_label->show();
+    edit_artist_edit->show();
+    edit_cart_button->show();
+
+    edit_comment_label->hide();
+    edit_comment_edit->hide();
+    edit_label_label->hide();
+    edit_label_edit->hide();
+
+    edit_logname_label->hide();
+    edit_logname_edit->hide();
+    edit_logcomment_label->hide();
+    edit_logcomment_edit->hide();
+    edit_selectlog_button->hide();
+
+    if((ll->segueStartPoint(LogLine::LogPointer)<0)&&
+       (ll->segueEndPoint(LogLine::LogPointer)<0)&&
+       (ll->endPoint(LogLine::LogPointer)<0)&&
+       (ll->fadedownPoint(LogLine::LogPointer)<0)) {
+      edit_overlap_box->setEnabled(true);
+      edit_overlap_label->setEnabled(true);
+      if(ll->segueGain()==0) {
+	edit_overlap_box->setChecked(true);
+      }
+      else {
+	edit_overlap_box->setChecked(false);
+      }
+    }
+    else {
+      edit_overlap_box->setEnabled(false);
+      edit_overlap_label->setEnabled(false);
+    }  
+    if(ll->cartNumber()==0) {
+      edit_cart_edit->setText("");
+    }
+    else {
+      edit_cart_edit->setText(QString().sprintf("%06u",ll->cartNumber()));
+    }
+    edit_title_edit->setText(ll->title());
+    edit_artist_edit->setText(ll->artist());
   }
-  else {
-    edit_cart_edit->setText(QString().sprintf("%06u",ll->cartNumber()));
+
+  //
+  // Marker Settings
+  //
+  if(ll->type()==LogLine::Marker) {
+    setWindowTitle(tr("Edit Log Marker"));
+    edit_overlap_label->hide();
+    edit_overlap_box->hide();
+    edit_cart_label->hide();
+    edit_cart_edit->hide();
+    edit_title_label->hide();
+    edit_title_edit->hide();
+    edit_artist_label->hide();
+    edit_artist_edit->hide();
+    edit_cart_button->hide();
+
+    edit_comment_label->show();
+    edit_comment_edit->show();
+    edit_label_label->show();
+    edit_label_edit->show();
+
+    edit_logname_label->hide();
+    edit_logname_edit->hide();
+    edit_logcomment_label->hide();
+    edit_logcomment_edit->hide();
+    edit_selectlog_button->hide();
+
+    edit_comment_edit->setText(ll->markerComment());
+    edit_label_edit->setText(ll->markerLabel());
   }
-  edit_title_edit->setText(ll->title());
-  edit_artist_edit->setText(ll->artist());
+
+  //
+  // Track Settings
+  //
+  if(ll->type()==LogLine::Track) {
+    setWindowTitle(tr("Edit Voice Track Marker"));
+    edit_overlap_label->hide();
+    edit_overlap_box->hide();
+    edit_cart_label->hide();
+    edit_cart_edit->hide();
+    edit_title_label->hide();
+    edit_title_edit->hide();
+    edit_artist_label->hide();
+    edit_artist_edit->hide();
+    edit_cart_button->hide();
+
+    edit_comment_label->show();
+    edit_comment_edit->show();
+    edit_label_label->hide();
+    edit_label_edit->hide();
+
+    edit_logname_label->hide();
+    edit_logname_edit->hide();
+    edit_logcomment_label->hide();
+    edit_logcomment_edit->hide();
+    edit_selectlog_button->hide();
+
+    edit_comment_edit->setText(ll->markerComment());
+  }
+
+  //
+  // Chain Settings
+  //
+  if(ll->type()==LogLine::Chain) {
+    setWindowTitle(tr("Edit Log Chain"));
+    edit_overlap_label->hide();
+    edit_overlap_box->hide();
+    edit_cart_label->hide();
+    edit_cart_edit->hide();
+    edit_title_label->hide();
+    edit_title_edit->hide();
+    edit_artist_label->hide();
+    edit_artist_edit->hide();
+    edit_cart_button->hide();
+
+    edit_comment_label->hide();
+    edit_comment_edit->hide();
+    edit_label_label->hide();
+    edit_label_edit->hide();
+
+    edit_logname_label->show();
+    edit_logname_edit->show();
+    edit_logcomment_label->show();
+    edit_logcomment_edit->show();
+    edit_selectlog_button->show();
+
+    edit_logcomment_edit->setText(ll->markerComment());
+    edit_logname_edit->setText(ll->markerLabel());
+  }
 
   return QDialog::exec();
 }
@@ -280,7 +453,7 @@ void EditLogLineDialog::selectCartData()
     edit_title_edit->setText(edit_new_logline.title());
     edit_artist_edit->setText(edit_new_logline.artist());
   }
-  edit_ok_button->setEnabled(true);
+  // edit_ok_button->setEnabled(true);
 }
 
 
@@ -336,7 +509,12 @@ void EditLogLineDialog::graceClickedData(int id)
 
 void EditLogLineDialog::okData()
 {
-  if(edit_cart_edit->text().isEmpty()) {
+  //
+  // Sanity Checks
+  //
+  if(((edit_logline->type()==LogLine::Cart)||
+      (edit_logline->type()==LogLine::Macro))&&
+     edit_cart_edit->text().isEmpty()) {
     QMessageBox::warning(this,tr("Missing Cart"),
 			 tr("You must supply a cart number!"));
     return;
@@ -348,6 +526,10 @@ void EditLogLineDialog::okData()
       return;
   }
   *edit_logline=edit_new_logline;
+
+  //
+  // Time Settings
+  //
   if(edit_timetype_box->isChecked()) {
     edit_logline->setTimeType(LogLine::Hard);
     edit_logline->setStartTime(edit_time_edit->time());
@@ -372,17 +554,47 @@ void EditLogLineDialog::okData()
   edit_logline->
     setTransType((LogLine::TransType)edit_transtype_box->
 		 currentItemData().toInt());
-  edit_logline->setCartNumber(edit_cart_edit->text().toUInt());
-  if((edit_logline->segueStartPoint(LogLine::LogPointer)<0)&&
-     (edit_logline->segueEndPoint(LogLine::LogPointer)<0)&&
-     (edit_logline->endPoint(LogLine::LogPointer)<0)&&
-     (edit_logline->fadedownPoint(LogLine::LogPointer)<0)) {
-    if(edit_overlap_box->isChecked()) {
-      edit_logline->setSegueGain(0);
+
+  //
+  // Cart Values
+  //
+  if((edit_logline->type()==LogLine::Cart)||
+     (edit_logline->type()==LogLine::Macro)) {
+    edit_logline->setCartNumber(edit_cart_edit->text().toUInt());
+    if((edit_logline->segueStartPoint(LogLine::LogPointer)<0)&&
+       (edit_logline->segueEndPoint(LogLine::LogPointer)<0)&&
+       (edit_logline->endPoint(LogLine::LogPointer)<0)&&
+       (edit_logline->fadedownPoint(LogLine::LogPointer)<0)) {
+      if(edit_overlap_box->isChecked()) {
+	edit_logline->setSegueGain(0);
+      }
+      else {
+	edit_logline->setSegueGain(RD_FADE_DEPTH); // From Rivendell lib/rd.h
+      }
     }
-    else {
-      edit_logline->setSegueGain(RD_FADE_DEPTH); // From Rivendell lib/rd.h
-    }
+  }
+
+  //
+  // Marker Values
+  //
+  if(edit_logline->type()==LogLine::Marker) {
+    edit_logline->setMarkerComment(edit_comment_edit->text());
+    edit_logline->setMarkerLabel(edit_label_edit->text());
+  }
+
+  //
+  // Track Values
+  //
+  if(edit_logline->type()==LogLine::Track) {
+    edit_logline->setMarkerComment(edit_comment_edit->text());
+  }
+
+  //
+  // Chain Values
+  //
+  if(edit_logline->type()==LogLine::Chain) {
+    edit_logline->setMarkerComment(edit_logcomment_edit->text());
+    edit_logline->setMarkerLabel(edit_logname_edit->text());
   }
 
   done(true);
