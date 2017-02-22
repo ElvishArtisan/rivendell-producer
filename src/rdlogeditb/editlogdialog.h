@@ -55,7 +55,8 @@ class EditLogDialog : public QDialog
   void deleteDateSelectData();
   void startDateData(bool state);
   void endDateData(bool state);
-  void eventClickedData(const QModelIndex &index);
+  void eventSelectionChangedData(const QItemSelection &newsel,
+				 const QItemSelection &oldsel);
   void eventDoubleClickedData(const QModelIndex &index);
   void insertCartData();
   void insertMetaData();

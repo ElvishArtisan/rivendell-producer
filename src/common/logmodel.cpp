@@ -292,15 +292,15 @@ bool LogModel::save(const QString &name,QString *err_msg)
 
 LogLine *LogModel::logLine(const QModelIndex &index)
 {
-  if(index.row()>=model_log->size()) {
-    return NULL;
-  }
   return logLine(index.row());
 }
 
 
 LogLine *LogModel::logLine(int row)
 {
+  if(row>=model_log->size()) {
+    return NULL;
+  }
   return &(*model_log)[row];
 }
 

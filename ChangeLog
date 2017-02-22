@@ -147,3 +147,6 @@
 	* Implemented the 'Delete' button in rdlogeditb(1).
 2017-02-21 Fred Gleason <fredg@paravelsystems.com>
 	* Implemented the 'Up' and 'Down' buttons in rdlogeditb(1).
+2017-02-22 Fred Gleason <fredg@paravelsystems.com>
+	* Implemented button enable logic in 'src/rdlogeditb/editlogdialog.cpp'
+	and 'src/rdlogeditb/editlogdialog.h'.

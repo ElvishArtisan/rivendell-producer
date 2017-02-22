@@ -192,10 +192,15 @@ EditLogDialog::EditLogDialog(AddLogDialog *ad,QWidget *parent)
   edit_log_model=new LogModel(this);
   edit_log_model->setBoldFont(bold_font);
   edit_log_view=new TableView(this);
+  edit_log_view->setSelectionMode(QAbstractItemView::ContiguousSelection);
   edit_log_view->setModel(edit_log_model);
   edit_log_view->resizeColumnsToContents();
-  connect(edit_log_view,SIGNAL(clicked(const QModelIndex &)),
-	  this,SLOT(eventClickedData(const QModelIndex &)));
+  connect(edit_log_view->selectionModel(),
+	  SIGNAL(selectionChanged(const QItemSelection &,
+				  const QItemSelection &)),
+	  this,
+	  SLOT(eventSelectionChangedData(const QItemSelection &,
+					 const QItemSelection &)));
   connect(edit_log_view,SIGNAL(doubleClicked(const QModelIndex &)),
 	  this,SLOT(eventDoubleClickedData(const QModelIndex &)));
 
@@ -414,26 +419,50 @@ void EditLogDialog::endDateData(bool state)
 }
 
 
-void EditLogDialog::eventClickedData(const QModelIndex &index)
+void EditLogDialog::eventSelectionChangedData(const QItemSelection &newsel,
+					      const QItemSelection &oldsel)
 {
-  LogLine *ll=edit_log_model->logLine(index);
-  edit_play_button->
-    setEnabled((ll!=NULL)&&(ll->type()==LogLine::Cart));
-  edit_stop_button->
-    setEnabled((ll!=NULL)&&(ll->type()==LogLine::Cart));
+  LogLine *ll=NULL;
+  QItemSelectionModel *s=edit_log_view->selectionModel();
+  int rows=s->selectedRows().size();
+  bool end_selected=false;
 
-  if(edit_stream_player->state()==StreamPlayer::Playing) {
-    if((ll!=NULL)&&(ll->type()==LogLine::Cart)) {
-      if(ll->id()!=edit_selected_logid) {
-	edit_stream_player->
-	  play(edit_log_model->logLine(index)->cartNumber(),1,-1,-1);
-	edit_selected_logid=ll->id();
-      }
-    }
-    else {
-      edit_stream_player->stop();
+  for(int i=0;i<rows;i++) {
+    if(s->selectedRows().at(i).row()>=edit_log_model->rowCount()-1) {
+      end_selected=true;
     }
   }
+
+  if(rows==1) {
+    ll=edit_log_model->logLine(s->selectedRows().at(0).row());
+    edit_play_button->
+      setEnabled((ll!=NULL)&&(ll->type()==LogLine::Cart));
+    edit_stop_button->
+      setEnabled((ll!=NULL)&&(ll->type()==LogLine::Cart));
+
+    if(edit_stream_player->state()==StreamPlayer::Playing) {
+      if((ll!=NULL)&&(ll->type()==LogLine::Cart)) {
+	if(ll->id()!=edit_selected_logid) {
+	  edit_stream_player->
+	    play(ll->cartNumber(),1,-1,-1);
+	  edit_selected_logid=ll->id();
+	}
+      }
+      else {
+	edit_stream_player->stop();
+      }
+    }
+  }
+
+  edit_insertcart_button->setEnabled(rows==1);
+  edit_insertmeta_button->setEnabled(rows==1);
+  edit_edit_button->setEnabled((rows==1)&&(!end_selected));
+  edit_delete_button->setEnabled(!end_selected);
+  edit_up_button->setEnabled((rows==1)&&(!end_selected));
+  edit_down_button->setEnabled((rows==1)&&(!end_selected));
+  edit_cut_button->setEnabled((rows>0)&&(!end_selected));
+  edit_copy_button->setEnabled((rows>0)&&(!end_selected));
+  edit_paste_button->setEnabled(rows>0);
 }
 
 
