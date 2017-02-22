@@ -40,6 +40,7 @@ EditLogDialog::EditLogDialog(AddLogDialog *ad,QWidget *parent)
   :QDialog(parent)
 {
   edit_addlog_dialog=ad;
+  edit_modified=false;
 
   //
   // Window Title Bar
@@ -71,6 +72,14 @@ EditLogDialog::EditLogDialog(AddLogDialog *ad,QWidget *parent)
 	  this,SLOT(playerStateChangedData(StreamPlayer::State)));
   connect(edit_stream_player,SIGNAL(error(const QString &)),
 	  this,SLOT(playerErrorData(const QString &)));
+
+  //
+  // Log Modified Indicator
+  //
+  edit_modified_label=new QLabel("*",this);
+  edit_modified_label->setAlignment(Qt::AlignTop|Qt::AlignCenter);
+  edit_modified_label->setFont(bold_font);
+  edit_modified_label->hide();
 
   //
   // Log Name
@@ -106,6 +115,8 @@ EditLogDialog::EditLogDialog(AddLogDialog *ad,QWidget *parent)
   edit_description_label->setAlignment(Qt::AlignVCenter|Qt::AlignRight);
   edit_description_label->setFont(bold_font);
   edit_description_edit=new QLineEdit(this);
+  connect(edit_description_edit,SIGNAL(textChanged(const QString &)),
+	  this,SLOT(descriptionChanged(const QString &)));
 
   //
   // Deletion Date
@@ -129,6 +140,8 @@ EditLogDialog::EditLogDialog(AddLogDialog *ad,QWidget *parent)
   edit_service_label->setAlignment(Qt::AlignVCenter|Qt::AlignRight);
   edit_service_label->setFont(bold_font);
   edit_service_box=new ComboBox(this);
+  connect(edit_service_box,SIGNAL(activated(int)),
+	  this,SLOT(boxActivatedData(int)));
   struct rd_service *svcs=NULL;
   unsigned svc_quan=0;
   RD_ListServices(&svcs,cnf->serverHostname(),cnf->serverUsername(),
@@ -146,7 +159,8 @@ EditLogDialog::EditLogDialog(AddLogDialog *ad,QWidget *parent)
   edit_startdate_label->setFont(bold_font);
   edit_startdate_edit=new QDateTimeEdit(this);
   edit_startdate_edit->setDisplayFormat("MM/dd/yyyy");
-
+  connect(edit_startdate_edit,SIGNAL(dateChanged(const QDate &)),
+	  this,SLOT(dateChangedData(const QDate &)));
   //
   // End Date
   //
@@ -155,6 +169,8 @@ EditLogDialog::EditLogDialog(AddLogDialog *ad,QWidget *parent)
   edit_enddate_label->setFont(bold_font);
   edit_enddate_edit=new QDateTimeEdit(this);
   edit_enddate_edit->setDisplayFormat("MM/dd/yyyy");
+  connect(edit_enddate_edit,SIGNAL(dateChanged(const QDate &)),
+	  this,SLOT(dateChangedData(const QDate &)));
 
   //
   // Autorefresh
@@ -165,6 +181,8 @@ EditLogDialog::EditLogDialog(AddLogDialog *ad,QWidget *parent)
   edit_autorefresh_box=new ComboBox(this);
   edit_autorefresh_box->insertItem(0,tr("No"));
   edit_autorefresh_box->insertItem(1,tr("Yes"));
+  connect(edit_autorefresh_box,SIGNAL(activated(int)),
+	  this,SLOT(boxActivatedData(int)));
 
   //
   // Start Date Check
@@ -270,6 +288,7 @@ EditLogDialog::EditLogDialog(AddLogDialog *ad,QWidget *parent)
   //
   edit_save_button=new QPushButton(tr("Save"),this);
   edit_save_button->setFont(bold_font);
+  edit_save_button->setDisabled(true);
   connect(edit_save_button,SIGNAL(clicked()),this,SLOT(saveData()));
 
   //
@@ -390,8 +409,27 @@ int EditLogDialog::exec(const QString &logname)
     edit_enddate_edit->setDisabled(true);
     edit_enddate_check->setChecked(false);
   }
+  SetModified(false);
 
   return QDialog::exec();
+}
+
+
+void EditLogDialog::descriptionChanged(const QString &str)
+{
+  SetModified(true);
+}
+
+
+void EditLogDialog::dateChangedData(const QDate &date)
+{
+  SetModified(true);
+}
+
+
+void EditLogDialog::boxActivatedData(int index)
+{
+  SetModified(true);
 }
 
 
@@ -400,6 +438,7 @@ void EditLogDialog::deleteDateData(bool state)
   edit_logdelete_label->setEnabled(state);
   edit_logdelete_edit->setEnabled(state);
   edit_logdelete_button->setEnabled(state);
+  SetModified(true);
 }
 
 
@@ -409,6 +448,7 @@ void EditLogDialog::deleteDateSelectData()
 
   if(edit_date_dialog->exec(&date)) {
     edit_logdelete_edit->setDate(date);
+    SetModified(true);
   }
 }
 
@@ -417,6 +457,7 @@ void EditLogDialog::startDateData(bool state)
 {
   edit_startdate_label->setEnabled(state);
   edit_startdate_edit->setEnabled(state);
+  SetModified(true);
 }
 
 
@@ -424,6 +465,7 @@ void EditLogDialog::endDateData(bool state)
 {
   edit_enddate_label->setEnabled(state);
   edit_enddate_edit->setEnabled(state);
+  SetModified(true);
 }
 
 
@@ -492,6 +534,7 @@ void EditLogDialog::insertCartData()
 	    GetStartTimes(-1))) {
       ll->setId(GetNextId());
       edit_log_model->insert(s->selectedRows()[0].row(),ll);
+      SetModified(true);
     }
   }
 }
@@ -515,6 +558,7 @@ void EditLogDialog::editData()
 	 exec(ll,edit_service_box->currentItemData().toString(),
 	      GetStartTimes(s->selectedRows()[0].row()))) {
 	edit_log_model->updateRow(s->selectedRows()[0].row());
+	SetModified(true);
       }
     }
   }
@@ -528,6 +572,7 @@ void EditLogDialog::deleteData()
      (s->selectedRows().at(0).row()<(edit_log_model->rowCount()-1))) {
     edit_log_model->
       removeAt(s->selectedRows().at(0).row(),s->selectedRows().size());
+    SetModified(true);
   }
 }
 
@@ -542,6 +587,7 @@ void EditLogDialog::upData()
       s->select(edit_log_model->
 		index(row-1,0,QModelIndex()),QItemSelectionModel::Rows|
 		QItemSelectionModel::ClearAndSelect);
+      SetModified(true);
     }
   }
 }
@@ -557,6 +603,7 @@ void EditLogDialog::downData()
       s->select(edit_log_model->
 		index(row+1,0,QModelIndex()),QItemSelectionModel::Rows|
 		QItemSelectionModel::ClearAndSelect);
+      SetModified(true);
     }
   }
 }
@@ -591,6 +638,7 @@ void EditLogDialog::pasteData()
   }
   s->select(edit_log_model->index(row+edit_clipboard.size(),0,QModelIndex()),
 	    QItemSelectionModel::ClearAndSelect|QItemSelectionModel::Rows);
+  SetModified(true);
 }
 
 
@@ -640,6 +688,7 @@ void EditLogDialog::playerErrorData(const QString &msg)
 
 void EditLogDialog::saveData()
 {
+  Save();
 }
 
 
@@ -696,6 +745,24 @@ void EditLogDialog::okData()
 
 void EditLogDialog::cancelData()
 {
+  if(edit_modified) {
+    switch(QMessageBox::question(this,tr("RDLogEdit - Unsaved Changes"),
+				 tr("This log contains unsaved changes.")+
+				 "\n"+
+				 tr("Do you want to save before exiting?"),
+				 QMessageBox::Yes,QMessageBox::No,
+				 QMessageBox::Cancel)) {
+    case QMessageBox::Yes:
+      okData();
+      break;
+
+    case QMessageBox::No:
+      break;
+
+    default:
+      return;
+    }
+  }
   edit_stream_player->stop();
   done(false);
 }
@@ -709,14 +776,16 @@ void EditLogDialog::closeEvent(QCloseEvent *e)
 
 void EditLogDialog::resizeEvent(QResizeEvent *e)
 {
-  edit_name_label_label->setGeometry(50,11,100,18);
-  edit_name_label->setGeometry(155,11,size().width()-500,18);
-  //  edit_modified_label->setGeometry(60,14,20,18);
-  edit_tracks_label_label->setGeometry(size().width()-510,11,80,18);
-  edit_tracks_label->setGeometry(size().width()-425,11,40,18);
+  edit_modified_label->setGeometry(60,12,20,18);
 
-  edit_origin_label_label->setGeometry(size().width()-355,11,50,18);
-  edit_origin_label->setGeometry(size().width()-300,11,200,18);
+  edit_name_label_label->setGeometry(70,11,100,18);
+  edit_name_label->setGeometry(175,11,size().width()-500,18);
+
+  edit_tracks_label_label->setGeometry(size().width()-490,11,80,18);
+  edit_tracks_label->setGeometry(size().width()-405,11,40,18);
+
+  edit_origin_label_label->setGeometry(size().width()-335,11,50,18);
+  edit_origin_label->setGeometry(size().width()-280,11,200,18);
 
   edit_description_label->setGeometry(10,40,95,20);
   edit_description_edit->setGeometry(110,40,size().width()-410,20);
@@ -785,10 +854,15 @@ void EditLogDialog::Save()
 {
   QString err_msg;
 
-  if(!edit_log_model->save(edit_name_label->text(),&err_msg)) {
-    QMessageBox::critical(this,"RDLogEdit - Error",
-			  tr("Unable to save log")+" ["+err_msg+"]");
-    
+  if(edit_modified) {
+    if(edit_log_model->save(edit_name_label->text(),&err_msg)) {
+      SetModified(false);
+    }
+    else {
+      QMessageBox::critical(this,"RDLogEdit - Error",
+			    tr("Unable to save log")+" ["+err_msg+"]");
+      
+    }
   }
 }
 
@@ -816,4 +890,19 @@ int EditLogDialog::GetNextId() const
     }
   }
   return id;
+}
+
+
+void EditLogDialog::SetModified(bool state)
+{
+  if(state!=edit_modified) {
+    if(state) {
+      edit_modified_label->show();
+    }
+    else {
+      edit_modified_label->hide();
+    }
+    edit_save_button->setEnabled(state);
+    edit_modified=state;
+  }
 }

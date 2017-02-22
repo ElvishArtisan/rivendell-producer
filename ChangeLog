@@ -152,3 +152,7 @@
 	and 'src/rdlogeditb/editlogdialog.h'.
 2017-02-22 Fred Gleason <fredg@paravelsystems.com>
 	* Implemented the 'Cut', 'Copy' and 'Paste' buttons.
+2017-02-22 Fred Gleason <fredg@paravelsystems.com>
+	* Implemented check for modified logs in
+	'src/rdlogeditb/editlogdialog.cpp' and
+	'src/rdlogeditb/editlogdialog.h'.

@@ -51,6 +51,9 @@ class EditLogDialog : public QDialog
   int exec(const QString &logname);
 
  private slots:
+  void descriptionChanged(const QString &str);
+  void dateChangedData(const QDate &date);
+  void boxActivatedData(int index);
   void deleteDateData(bool state);
   void deleteDateSelectData();
   void startDateData(bool state);
@@ -85,10 +88,13 @@ class EditLogDialog : public QDialog
   void Save();
   QList<QTime> GetStartTimes(int except_row) const;
   int GetNextId() const;
+  void SetModified(bool state);
   DateDialog *edit_date_dialog;
   EditLogLineDialog *edit_logline_dialog;
   QList<LogLine *> edit_clipboard;
 
+  QLabel *edit_modified_label;
+  bool edit_modified;
   QLabel *edit_name_label_label;
   QLabel *edit_name_label;
   QLabel *edit_tracks_label_label;
