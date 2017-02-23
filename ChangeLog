@@ -173,3 +173,6 @@
 	* Added a 'capiError()' signal to all model classes in 'src/common/'.
 2017-02-22 Fred Gleason <fredg@paravelsystems.com>
 	* Added C API error handling to RDLibraryb(1).
+2017-02-23 Fred Gleason <fredg@paravelsystems.com>
+	* Implemented dynamic login in 'src/common/config.cpp' and
+	'src/common/config.h'.

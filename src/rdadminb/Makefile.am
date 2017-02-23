@@ -36,6 +36,7 @@ dist_rdadminb_SOURCES = rdadminb.cpp rdadminb.h
 
 nodist_rdadminb_SOURCES = cmdswitch.cpp cmdswitch.h\
                           config.cpp config.h\
+                          moc_config.cpp\
                           moc_rdadminb.cpp\
                           profile.cpp profile.h
 

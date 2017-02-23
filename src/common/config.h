@@ -24,6 +24,10 @@
 
 #include <stdint.h>
 
+#include <QDialog>
+#include <QLabel>
+#include <QLineEdit>
+#include <QPushButton>
 #include <QString>
 
 #define DEFAULT_CONF_FILE QString("/etc/rivendell-browser.conf")
@@ -35,10 +39,12 @@
 
 #define RD_FADE_DEPTH -3000
 
-class Config
+class Config : public QDialog
 {
+  Q_OBJECT;
  public:
-  Config();
+  Config(QWidget *parent=0);
+  QSize sizeHint() const;
   QString serverHostname() const;
   void setServerHostname(const QString &str);
   QString serverUsername() const;
@@ -50,10 +56,26 @@ class Config
   bool load();
   bool save();
 
+ private slots:
+  void okData();
+  void cancelData();
+
+ protected:
+  void closeEvent(QCloseEvent *e);
+  void resizeEvent(QResizeEvent *e);
+
  private:
-  QString conf_server_hostname;
-  QString conf_server_username;
-  QString conf_server_password;
+  QLabel *conf_hostname_label;
+  QLineEdit *conf_hostname_edit;
+  QLabel *conf_username_label;
+  QLineEdit *conf_username_edit;
+  QLabel *conf_password_label;
+  QLineEdit *conf_password_edit;
+  QPushButton *conf_ok_button;
+  QPushButton *conf_cancel_button;
+  //  QString conf_server_hostname;
+  //  QString conf_server_username;
+  //  QString conf_server_password;
   QString conf_audio_device_name;
 };
 

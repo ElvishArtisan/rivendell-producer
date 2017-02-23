@@ -53,8 +53,11 @@ MainWidget::MainWidget(QWidget *parent)
   //
   // Configuration
   //
-  cnf=new Config();
+  cnf=new Config(this);
   cnf->load();
+  if(!cnf->exec()) {
+    exit(0);
+  }
 
   //
   // Initialize Curl

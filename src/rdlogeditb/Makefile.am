@@ -56,6 +56,7 @@ nodist_rdlogeditb_SOURCES = cartfilterwidget.cpp cartfilterwidget.h\
                             moc_addlogdialog.cpp\
                             moc_cartfilterwidget.cpp\
                             moc_combobox.cpp\
+                            moc_config.cpp\
                             moc_datedialog.cpp\
                             moc_datepicker.cpp\
                             moc_editlogdialog.cpp\

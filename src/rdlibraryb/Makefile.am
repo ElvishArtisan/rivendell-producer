@@ -43,6 +43,7 @@ nodist_rdlibraryb_SOURCES = cartfilterwidget.cpp cartfilterwidget.h\
                             logline.cpp logline.h\
                             moc_cartfilterwidget.cpp\
                             moc_combobox.cpp\
+                            moc_config.cpp\
                             moc_librarymodel.cpp\
                             moc_rdlibraryb.cpp\
                             moc_streamplayer.cpp\
