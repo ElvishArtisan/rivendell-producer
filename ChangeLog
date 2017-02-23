@@ -180,3 +180,5 @@
 	* Implemented the 'make rpm' target.
 2017-02-23 Fred Gleason <fredg@paravelsystems.com>
 	* Added desktop entries in 'xdg/'.
+2017-02-23 Fred Gleason <fredg@paravelsystems.com>
+	* Renamed the Windows icons.

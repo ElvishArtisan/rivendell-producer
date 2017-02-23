@@ -50,15 +50,15 @@ EXTRA_DIST = audiocart.xpm\
              macro.xpm\
              marker.xpm\
              musiclink.xpm\
-             rdadmin.ico\
+             rdadminb.ico\
              rdadminb-16x16.png\
              rdadminb-16x16.xpm\
              rdadminb-48x48.png\
-             rdlibrary.ico\
+             rdlibraryb.ico\
              rdlibraryb-16x16.png\
              rdlibraryb-16x16.xpm\
              rdlibraryb-48x48.png\
-             rdlogedit.ico\
+             rdlogeditb.ico\
              rdlogeditb-16x16.png\
              rdlogeditb-16x16.xpm\
              rdlogeditb-48x48.png\

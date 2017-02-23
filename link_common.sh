@@ -118,6 +118,6 @@ rm -f src/$DESTDIR/transportbutton.h
 ln -s ../../src/common/transportbutton.h src/$DESTDIR/transportbutton.h
 
 rm -f src/$DESTDIR/*.ico
-ln -s ../../icons/rdadmin.ico src/$DESTDIR/rdadmin.ico
-ln -s ../../icons/rdlibrary.ico src/$DESTDIR/rdlibrary.ico
-ln -s ../../icons/rdlogedit.ico src/$DESTDIR/rdlogedit.ico
+ln -s ../../icons/rdadminb.ico src/$DESTDIR/rdadminb.ico
+ln -s ../../icons/rdlibraryb.ico src/$DESTDIR/rdlibraryb.ico
+ln -s ../../icons/rdlogeditb.ico src/$DESTDIR/rdlogeditb.ico

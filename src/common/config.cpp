@@ -184,9 +184,9 @@ bool Config::save()
 {
 #ifdef WIN32
   QSettings s;
-  s.setValue("Server/Hostname",conf_hostname->text());
-  s.setValue("Server/Username",conf_username->text());
-  s.setValue("Server/Password",conf_password->text());
+  s.setValue("Server/Hostname",conf_hostname_edit->text());
+  s.setValue("Server/Username",conf_username_edit->text());
+  s.setValue("Server/Password",conf_password_edit->text());
 
   s.setValue("Audio/DeviceName",conf_audio_device_name);
 
