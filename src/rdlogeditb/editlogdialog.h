@@ -35,6 +35,7 @@
 #include "combobox.h"
 #include "datedialog.h"
 #include "editloglinedialog.h"
+#include "insertmetadialog.h"
 #include "logmodel.h"
 #include "streamplayer.h"
 #include "tableview.h"
@@ -91,6 +92,7 @@ class EditLogDialog : public QDialog
   void SetModified(bool state);
   DateDialog *edit_date_dialog;
   EditLogLineDialog *edit_logline_dialog;
+  InsertMetaDialog *edit_insertmeta_dialog;
   QList<LogLine *> edit_clipboard;
 
   QLabel *edit_modified_label;

@@ -1,8 +1,8 @@
-// rdlogeditb.h
+// listlogsdialog.h
 //
-// Remote cart browser for Rivendell
+// Log Listing Dialog
 //
-//   (C) Copyright 2016 Fred Gleason <fredg@paravelsystems.com>
+//   (C) Copyright 2017 Fred Gleason <fredg@paravelsystems.com>
 //
 //   This program is free software; you can redistribute it and/or modify
 //   it under the terms of the GNU General Public License as
@@ -19,53 +19,46 @@
 //   Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 //
 
-#ifndef RDLOGEDITB_H
-#define RDLOGEDITB_H
+#ifndef LISTLOGSDIALOG_H
+#define LISTLOGSDIALOG_H
 
-#include <vector>
-
+#include <QDialog>
 #include <QLabel>
-#include <QMainWindow>
 #include <QPushButton>
 
-#include "addlogdialog.h"
-#include "editlogdialog.h"
 #include "loglistmodel.h"
 #include "servicebox.h"
-#include "streamplayer.h"
 #include "tableview.h"
 
-#define RDLOGEDITB_USAGE "\n"
-
-class MainWidget : public QMainWindow
+class ListLogsDialog : public QDialog
 {
   Q_OBJECT
  public:
-  MainWidget(QWidget *parent=0);
+  ListLogsDialog(QWidget *parent=0);
   QSize sizeHint() const;
 
+ public slots:
+   int exec(QString *logname,QString *description,const QString &svcname);
+
  private slots:
-  void addData();
-  void editData();
   void doubleClickedData(const QModelIndex &index);
-  void deleteData();
+  void okData();
+  void cancelData();
 
  protected:
   void closeEvent(QCloseEvent *e);
   void resizeEvent(QResizeEvent *e);
 
  private:
-  QLabel *main_service_label;
-  ServiceBox *main_service_box;
-  LogListModel *main_loglist_model;
-  TableView *main_loglist_view;
-  AddLogDialog *main_addlog_dialog;
-  EditLogDialog *main_editlog_dialog;
-  QPushButton *main_add_button;  
-  QPushButton *main_edit_button;  
-  QPushButton *main_delete_button;  
-  QPushButton *main_close_button;  
+  QString *list_log_name;
+  QString *list_log_description;
+  QLabel *list_service_label;
+  ServiceBox *list_service_box;
+  LogListModel *list_loglist_model;
+  TableView *list_loglist_view;
+  QPushButton *list_ok_button;
+  QPushButton *list_cancel_button;
 };
 
 
-#endif  // RDLOGEDITB_H
+#endif  // LISTLOGSDIALOG_H

@@ -88,6 +88,12 @@ QString LogListModel::logName(int row) const
 }
 
 
+QString LogListModel::description(int row) const
+{
+  return model_column_fields.at(row).at(2);
+}
+
+
 QModelIndex LogListModel::index(const QString &logname) const
 {
   for(int i=0;i<model_log_names.size();i++) {

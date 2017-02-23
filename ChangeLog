@@ -164,3 +164,8 @@
 	in the 'Edit Log' dialog.
 	* Enabled correct editing of Chain, Marker and Track events
 	in the 'Edit Log Entry' dialog.
+2017-02-22 Fred Gleason <fredg@paravelsystems.com>
+	* Added a 'List Logs' dialog in 'src/rdlogeditb/listlogsdialog.cpp'
+	and 'src/rdlogeditb/listlogsdialog.h'.
+	* Added a 'ServiceBox' widget in 'src/rdlogeditb/servicebox.cpp'
+	and 'src/rdlogeditb/servicebox.h'.

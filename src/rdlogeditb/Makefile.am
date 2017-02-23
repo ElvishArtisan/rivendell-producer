@@ -37,8 +37,11 @@ dist_rdlogeditb_SOURCES = addlogdialog.cpp addlogdialog.h\
                           datepicker.cpp datepicker.h\
                           editlogdialog.cpp editlogdialog.h\
                           editloglinedialog.cpp editloglinedialog.h\
+                          insertmetadialog.cpp insertmetadialog.h\
+                          listlogsdialog.cpp listlogsdialog.h\
                           pickcartdialog.cpp pickcartdialog.h\
-                          rdlogeditb.cpp rdlogeditb.h
+                          rdlogeditb.cpp rdlogeditb.h\
+                          servicebox.cpp servicebox.h
 
 nodist_rdlogeditb_SOURCES = cartfilterwidget.cpp cartfilterwidget.h\
                             cmdswitch.cpp cmdswitch.h\
@@ -57,11 +60,14 @@ nodist_rdlogeditb_SOURCES = cartfilterwidget.cpp cartfilterwidget.h\
                             moc_datepicker.cpp\
                             moc_editlogdialog.cpp\
                             moc_editloglinedialog.cpp\
+                            moc_insertmetadialog.cpp\
                             moc_librarymodel.cpp\
+                            moc_listlogsdialog.cpp\
                             moc_loglistmodel.cpp\
                             moc_logmodel.cpp\
                             moc_pickcartdialog.cpp\
                             moc_rdlogeditb.cpp\
+                            moc_servicebox.cpp\
                             moc_streamplayer.cpp\
                             moc_streamplayer_alsa.cpp\
                             moc_streamplayer_mme.cpp\

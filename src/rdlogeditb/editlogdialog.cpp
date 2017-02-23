@@ -63,6 +63,7 @@ EditLogDialog::EditLogDialog(AddLogDialog *ad,QWidget *parent)
   edit_date_dialog=new DateDialog(QDate::currentDate().year(),
 				  QDate::currentDate().year()+10,this);
   edit_logline_dialog=new EditLogLineDialog(this);
+  edit_insertmeta_dialog=new InsertMetaDialog(this);
 
   //
   // Stream Player
@@ -542,6 +543,22 @@ void EditLogDialog::insertCartData()
 
 void EditLogDialog::insertMetaData()
 {
+  LogLine *ll=NULL;
+  QItemSelectionModel *s=edit_log_view->selectionModel();
+  if(s->hasSelection()) {
+    ll=new LogLine();
+    ll->setType((LogLine::Type)edit_insertmeta_dialog->exec());
+    if(ll->type()==LogLine::UnknownType) {
+      delete ll;
+      return;
+    }
+    if(edit_logline_dialog->
+       exec(ll,edit_service_box->currentItemData().toString(),
+	    GetStartTimes(s->selectedRows()[0].row()))) {
+      ll->setId(GetNextId());
+      edit_log_model->insert(s->selectedRows()[0].row(),ll);
+    }
+  }
 }
 
 

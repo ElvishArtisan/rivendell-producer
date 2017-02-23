@@ -54,6 +54,7 @@ EditLogLineDialog::EditLogLineDialog(QWidget *parent)
   // Dialogs
   //
   edit_cart_dialog=new PickCartDialog(this);
+  edit_listlogs_dialog=new ListLogsDialog(this);
 
   //
   // Time Type
@@ -208,8 +209,9 @@ EditLogLineDialog::EditLogLineDialog(QWidget *parent)
   // Log Select Button
   //
   edit_selectlog_button=new QPushButton(tr("Select"),this);
-  edit_selectlog_button->setFont(radio_font);
   edit_selectlog_button->setGeometry(sizeHint().width()-80,111,70,30);
+  edit_selectlog_button->setFont(radio_font);
+  connect(edit_selectlog_button,SIGNAL(clicked()),this,SLOT(selectLogData()));
 
   //
   // Log Comment
@@ -454,6 +456,18 @@ void EditLogLineDialog::selectCartData()
     edit_artist_edit->setText(edit_new_logline.artist());
   }
   // edit_ok_button->setEnabled(true);
+}
+
+
+void EditLogLineDialog::selectLogData()
+{
+  QString logname;
+  QString description;
+
+  if(edit_listlogs_dialog->exec(&logname,&description,edit_service)) {
+    edit_logname_edit->setText(logname);
+    edit_logcomment_edit->setText(description);
+  }
 }
 
 

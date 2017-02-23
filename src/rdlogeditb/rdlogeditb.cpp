@@ -41,6 +41,8 @@
 MainWidget::MainWidget(QWidget *parent)
   :QMainWindow(parent)
 {
+  int err;
+
   //
   // Read Command Options
   //
@@ -88,26 +90,16 @@ MainWidget::MainWidget(QWidget *parent)
   main_service_label=new QLabel(tr("Service")+":",this);
   main_service_label->setFont(bold_font);
   main_service_label->setAlignment(Qt::AlignRight|Qt::AlignVCenter);
-  main_service_box=new ComboBox(this);
-  struct rd_service *services;
-  unsigned records=0;
-  int err=0;
-  if((err=RD_ListServices(&services,cnf->serverHostname().toUtf8(),
-			  cnf->serverUsername().toUtf8(),
-			  cnf->serverPassword().toUtf8(),false,&records))!=0) {
-    QMessageBox::warning(this,tr("RDLogEdit Browser - Error"),
-			 tr("Unable to connect to Rivendell server")+
+  main_service_box=new ServiceBox(this);
+  if((err=main_service_box->reload())!=0) {
+    QMessageBox::warning(this,tr("RDLogEdit - Error"),
+			 tr("Error in rd_listservices() call")+
 			 " ["+tr("Error")+QString().sprintf(" %d].",err));
     exit(256);
   }
-  main_service_box->insertItem(0,tr("ALL"),tr("ALL"));
-  for(unsigned i=0;i<records;i++) {
-    main_service_box->
-      insertItem(main_service_box->count(),services[i].service_name,services[i].service_name);
-  }
 
   //
-  // Carts List
+  // Log List
   //
   main_loglist_model=new LogListModel(this);
   main_loglist_view=new TableView(this);
@@ -240,7 +232,7 @@ void MainWidget::closeEvent(QCloseEvent *e)
 void MainWidget::resizeEvent(QResizeEvent *e)
 {
   main_service_label->setGeometry(10,5,60,20);
-  main_service_box->setGeometry(75,5,100,20);
+  main_service_box->setGeometry(75,5,120,20);
 
   main_loglist_view->setGeometry(10,32,size().width()-20,size().height()-112);
 

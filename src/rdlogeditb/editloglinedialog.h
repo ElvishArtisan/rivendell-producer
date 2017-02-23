@@ -34,6 +34,7 @@
 #include <QRadioButton>
 
 #include "combobox.h"
+#include "listlogsdialog.h"
 #include "logline.h"
 #include "pickcartdialog.h"
 
@@ -51,6 +52,7 @@ class EditLogLineDialog : public QDialog
 
  private slots:
   void selectCartData();
+  void selectLogData();
   void timeChangedData(const QTime &);
   void timeToggledData(bool state);
   void graceClickedData(int id);
@@ -61,6 +63,7 @@ class EditLogLineDialog : public QDialog
   void closeEvent(QCloseEvent *e);
   
  private:
+  ListLogsDialog *edit_listlogs_dialog;
   PickCartDialog *edit_cart_dialog;
   QDateTimeEdit *edit_time_edit;
   QLabel *edit_time_label;

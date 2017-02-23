@@ -1,8 +1,8 @@
-// rdlogeditb.h
+// insertmetadialog.h
 //
-// Remote cart browser for Rivendell
+// Log Editing Dialog
 //
-//   (C) Copyright 2016 Fred Gleason <fredg@paravelsystems.com>
+//   (C) Copyright 2017 Fred Gleason <fredg@paravelsystems.com>
 //
 //   This program is free software; you can redistribute it and/or modify
 //   it under the terms of the GNU General Public License as
@@ -19,53 +19,34 @@
 //   Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 //
 
-#ifndef RDLOGEDITB_H
-#define RDLOGEDITB_H
+#ifndef INSERTMETADIALOG_H
+#define INSERTMETADIALOG_H
 
-#include <vector>
-
+#include <QDialog>
 #include <QLabel>
-#include <QMainWindow>
 #include <QPushButton>
 
-#include "addlogdialog.h"
-#include "editlogdialog.h"
-#include "loglistmodel.h"
-#include "servicebox.h"
-#include "streamplayer.h"
-#include "tableview.h"
-
-#define RDLOGEDITB_USAGE "\n"
-
-class MainWidget : public QMainWindow
+class InsertMetaDialog : public QDialog
 {
   Q_OBJECT
  public:
-  MainWidget(QWidget *parent=0);
+  InsertMetaDialog(QWidget *parent=0);
   QSize sizeHint() const;
 
  private slots:
-  void addData();
-  void editData();
-  void doubleClickedData(const QModelIndex &index);
-  void deleteData();
+  void clickedData(int id);
 
  protected:
   void closeEvent(QCloseEvent *e);
   void resizeEvent(QResizeEvent *e);
 
  private:
-  QLabel *main_service_label;
-  ServiceBox *main_service_box;
-  LogListModel *main_loglist_model;
-  TableView *main_loglist_view;
-  AddLogDialog *main_addlog_dialog;
-  EditLogDialog *main_editlog_dialog;
-  QPushButton *main_add_button;  
-  QPushButton *main_edit_button;  
-  QPushButton *main_delete_button;  
-  QPushButton *main_close_button;  
+  QLabel *insert_label;
+  QPushButton *insert_marker_button;
+  QPushButton *insert_track_button;
+  QPushButton *insert_chain_button;
+  QPushButton *insert_cancel_button;
 };
 
 
-#endif  // RDLOGEDITB_H
+#endif  // INSERTMETADIALOG_H
