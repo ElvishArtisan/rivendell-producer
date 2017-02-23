@@ -34,7 +34,7 @@ MainWidget::MainWidget(QWidget *parent)
 
   setMinimumSize(sizeHint());
   setMaximumHeight(sizeHint().height());
-  setWindowTitle(tr("RDAdmin Browser"));
+  setWindowTitle(tr("RDAdmin Remote")+" v"+VERSION);
   setWindowIcon(QPixmap(rdadminb_16x16_xpm));
 
   //

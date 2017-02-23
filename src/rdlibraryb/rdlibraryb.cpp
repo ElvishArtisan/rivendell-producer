@@ -76,7 +76,9 @@ MainWidget::MainWidget(QWidget *parent)
   //
   // Window Title Bar
   //
-  setWindowTitle(tr("RDLibrary Browser"));
+  setWindowTitle(tr("RDLibrary Remote")+" v"+VERSION+
+		 " [Host: "+cnf->serverHostname()+
+		 ",User: "+cnf->serverUsername()+"]");
   setWindowIcon(QPixmap(rdlibraryb_16x16_xpm));
 
   //

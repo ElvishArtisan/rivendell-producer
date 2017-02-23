@@ -68,7 +68,9 @@ MainWidget::MainWidget(QWidget *parent)
   //
   // Window Title Bar
   //
-  setWindowTitle(tr("RDLogEdit Browser"));
+  setWindowTitle(tr("RDLogEdit Remote")+" v"+VERSION+
+		 " [Host: "+cnf->serverHostname()+
+		 ",User: "+cnf->serverUsername()+"]");
   setWindowIcon(QPixmap(rdlogeditb_16x16_xpm));
 
   //

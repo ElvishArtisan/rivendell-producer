@@ -186,3 +186,7 @@
 	* Fixed a bug in 'src/common/config.cpp' and
 	'src/common/config.h' that caused the Username to be detected
 	from the environment by RDAdminb(1).
+2017-02-23 Fred Gleason <fredg@paravelsystems.com>
+	* Added the Version, Hostname and Username to the titlebar of
+	RDLibararyb(1) and RDLogEditb(1).
+	* Added the Version to the titlebar of RDAdminb(1).
