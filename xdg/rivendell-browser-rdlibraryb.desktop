@@ -1,0 +1,10 @@
+[Desktop Entry]
+Categories=AudioVideo;Player;
+Encoding=UTF-8
+Name=RDLibrary Remote
+GenericName=Rivendell Remote Library
+Exec=rdlibraryb
+Icon=rdlibraryb
+Path=
+Type=Application
+Terminal=false

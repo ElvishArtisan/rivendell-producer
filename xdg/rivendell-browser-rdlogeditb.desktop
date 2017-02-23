@@ -1,0 +1,10 @@
+[Desktop Entry]
+Categories=AudioVideo;Player;
+Encoding=UTF-8
+Name=RDLogEdit Remote
+GenericName=Rivendell Remote Log Editing
+Exec=rdlogeditb
+Icon=rdlogeditb
+Path=
+Type=Application
+Terminal=false

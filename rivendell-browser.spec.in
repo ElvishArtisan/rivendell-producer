@@ -67,13 +67,13 @@ rm -rf $RPM_BUILD_ROOT
 %{_bindir}/rdadminb
 %{_bindir}/rdlibraryb
 %{_bindir}/rdlogeditb
-#%{_datadir}/applications/walltime-panel.desktop
-%{_datadir}/icons/hicolor/16x16/apps/rdadmin.png
-%{_datadir}/icons/hicolor/16x16/apps/rdlibrary.png
-%{_datadir}/icons/hicolor/16x16/apps/rdlogedit.png
-%{_datadir}/icons/hicolor/48x48/apps/rdadmin.png
-%{_datadir}/icons/hicolor/48x48/apps/rdlibrary.png
-%{_datadir}/icons/hicolor/48x48/apps/rdlogedit.png
+%{_datadir}/icons/hicolor/16x16/apps/rdadminb.png
+%{_datadir}/icons/hicolor/16x16/apps/rdlibraryb.png
+%{_datadir}/icons/hicolor/16x16/apps/rdlogeditb.png
+%{_datadir}/icons/hicolor/48x48/apps/rdadminb.png
+%{_datadir}/icons/hicolor/48x48/apps/rdlibraryb.png
+%{_datadir}/icons/hicolor/48x48/apps/rdlogeditb.png
+%{_datadir}/applications/rivendell-browser-*.desktop
 %doc AUTHORS
 %doc ChangeLog
 %doc COPYING 

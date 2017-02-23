@@ -22,7 +22,8 @@
 
 SUBDIRS = conf\
           icons\
-          src
+          src\
+          xdg
 
 rpm:	dist
 	cp rivendell-browser-$(VERSION).tar.gz $(HOME)/rpmbuild/SOURCES/

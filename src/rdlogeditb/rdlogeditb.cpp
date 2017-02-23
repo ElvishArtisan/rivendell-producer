@@ -36,7 +36,7 @@
 #include "playerfactory.h"
 #include "rdlogeditb.h"
 
-#include "../../icons/rdlogedit-16x16.xpm"
+#include "../../icons/rdlogeditb-16x16.xpm"
 
 MainWidget::MainWidget(QWidget *parent)
   :QMainWindow(parent)
@@ -69,7 +69,7 @@ MainWidget::MainWidget(QWidget *parent)
   // Window Title Bar
   //
   setWindowTitle(tr("RDLogEdit Browser"));
-  setWindowIcon(QPixmap(rdlogedit_16x16_xpm));
+  setWindowIcon(QPixmap(rdlogeditb_16x16_xpm));
 
   //
   // Fix the Window Size

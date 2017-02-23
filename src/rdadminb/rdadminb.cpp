@@ -24,7 +24,7 @@
 
 #include "rdadminb.h"
 
-#include "../../icons/rdadmin-16x16.xpm"
+#include "../../icons/rdadminb-16x16.xpm"
 
 MainWidget::MainWidget(QWidget *parent)
   : QMainWindow(parent)
@@ -35,7 +35,7 @@ MainWidget::MainWidget(QWidget *parent)
   setMinimumSize(sizeHint());
   setMaximumHeight(sizeHint().height());
   setWindowTitle(tr("RDAdmin Browser"));
-  setWindowIcon(QPixmap(rdadmin_16x16_xpm));
+  setWindowIcon(QPixmap(rdadminb_16x16_xpm));
 
   //
   // Fonts

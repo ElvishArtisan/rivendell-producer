@@ -1,0 +1,10 @@
+[Desktop Entry]
+Categories=AudioVideo;Player;
+Encoding=UTF-8
+Name=RDAdmin Remote
+GenericName=Rivendell Remote Configuration
+Exec=rdadminb
+Icon=rdadminb
+Path=
+Type=Application
+Terminal=false

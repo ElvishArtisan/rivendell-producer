@@ -178,3 +178,5 @@
 	'src/common/config.h'.
 2017-02-23 Fred Gleason <fredg@paravelsystems.com>
 	* Implemented the 'make rpm' target.
+2017-02-23 Fred Gleason <fredg@paravelsystems.com>
+	* Added desktop entries in 'xdg/'.

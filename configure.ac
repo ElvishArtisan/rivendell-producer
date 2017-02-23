@@ -133,6 +133,7 @@ AC_CONFIG_FILES([ \
     src/rdadminb/Makefile \
     src/rdlibraryb/Makefile \
     src/rdlogeditb/Makefile \
+    xdg/Makefile \
     Makefile \
     rivendell-browser.spec \
 ])

@@ -1,5 +1,5 @@
 /* XPM */
-static const char * rdlogedit_16x16_xpm[] = {
+static const char * rdlogeditb_16x16_xpm[] = {
 "16 16 94 2",
 "  	c None",
 ". 	c #0F8F34",

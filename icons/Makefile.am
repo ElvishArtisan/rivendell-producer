@@ -23,21 +23,21 @@
 install-exec-am:	
 	mkdir -p $(DESTDIR)@prefix@/share/icons/hicolor/16x16/apps
 	mkdir -p $(DESTDIR)@prefix@/share/icons/hicolor/48x48/apps
-	cp rdadmin-16x16.png $(DESTDIR)@prefix@/share/icons/hicolor/16x16/apps/rdadmin.png
-	cp rdadmin-48x48.png $(DESTDIR)@prefix@/share/icons/hicolor/48x48/apps/rdadmin.png
-	cp rdlibrary-16x16.png $(DESTDIR)@prefix@/share/icons/hicolor/16x16/apps/rdlibrary.png
-	cp rdlibrary-48x48.png $(DESTDIR)@prefix@/share/icons/hicolor/48x48/apps/rdlibrary.png
-	cp rdlogedit-16x16.png $(DESTDIR)@prefix@/share/icons/hicolor/16x16/apps/rdlogedit.png
-	cp rdlogedit-48x48.png $(DESTDIR)@prefix@/share/icons/hicolor/48x48/apps/rdlogedit.png
+	cp rdadminb-16x16.png $(DESTDIR)@prefix@/share/icons/hicolor/16x16/apps/rdadminb.png
+	cp rdadminb-48x48.png $(DESTDIR)@prefix@/share/icons/hicolor/48x48/apps/rdadminb.png
+	cp rdlibraryb-16x16.png $(DESTDIR)@prefix@/share/icons/hicolor/16x16/apps/rdlibraryb.png
+	cp rdlibraryb-48x48.png $(DESTDIR)@prefix@/share/icons/hicolor/48x48/apps/rdlibraryb.png
+	cp rdlogeditb-16x16.png $(DESTDIR)@prefix@/share/icons/hicolor/16x16/apps/rdlogeditb.png
+	cp rdlogeditb-48x48.png $(DESTDIR)@prefix@/share/icons/hicolor/48x48/apps/rdlogeditb.png
 
 
 uninstall-local:	
-	rm -f $(DESTDIR)@prefix@/share/icons/hicolor/16x16/apps/rdadmin.png
-	rm -f $(DESTDIR)@prefix@/share/icons/hicolor/48x48/apps/rdadmin.png
-	rm -f $(DESTDIR)@prefix@/share/icons/hicolor/16x16/apps/rdlibrary.png
-	rm -f $(DESTDIR)@prefix@/share/icons/hicolor/48x48/apps/rdlibrary.png
-	rm -f $(DESTDIR)@prefix@/share/icons/hicolor/16x16/apps/rdlogedit.png
-	rm -f $(DESTDIR)@prefix@/share/icons/hicolor/48x48/apps/rdlogedit.png
+	rm -f $(DESTDIR)@prefix@/share/icons/hicolor/16x16/apps/rdadminb.png
+	rm -f $(DESTDIR)@prefix@/share/icons/hicolor/48x48/apps/rdadminb.png
+	rm -f $(DESTDIR)@prefix@/share/icons/hicolor/16x16/apps/rdlibraryb.png
+	rm -f $(DESTDIR)@prefix@/share/icons/hicolor/48x48/apps/rdlibraryb.png
+	rm -f $(DESTDIR)@prefix@/share/icons/hicolor/16x16/apps/rdlogeditb.png
+	rm -f $(DESTDIR)@prefix@/share/icons/hicolor/48x48/apps/rdlogeditb.png
 
 
 EXTRA_DIST = audiocart.xpm\
@@ -51,17 +51,17 @@ EXTRA_DIST = audiocart.xpm\
              marker.xpm\
              musiclink.xpm\
              rdadmin.ico\
-             rdadmin-16x16.png\
-             rdadmin-16x16.xpm\
-             rdadmin-48x48.png\
+             rdadminb-16x16.png\
+             rdadminb-16x16.xpm\
+             rdadminb-48x48.png\
              rdlibrary.ico\
-             rdlibrary-16x16.png\
-             rdlibrary-16x16.xpm\
-             rdlibrary-48x48.png\
+             rdlibraryb-16x16.png\
+             rdlibraryb-16x16.xpm\
+             rdlibraryb-48x48.png\
              rdlogedit.ico\
-             rdlogedit-16x16.png\
-             rdlogedit-16x16.xpm\
-             rdlogedit-48x48.png\
+             rdlogeditb-16x16.png\
+             rdlogeditb-16x16.xpm\
+             rdlogeditb-48x48.png\
              redball.xpm\
              redx.xpm\
              trackcart.xpm\
