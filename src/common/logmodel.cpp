@@ -506,7 +506,7 @@ void LogModel::LoadColorMap()
 
   if((err=RD_ListGroups(&grps,cnf->serverHostname(),cnf->serverUsername(),
 			cnf->serverPassword(),&grp_quan))!=0) {
-    emit error(QString().sprintf("RD_ListGroups() failed [error: %d]",err));
+    emit capiError(err,"Error in RD_ListGroups() call");
     return;
   }
   model_group_colors.clear();

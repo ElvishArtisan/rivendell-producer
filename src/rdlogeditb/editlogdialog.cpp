@@ -39,6 +39,7 @@
 EditLogDialog::EditLogDialog(AddLogDialog *ad,QWidget *parent)
   :QDialog(parent)
 {
+  int err;
   edit_addlog_dialog=ad;
   edit_modified=false;
 
@@ -140,17 +141,14 @@ EditLogDialog::EditLogDialog(AddLogDialog *ad,QWidget *parent)
   edit_service_label=new QLabel(tr("Service")+":",this);
   edit_service_label->setAlignment(Qt::AlignVCenter|Qt::AlignRight);
   edit_service_label->setFont(bold_font);
-  edit_service_box=new ComboBox(this);
+  edit_service_box=new ServiceBox(this);
   connect(edit_service_box,SIGNAL(activated(int)),
 	  this,SLOT(boxActivatedData(int)));
-  struct rd_service *svcs=NULL;
-  unsigned svc_quan=0;
-  RD_ListServices(&svcs,cnf->serverHostname(),cnf->serverUsername(),
-		  cnf->serverPassword(),false,&svc_quan);
-  for(unsigned i=0;i<svc_quan;i++) {
-    edit_service_box->insertItem(0,svcs[i].service_name,svcs[i].service_name);
+  if((err=edit_service_box->reload())!=0) {
+    QMessageBox::warning(this,tr("RDLogEdit - Error"),
+			 tr("Error in rd_listservices() call")+
+			 " ["+tr("Error")+QString().sprintf(" %d].",err));
   }
-  free(svcs);
 
   //
   // Start Date
@@ -210,6 +208,8 @@ EditLogDialog::EditLogDialog(AddLogDialog *ad,QWidget *parent)
   //
   edit_log_model=new LogModel(this);
   edit_log_model->setBoldFont(bold_font);
+  connect(edit_log_model,SIGNAL(capiError(int,const QString &)),
+	  this,SLOT(capiErrorData(int,const QString &)));
   edit_log_view=new TableView(this);
   edit_log_view->setSelectionMode(QAbstractItemView::ContiguousSelection);
   edit_log_view->setModel(edit_log_model);
@@ -715,13 +715,14 @@ void EditLogDialog::saveasData()
   QString logname;
   struct rd_log *logs;
   unsigned log_quan;
+  int err;
   QString err_str;
 
   if(edit_addlog_dialog->exec(&svcname,&logname)) {
-    if(RD_ListLogs(&logs,cnf->serverHostname().toUtf8(),
-		   cnf->serverUsername().toUtf8(),
-		   cnf->serverPassword().toUtf8(),
-		   "",logname.toUtf8(),false,&log_quan)==0) {
+    if((err=RD_ListLogs(&logs,cnf->serverHostname().toUtf8(),
+			cnf->serverUsername().toUtf8(),
+			cnf->serverPassword().toUtf8(),
+			"",logname.toUtf8(),false,&log_quan))==0) {
       if(log_quan>0) {
 	if(QMessageBox::question(this,"RDLogEdit - Save As",
 				 tr("Log")+" \""+logname+"\" "+
@@ -732,12 +733,14 @@ void EditLogDialog::saveasData()
 	}
       }
       else {
-	if(RD_AddLog(cnf->serverHostname().toUtf8(),
-		     cnf->serverUsername().toUtf8(),
-		     cnf->serverPassword().toUtf8(),
-		     logname.toUtf8(),
-		     svcname.toUtf8())!=0) {
-	  fprintf(stderr,"RD_AddLog error\n");
+	if((err=RD_AddLog(cnf->serverHostname().toUtf8(),
+			  cnf->serverUsername().toUtf8(),
+			  cnf->serverPassword().toUtf8(),
+			  logname.toUtf8(),
+			  svcname.toUtf8()))!=0) {
+	  QMessageBox::warning(this,tr("RDLogEdit - Error"),
+			       tr("Error in rd_addlog() call")+
+			       " ["+tr("Error")+QString().sprintf(" %d].",err));
 	}
       }
       edit_name_label->setText(logname);
@@ -746,7 +749,9 @@ void EditLogDialog::saveasData()
       edit_log_model->save(logname,&err_str);
     }
     else {
-      printf("RD_ListLog FAILURE!\n");
+      QMessageBox::warning(this,tr("RDLogEdit - Error"),
+			   tr("Error in rd_listlogs() call")+
+			   " ["+tr("Error")+QString().sprintf(" %d].",err));
     }
   }
 }
@@ -782,6 +787,13 @@ void EditLogDialog::cancelData()
   }
   edit_stream_player->stop();
   done(false);
+}
+
+
+void EditLogDialog::capiErrorData(int err,const QString &err_msg)
+{
+  QMessageBox::warning(this,tr("RDLogEdit - C API Error"),
+		       err_msg+QString().sprintf(" [Error: %d]",err));
 }
 
 

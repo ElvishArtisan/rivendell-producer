@@ -45,5 +45,6 @@ int ServiceBox::reload()
   for(unsigned i=0;i<records;i++) {
     insertItem(count(),services[i].service_name,services[i].service_name);
   }
+  free(services);
   return 0;
 }

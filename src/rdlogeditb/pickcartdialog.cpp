@@ -19,6 +19,8 @@
 //   Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 //
 
+#include <QMessageBox>
+
 #include "pickcartdialog.h"
 
 PickCartDialog::PickCartDialog(QWidget *parent)
@@ -31,6 +33,8 @@ PickCartDialog::PickCartDialog(QWidget *parent)
   cart_filter_widget=new CartFilterWidget(this);
 
   cart_library_model=new LibraryModel(this);
+  connect(cart_library_model,SIGNAL(capiError(int,const QString &)),
+	  this,SLOT(capiErrorData(int,const QString &)));
   connect(cart_filter_widget,
 	  SIGNAL(updateRequested(const QString &,const QString &,bool,bool)),
 	  cart_library_model,
@@ -85,6 +89,13 @@ void PickCartDialog::okData()
 void PickCartDialog::cancelData()
 {
   done(false);
+}
+
+
+void PickCartDialog::capiErrorData(int err,const QString &err_msg)
+{
+  QMessageBox::warning(this,tr("RDLogEdit - C API Error"),
+		       err_msg+QString().sprintf(" [Error: %d]",err));
 }
 
 

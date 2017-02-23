@@ -45,7 +45,7 @@ class LibraryModel : public QAbstractTableModel
 		      int role=Qt::DisplayRole) const;
 
  signals:
-  void error(const QString &err_msg);
+  void capiError(int err,const QString &err_msg);
 
  public slots:
   void update(const QString &filter,const QString &grp_name,bool show_audio,

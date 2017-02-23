@@ -61,16 +61,18 @@ int AddLogDialog::exec(QString *svcname,QString *logname)
 {
   struct rd_service *svc=NULL;
   unsigned svc_quan=0;
+  int err;
 
   edit_service_name=svcname;
   edit_log_name=logname;
 
-  if(RD_ListServices(&svc,cnf->serverHostname().toUtf8(),
+  if((err=RD_ListServices(&svc,cnf->serverHostname().toUtf8(),
 		     cnf->serverUsername().toUtf8(),
 		     cnf->serverPassword().toUtf8(),
-		     0,&svc_quan)!=0) {
-    QMessageBox::critical(this,"RDLogEdit - Add Log",
-			   tr("Unable to get Services list."));
+			  0,&svc_quan))!=0) {
+    QMessageBox::warning(this,tr("RDLogEdit - Error"),
+			 tr("Error in rd_listservices() call")+
+			 " ["+tr("Error")+QString().sprintf(" %d].",err));
   }
   edit_servicename_box->clear();
   for(unsigned i=0;i<svc_quan;i++) {

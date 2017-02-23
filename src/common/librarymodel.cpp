@@ -244,7 +244,7 @@ void LibraryModel::update(const QString &filter,const QString &grp_name,
     }
   }
   else {
-    fprintf(stderr,"LibraryModel: RD_ListCarts returned error %d\n",err);
+    emit capiError(err,"Error in RD_ListCarts() call");
   }
 }
 
@@ -257,7 +257,7 @@ void LibraryModel::LoadColorMap()
 
   if((err=RD_ListGroups(&grps,cnf->serverHostname(),cnf->serverUsername(),
 			cnf->serverPassword(),&grp_quan))!=0) {
-    emit error(QString().sprintf("RD_ListGroups() failed [error: %d]",err));
+    emit capiError(err,"error in RD_ListGroups() call");
     return;
   }
   model_group_colors.clear();

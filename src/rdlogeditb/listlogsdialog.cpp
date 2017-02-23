@@ -46,6 +46,8 @@ ListLogsDialog::ListLogsDialog(QWidget *parent)
   // Log List
   //
   list_loglist_model=new LogListModel(this);
+  connect(list_loglist_model,SIGNAL(capiError(int,const QString &)),
+	  this,SLOT(capiErrorData(int,const QString &)));
   list_loglist_view=new TableView(this);
   list_loglist_view->setModel(list_loglist_model);
   list_loglist_view->resizeColumnsToContents();
@@ -86,7 +88,7 @@ int ListLogsDialog::exec(QString *logname,QString *description,
 
   if((err=list_service_box->reload())!=0) {
     QMessageBox::warning(this,tr("RDLogEdit - Error"),
-			 tr("Error in rd_listservices() call")+
+			 tr("Error in RD_ListServices() call")+
 			 " ["+tr("Error")+QString().sprintf(" %d].",err));
   }
   list_service_box->setCurrentItemData(svcname);
@@ -116,6 +118,13 @@ void ListLogsDialog::okData()
 void ListLogsDialog::cancelData()
 {
   done(false);
+}
+
+
+void ListLogsDialog::capiErrorData(int err,const QString &err_msg)
+{
+  QMessageBox::warning(this,tr("RDLogEdit - C API Error"),
+		       err_msg+QString().sprintf(" [Error: %d]",err));
 }
 
 

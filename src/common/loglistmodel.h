@@ -45,6 +45,9 @@ class LogListModel : public QAbstractTableModel
   QVariant headerData(int section,Qt::Orientation orient,
 		      int role=Qt::DisplayRole) const;
 
+ signals:
+  void capiError(int err,const QString &err_msg);
+
  public slots:
   void setServiceName(const QString &str);
 

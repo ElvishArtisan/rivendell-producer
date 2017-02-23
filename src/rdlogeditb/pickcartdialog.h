@@ -44,6 +44,7 @@ class PickCartDialog : public QDialog
   void doubleClickedData(const QModelIndex &index);
   void okData();
   void cancelData();
+  void capiErrorData(int err,const QString &err_msg);
 
  protected:
   void closeEvent(QCloseEvent *e);

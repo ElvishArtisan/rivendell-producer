@@ -169,3 +169,5 @@
 	and 'src/rdlogeditb/listlogsdialog.h'.
 	* Added a 'ServiceBox' widget in 'src/rdlogeditb/servicebox.cpp'
 	and 'src/rdlogeditb/servicebox.h'.
+2017-02-22 Fred Gleason <fredg@paravelsystems.com>
+	* Added a 'capiError()' signal to all model classes in 'src/common/'.

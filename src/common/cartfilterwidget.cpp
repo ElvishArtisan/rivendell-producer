@@ -67,8 +67,8 @@ CartFilterWidget::CartFilterWidget(QWidget *parent)
   if((err=RD_ListGroups(&groups,cnf->serverHostname().toUtf8(),
 			cnf->serverUsername().toUtf8(),
 			cnf->serverPassword().toUtf8(),&records))!=0) {
-    QMessageBox::warning(this,tr("RDLibrary Browser - Error"),
-			 tr("Unable to connect to Rivendell server")+
+    QMessageBox::warning(this,tr("RDBrowser - Error"),
+			 tr("Error in rd_groups() call")+
 			 " ["+tr("Error")+QString().sprintf(" %d].",err));
     exit(256);
   }

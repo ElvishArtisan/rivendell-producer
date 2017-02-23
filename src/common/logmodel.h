@@ -78,7 +78,7 @@ class LogModel : public QAbstractTableModel
 		      int role=Qt::DisplayRole) const;
 
  signals:
-  void error(const QString &err_msg);
+  void capiError(int err,const QString &err_msg);
 
  private:
   void LoadColorMap();

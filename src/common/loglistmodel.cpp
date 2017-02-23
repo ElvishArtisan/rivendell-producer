@@ -176,7 +176,7 @@ void LogListModel::update()
     }
   }
   else {
-    fprintf(stderr,"LogListModel: RD_ListCarts returned error %d\n",err);
+    emit capiError(err,"error in RDListCarts() call");
   }
 }
 

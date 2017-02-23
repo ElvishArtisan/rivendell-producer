@@ -32,11 +32,11 @@
 #include <QPushButton>
 
 #include "addlogdialog.h"
-#include "combobox.h"
 #include "datedialog.h"
 #include "editloglinedialog.h"
 #include "insertmetadialog.h"
 #include "logmodel.h"
+#include "servicebox.h"
 #include "streamplayer.h"
 #include "tableview.h"
 #include "transportbutton.h"
@@ -79,6 +79,7 @@ class EditLogDialog : public QDialog
   void saveasData();
   void okData();
   void cancelData();
+  void capiErrorData(int err,const QString &err_msg);
 
  protected:
   void closeEvent(QCloseEvent *e);
@@ -112,7 +113,7 @@ class EditLogDialog : public QDialog
   QPushButton *edit_logdelete_button;
 
   QLabel *edit_service_label;
-  ComboBox *edit_service_box;
+  ServiceBox *edit_service_box;
   QLabel *edit_startdate_label;
   QDateTimeEdit *edit_startdate_edit;
   QLabel *edit_enddate_label;
