@@ -49,6 +49,7 @@ class MainWidget : public QMainWindow
   void stopData();
   void playerStateChangedData(StreamPlayer::State state);
   void playerErrorData(const QString &msg);
+  void capiErrorData(int err,const QString &err_msg);
 
  protected:
   void closeEvent(QCloseEvent *e);

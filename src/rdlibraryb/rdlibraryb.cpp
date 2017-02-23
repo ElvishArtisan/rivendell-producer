@@ -96,6 +96,8 @@ MainWidget::MainWidget(QWidget *parent)
   //
   main_library_model=new LibraryModel(this);
   main_library_model->setBoldFont(bold_font);
+  connect(main_library_model,SIGNAL(capiError(int,const QString &)),
+	  this,SLOT(capiErrorData(int,const QString &)));
   connect(main_filter_widget,
 	  SIGNAL(updateRequested(const QString &,const QString &,bool,bool)),
 	  main_library_model,
@@ -185,6 +187,13 @@ void MainWidget::playerStateChangedData(StreamPlayer::State state)
 void MainWidget::playerErrorData(const QString &msg)
 {
   QMessageBox::information(this,"RDLibrary - "+tr("Player Error"),msg);
+}
+
+
+void MainWidget::capiErrorData(int err,const QString &err_msg)
+{
+  QMessageBox::warning(this,tr("RDLibrary - C API Error"),
+		       err_msg+QString().sprintf(" [Error: %d]",err));
 }
 
 
