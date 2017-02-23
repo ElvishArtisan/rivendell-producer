@@ -22,6 +22,7 @@
 
 install-exec-am:	
 	mkdir -p $(DESTDIR)@prefix@/share/icons/hicolor/16x16/apps
+	mkdir -p $(DESTDIR)@prefix@/share/icons/hicolor/48x48/apps
 	cp rdadmin-16x16.png $(DESTDIR)@prefix@/share/icons/hicolor/16x16/apps/rdadmin.png
 	cp rdadmin-48x48.png $(DESTDIR)@prefix@/share/icons/hicolor/48x48/apps/rdadmin.png
 	cp rdlibrary-16x16.png $(DESTDIR)@prefix@/share/icons/hicolor/16x16/apps/rdlibrary.png
@@ -39,15 +40,14 @@ uninstall-local:
 	rm -f $(DESTDIR)@prefix@/share/icons/hicolor/48x48/apps/rdlogedit.png
 
 
-EXTRA_DIST = audio.xpm\
-             audiocart.xpm\
+EXTRA_DIST = audiocart.xpm\
+             audio.xpm\
              blueball.xpm\
              chain.xpm\
-             checkmark.xpm\
              greenball.xpm\
              greencheckmark.xpm\
-             macro.xpm\
              macrocart.xpm\
+             macro.xpm\
              marker.xpm\
              musiclink.xpm\
              rdadmin.ico\

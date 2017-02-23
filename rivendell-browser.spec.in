@@ -64,12 +64,16 @@ rm -rf $RPM_BUILD_ROOT
 
 %files
 %defattr(-,root,root)
-%{_bindir}/walltime-panel
-%{_datadir}/applications/walltime-panel.desktop
-%{_datadir}/icons/hicolor/16x16/apps/walltime-panel.png
-%{_datadir}/icons/hicolor/22x22/apps/walltime-panel.png
-%{_datadir}/icons/hicolor/32x32/apps/walltime-panel.png
-%{_datadir}/icons/hicolor/48x48/apps/walltime-panel.png
+%{_bindir}/rdadminb
+%{_bindir}/rdlibraryb
+%{_bindir}/rdlogeditb
+#%{_datadir}/applications/walltime-panel.desktop
+%{_datadir}/icons/hicolor/16x16/apps/rdadmin.png
+%{_datadir}/icons/hicolor/16x16/apps/rdlibrary.png
+%{_datadir}/icons/hicolor/16x16/apps/rdlogedit.png
+%{_datadir}/icons/hicolor/48x48/apps/rdadmin.png
+%{_datadir}/icons/hicolor/48x48/apps/rdlibrary.png
+%{_datadir}/icons/hicolor/48x48/apps/rdlogedit.png
 %doc AUTHORS
 %doc ChangeLog
 %doc COPYING 
@@ -78,5 +82,5 @@ rm -rf $RPM_BUILD_ROOT
 
 
 %changelog
-* Sun Aug 28 2016 Fred Gleason <fredg@paravelsystems.com>
+* Thu Feb 23 2017 Fred Gleason <fredg@paravelsystems.com>
 -- Initial RPM creation.

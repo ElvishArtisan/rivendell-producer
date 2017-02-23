@@ -176,3 +176,5 @@
 2017-02-23 Fred Gleason <fredg@paravelsystems.com>
 	* Implemented dynamic login in 'src/common/config.cpp' and
 	'src/common/config.h'.
+2017-02-23 Fred Gleason <fredg@paravelsystems.com>
+	* Implemented the 'make rpm' target.
