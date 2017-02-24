@@ -64,7 +64,7 @@ nodist_rdlibraryb_SOURCES = cartfilterwidget.cpp cartfilterwidget.h\
 EXTRA_rdlibraryb_DEPENDENCIES = @RESOURCES@
 
 rdlibraryb_LDADD = @QT4_LIBS@ @RIVCAPI_LIBS@ @CURL_LIBS@ @SRC_LIBS@ @MAD_LIBS@ @ALSA_LIBS@ @MME_LIBS@ -lexpat @RESOURCES@ -lpthread
-rdlibraryb_LDFLAGS = @LDFLAGS@ -mwindows
+rdlibraryb_LDFLAGS = @LDFLAGS@
 
 EXTRA_DIST = icons.rc
 

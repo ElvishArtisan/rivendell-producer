@@ -45,7 +45,7 @@ nodist_rdadminb_SOURCES = cmdswitch.cpp cmdswitch.h\
 EXTRA_rdadminb_DEPENDENCIES = @RESOURCES@
 
 rdadminb_LDADD = @QT4_LIBS@ @RIVCAPI_LIBS@ @MME_LIBS@ -lexpat @RESOURCES@ -lpthread
-rdadminb_LDFLAGS = @LDFLAGS@ -mwindows
+rdadminb_LDFLAGS = @LDFLAGS@
 
 EXTRA_DIST = icons.rc
 
