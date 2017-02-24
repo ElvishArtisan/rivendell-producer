@@ -200,3 +200,6 @@
 	* Fixed a typo in 'src/rdadminb/Makefile.am',
 	'src/rdlibraryb/Makefile.am' and 'src/rdlogeditb/Makefile.am' that
 	broke the build on Linux.
+2017-02-24 Fred Gleason <fredg@paravelsystems.com>
+	* Added a 'make nsis-installer' target.
+	* Modified 'COPYING.rtf' to be compatible with the NSIS dialog layout.

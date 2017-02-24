@@ -18,15 +18,30 @@
 #   Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 #
 
+#
+# Manifest Data
+#
+Name "Rivendell-Browser"
 OutFile "rivendell-browser-@VERSION@-1.exe"
+BrandingText " "
+InstallDir "$PROGRAMFILES\Radio Free Asia\Rivendell-Browser"
+LicenseData "COPYING.rtf"
+LicenseText "GNU General Public License v2.0"
+LicenseForceSelection radiobuttons
+ManifestSupportedOS all
+RequestExecutionLevel "user"
+
+#
+# Pages
+#
+Page license
+Page components
+Page directory
+Page instfiles
+UninstPage uninstConfirm
+UninstPage instfiles
 
 Section
-	#
-	# Names and Paths
-	#
-	StrCpy $1 "\Radio Free Asia\rivendell-browser"
-	StrCpy $INSTDIR $PROGRAMFILES$1
-
 	#
 	# Are we an Administrator?
 	#
@@ -61,18 +76,29 @@ Section
 	File "libwinpthread-1.dll"
 	File "zlib1.dll"
 	File "rdadminb.exe"
-	File "rdlibraryb.exe"
-	File "rdlogeditb.exe"
 
 	#
 	# Create Shortcuts
 	#
 	createShortCut "$SMPROGRAMS\RDAdmin Remote.lnk" "$INSTDIR\rdadminb.exe"
-	createShortCut "$SMPROGRAMS\RDLibrary Remote.lnk" "$INSTDIR\rdlibraryb.exe"
-	createShortCut "$SMPROGRAMS\RDLogEdit Remote.lnk" "$INSTDIR\rdlogeditb.exe"
 
 	WriteUninstaller $INSTDIR\uninstaller.exe
 SectionEnd
+
+
+Section "RDLibrary Remote"
+	SetOutPath $INSTDIR
+	File "rdlibraryb.exe"
+	createShortCut "$SMPROGRAMS\RDLibrary Remote.lnk" "$INSTDIR\rdlibraryb.exe"
+SectionEnd
+
+
+Section "RDLogEdit Remote"
+	SetOutPath $INSTDIR
+	File "rdlogeditb.exe"
+	createShortCut "$SMPROGRAMS\RDLogEdit Remote.lnk" "$INSTDIR\rdlogeditb.exe"
+SectionEnd
+
 
 Section "Uninstall"
 	#
