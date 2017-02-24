@@ -182,3 +182,5 @@
 	* Added desktop entries in 'xdg/'.
 2017-02-23 Fred Gleason <fredg@paravelsystems.com>
 	* Renamed the Windows icons.
+2017-02-24 Fred Gleason <fredg@paravelsystems.com>
+	* Added a 'make nsis-installer' target.

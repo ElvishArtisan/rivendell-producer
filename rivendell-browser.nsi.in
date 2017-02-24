@@ -1,0 +1,112 @@
+# rivendell-browser.nsi
+#
+#   Make a Windows Installer using NSIS
+#
+#   (C) Copyright 2017 Fred Gleason <fredg@paravelsystems.com>
+#
+#   This program is free software; you can redistribute it and/or modify
+#   it under the terms of the GNU General Public License version 2 as
+#   published by the Free Software Foundation.
+#
+#   This program is distributed in the hope that it will be useful,
+#   but WITHOUT ANY WARRANTY; without even the implied warranty of
+#   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+#   GNU General Public License for more details.
+#
+#   You should have received a copy of the GNU General Public
+#   License along with this program; if not, write to the Free Software
+#   Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
+#
+
+OutFile "rivendell-browser-@VERSION@-1.exe"
+
+Section
+	#
+	# Names and Paths
+	#
+	StrCpy $1 "\Radio Free Asia\rivendell-browser"
+	StrCpy $INSTDIR $PROGRAMFILES$1
+
+	#
+	# Are we an Administrator?
+	#
+	UserInfo::getAccountType
+	Pop $0
+	StrCmp $0 "Admin" +3
+	MessageBox MB_OK "You must have Administrator privileges to install this package."
+	Return
+
+	#
+	# Install Files
+	#
+	SetOutPath $INSTDIR
+	File "AUTHORS"
+	File "ChangeLog"
+	File "COPYING"
+        File "NEWS"
+   	File "README"
+	File "QtCore4.dll"
+	File "QtGui4.dll"
+	File "QtNetwork4.dll"
+	File "iconv.dll"
+	File "libcurl-4.dll"
+	File "libcrypto-10.dll"
+	File "libexpat-1.dll"
+	File "libgcc_s_sjlj-1.dll"
+	File "libidn-11.dll"
+	File "libpng16-16.dll"
+	File "libssh2-1.dll"
+	File "libssl-10.dll"
+	File "libstdc++-6.dll"
+	File "libwinpthread-1.dll"
+	File "zlib1.dll"
+	File "rdadminb.exe"
+	File "rdlibraryb.exe"
+	File "rdlogeditb.exe"
+
+	#
+	# Create Shortcuts
+	#
+	createShortCut "$SMPROGRAMS\RDAdmin Remote.lnk" "$INSTDIR\rdadminb.exe"
+	createShortCut "$SMPROGRAMS\RDLibrary Remote.lnk" "$INSTDIR\rdlibraryb.exe"
+	createShortCut "$SMPROGRAMS\RDLogEdit Remote.lnk" "$INSTDIR\rdlogeditb.exe"
+
+	WriteUninstaller $INSTDIR\uninstaller.exe
+SectionEnd
+
+Section "Uninstall"
+	#
+	# Names and Paths
+	#
+	StrCpy $1 "\Radio Free Asia\rivendell-browser"
+	StrCpy $INSTDIR $PROGRAMFILES$1
+
+	#
+	# Remove Files
+	#
+	Delete "Uninstall"
+	Delete $INSTDIR\AUTHORS
+	Delete $INSTDIR\ChangeLog
+	Delete $INSTDIR\COPYING
+        Delete $INSTDIR\NEWS
+   	Delete $INSTDIR\README
+	Delete $INSTDIR\QtCore4.dll
+	Delete $INSTDIR\QtGui4.dll
+	Delete $INSTDIR\QtNetwork4.dll
+	Delete $INSTDIR\iconv.dll
+	Delete $INSTDIR\libcurl-4.dll
+	Delete $INSTDIR\libcrypto-10.dll
+	Delete $INSTDIR\libexpat-1.dll
+	Delete $INSTDIR\libgcc_s_sjlj-1.dll
+	Delete $INSTDIR\libidn-11.dll
+	Delete $INSTDIR\libpng16-16.dll
+	Delete $INSTDIR\libssh2-1.dll
+	Delete $INSTDIR\libssl-10.dll
+	Delete $INSTDIR\libstdc++-6.dll
+	Delete $INSTDIR\libwinpthread-1.dll
+	Delete $INSTDIR\zlib1.dll
+	Delete $INSTDIR\rdadminb.exe
+	Delete $INSTDIR\rdlibraryb.exe
+	Delete $INSTDIR\rdlogeditb.exe
+SectionEnd
+

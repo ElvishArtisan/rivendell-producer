@@ -36,6 +36,7 @@ rpm:	dist
 install-win32:	
 	cp src/rdadminb/rdadminb.exe .
 	cp src/rdlibraryb/rdlibraryb.exe .
+	cp src/rdlogeditb/rdlogeditb.exe .
 	cp $(MINGW32_SYS_ROOT)/bin/QtCore4.dll .
 	cp $(MINGW32_SYS_ROOT)/bin/QtGui4.dll .
 	cp $(MINGW32_SYS_ROOT)/bin/QtNetwork4.dll .
@@ -52,11 +53,14 @@ install-win32:
 	cp $(MINGW32_SYS_ROOT)/bin/libwinpthread-1.dll .
 	cp $(MINGW32_SYS_ROOT)/bin/zlib1.dll .
 
+nsis-installer:	install-win32
+	makensis rivendell-browser.nsi
 
 EXTRA_DIST = autogen.sh\
              get_distro.sh\
              get_target.sh\
              link_common.sh\
+             rivendell-browser.nsi.in\
              rivendell-browser.spec.in\
              COPYING.rtf\
              PACKAGE_VERSION
@@ -71,7 +75,8 @@ CLEANFILES = *~\
              *.tgz\
              *.zip
 
-DISTCLEANFILES = rivendell-browser.spec\
+DISTCLEANFILES = rivendell-browser.nsi\
+                 rivendell-browser.spec\
                  config.guess\
                  config.sub\
                  ltmain.sh

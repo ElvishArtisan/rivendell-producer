@@ -135,6 +135,7 @@ AC_CONFIG_FILES([ \
     src/rdlogeditb/Makefile \
     xdg/Makefile \
     Makefile \
+    rivendell-browser.nsi \
     rivendell-browser.spec \
 ])
 AC_OUTPUT()
