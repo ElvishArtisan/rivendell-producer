@@ -87,7 +87,7 @@ nodist_rdlogeditb_SOURCES = cartfilterwidget.cpp cartfilterwidget.h\
 EXTRA_rdlogeditb_DEPENDENCIES = @RESOURCES@
 
 rdlogeditb_LDADD = @QT4_LIBS@ @RIVCAPI_LIBS@ @CURL_LIBS@ @SRC_LIBS@ @MAD_LIBS@ @ALSA_LIBS@ @MME_LIBS@ -lexpat @RESOURCES@ -lpthread
-rdlogeditb_LDFLAGS = @LDFLAGS@
+rdlogeditb_LDFLAGS = @LDFLAGS@ -mwindows
 
 EXTRA_DIST = icons.rc
 

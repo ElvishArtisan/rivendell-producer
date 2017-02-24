@@ -173,8 +173,8 @@ bool Config::load(bool use_env)
 
   if(use_env) {
     if(conf_username_edit->text().isEmpty()) {
-      if(getenv("USER")!=NULL) {
-	conf_username_edit->setText(getenv("USER"));
+      if(getenv("USERNAME")!=NULL) {
+	conf_username_edit->setText(getenv("USERNAME"));
       }
     }
   }

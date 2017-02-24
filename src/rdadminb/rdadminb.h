@@ -29,6 +29,7 @@
 #include <QLineEdit>
 #include <QPushButton>
 
+#include "combobox.h"
 #include "config.h"
 
 class MainWidget : public QMainWindow
@@ -54,6 +55,7 @@ class MainWidget : public QMainWindow
   QLabel *admin_server_password_label;
   QLineEdit *admin_server_password_edit;
   QLabel *admin_audio_devicename_label;
+  ComboBox *admin_audio_devicename_box;
   QLineEdit *admin_audio_devicename_edit;
   QPushButton *admin_ok_button;
   QPushButton *admin_cancel_button;

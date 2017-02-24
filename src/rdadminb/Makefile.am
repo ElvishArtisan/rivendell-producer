@@ -35,15 +35,17 @@ bin_PROGRAMS = rdadminb
 dist_rdadminb_SOURCES = rdadminb.cpp rdadminb.h
 
 nodist_rdadminb_SOURCES = cmdswitch.cpp cmdswitch.h\
+                          combobox.cpp combobox.h\
                           config.cpp config.h\
+                          moc_combobox.cpp\
                           moc_config.cpp\
                           moc_rdadminb.cpp\
                           profile.cpp profile.h
 
 EXTRA_rdadminb_DEPENDENCIES = @RESOURCES@
 
-rdadminb_LDADD = @QT4_LIBS@ @RIVCAPI_LIBS@ -lexpat @RESOURCES@ -lpthread
-rdadminb_LDFLAGS = @LDFLAGS@
+rdadminb_LDADD = @QT4_LIBS@ @RIVCAPI_LIBS@ @MME_LIBS@ -lexpat @RESOURCES@ -lpthread
+rdadminb_LDFLAGS = @LDFLAGS@ -mwindows
 
 EXTRA_DIST = icons.rc
 

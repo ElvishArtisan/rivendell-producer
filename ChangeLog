@@ -192,3 +192,7 @@
 	* Added the Version to the titlebar of RDAdminb(1).
 2017-02-24 Fred Gleason <fredg@paravelsystems.com>
 	* Added a 'make nsis-installer' target.
+2017-02-24 Fred Gleason <fredg@paravelsystems.com>
+	* Added a drop-down control with enumerated sound devices for MME
+	audio in 'src/rdadminb/rdadminb.cpp' and
+	'src/rdadminb/rdadminb.h'.

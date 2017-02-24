@@ -22,6 +22,12 @@
 #include <QApplication>
 #include <QPixmap>
 
+#ifdef MME
+#include <windows.h>
+#include <mmreg.h>
+#include <mmsystem.h>
+#endif  // MME
+
 #include "rdadminb.h"
 
 #include "../../icons/rdadminb-16x16.xpm"
@@ -64,8 +70,23 @@ MainWidget::MainWidget(QWidget *parent)
   admin_audio_devicename_label=new QLabel(tr("Audio Device")+":",this);
   admin_audio_devicename_label->setFont(bold_font);
   admin_audio_devicename_label->setAlignment(Qt::AlignRight|Qt::AlignVCenter);
+  admin_audio_devicename_box=new ComboBox(this);
   admin_audio_devicename_edit=new QLineEdit(this);
+#ifdef MME
+  admin_audio_devicename_edit->hide();
+  int devs=waveOutGetNumDevs();
+  for(int i=0;i<devs;i++) {
+    WAVEOUTCAPS caps;
+    if(waveOutGetDevCaps(i,&caps,sizeof(caps))==0) {
+      admin_audio_devicename_box->insertItem(-1,caps.szPname,i);
+    }
+  }
+  admin_audio_devicename_box->
+    setCurrentItemData(admin_config->audioDeviceName());
+#else
+  admin_audio_devicename_box->hide();
   admin_audio_devicename_edit->setText(admin_config->audioDeviceName());
+#endif  // MME
 
   admin_ok_button=new QPushButton(tr("OK"),this);
   admin_ok_button->setFont(bold_font);
@@ -79,7 +100,7 @@ MainWidget::MainWidget(QWidget *parent)
 
 QSize MainWidget::sizeHint() const
 {
-  return QSize(350,160);
+  return QSize(400,160);
 }
 
 
@@ -88,7 +109,13 @@ void MainWidget::okData()
   admin_config->setServerHostname(admin_server_hostname_edit->text());
   admin_config->setServerUsername(admin_server_username_edit->text());
   admin_config->setServerPassword(admin_server_password_edit->text());
+#ifdef MME
+  admin_config->
+    setAudioDeviceName(QString().
+    sprintf("%d",admin_audio_devicename_box->currentItemData().toInt()));
+#else
   admin_config->setAudioDeviceName(admin_audio_devicename_edit->text());
+#endif  // MME
 
   admin_config->save();
   exit(0);
@@ -123,6 +150,7 @@ void MainWidget::resizeEvent(QResizeEvent *e)
 
   admin_audio_devicename_label->setGeometry(10,90,170,20);
   admin_audio_devicename_edit->setGeometry(185,90,w-195,20);
+  admin_audio_devicename_box->setGeometry(185,90,w-195,20);
 
   admin_ok_button->setGeometry(w-180,h-40,80,30);
   admin_cancel_button->setGeometry(w-90,h-40,80,30);
