@@ -53,7 +53,7 @@ class Config : public QDialog
   void setServerPassword(const QString &str);
   QString audioDeviceName() const;
   void setAudioDeviceName(const QString &str);
-  bool load();
+  bool load(bool use_env=true);
   bool save();
 
  private slots:

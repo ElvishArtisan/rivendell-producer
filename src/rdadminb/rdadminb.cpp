@@ -30,11 +30,11 @@ MainWidget::MainWidget(QWidget *parent)
   : QMainWindow(parent)
 {
   admin_config=new Config(this);
-  admin_config->load();
+  admin_config->load(false);
 
   setMinimumSize(sizeHint());
   setMaximumHeight(sizeHint().height());
-  setWindowTitle(tr("RDAdmin Browser"));
+  setWindowTitle(tr("RDAdmin Remote")+" v"+VERSION);
   setWindowIcon(QPixmap(rdadminb_16x16_xpm));
 
   //

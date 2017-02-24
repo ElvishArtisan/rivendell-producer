@@ -142,7 +142,7 @@ void Config::setAudioDeviceName(const QString &str)
 }
 
 
-bool Config::load()
+bool Config::load(bool use_env)
 {
 #ifdef WIN32
   QSettings s;
@@ -171,9 +171,11 @@ bool Config::load()
     p->stringValue("Audio","DeviceName",DEFAULT_AUDIO_DEVICE_NAME);
 #endif  // WIN32
 
-  if(conf_username_edit->text().isEmpty()) {
-    if(getenv("USER")!=NULL) {
-      conf_username_edit->setText(getenv("USER"));
+  if(use_env) {
+    if(conf_username_edit->text().isEmpty()) {
+      if(getenv("USER")!=NULL) {
+	conf_username_edit->setText(getenv("USER"));
+      }
     }
   }
   return ret;
