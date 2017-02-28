@@ -209,3 +209,7 @@
 	* Extended 'StreamPlayer in 'src/common/streamplayer_alsa.cpp' to
 	support playing mono files on hardware without direct support for
 	mono.
+2017-02-28 Fred Gleason <fredg@paravelsystems.com>
+	* Added 'libsamplerate-0.dll' to the 'make winstall-win32' target.
+	* Added 'libsamplerate-0.dll' to the set of installed DLLs in
+	'rivendell-browser.nsi.in'.

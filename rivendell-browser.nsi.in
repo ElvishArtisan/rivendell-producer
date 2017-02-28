@@ -70,6 +70,7 @@ Section
 	File "libgcc_s_sjlj-1.dll"
 	File "libidn-11.dll"
 	File "libpng16-16.dll"
+        File "libsamplerate-0.dll"
 	File "libssh2-1.dll"
 	File "libssl-10.dll"
 	File "libstdc++-6.dll"
