@@ -110,6 +110,7 @@ bool __StreamPlayerOpenPlayback(StreamPlayerHeader *hdr)
   //
   if((aerr=snd_pcm_hw_params(alsa_data->pcm,hwparams))<0) {
     alsa_data->err_msg=QString("ALSA device error 1: ")+snd_strerror(aerr);
+    printf("HERE1\n");
     return false;
   }
   alsa_data->alsa_buffer=
@@ -124,6 +125,7 @@ bool __StreamPlayerOpenPlayback(StreamPlayerHeader *hdr)
 				  alsa_data->alsa_buffer_size/2);
   if((aerr=snd_pcm_sw_params(alsa_data->pcm,swparams))<0) {
     alsa_data->err_msg=QString("ALSA device error 2: ")+snd_strerror(aerr);
+    printf("HERE2\n");
     return false;
   }
 
@@ -142,12 +144,14 @@ void *__StreamPlayerAlsa_AlsaCallback(void *priv)
   static char *pcm24=NULL;
   static int *pcm32=NULL;
   static float *pcm=NULL;
+  static float *pcm2=NULL;
 
   alsa_data=(AlsaData *)priv;
   pcm16=new short[alsa_data->alsa_xfer_frames*alsa_data->alsa_channels];
   pcm24=new char[alsa_data->alsa_xfer_frames*alsa_data->alsa_channels*3];
   pcm32=new int[alsa_data->alsa_xfer_frames*alsa_data->alsa_channels];
   pcm=new float[alsa_data->alsa_xfer_frames*alsa_data->alsa_channels];
+  pcm2=new float[alsa_data->alsa_xfer_frames*alsa_data->alsa_channels];
 
   //
   // Wait for ring buffer to fill
@@ -182,26 +186,41 @@ void *__StreamPlayerAlsa_AlsaCallback(void *priv)
     switch(alsa_data->ring_format) {
     case SND_PCM_FORMAT_S16_LE:
       memset(pcm16,0,
-	    alsa_data->alsa_xfer_frames*alsa_data->alsa_channels*sizeof(short));
+	    alsa_data->alsa_xfer_frames*alsa_data->file_channels*sizeof(short));
       alsa_data->ring->read((char *)pcm16,
-	  alsa_data->alsa_xfer_frames*sizeof(short)*alsa_data->alsa_channels);
+	  alsa_data->alsa_xfer_frames*sizeof(short)*alsa_data->file_channels);
       src_short_to_float_array(pcm16,pcm,
-		       alsa_data->alsa_xfer_frames*alsa_data->alsa_channels);
+		       alsa_data->alsa_xfer_frames*alsa_data->file_channels);
       break;
 
     case SND_PCM_FORMAT_S24_3LE:
       alsa_data->ring->read(pcm24,
-	  alsa_data->alsa_xfer_frames*3*alsa_data->alsa_channels);
+	  alsa_data->alsa_xfer_frames*3*alsa_data->file_channels);
       StreamPlayerPcm24ToPcm32(pcm24,pcm32,
-	  alsa_data->alsa_xfer_frames*alsa_data->alsa_channels);
+	  alsa_data->alsa_xfer_frames*alsa_data->file_channels);
       src_int_to_float_array(pcm32,pcm,
-	  alsa_data->alsa_xfer_frames*alsa_data->alsa_channels);
+	  alsa_data->alsa_xfer_frames*alsa_data->file_channels);
       break;
 
     case SND_PCM_FORMAT_FLOAT:
       alsa_data->ring->read((char *)pcm,
-	  alsa_data->alsa_xfer_frames*sizeof(float)*alsa_data->alsa_channels);
+	  alsa_data->alsa_xfer_frames*sizeof(float)*alsa_data->file_channels);
       break;
+    }
+
+    //
+    // Rechannelize
+    //
+    if(alsa_data->file_channels==1) {
+      for(unsigned i=0;i<alsa_data->alsa_xfer_frames;i++) {
+	for(unsigned j=0;j<alsa_data->file_channels;j++) {
+	  pcm2[alsa_data->alsa_channels*i+j]=pcm[i];
+	}
+      }
+    }
+    else {
+      memcpy(pcm2,pcm,
+	  alsa_data->alsa_xfer_frames*alsa_data->alsa_channels*sizeof(float));
     }
 
     //
@@ -209,12 +228,12 @@ void *__StreamPlayerAlsa_AlsaCallback(void *priv)
     //
     switch(alsa_data->alsa_format) {
     case SND_PCM_FORMAT_S32_LE:
-      src_float_to_int_array(pcm,(int *)alsa_data->alsa_buffer,
+      src_float_to_int_array(pcm2,(int *)alsa_data->alsa_buffer,
 			 alsa_data->alsa_xfer_frames*alsa_data->alsa_channels);
       break;
 
     case SND_PCM_FORMAT_S16_LE:
-      src_float_to_short_array(pcm,(short *)alsa_data->alsa_buffer,
+      src_float_to_short_array(pcm2,(short *)alsa_data->alsa_buffer,
 			 alsa_data->alsa_xfer_frames*alsa_data->alsa_channels);
       break;
     }
@@ -272,6 +291,7 @@ size_t __StreamPlayerAlsa_CurlWriteCallback(char *ptr,size_t size,size_t nmemb,
       printf("  bits: %u\n",0xFFFF&hdr->fmt_bits);
       printf("  data_start: 0x%04X\n",data_start);
       */
+      alsa_data->file_channels=0xFFFF&hdr->fmt_channels;
       switch(hdr->fmt_format) {
       case WAVE_FORMAT_PCM:
 	switch(hdr->fmt_bits) {
@@ -366,7 +386,7 @@ void *__StreamPlayerAlsa_CurlThread(void *priv)
     switch(curl_code) {
     case CURLE_WRITE_ERROR:
       if(dev->alsa_data->pcm!=NULL) {
-	pthread_join(dev->alsa_data->alsa_pthread,NULL);
+	//	pthread_join(dev->alsa_data->alsa_pthread,NULL);
 	snd_pcm_close(dev->alsa_data->pcm);
 	dev->alsa_data->pcm=NULL;
 	dev->alsa_state=StreamPlayerAlsa::Stopped;

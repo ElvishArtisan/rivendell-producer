@@ -43,6 +43,7 @@ class AlsaData {
   QString alsa_device;
   unsigned alsa_format;
   unsigned alsa_samprate;
+  unsigned file_channels;
   unsigned alsa_channels;
   unsigned alsa_xfer_frames;
   unsigned alsa_periods;
