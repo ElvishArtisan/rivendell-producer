@@ -294,9 +294,7 @@ size_t __StreamPlayerMme_CurlWriteCallback(char *ptr,size_t size,size_t nmemb,
 	break;
 
       default:
-	mme_data->err_msg=
-	  QString().sprintf("unsupported audio encoding [wFormatTag: %d]",
-			    hdr->fmt_format);
+	mme_data->err_msg="No audio available";
 	return 0;
       }
       if(hdr->mpeg1_decoder==NULL) {

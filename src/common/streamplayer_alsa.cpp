@@ -316,9 +316,7 @@ size_t __StreamPlayerAlsa_CurlWriteCallback(char *ptr,size_t size,size_t nmemb,
 	break;
 
       default:
-	alsa_data->err_msg=
-	  QString().sprintf("unsupported audio encoding [wFormatTag: %d]",
-			    hdr->fmt_format);
+	alsa_data->err_msg="No audio available";
 	return 0;
       }
       if(hdr->mpeg1_decoder==NULL) {

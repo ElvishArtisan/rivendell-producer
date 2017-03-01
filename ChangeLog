@@ -213,3 +213,7 @@
 	* Added 'libsamplerate-0.dll' to the 'make winstall-win32' target.
 	* Added 'libsamplerate-0.dll' to the set of installed DLLs in
 	'rivendell-browser.nsi.in'.
+2017-03-01 Fred Gleason <fredg@paravelsystems.com>
+	* Changed the default error message in
+	'src/common/streamplayer_alsa.cpp' and
+	'src/common/streamplayer_mme.cpp' to 'No audio available'.
