@@ -72,7 +72,9 @@ CartFilterWidget::CartFilterWidget(QWidget *parent)
 			 " ["+tr("Error")+QString().sprintf(" %d].",err));
     exit(256);
   }
-  main_group_box->insertItem(0,tr("ALL"),tr("ALL"));
+  if(cnf->uiIncludeAllGroup()) {
+    main_group_box->insertItem(0,tr("ALL"),tr("ALL"));
+  }
   for(unsigned i=0;i<records;i++) {
     main_group_box->
       insertItem(main_group_box->count(),groups[i].grp_name,groups[i].grp_name);
@@ -104,6 +106,12 @@ CartFilterWidget::CartFilterWidget(QWidget *parent)
 QSize CartFilterWidget::sizeHint() const
 {
   return QSize(100,100);
+}
+
+
+QString CartFilterWidget::currentGroup() const
+{
+  return main_group_box->currentText();
 }
 
 

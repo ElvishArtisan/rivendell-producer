@@ -111,7 +111,7 @@ MainWidget::MainWidget(QWidget *parent)
   main_library_view->setModel(main_library_model);
   connect(main_library_view,SIGNAL(clicked(const QModelIndex &)),
 	  this,SLOT(cartClickedData(const QModelIndex &)));
-  main_library_model->update("",tr("ALL"),true,true);
+  main_library_model->update("",main_filter_widget->currentGroup(),true,true);
   main_library_view->resizeColumnsToContents();
 
   //

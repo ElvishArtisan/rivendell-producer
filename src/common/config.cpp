@@ -142,6 +142,18 @@ void Config::setAudioDeviceName(const QString &str)
 }
 
 
+bool Config::uiIncludeAllGroup() const
+{
+  return conf_ui_include_all_group;
+}
+
+
+void Config::setUiIncludeAllGroup(bool state)
+{
+  conf_ui_include_all_group=state;
+}
+
+
 bool Config::load(bool use_env)
 {
 #ifdef WIN32
@@ -156,6 +168,9 @@ bool Config::load(bool use_env)
 
   conf_audio_device_name=
     s.value("Audio/DeviceName",DEFAULT_AUDIO_DEVICE_NAME).toString();
+
+  conf_ui_include_all_group=
+    s.value("Ui/IncludeAllGroup",DEFAULT_UI_INCLUDE_ALL_GROUP).toInt();
 #else
   Profile *p=new Profile();
   bool ret=p->setSource(DEFAULT_CONF_FILE);
@@ -169,6 +184,9 @@ bool Config::load(bool use_env)
 
   conf_audio_device_name=
     p->stringValue("Audio","DeviceName",DEFAULT_AUDIO_DEVICE_NAME);
+
+  conf_ui_include_all_group=
+    p->boolValue("Ui","IncludeAllGroup",DEFAULT_UI_INCLUDE_ALL_GROUP);
 #endif  // WIN32
 
   if(use_env) {
@@ -192,6 +210,8 @@ bool Config::save()
 
   s.setValue("Audio/DeviceName",conf_audio_device_name);
 
+  s.setValue("Ui/IncludeAllGroup",conf_ui_include_all_group);
+
   return true;
 #else
   FILE *f=NULL;
@@ -207,6 +227,10 @@ bool Config::save()
 
   fprintf(f,"[Audio]\n");
   fprintf(f,"DeviceName=%s\n",(const char *)conf_audio_device_name.toUtf8());
+  fprintf(f,"\n");
+
+  fprintf(f,"[Ui]\n");
+  fprintf(f,"IncludeAllGroup=%d\n",conf_ui_include_all_group);
   fprintf(f,"\n");
 
   fclose(f);

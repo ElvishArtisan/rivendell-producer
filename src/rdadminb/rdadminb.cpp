@@ -88,6 +88,12 @@ MainWidget::MainWidget(QWidget *parent)
   admin_audio_devicename_edit->setText(admin_config->audioDeviceName());
 #endif  // MME
 
+  admin_ui_allgroup_label=new QLabel(tr("Include \"ALL\" in Group List"),this);
+  admin_ui_allgroup_label->setFont(bold_font);
+  admin_ui_allgroup_label->setAlignment(Qt::AlignLeft|Qt::AlignVCenter);
+  admin_ui_allgroup_check=new QCheckBox(this);
+  admin_ui_allgroup_check->setChecked(admin_config->uiIncludeAllGroup());
+
   admin_ok_button=new QPushButton(tr("OK"),this);
   admin_ok_button->setFont(bold_font);
   connect(admin_ok_button,SIGNAL(clicked()),this,SLOT(okData()));
@@ -100,7 +106,7 @@ MainWidget::MainWidget(QWidget *parent)
 
 QSize MainWidget::sizeHint() const
 {
-  return QSize(400,160);
+  return QSize(400,180);
 }
 
 
@@ -116,6 +122,7 @@ void MainWidget::okData()
 #else
   admin_config->setAudioDeviceName(admin_audio_devicename_edit->text());
 #endif  // MME
+  admin_config->setUiIncludeAllGroup(admin_ui_allgroup_check->isChecked());
 
   admin_config->save();
   exit(0);
@@ -151,6 +158,9 @@ void MainWidget::resizeEvent(QResizeEvent *e)
   admin_audio_devicename_label->setGeometry(10,90,170,20);
   admin_audio_devicename_edit->setGeometry(185,90,w-195,20);
   admin_audio_devicename_box->setGeometry(185,90,w-195,20);
+
+  admin_ui_allgroup_check->setGeometry(20,112,20,20);
+  admin_ui_allgroup_label->setGeometry(45,112,300,20);
 
   admin_ok_button->setGeometry(w-180,h-40,80,30);
   admin_cancel_button->setGeometry(w-90,h-40,80,30);

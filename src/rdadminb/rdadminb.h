@@ -24,6 +24,7 @@
 
 #include <vector>
 
+#include <QCheckBox>
 #include <QLabel>
 #include <QMainWindow>
 #include <QLineEdit>
@@ -57,6 +58,9 @@ class MainWidget : public QMainWindow
   QLabel *admin_audio_devicename_label;
   ComboBox *admin_audio_devicename_box;
   QLineEdit *admin_audio_devicename_edit;
+  QCheckBox *admin_ui_allgroup_check;
+  QLabel *admin_ui_allgroup_label;
+
   QPushButton *admin_ok_button;
   QPushButton *admin_cancel_button;
   Config *admin_config;

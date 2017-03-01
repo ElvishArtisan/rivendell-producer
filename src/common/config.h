@@ -37,6 +37,8 @@
 
 #define DEFAULT_AUDIO_DEVICE_NAME QString("plughw:0")
 
+#define DEFAULT_UI_INCLUDE_ALL_GROUP 0
+
 #define RD_FADE_DEPTH -3000
 
 class Config : public QDialog
@@ -53,6 +55,8 @@ class Config : public QDialog
   void setServerPassword(const QString &str);
   QString audioDeviceName() const;
   void setAudioDeviceName(const QString &str);
+  bool uiIncludeAllGroup() const;
+  void setUiIncludeAllGroup(bool state);
   bool load(bool use_env=true);
   bool save();
 
@@ -73,10 +77,8 @@ class Config : public QDialog
   QLineEdit *conf_password_edit;
   QPushButton *conf_ok_button;
   QPushButton *conf_cancel_button;
-  //  QString conf_server_hostname;
-  //  QString conf_server_username;
-  //  QString conf_server_password;
   QString conf_audio_device_name;
+  bool conf_ui_include_all_group;
 };
 
 extern Config *cnf; 

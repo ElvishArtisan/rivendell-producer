@@ -37,6 +37,7 @@ class CartFilterWidget : public QWidget
  public:
   CartFilterWidget(QWidget *parent=0);
   QSize sizeHint() const;
+  QString currentGroup() const;
 
  signals:
   void updateRequested(const QString &filter,const QString &grp_name,

@@ -44,6 +44,8 @@ PickCartDialog::PickCartDialog(QWidget *parent)
   cart_library_view->resizeColumnsToContents();
   connect(cart_library_view,SIGNAL(doubleClicked(const QModelIndex &)),
 	  this,SLOT(doubleClickedData(const QModelIndex)));
+  cart_library_model->update("",cart_filter_widget->currentGroup(),true,true);
+  cart_library_view->resizeColumnsToContents();
 
   cart_ok_button=new QPushButton(tr("OK"),this);
   cart_ok_button->setFont(bold_font);
@@ -57,15 +59,13 @@ PickCartDialog::PickCartDialog(QWidget *parent)
 
 QSize PickCartDialog::sizeHint() const
 {
-  return QSize(800,600);
+  return QSize(640,480);
 }
 
 
 int PickCartDialog::exec(LogLine *ll)
 {
   cart_logline=ll;
-  cart_library_model->update("",tr("ALL"),true,true);
-  cart_library_view->resizeColumnsToContents();
   return QDialog::exec();
 }
 

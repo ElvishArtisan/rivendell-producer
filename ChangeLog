@@ -220,3 +220,6 @@
 2017-03-01 Fred Gleason <fredg@paravelsystems.com>
 	* Fixed a bug in 'src/common/cartfilterwidget.cpp' that caused
 	the 'Clear' button to be disabled after executing a search.
+2017-03-01 Fred Gleason <fredg@paravelsystems.com>
+	* Added an 'Include "ALL" in Filter Group' control to
+	rdadminb(1).
