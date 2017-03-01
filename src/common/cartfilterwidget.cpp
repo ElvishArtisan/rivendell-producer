@@ -132,7 +132,6 @@ void CartFilterWidget::searchData()
 		       main_audio_check->isChecked(),
 		       main_macro_check->isChecked());
   main_search_button->setDisabled(true);
-  main_clear_button->setDisabled(true);
 }
 
 
