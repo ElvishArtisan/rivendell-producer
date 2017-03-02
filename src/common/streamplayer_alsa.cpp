@@ -464,10 +464,12 @@ StreamPlayerAlsa::StreamPlayerAlsa(Config *c,QObject *parent)
 
 StreamPlayerAlsa::~StreamPlayerAlsa()
 {
+#ifdef ALSA
   delete alsa_state_timer;
   if(alsa_data!=NULL) {
     delete alsa_data;
   }
+#endif  // ALSA
 }
 
 

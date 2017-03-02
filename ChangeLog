@@ -228,3 +228,6 @@
 	'src/common/streamplayer_alsa.cpp'.
 	* Disabled direct cart-to-cart playing in
 	'src/rdlibraryb/rdlibraryb.cpp'.
+2017-03-02 Fred Gleason <fredg@paravelsystems.com>
+	* Fixed a bug in 'src/common/streamplayer_alsa.cpp' that broke the
+	build under MinGW.
