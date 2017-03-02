@@ -235,3 +235,6 @@
 	when playing WAV files without WAVEFORMATEX extensions.
 2017-03-02 Fred Gleason <fredg@paravelsystems.com>
 	* Reenabled direct cart-to-cart playing for MME devices.
+2017-03-02 Fred Gleason <fredg@paravelsystems.com>
+	* Commented out debugging printfs.
+	* Reenabled direct cart-to-cart playing for ALSA devices.

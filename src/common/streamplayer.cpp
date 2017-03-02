@@ -143,11 +143,11 @@ int StreamPlayerParseHeader(StreamPlayerHeader *hdr,void *buf,unsigned len)
 
     case 19:   // Chunk Size
       hdr->chunk_len=hdr->chunk_len|((0xFF&ptr[i])<<24);
-
+      /*
       printf("CHUNK: %s  LEN: %u\n",
 	     (const char *)hdr->chunk_name.toUtf8(),
 	     hdr->chunk_len);
-
+      */
       hdr->left_to_skip=hdr->chunk_len;
       if(hdr->chunk_name.trimmed()=="fmt") {
 	hdr->istate=50;
