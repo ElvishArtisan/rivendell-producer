@@ -233,3 +233,5 @@
 	build under MinGW.
 	* Fixed a bug in streamplayer.cpp' that caused clicks and pops
 	when playing WAV files without WAVEFORMATEX extensions.
+2017-03-02 Fred Gleason <fredg@paravelsystems.com>
+	* Reenabled direct cart-to-cart playing for MME devices.
