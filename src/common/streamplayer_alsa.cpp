@@ -281,7 +281,7 @@ size_t __StreamPlayerAlsa_CurlWriteCallback(char *ptr,size_t size,size_t nmemb,
 
   if(alsa_data->pcm==NULL) {
     if((data_start=StreamPlayerParseHeader(hdr,ptr,len))>=0) {
-      /*
+
       printf("  format: %u\n",0xFFFF&hdr->fmt_format);
       printf("  channels: %u\n",0xFFFF&hdr->fmt_channels);
       printf("  samprate: %u\n",hdr->fmt_samprate);
@@ -289,7 +289,7 @@ size_t __StreamPlayerAlsa_CurlWriteCallback(char *ptr,size_t size,size_t nmemb,
       printf("  block align: %u\n",0xFFFF&hdr->fmt_blockalign);
       printf("  bits: %u\n",0xFFFF&hdr->fmt_bits);
       printf("  data_start: 0x%04X\n",data_start);
-      */
+
       alsa_data->file_channels=0xFFFF&hdr->fmt_channels;
       switch(hdr->fmt_format) {
       case WAVE_FORMAT_PCM:

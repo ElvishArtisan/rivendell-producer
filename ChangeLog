@@ -231,3 +231,5 @@
 2017-03-02 Fred Gleason <fredg@paravelsystems.com>
 	* Fixed a bug in 'src/common/streamplayer_alsa.cpp' that broke the
 	build under MinGW.
+	* Fixed a bug in streamplayer.cpp' that caused clicks and pops
+	when playing WAV files without WAVEFORMATEX extensions.
