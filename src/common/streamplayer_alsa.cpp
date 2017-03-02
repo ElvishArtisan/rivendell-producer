@@ -110,7 +110,6 @@ bool __StreamPlayerOpenPlayback(StreamPlayerHeader *hdr)
   //
   if((aerr=snd_pcm_hw_params(alsa_data->pcm,hwparams))<0) {
     alsa_data->err_msg=QString("ALSA device error 1: ")+snd_strerror(aerr);
-    printf("HERE1\n");
     return false;
   }
   alsa_data->alsa_buffer=
@@ -125,7 +124,6 @@ bool __StreamPlayerOpenPlayback(StreamPlayerHeader *hdr)
 				  alsa_data->alsa_buffer_size/2);
   if((aerr=snd_pcm_sw_params(alsa_data->pcm,swparams))<0) {
     alsa_data->err_msg=QString("ALSA device error 2: ")+snd_strerror(aerr);
-    printf("HERE2\n");
     return false;
   }
 
@@ -158,7 +156,7 @@ void *__StreamPlayerAlsa_AlsaCallback(void *priv)
   //
   switch(alsa_data->ring_format) {
   case SND_PCM_FORMAT_S16_LE:
-    while(alsa_data->ring->readSpace()<alsa_data->alsa_xfer_frames*ALSA_PERIOD_QUANTITY*sizeof(short)) {
+    while(alsa_data->ring->readSpace()<(6*alsa_data->alsa_xfer_frames*ALSA_PERIOD_QUANTITY*sizeof(short))) {
       usleep(10000);
     }
     break;
@@ -273,6 +271,7 @@ size_t __StreamPlayerAlsa_CurlWriteCallback(char *ptr,size_t size,size_t nmemb,
   static AlsaData *alsa_data=NULL;
   static int data_start=0;
   static pthread_attr_t pthread_attr;
+  static long total=0;
 
   len=size*nmemb;
   dev=(StreamPlayerAlsa *)userdata;
@@ -320,7 +319,7 @@ size_t __StreamPlayerAlsa_CurlWriteCallback(char *ptr,size_t size,size_t nmemb,
 	return 0;
       }
       if(hdr->mpeg1_decoder==NULL) {
-	alsa_data->ring->write((char *)ptr+data_start,len-data_start);
+	total+=alsa_data->ring->write((char *)ptr+data_start,len-data_start);
       }
       else {
 	hdr->mpeg1_decoder->addData(ptr+data_start,len-data_start);
@@ -350,7 +349,7 @@ size_t __StreamPlayerAlsa_CurlWriteCallback(char *ptr,size_t size,size_t nmemb,
 	}
 	usleep(10000);
       }
-      alsa_data->ring->write(ptr,len);
+      total+=alsa_data->ring->write(ptr,len);
     }
     else {
       if(!hdr->mpeg1_decoder->addData(ptr,len)) {
@@ -413,7 +412,6 @@ void *__StreamPlayerAlsa_CurlThread(void *priv)
     dev->alsa_state=StreamPlayerAlsa::Error;
     return NULL;
   }
-
   curl_easy_cleanup(curl);
   pthread_join(dev->alsa_data->alsa_pthread,NULL);
   snd_pcm_close(dev->alsa_data->pcm);
@@ -466,6 +464,10 @@ StreamPlayerAlsa::StreamPlayerAlsa(Config *c,QObject *parent)
 
 StreamPlayerAlsa::~StreamPlayerAlsa()
 {
+  delete alsa_state_timer;
+  if(alsa_data!=NULL) {
+    delete alsa_data;
+  }
 }
 
 
