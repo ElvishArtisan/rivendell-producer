@@ -196,6 +196,20 @@ bool Config::load(bool use_env)
       }
     }
   }
+  if(conf_hostname_edit->text().isEmpty()) {
+    conf_hostname_edit->setFocus();
+  }
+  else {
+    if(conf_username_edit->text().isEmpty()) {
+      conf_username_edit->setFocus();
+    }
+    else {
+      if(conf_password_edit->text().isEmpty()) {
+	conf_password_edit->setFocus();
+      }
+    }
+  }
+
   return ret;
 }
 

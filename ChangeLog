@@ -238,3 +238,6 @@
 2017-03-02 Fred Gleason <fredg@paravelsystems.com>
 	* Commented out debugging printfs.
 	* Reenabled direct cart-to-cart playing for ALSA devices.
+2017-03-03 Fred Gleason <fredg@paravelsystems.com>
+	* Added code in 'src/common/config.cpp' to set focus automatically
+	to first blank field on the Login dialog.
