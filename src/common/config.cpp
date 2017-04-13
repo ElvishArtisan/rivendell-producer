@@ -130,6 +130,18 @@ void Config::setServerPassword(const QString &str)
 }
 
 
+QString Config::serverTicket() const
+{
+  return conf_server_ticket;
+}
+
+
+void Config::setServerTicket(const QString &str)
+{
+  conf_server_ticket=str;
+}
+
+
 QString Config::audioDeviceName() const
 {
   return conf_audio_device_name;
@@ -262,7 +274,8 @@ void Config::okData()
   int err=0;
   if((err=RD_ListGroups(&groups,serverHostname().toUtf8(),
 			serverUsername().toUtf8(),
-			serverPassword().toUtf8(),&records))!=0) {
+			serverPassword().toUtf8(),serverTicket().toUtf8(),
+			&records))!=0) {
     if(err==403) {
       QMessageBox::warning(this,tr("Rivendell Login"),
 			   tr("Incorrect Username or Password."));

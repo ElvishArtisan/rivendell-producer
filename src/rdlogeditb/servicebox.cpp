@@ -39,7 +39,8 @@ int ServiceBox::reload()
   insertItem(0,tr("ALL"),tr("ALL"));
   if((err=RD_ListServices(&services,cnf->serverHostname().toUtf8(),
 			  cnf->serverUsername().toUtf8(),
-			  cnf->serverPassword().toUtf8(),false,&records))!=0) {
+			  cnf->serverPassword().toUtf8(),
+			  cnf->serverTicket().toUtf8(),false,&records))!=0) {
     return err;
   }
   for(unsigned i=0;i<records;i++) {

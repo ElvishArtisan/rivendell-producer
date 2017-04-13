@@ -217,6 +217,7 @@ void LibraryModel::update(const QString &filter,const QString &grp_name,
   if((err=RD_ListCarts(&carts,cnf->serverHostname().toUtf8(),
 		       cnf->serverUsername().toUtf8(),
 		       cnf->serverPassword().toUtf8(),
+		       cnf->serverTicket().toUtf8(),
 		       grp_name.toUtf8(),filter,type,&numrecs))==0) {
     if(numrecs>0) {
       beginInsertRows(QModelIndex(),0,numrecs-1);
@@ -256,7 +257,8 @@ void LibraryModel::LoadColorMap()
   int err=0;
 
   if((err=RD_ListGroups(&grps,cnf->serverHostname(),cnf->serverUsername(),
-			cnf->serverPassword(),&grp_quan))!=0) {
+			cnf->serverPassword(),cnf->serverTicket(),
+			&grp_quan))!=0) {
     emit capiError(err,"error in RD_ListGroups() call");
     return;
   }

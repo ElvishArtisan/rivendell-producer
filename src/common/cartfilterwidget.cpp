@@ -66,7 +66,8 @@ CartFilterWidget::CartFilterWidget(QWidget *parent)
   int err=0;
   if((err=RD_ListGroups(&groups,cnf->serverHostname().toUtf8(),
 			cnf->serverUsername().toUtf8(),
-			cnf->serverPassword().toUtf8(),&records))!=0) {
+			cnf->serverPassword().toUtf8(),
+			cnf->serverTicket().toUtf8(),&records))!=0) {
     QMessageBox::warning(this,tr("RDBrowser - Error"),
 			 tr("Error in rd_groups() call")+
 			 " ["+tr("Error")+QString().sprintf(" %d].",err));

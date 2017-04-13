@@ -67,8 +67,9 @@ int AddLogDialog::exec(QString *svcname,QString *logname)
   edit_log_name=logname;
 
   if((err=RD_ListServices(&svc,cnf->serverHostname().toUtf8(),
-		     cnf->serverUsername().toUtf8(),
-		     cnf->serverPassword().toUtf8(),
+			  cnf->serverUsername().toUtf8(),
+			  cnf->serverPassword().toUtf8(),
+			  cnf->serverTicket().toUtf8(),
 			  0,&svc_quan))!=0) {
     QMessageBox::warning(this,tr("RDLogEdit - Error"),
 			 tr("Error in rd_listservices() call")+

@@ -161,6 +161,7 @@ void MainWidget::addData()
     if((err=RD_AddLog(cnf->serverHostname().toUtf8(),
 		      cnf->serverUsername().toUtf8(),
 		      cnf->serverPassword().toUtf8(),
+		      cnf->serverTicket().toUtf8(),
 		      logname,svcname))!=0) {
       QMessageBox::critical(this,"RDLogEdit - Add Log",
 			    tr("Unable to add new log")+" ["+tr("error code")+
@@ -178,6 +179,7 @@ void MainWidget::addData()
       RD_DeleteLog(cnf->serverHostname().toUtf8(),
 		   cnf->serverUsername().toUtf8(),
 		   cnf->serverPassword().toUtf8(),
+		   cnf->serverTicket().toUtf8(),
 		   logname);
     }
   }
@@ -215,8 +217,9 @@ void MainWidget::deleteData()
       return;
     }
     if((err=RD_DeleteLog(cnf->serverHostname().toUtf8(),
-		      cnf->serverUsername().toUtf8(),
-		      cnf->serverPassword().toUtf8(),
+			 cnf->serverUsername().toUtf8(),
+			 cnf->serverPassword().toUtf8(),
+			 cnf->serverTicket().toUtf8(),
 		      logname))!=0) {
       QMessageBox::critical(this,"RDLogEdit - Delete Log",
 			    tr("Unable to delete log")+" ["+tr("error code")+

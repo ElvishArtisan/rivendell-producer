@@ -243,3 +243,6 @@
 	to first blank field on the Login dialog.
 2017-03-03 Fred Gleason <fredg@paravelsystems.com>
 	* Incremented the package version to 0.6.1.
+2017-04-13 Fred Gleason <fredg@paravelsystems.com>
+	* Updated calls to the rivendell-c-api to include the 'ticket'
+	parameter.

@@ -186,7 +186,7 @@ bool Log::load(const QString &name,QString *err_msg)
   int err=0;
 
   if((err=RD_ListLogs(&loghdr,log_servername.toUtf8(),log_username.toUtf8(),
-		 log_password.toUtf8(),"",name.toUtf8(),false,&log_quan))!=0) {
+		      log_password.toUtf8(),"","",name.toUtf8(),false,&log_quan))!=0) {
     *err_msg=QString().sprintf("RD_ListLog() failed [code: %d]",err);
     return false;
   }
@@ -226,7 +226,7 @@ bool Log::load(const QString &name,QString *err_msg)
   unsigned ll_quan=0;
 
   if((err=RD_ListLog(&ll,log_servername.toUtf8(),log_username.toUtf8(),
-	          log_password.toUtf8(),name.toUtf8(),&ll_quan))!=0) {
+		     log_password.toUtf8(),"",name.toUtf8(),&ll_quan))!=0) {
     *err_msg=QString().sprintf("RD_ListLog() failed [code: %d]",err);
     return false;
   }
@@ -374,7 +374,7 @@ bool Log::save(const QString &name,QString *err_msg)
 
   if((err=RD_SaveLog(&loghdr,ll,size(),log_servername.toUtf8(),
 		     log_username.toUtf8(),
-		     log_password.toUtf8(),name.toUtf8()))!=0) {
+		     log_password.toUtf8(),"",name.toUtf8()))!=0) {
     *err_msg=QString().sprintf("RD_SaveLog() failed [code: %d]",err);
     return false;
   }

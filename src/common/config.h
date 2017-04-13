@@ -53,6 +53,8 @@ class Config : public QDialog
   void setServerUsername(const QString &str);
   QString serverPassword() const;
   void setServerPassword(const QString &str);
+  QString serverTicket() const;
+  void setServerTicket(const QString &str);
   QString audioDeviceName() const;
   void setAudioDeviceName(const QString &str);
   bool uiIncludeAllGroup() const;
@@ -75,6 +77,7 @@ class Config : public QDialog
   QLineEdit *conf_username_edit;
   QLabel *conf_password_label;
   QLineEdit *conf_password_edit;
+  QString conf_server_ticket;
   QPushButton *conf_ok_button;
   QPushButton *conf_cancel_button;
   QString conf_audio_device_name;

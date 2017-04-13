@@ -722,6 +722,7 @@ void EditLogDialog::saveasData()
     if((err=RD_ListLogs(&logs,cnf->serverHostname().toUtf8(),
 			cnf->serverUsername().toUtf8(),
 			cnf->serverPassword().toUtf8(),
+			cnf->serverTicket().toUtf8(),
 			"",logname.toUtf8(),false,&log_quan))==0) {
       if(log_quan>0) {
 	if(QMessageBox::question(this,"RDLogEdit - Save As",
@@ -736,6 +737,7 @@ void EditLogDialog::saveasData()
 	if((err=RD_AddLog(cnf->serverHostname().toUtf8(),
 			  cnf->serverUsername().toUtf8(),
 			  cnf->serverPassword().toUtf8(),
+			  cnf->serverTicket().toUtf8(),
 			  logname.toUtf8(),
 			  svcname.toUtf8()))!=0) {
 	  QMessageBox::warning(this,tr("RDLogEdit - Error"),

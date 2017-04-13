@@ -505,7 +505,8 @@ void LogModel::LoadColorMap()
   int err=0;
 
   if((err=RD_ListGroups(&grps,cnf->serverHostname(),cnf->serverUsername(),
-			cnf->serverPassword(),&grp_quan))!=0) {
+			cnf->serverPassword(),cnf->serverTicket(),
+			&grp_quan))!=0) {
     emit capiError(err,"Error in RD_ListGroups() call");
     return;
   }
