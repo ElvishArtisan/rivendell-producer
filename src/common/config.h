@@ -24,6 +24,7 @@
 
 #include <stdint.h>
 
+#include <QDateTime>
 #include <QDialog>
 #include <QLabel>
 #include <QLineEdit>
@@ -64,37 +65,41 @@ class Config : public QDialog
   void setServerPassword(const QString &str);
   QString serverTicket() const;
   void setServerTicket(const QString &str);
+  QDateTime serverTicketExpiration() const;
+  void setServerTicketExpiration(const QDateTime &dt);
   QString audioDeviceName() const;
   void setAudioDeviceName(const QString &str);
   bool uiIncludeAllGroup() const;
   void setUiIncludeAllGroup(bool state);
-  int addLog(const QString &logname,const QString &svcname) const;
-  int deleteLog(const QString &logname) const;
+  int addLog(const QString &logname,const QString &svcname);
+  int deleteLog(const QString &logname);
   int listCarts(struct rd_cart **carts,unsigned *numrecs,
 		const QString &grp_name,const QString &filter,
-		const QString &type) const;
-  int listGroups(struct rd_group **grps,unsigned *numrecs) const;
+		const QString &type);
+  int listGroups(struct rd_group **grps,unsigned *numrecs);
   int listLog(struct rd_logline **lines,unsigned *numrecs,
-	      const QString &logname) const;
+	      const QString &logname);
   int listLogs(struct rd_log **logs,unsigned *numrecs,
 	       const QString &logname,const QString &svcname,
-	       bool trackable) const;
+	       bool trackable);
   int listServices(struct rd_service **svcs,unsigned *numrecs,
-		   bool trackable) const;
+		   bool trackable);
   int saveLog(struct save_loghdr_values *hdr,struct save_logline_values *lines,
-	      unsigned numrecs,const QString &logname) const;
+	      unsigned numrecs,const QString &logname);
   bool load(bool use_env=true);
   bool save();
 
  private slots:
   void okData();
-  void cancelData();
+  void quitData();
 
  protected:
   void closeEvent(QCloseEvent *e);
   void resizeEvent(QResizeEvent *e);
 
  private:
+  void LoadTicket();
+  void SaveTicket() const;
   QLabel *conf_hostname_label;
   QLineEdit *conf_hostname_edit;
   QLabel *conf_username_label;
@@ -102,8 +107,9 @@ class Config : public QDialog
   QLabel *conf_password_label;
   QLineEdit *conf_password_edit;
   QString conf_server_ticket;
+  QDateTime conf_server_ticket_expiration;
   QPushButton *conf_ok_button;
-  QPushButton *conf_cancel_button;
+  QPushButton *conf_quit_button;
   QString conf_audio_device_name;
   bool conf_ui_include_all_group;
 };

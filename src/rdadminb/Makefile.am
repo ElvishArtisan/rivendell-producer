@@ -37,6 +37,7 @@ dist_rdadminb_SOURCES = rdadminb.cpp rdadminb.h
 nodist_rdadminb_SOURCES = cmdswitch.cpp cmdswitch.h\
                           combobox.cpp combobox.h\
                           config.cpp config.h\
+                          datetime.cpp datetime.h\
                           moc_combobox.cpp\
                           moc_config.cpp\
                           moc_rdadminb.cpp\

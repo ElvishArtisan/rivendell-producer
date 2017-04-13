@@ -23,10 +23,14 @@
 #include <stdlib.h>
 
 #include <QCoreApplication>
+#include <QDir>
 #include <QMessageBox>
 #include <QSettings>
 
+#include <rivendell/rd_createticket.h>
+
 #include "config.h"
+#include "datetime.h"
 #include "profile.h"
 
 Config *cnf; 
@@ -78,11 +82,11 @@ Config::Config(QWidget *parent)
   connect(conf_ok_button,SIGNAL(clicked()),this,SLOT(okData()));
 
   //
-  // Cancel Button
+  // Quit Button
   //
-  conf_cancel_button=new QPushButton(tr("Cancel"),this);
-  conf_cancel_button->setFont(bold_font);
-  connect(conf_cancel_button,SIGNAL(clicked()),this,SLOT(cancelData()));
+  conf_quit_button=new QPushButton(tr("Quit"),this);
+  conf_quit_button->setFont(bold_font);
+  connect(conf_quit_button,SIGNAL(clicked()),this,SLOT(quitData()));
 }
 
 
@@ -140,6 +144,18 @@ void Config::setServerTicket(const QString &str)
 }
 
 
+QDateTime Config::serverTicketExpiration() const
+{
+  return conf_server_ticket_expiration;
+}
+
+
+void Config::setServerTicketExpiration(const QDateTime &dt)
+{
+  conf_server_ticket_expiration=dt;
+}
+
+
 QString Config::audioDeviceName() const
 {
   return conf_audio_device_name;
@@ -164,63 +180,103 @@ void Config::setUiIncludeAllGroup(bool state)
 }
 
 
-int Config::addLog(const QString &logname,const QString &svcname) const
+int Config::addLog(const QString &logname,const QString &svcname)
 {
-  int ret=RD_AddLog(serverHostname(),serverUsername(),serverPassword(),
+  int ret;
+  do {
+    ret=RD_AddLog(serverHostname(),serverUsername(),serverPassword(),
 		    serverTicket(),logname,svcname);
-  if(ret<0) {
-    fprintf(stderr,"error in RD_AddLog()\n");
-  }
+    if(ret==0) {
+      return ret;
+    }
+    if((ret==403)||(ret==-1)) {
+      if(!exec()) {
+	exit(0);
+      }
+    }
+  } while((ret==403)||(ret==-1));
 
   return ret;
 }
 
 
-int Config::deleteLog(const QString &logname) const
+int Config::deleteLog(const QString &logname)
 {
-  int ret=RD_DeleteLog(serverHostname(),serverUsername(),serverPassword(),
+  int ret;
+  do {
+    ret=RD_DeleteLog(serverHostname(),serverUsername(),serverPassword(),
 		       serverTicket(),logname);
-  if(ret<0) {
-    fprintf(stderr,"error in RD_DeleteqLog()\n");
-  }
+    if(ret==0) {
+      return ret;
+    }
+    if((ret==403)||(ret==-1)) {
+      if(!exec()) {
+	exit(0);
+      }
+    }
+  } while((ret==403)||(ret==-1));
 
   return ret;  
 }
 
 int Config::listCarts(struct rd_cart **carts,unsigned *numrecs,
 		      const QString &grp_name,const QString &filter,
-		      const QString &type) const
+		      const QString &type)
 {
-  int ret=RD_ListCarts(carts,serverHostname(),serverUsername(),serverPassword(),
+  int ret;
+  do {
+    ret=RD_ListCarts(carts,serverHostname(),serverUsername(),serverPassword(),
 		       serverTicket(),grp_name,filter,type,numrecs);
-  if(ret<0) {
-    fprintf(stderr,"error in RD_ListCarts()\n");
-  }
+    if(ret==0) {
+      return ret;
+    }
+    if((ret==403)||(ret==-1)) {
+      if(!exec()) {
+	exit(0);
+      }
+    }
+  } while((ret==403)||(ret==-1));
 
   return ret;
 }
 
 
-int Config::listGroups(struct rd_group **grps,unsigned *numrecs) const
+int Config::listGroups(struct rd_group **grps,unsigned *numrecs)
 {
-  int ret=RD_ListGroups(grps,serverHostname(),serverUsername(),
-			serverPassword(),serverTicket(),numrecs);
-  if(ret<0) {
-    fprintf(stderr,"error in RD_ListGroups()\n");
-  }
+  int ret;
+  do {
+    ret=RD_ListGroups(grps,serverHostname(),serverUsername(),
+		      serverPassword(),serverTicket(),numrecs);
+    if(ret==0) {
+      return ret;
+    }
+    if((ret==403)||(ret==-1)) {
+      if(!exec()) {
+	exit(0);
+      }
+    }
+  } while((ret==403)||(ret==-1));
 
   return ret;
 }
 
 
 int Config::listLog(struct rd_logline **lines,unsigned *numrecs,
-		    const QString &logname) const
+		    const QString &logname)
 {
-  int ret=RD_ListLog(lines,serverHostname(),serverUsername(),serverPassword(),
+  int ret;
+  do {
+    ret=RD_ListLog(lines,serverHostname(),serverUsername(),serverPassword(),
 		     serverTicket(),logname,numrecs);
-  if(ret<0) {
-    fprintf(stderr,"error in RD_ListLog()\n");
-  }
+    if(ret==0) {
+      return ret;
+    }
+    if((ret==403)||(ret==-1)) {
+      if(!exec()) {
+	exit(0);
+      }
+    }
+  } while((ret==403)||(ret==-1));
 
   return ret;
 }
@@ -228,26 +284,42 @@ int Config::listLog(struct rd_logline **lines,unsigned *numrecs,
 
 int Config::listLogs(struct rd_log **logs,unsigned *numrecs,
 		     const QString &logname,const QString &svcname,
-		     bool trackable) const
+		     bool trackable)
 {
-  int ret=RD_ListLogs(logs,serverHostname(),serverUsername(),serverPassword(),
+  int ret;
+  do {
+    ret=RD_ListLogs(logs,serverHostname(),serverUsername(),serverPassword(),
 		      serverTicket(),logname,svcname,trackable,numrecs);
-  if(ret<0) {
-    fprintf(stderr,"error in RD_ListLogs()\n");
-  }
+    if(ret==0) {
+      return ret;
+    }
+    if((ret==403)||(ret==-1)) {
+      if(!exec()) {
+	exit(0);
+      }
+    }
+  } while((ret==403)||(ret==-1));
 
   return ret;
 }
 
 
 int Config::listServices(struct rd_service **svcs,unsigned *numrecs,
-			 bool trackable) const
+			 bool trackable)
 {
-  int ret=RD_ListServices(svcs,serverHostname(),serverUsername(),
+  int ret;
+  do {
+    ret=RD_ListServices(svcs,serverHostname(),serverUsername(),
 			  serverPassword(),serverTicket(),trackable,numrecs);
-  if(ret<0) {
-    fprintf(stderr,"error in RD_ListServices()\n");
-  }
+    if(ret==0) {
+      return ret;
+    }
+    if((ret==403)||(ret==-1)) {
+      if(!exec()) {
+	exit(0);
+      }
+    }
+  } while((ret==403)||(ret==-1));
 
   return ret;
 }
@@ -255,13 +327,21 @@ int Config::listServices(struct rd_service **svcs,unsigned *numrecs,
 
 int Config::saveLog(struct save_loghdr_values *hdr,
 		    struct save_logline_values *lines,
-		    unsigned numrecs,const QString &logname) const
+		    unsigned numrecs,const QString &logname)
 {
-  int ret=RD_SaveLog(hdr,lines,numrecs,serverHostname(),serverUsername(),
+  int ret;
+  do {
+    ret=RD_SaveLog(hdr,lines,numrecs,serverHostname(),serverUsername(),
 		     serverPassword(),serverTicket(),logname);
-  if(ret<0) {
-    fprintf(stderr,"error in RD_SaveLog()\n");
-  }
+    if(ret==0) {
+      return ret;
+    }
+    if((ret==403)||(ret==-1)) {
+      if(!exec()) {
+	exit(0);
+      }
+    }
+  } while((ret==403)||(ret==-1));
 
   return ret;
 }
@@ -322,6 +402,7 @@ bool Config::load(bool use_env)
       }
     }
   }
+  LoadTicket();
 
   return ret;
 }
@@ -370,28 +451,31 @@ bool Config::save()
 
 void Config::okData()
 {
-  struct rd_group *groups;
+  struct rd_ticketinfo *tktinfo=NULL;
   unsigned records=0;
   int err=0;
-  if((err=RD_ListGroups(&groups,serverHostname().toUtf8(),
-			serverUsername().toUtf8(),
-			serverPassword().toUtf8(),serverTicket().toUtf8(),
-			&records))!=0) {
+  if((err=RD_CreateTicket(&tktinfo,serverHostname(),serverUsername(),
+			  serverPassword(),&records))!=0) {
     if(err==403) {
       QMessageBox::warning(this,tr("Rivendell Login"),
 			   tr("Incorrect Username or Password."));
       return;
     }
     QMessageBox::warning(this,tr("Rivendell Login"),
-			 tr("Error in rd_groups() call")+
+			 tr("Error in RD_CreateTicket() call")+
 			 " ["+tr("Error")+QString().sprintf(" %d].",err));
     return;
   }
+  setServerTicket(tktinfo->ticket);
+  conf_server_ticket_expiration=
+    DateTime::fromTm(tktinfo->tkt_expiration_datetime);
+  free(tktinfo);
+  SaveTicket();
   done(true);
 }
 
 
-void Config::cancelData()
+void Config::quitData()
 {
   done(false);
 }
@@ -399,7 +483,7 @@ void Config::cancelData()
 
 void Config::closeEvent(QCloseEvent *e)
 {
-  cancelData();
+  quitData();
 }
 
 
@@ -415,5 +499,37 @@ void Config::resizeEvent(QResizeEvent *e)
   conf_password_edit->setGeometry(185,54,size().width()-195,20);
 
   conf_ok_button->setGeometry(size().width()-180,size().height()-60,80,50);
-  conf_cancel_button->setGeometry(size().width()-90,size().height()-60,80,50);
+  conf_quit_button->setGeometry(size().width()-90,size().height()-60,80,50);
+}
+
+
+void Config::LoadTicket()
+{
+  Profile *p=new Profile();
+  p->setSource(QDir::home().path()+"/.rivendell/ticket");
+  conf_server_ticket=p->stringValue("Rivendell","TicketString");
+  conf_server_ticket_expiration=
+    QDateTime::fromString("yyyyMMddhhmmss",
+			  p->stringValue("Rivendell","TicketExpiration"));
+  delete p;
+}
+
+
+void Config::SaveTicket() const
+{
+  QDir dir(QDir::home());
+  FILE *f=NULL;
+
+  if(!dir.exists(".rivendell")) {
+    dir.mkdir(".rivendell");
+  }
+  QString filename=dir.path()+"/.rivendell/ticket-NEW";
+  if((f=fopen(filename.toUtf8(),"w"))!=NULL) {
+    fprintf(f,"[Rivendell]\n");
+    fprintf(f,"TicketString=%s\n",(const char *)serverTicket().toUtf8());
+    fprintf(f,"TicketExpiration=%s\n",(const char *)serverTicketExpiration().
+	    toString("yyyyMMddhhmmss").toUtf8());
+    fclose(f);
+    rename(filename,(dir.path()+"/.rivendell/ticket").toUtf8());
+  }
 }

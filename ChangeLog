@@ -248,3 +248,5 @@
 	parameter.
 2017-04-13 Fred Gleason <fredg@paravelsystems.com>
 	* Consolidated all rivendell-c-api calls under methods of 'Config'.
+2017-04-13 Fred Gleason <fredg@paravelsystems.com>
+	* Added support for ticket-based authentication.
