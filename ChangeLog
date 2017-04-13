@@ -250,3 +250,7 @@
 	* Consolidated all rivendell-c-api calls under methods of 'Config'.
 2017-04-13 Fred Gleason <fredg@paravelsystems.com>
 	* Added support for ticket-based authentication.
+2017-04-13 Fred Gleason <fredg@paravelsystems.com>
+	* Added support for storage of tickets in the Windows registry.
+	* Added code to prevent changes in identity after the first successful
+	authentication.

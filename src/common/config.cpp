@@ -187,6 +187,7 @@ int Config::addLog(const QString &logname,const QString &svcname)
     ret=RD_AddLog(serverHostname(),serverUsername(),serverPassword(),
 		    serverTicket(),logname,svcname);
     if(ret==0) {
+      LockIdentity();
       return ret;
     }
     if((ret==403)||(ret==-1)) {
@@ -207,6 +208,7 @@ int Config::deleteLog(const QString &logname)
     ret=RD_DeleteLog(serverHostname(),serverUsername(),serverPassword(),
 		       serverTicket(),logname);
     if(ret==0) {
+      LockIdentity();
       return ret;
     }
     if((ret==403)||(ret==-1)) {
@@ -228,6 +230,7 @@ int Config::listCarts(struct rd_cart **carts,unsigned *numrecs,
     ret=RD_ListCarts(carts,serverHostname(),serverUsername(),serverPassword(),
 		       serverTicket(),grp_name,filter,type,numrecs);
     if(ret==0) {
+      LockIdentity();
       return ret;
     }
     if((ret==403)||(ret==-1)) {
@@ -248,6 +251,7 @@ int Config::listGroups(struct rd_group **grps,unsigned *numrecs)
     ret=RD_ListGroups(grps,serverHostname(),serverUsername(),
 		      serverPassword(),serverTicket(),numrecs);
     if(ret==0) {
+      LockIdentity();
       return ret;
     }
     if((ret==403)||(ret==-1)) {
@@ -269,6 +273,7 @@ int Config::listLog(struct rd_logline **lines,unsigned *numrecs,
     ret=RD_ListLog(lines,serverHostname(),serverUsername(),serverPassword(),
 		     serverTicket(),logname,numrecs);
     if(ret==0) {
+      LockIdentity();
       return ret;
     }
     if((ret==403)||(ret==-1)) {
@@ -291,6 +296,7 @@ int Config::listLogs(struct rd_log **logs,unsigned *numrecs,
     ret=RD_ListLogs(logs,serverHostname(),serverUsername(),serverPassword(),
 		      serverTicket(),logname,svcname,trackable,numrecs);
     if(ret==0) {
+      LockIdentity();
       return ret;
     }
     if((ret==403)||(ret==-1)) {
@@ -312,6 +318,7 @@ int Config::listServices(struct rd_service **svcs,unsigned *numrecs,
     ret=RD_ListServices(svcs,serverHostname(),serverUsername(),
 			  serverPassword(),serverTicket(),trackable,numrecs);
     if(ret==0) {
+      LockIdentity();
       return ret;
     }
     if((ret==403)||(ret==-1)) {
@@ -334,6 +341,7 @@ int Config::saveLog(struct save_loghdr_values *hdr,
     ret=RD_SaveLog(hdr,lines,numrecs,serverHostname(),serverUsername(),
 		     serverPassword(),serverTicket(),logname);
     if(ret==0) {
+      LockIdentity();
       return ret;
     }
     if((ret==403)||(ret==-1)) {
@@ -467,10 +475,12 @@ void Config::okData()
     return;
   }
   setServerTicket(tktinfo->ticket);
+  setServerPassword("");
   conf_server_ticket_expiration=
     DateTime::fromTm(tktinfo->tkt_expiration_datetime);
   free(tktinfo);
   SaveTicket();
+  LockIdentity();
   done(true);
 }
 
@@ -505,6 +515,15 @@ void Config::resizeEvent(QResizeEvent *e)
 
 void Config::LoadTicket()
 {
+#ifdef MME
+  QSettings s("Radio Free Asia","Rivendell");
+  conf_server_ticket=s.value("TicketString").toString();
+  conf_server_ticket_expiration=
+    QDateTime::fromString("yyyyMMddhhmmss",
+			  s.value("TicketExpiration").toString());
+#endif  // MME
+
+#ifdef ALSA
   Profile *p=new Profile();
   p->setSource(QDir::home().path()+"/.rivendell/ticket");
   conf_server_ticket=p->stringValue("Rivendell","TicketString");
@@ -512,11 +531,20 @@ void Config::LoadTicket()
     QDateTime::fromString("yyyyMMddhhmmss",
 			  p->stringValue("Rivendell","TicketExpiration"));
   delete p;
+#endif  // ALSA
 }
 
 
 void Config::SaveTicket() const
 {
+#ifdef MME
+  QSettings s("Radio Free Asia","Rivendell");
+  s.setValue("TicketString",serverTicket());
+  s.setValue("TicketExpiration",serverTicketExpiration().
+	     toString("yyyyMMddhhmmss"));
+#endif  // MME
+
+#ifdef ALSA
   QDir dir(QDir::home());
   FILE *f=NULL;
 
@@ -532,4 +560,12 @@ void Config::SaveTicket() const
     fclose(f);
     rename(filename,(dir.path()+"/.rivendell/ticket").toUtf8());
   }
+#endif  // ALSA
+}
+
+
+void Config::LockIdentity()
+{
+  conf_hostname_edit->setReadOnly(true);
+  conf_username_edit->setReadOnly(true);
 }

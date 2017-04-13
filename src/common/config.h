@@ -100,6 +100,7 @@ class Config : public QDialog
  private:
   void LoadTicket();
   void SaveTicket() const;
+  void LockIdentity();
   QLabel *conf_hostname_label;
   QLineEdit *conf_hostname_edit;
   QLabel *conf_username_label;
