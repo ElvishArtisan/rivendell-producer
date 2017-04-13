@@ -21,9 +21,6 @@
 
 #include <stdio.h>
 
-#include <rivendell/rd_listcarts.h>
-#include <rivendell/rd_listgroups.h>
-
 #include "config.h"
 #include "librarymodel.h"
 
@@ -214,11 +211,7 @@ void LibraryModel::update(const QString &filter,const QString &grp_name,
     type="Macro";
   }
 
-  if((err=RD_ListCarts(&carts,cnf->serverHostname().toUtf8(),
-		       cnf->serverUsername().toUtf8(),
-		       cnf->serverPassword().toUtf8(),
-		       cnf->serverTicket().toUtf8(),
-		       grp_name.toUtf8(),filter,type,&numrecs))==0) {
+  if((err=cnf->listCarts(&carts,&numrecs,grp_name,filter,type))==0) {
     if(numrecs>0) {
       beginInsertRows(QModelIndex(),0,numrecs-1);
       for(unsigned i=0;i<numrecs;i++) {
@@ -244,9 +237,6 @@ void LibraryModel::update(const QString &filter,const QString &grp_name,
       endInsertRows();
     }
   }
-  else {
-    emit capiError(err,"Error in RD_ListCarts() call");
-  }
 }
 
 
@@ -256,10 +246,7 @@ void LibraryModel::LoadColorMap()
   unsigned grp_quan=0;
   int err=0;
 
-  if((err=RD_ListGroups(&grps,cnf->serverHostname(),cnf->serverUsername(),
-			cnf->serverPassword(),cnf->serverTicket(),
-			&grp_quan))!=0) {
-    emit capiError(err,"error in RD_ListGroups() call");
+  if((err=cnf->listGroups(&grps,&grp_quan))!=0) {
     return;
   }
   model_group_colors.clear();

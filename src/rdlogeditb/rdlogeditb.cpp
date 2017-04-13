@@ -27,10 +27,6 @@
 #include <QMessageBox>
 #include <QStyleFactory>
 
-#include <rivendell/rd_addlog.h>
-#include <rivendell/rd_deletelog.h>
-#include <rivendell/rd_listservices.h>
-
 #include "cmdswitch.h"
 #include "config.h"
 #include "playerfactory.h"
@@ -158,11 +154,7 @@ void MainWidget::addData()
   int err;
 
   if(main_addlog_dialog->exec(&svcname,&logname)) {
-    if((err=RD_AddLog(cnf->serverHostname().toUtf8(),
-		      cnf->serverUsername().toUtf8(),
-		      cnf->serverPassword().toUtf8(),
-		      cnf->serverTicket().toUtf8(),
-		      logname,svcname))!=0) {
+    if((err=cnf->addLog(logname,svcname))!=0) {
       QMessageBox::critical(this,"RDLogEdit - Add Log",
 			    tr("Unable to add new log")+" ["+tr("error code")+
 			    QString().sprintf(": %d]",err));
@@ -176,11 +168,7 @@ void MainWidget::addData()
 	       QItemSelectionModel::ClearAndSelect);
     }
     else {
-      RD_DeleteLog(cnf->serverHostname().toUtf8(),
-		   cnf->serverUsername().toUtf8(),
-		   cnf->serverPassword().toUtf8(),
-		   cnf->serverTicket().toUtf8(),
-		   logname);
+      cnf->deleteLog(logname);
     }
   }
 }
@@ -216,11 +204,7 @@ void MainWidget::deleteData()
 			     QMessageBox::Yes,QMessageBox::No)!=QMessageBox::Yes) {
       return;
     }
-    if((err=RD_DeleteLog(cnf->serverHostname().toUtf8(),
-			 cnf->serverUsername().toUtf8(),
-			 cnf->serverPassword().toUtf8(),
-			 cnf->serverTicket().toUtf8(),
-		      logname))!=0) {
+    if((err=cnf->deleteLog(logname))!=0) {
       QMessageBox::critical(this,"RDLogEdit - Delete Log",
 			    tr("Unable to delete log")+" ["+tr("error code")+
 			    QString().sprintf(": %d",err));

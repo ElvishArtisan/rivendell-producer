@@ -22,8 +22,6 @@
 #ifndef LOGLISTMODEL_H
 #define LOGLISTMODEL_H
 
-#include <rivendell/rd_listlogs.h>
-
 #include <QAbstractTableModel>
 #include <QList>
 #include <QPixmap>

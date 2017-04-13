@@ -27,8 +27,6 @@
 #include <QMessageBox>
 #include <QStyleFactory>
 
-#include <rivendell/rd_listgroups.h>
-
 #include "cmdswitch.h"
 #include "config.h"
 #include "playerfactory.h"

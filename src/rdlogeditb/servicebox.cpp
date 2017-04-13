@@ -18,8 +18,6 @@
 //   Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 //
 
-#include <rivendell/rd_listservices.h>
-
 #include "config.h"
 #include "servicebox.h"
 
@@ -37,10 +35,7 @@ int ServiceBox::reload()
 
   clear();
   insertItem(0,tr("ALL"),tr("ALL"));
-  if((err=RD_ListServices(&services,cnf->serverHostname().toUtf8(),
-			  cnf->serverUsername().toUtf8(),
-			  cnf->serverPassword().toUtf8(),
-			  cnf->serverTicket().toUtf8(),false,&records))!=0) {
+  if((err=cnf->listServices(&services,&records,false))!=0) {
     return err;
   }
   for(unsigned i=0;i<records;i++) {

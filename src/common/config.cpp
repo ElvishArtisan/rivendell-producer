@@ -2,7 +2,7 @@
 //
 // Rivendell-Browser configuration
 //
-//   (C) Copyright 2016 Fred Gleason <fredg@paravelsystems.com>
+//   (C) Copyright 2016-2017 Fred Gleason <fredg@paravelsystems.com>
 //
 //   This program is free software; you can redistribute it and/or modify
 //   it under the terms of the GNU General Public License as
@@ -25,8 +25,6 @@
 #include <QCoreApplication>
 #include <QMessageBox>
 #include <QSettings>
-
-#include <rivendell/rd_listgroups.h>
 
 #include "config.h"
 #include "profile.h"
@@ -163,6 +161,109 @@ bool Config::uiIncludeAllGroup() const
 void Config::setUiIncludeAllGroup(bool state)
 {
   conf_ui_include_all_group=state;
+}
+
+
+int Config::addLog(const QString &logname,const QString &svcname) const
+{
+  int ret=RD_AddLog(serverHostname(),serverUsername(),serverPassword(),
+		    serverTicket(),logname,svcname);
+  if(ret<0) {
+    fprintf(stderr,"error in RD_AddLog()\n");
+  }
+
+  return ret;
+}
+
+
+int Config::deleteLog(const QString &logname) const
+{
+  int ret=RD_DeleteLog(serverHostname(),serverUsername(),serverPassword(),
+		       serverTicket(),logname);
+  if(ret<0) {
+    fprintf(stderr,"error in RD_DeleteqLog()\n");
+  }
+
+  return ret;  
+}
+
+int Config::listCarts(struct rd_cart **carts,unsigned *numrecs,
+		      const QString &grp_name,const QString &filter,
+		      const QString &type) const
+{
+  int ret=RD_ListCarts(carts,serverHostname(),serverUsername(),serverPassword(),
+		       serverTicket(),grp_name,filter,type,numrecs);
+  if(ret<0) {
+    fprintf(stderr,"error in RD_ListCarts()\n");
+  }
+
+  return ret;
+}
+
+
+int Config::listGroups(struct rd_group **grps,unsigned *numrecs) const
+{
+  int ret=RD_ListGroups(grps,serverHostname(),serverUsername(),
+			serverPassword(),serverTicket(),numrecs);
+  if(ret<0) {
+    fprintf(stderr,"error in RD_ListGroups()\n");
+  }
+
+  return ret;
+}
+
+
+int Config::listLog(struct rd_logline **lines,unsigned *numrecs,
+		    const QString &logname) const
+{
+  int ret=RD_ListLog(lines,serverHostname(),serverUsername(),serverPassword(),
+		     serverTicket(),logname,numrecs);
+  if(ret<0) {
+    fprintf(stderr,"error in RD_ListLog()\n");
+  }
+
+  return ret;
+}
+
+
+int Config::listLogs(struct rd_log **logs,unsigned *numrecs,
+		     const QString &logname,const QString &svcname,
+		     bool trackable) const
+{
+  int ret=RD_ListLogs(logs,serverHostname(),serverUsername(),serverPassword(),
+		      serverTicket(),logname,svcname,trackable,numrecs);
+  if(ret<0) {
+    fprintf(stderr,"error in RD_ListLogs()\n");
+  }
+
+  return ret;
+}
+
+
+int Config::listServices(struct rd_service **svcs,unsigned *numrecs,
+			 bool trackable) const
+{
+  int ret=RD_ListServices(svcs,serverHostname(),serverUsername(),
+			  serverPassword(),serverTicket(),trackable,numrecs);
+  if(ret<0) {
+    fprintf(stderr,"error in RD_ListServices()\n");
+  }
+
+  return ret;
+}
+
+
+int Config::saveLog(struct save_loghdr_values *hdr,
+		    struct save_logline_values *lines,
+		    unsigned numrecs,const QString &logname) const
+{
+  int ret=RD_SaveLog(hdr,lines,numrecs,serverHostname(),serverUsername(),
+		     serverPassword(),serverTicket(),logname);
+  if(ret<0) {
+    fprintf(stderr,"error in RD_SaveLog()\n");
+  }
+
+  return ret;
 }
 
 

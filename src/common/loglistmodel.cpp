@@ -115,11 +115,7 @@ void LogListModel::update()
   if(model_service_name!=QObject::tr("ALL")) {
     service_name=model_service_name;
   }
-  if((err=RD_ListLogs(&logs,cnf->serverHostname().toUtf8(),
-		      cnf->serverUsername().toUtf8(),
-		      cnf->serverPassword().toUtf8(),
-		      cnf->serverTicket().toUtf8(),
-		      service_name.toUtf8(),"",false,&numrecs))==0) {
+  if((err=cnf->listLogs(&logs,&numrecs,service_name,"",false))==0) {
     if(model_log_names.size()>0) {
       beginRemoveRows(QModelIndex(),0,model_column_fields.size()-1);
       model_log_names.clear();

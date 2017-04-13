@@ -21,9 +21,6 @@
 
 #include <stdio.h>
 
-#include <rivendell/rd_listgroups.h>
-#include <rivendell/rd_listlog.h>
-
 #include <QDateTime>
 
 #include "config.h"
@@ -504,10 +501,7 @@ void LogModel::LoadColorMap()
   unsigned grp_quan=0;
   int err=0;
 
-  if((err=RD_ListGroups(&grps,cnf->serverHostname(),cnf->serverUsername(),
-			cnf->serverPassword(),cnf->serverTicket(),
-			&grp_quan))!=0) {
-    emit capiError(err,"Error in RD_ListGroups() call");
+  if((err=cnf->listGroups(&grps,&grp_quan))!=0) {
     return;
   }
   model_group_colors.clear();

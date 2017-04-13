@@ -246,3 +246,5 @@
 2017-04-13 Fred Gleason <fredg@paravelsystems.com>
 	* Updated calls to the rivendell-c-api to include the 'ticket'
 	parameter.
+2017-04-13 Fred Gleason <fredg@paravelsystems.com>
+	* Consolidated all rivendell-c-api calls under methods of 'Config'.

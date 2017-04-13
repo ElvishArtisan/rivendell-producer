@@ -2,7 +2,7 @@
 //
 // Rivendell-Browser configuration
 //
-//   (C) Copyright 2016 Fred Gleason <fredg@paravelsystems.com>
+//   (C) Copyright 2016-2017 Fred Gleason <fredg@paravelsystems.com>
 //
 //   This program is free software; you can redistribute it and/or modify
 //   it under the terms of the GNU General Public License as
@@ -29,6 +29,15 @@
 #include <QLineEdit>
 #include <QPushButton>
 #include <QString>
+
+#include <rivendell/rd_addlog.h>
+#include <rivendell/rd_deletelog.h>
+#include <rivendell/rd_listcarts.h>
+#include <rivendell/rd_listgroups.h>
+#include <rivendell/rd_listlog.h>
+#include <rivendell/rd_listlogs.h>
+#include <rivendell/rd_listservices.h>
+#include <rivendell/rd_savelog.h>
 
 #define DEFAULT_CONF_FILE QString("/etc/rivendell-browser.conf")
 #define DEFAULT_SERVER_HOSTNAME "localhost"
@@ -59,6 +68,21 @@ class Config : public QDialog
   void setAudioDeviceName(const QString &str);
   bool uiIncludeAllGroup() const;
   void setUiIncludeAllGroup(bool state);
+  int addLog(const QString &logname,const QString &svcname) const;
+  int deleteLog(const QString &logname) const;
+  int listCarts(struct rd_cart **carts,unsigned *numrecs,
+		const QString &grp_name,const QString &filter,
+		const QString &type) const;
+  int listGroups(struct rd_group **grps,unsigned *numrecs) const;
+  int listLog(struct rd_logline **lines,unsigned *numrecs,
+	      const QString &logname) const;
+  int listLogs(struct rd_log **logs,unsigned *numrecs,
+	       const QString &logname,const QString &svcname,
+	       bool trackable) const;
+  int listServices(struct rd_service **svcs,unsigned *numrecs,
+		   bool trackable) const;
+  int saveLog(struct save_loghdr_values *hdr,struct save_logline_values *lines,
+	      unsigned numrecs,const QString &logname) const;
   bool load(bool use_env=true);
   bool save();
 

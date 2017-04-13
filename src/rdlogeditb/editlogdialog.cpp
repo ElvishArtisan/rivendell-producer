@@ -25,11 +25,6 @@
 #include <QMessageBox>
 #include <QPainter>
 
-#include <rivendell/rd_addlog.h>
-#include <rivendell/rd_listlogs.h>
-#include <rivendell/rd_listservices.h>
-#include <rivendell/rd_savelog.h>
-
 #include "cmdswitch.h"
 #include "datetime.h"
 #include "playerfactory.h"
@@ -719,11 +714,7 @@ void EditLogDialog::saveasData()
   QString err_str;
 
   if(edit_addlog_dialog->exec(&svcname,&logname)) {
-    if((err=RD_ListLogs(&logs,cnf->serverHostname().toUtf8(),
-			cnf->serverUsername().toUtf8(),
-			cnf->serverPassword().toUtf8(),
-			cnf->serverTicket().toUtf8(),
-			"",logname.toUtf8(),false,&log_quan))==0) {
+    if((err=cnf->listLogs(&logs,&log_quan,"",logname,false))==0) {
       if(log_quan>0) {
 	if(QMessageBox::question(this,"RDLogEdit - Save As",
 				 tr("Log")+" \""+logname+"\" "+
@@ -734,12 +725,7 @@ void EditLogDialog::saveasData()
 	}
       }
       else {
-	if((err=RD_AddLog(cnf->serverHostname().toUtf8(),
-			  cnf->serverUsername().toUtf8(),
-			  cnf->serverPassword().toUtf8(),
-			  cnf->serverTicket().toUtf8(),
-			  logname.toUtf8(),
-			  svcname.toUtf8()))!=0) {
+	if((err=cnf->addLog(logname,svcname))!=0) {
 	  QMessageBox::warning(this,tr("RDLogEdit - Error"),
 			       tr("Error in rd_addlog() call")+
 			       " ["+tr("Error")+QString().sprintf(" %d].",err));

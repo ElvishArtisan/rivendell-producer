@@ -19,8 +19,6 @@
 //   Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 //
 
-#include <rivendell/rd_listgroups.h>
-
 #include <QMessageBox>
 
 #include "cartfilterwidget.h"
@@ -64,10 +62,8 @@ CartFilterWidget::CartFilterWidget(QWidget *parent)
   struct rd_group *groups;
   unsigned records=0;
   int err=0;
-  if((err=RD_ListGroups(&groups,cnf->serverHostname().toUtf8(),
-			cnf->serverUsername().toUtf8(),
-			cnf->serverPassword().toUtf8(),
-			cnf->serverTicket().toUtf8(),&records))!=0) {
+
+  if((err=cnf->listGroups(&groups,&records))!=0) {
     QMessageBox::warning(this,tr("RDBrowser - Error"),
 			 tr("Error in rd_groups() call")+
 			 " ["+tr("Error")+QString().sprintf(" %d].",err));

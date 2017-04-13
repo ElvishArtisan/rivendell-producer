@@ -22,9 +22,6 @@
 #ifndef LOGMODEL_H
 #define LOGMODEL_H
 
-#include <rivendell/rd_listlogs.h>
-#include <rivendell/rd_savelog.h>
-
 #include <QAbstractTableModel>
 #include <QFont>
 #include <QList>
