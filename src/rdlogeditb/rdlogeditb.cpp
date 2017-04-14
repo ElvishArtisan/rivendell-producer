@@ -25,6 +25,7 @@
 
 #include <QApplication>
 #include <QMessageBox>
+#include <QSplashScreen>
 #include <QStyleFactory>
 
 #include "cmdswitch.h"
@@ -50,13 +51,9 @@ MainWidget::MainWidget(QWidget *parent)
   //
   // Configuration
   //
-  cnf=new Config(this);
+  cnf=new Config("/usr/share/rivendell-producer/rdlogeditb-splashscreen.png",
+		 this);
   cnf->load();
-  /*
-  if(!cnf->exec()) {
-    exit(0);
-  }
-  */
 
   //
   // Initialize Curl
@@ -140,6 +137,8 @@ MainWidget::MainWidget(QWidget *parent)
   main_close_button=new QPushButton(tr("Close"),this);
   main_close_button->setFont(bold_font);
   connect(main_close_button,SIGNAL(clicked()),this,SLOT(close()));
+
+  cnf->splashScreen()->finish(this);
 }
 
 
@@ -242,6 +241,13 @@ int main(int argc,char *argv[])
 {
   QApplication a(argc,argv);
   a.setStyle(QStyleFactory::create("Windows"));
+  /*
+  QPixmap pix("/usr/share/rivendell-producer/rdlogeditb-splashscreen.png");
+  QSplashScreen *splash=new QSplashScreen(pix);
+  splash->show();
+  splash->showMessage("Contacting server...");
+  a.processEvents(QEventLoop::AllEvents);
+  */
 
   //
   // Start Event Loop

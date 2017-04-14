@@ -260,3 +260,5 @@
 	* Changed the project name to 'Rivendell Producer'.
 2017-04-14 Fred Gleason <fredg@paravelsystems.com>
 	* Incremented the package version to 0.6.2.
+2017-04-14 Fred Gleason <fredg@paravelsystems.com>
+	* Added splash pages for rdlibraryb(1) and rdlogeditb(1).

@@ -29,6 +29,7 @@
 #include <QLabel>
 #include <QLineEdit>
 #include <QPushButton>
+#include <QSplashScreen>
 #include <QString>
 
 #include <rivendell/rd_addlog.h>
@@ -55,8 +56,9 @@ class Config : public QDialog
 {
   Q_OBJECT;
  public:
-  Config(QWidget *parent=0);
+  Config(const QString &splash_path,QWidget *parent=0);
   QSize sizeHint() const;
+  QSplashScreen *splashScreen() const;
   QString serverHostname() const;
   void setServerHostname(const QString &str);
   QString serverUsername() const;
@@ -101,6 +103,7 @@ class Config : public QDialog
   void LoadTicket();
   void SaveTicket() const;
   void LockIdentity();
+  QSplashScreen *conf_splash_screen;
   QLabel *conf_hostname_label;
   QLineEdit *conf_hostname_edit;
   QLabel *conf_username_label;

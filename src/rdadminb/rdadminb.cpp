@@ -35,7 +35,7 @@
 MainWidget::MainWidget(QWidget *parent)
   : QMainWindow(parent)
 {
-  admin_config=new Config(this);
+  admin_config=new Config("",this);
   admin_config->load(false);
 
   setMinimumSize(sizeHint());

@@ -51,7 +51,8 @@ MainWidget::MainWidget(QWidget *parent)
   //
   // Configuration
   //
-  cnf=new Config(this);
+  cnf=new Config("/usr/share/rivendell-producer/rdlibraryb-splashscreen.png",
+		 this);
   cnf->load();
   /*
   if(!cnf->exec()) {
@@ -132,6 +133,8 @@ MainWidget::MainWidget(QWidget *parent)
   main_close_button=new QPushButton(tr("Close"),this);
   main_close_button->setFont(bold_font);
   connect(main_close_button,SIGNAL(clicked()),this,SLOT(close()));
+
+  cnf->splashScreen()->finish(this);
 }
 
 

@@ -35,13 +35,22 @@
 
 Config *cnf; 
 
-Config::Config(QWidget *parent)
+Config::Config(const QString &splash_path,QWidget *parent)
   : QDialog(parent)
 {
   setWindowTitle(tr("Rivendell Login"));
   QCoreApplication::setOrganizationName("Radio Free Asia");
   QCoreApplication::setOrganizationDomain("rfa.org");
   QCoreApplication::setApplicationName("Rivendell Producer");
+
+  //
+  // Splash Screen
+  //
+  //  QPixmap pix("/usr/share/rivendell-producer/rdlogeditb-splashscreen.png");
+  conf_splash_screen=new QSplashScreen(QPixmap(splash_path));
+  conf_splash_screen->show();
+  conf_splash_screen->showMessage("Contacting server...",Qt::AlignRight);
+  qApp->processEvents(QEventLoop::AllEvents);
 
   //
   // Fonts
@@ -93,6 +102,12 @@ Config::Config(QWidget *parent)
 QSize Config::sizeHint() const
 {
   return QSize(400,150);
+}
+
+
+QSplashScreen *Config::splashScreen() const
+{
+  return conf_splash_screen;
 }
 
 
@@ -481,6 +496,7 @@ void Config::okData()
   free(tktinfo);
   SaveTicket();
   LockIdentity();
+  conf_splash_screen->showMessage("Building cart list...",Qt::AlignRight);
   done(true);
 }
 
@@ -568,4 +584,5 @@ void Config::LockIdentity()
 {
   conf_hostname_edit->setReadOnly(true);
   conf_username_edit->setReadOnly(true);
+  conf_splash_screen->showMessage("Building cart list...",Qt::AlignRight);
 }
