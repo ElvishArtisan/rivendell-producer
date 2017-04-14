@@ -63,11 +63,13 @@ EXTRA_DIST = audiocart.xpm\
              rdlibraryb-16x16.png\
              rdlibraryb-16x16.xpm\
              rdlibraryb-48x48.png\
+             rdlibraryb-splashscreen.bmp\
              rdlibraryb-splashscreen.png\
              rdlogeditb.ico\
              rdlogeditb-16x16.png\
              rdlogeditb-16x16.xpm\
              rdlogeditb-48x48.png\
+             rdlogeditb-splashscreen.bmp\
              rdlogeditb-splashscreen.png\
              redball.xpm\
              redx.xpm\
