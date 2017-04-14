@@ -26,12 +26,12 @@ SUBDIRS = conf\
           xdg
 
 rpm:	dist
-	cp rivendell-browser-$(VERSION).tar.gz $(HOME)/rpmbuild/SOURCES/
-	$(RPMBUILD) -ba --target $(ARCH)-$(VENDOR)-linux rivendell-browser.spec
-	mv $(HOME)/rpmbuild/RPMS/$(ARCH)/rivendell-browser-*.rpm $(top_srcdir)/
-	mv $(HOME)/rpmbuild/SRPMS/rivendell-browser-*.src.rpm $(top_srcdir)/
-	rm $(HOME)/rpmbuild/SOURCES/rivendell-browser-$(VERSION).tar.gz
-	rm -rf $(HOME)/rpmbuild/BUILD/rivendell-browser-$(VERSION)
+	cp rivendell-producer-$(VERSION).tar.gz $(HOME)/rpmbuild/SOURCES/
+	$(RPMBUILD) -ba --target $(ARCH)-$(VENDOR)-linux rivendell-producer.spec
+	mv $(HOME)/rpmbuild/RPMS/$(ARCH)/rivendell-producer-*.rpm $(top_srcdir)/
+	mv $(HOME)/rpmbuild/SRPMS/rivendell-producer-*.src.rpm $(top_srcdir)/
+	rm $(HOME)/rpmbuild/SOURCES/rivendell-producer-$(VERSION).tar.gz
+	rm -rf $(HOME)/rpmbuild/BUILD/rivendell-producer-$(VERSION)
 
 install-win32:	
 	cp src/rdadminb/rdadminb.exe .
@@ -55,14 +55,14 @@ install-win32:
 	cp $(MINGW32_SYS_ROOT)/bin/zlib1.dll .
 
 nsis-installer:	install-win32
-	makensis rivendell-browser.nsi
+	makensis rivendell-producer.nsi
 
 EXTRA_DIST = autogen.sh\
              get_distro.sh\
              get_target.sh\
              link_common.sh\
-             rivendell-browser.nsi.in\
-             rivendell-browser.spec.in\
+             rivendell-producer.nsi.in\
+             rivendell-producer.spec.in\
              COPYING.rtf\
              PACKAGE_VERSION
 
@@ -76,8 +76,8 @@ CLEANFILES = *~\
              *.tgz\
              *.zip
 
-DISTCLEANFILES = rivendell-browser.nsi\
-                 rivendell-browser.spec\
+DISTCLEANFILES = rivendell-producer.nsi\
+                 rivendell-producer.spec\
                  config.guess\
                  config.sub\
                  ltmain.sh

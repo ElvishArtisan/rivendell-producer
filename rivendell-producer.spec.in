@@ -1,4 +1,4 @@
-## rivendell-browser.spec.in
+## rivendell-producer.spec.in
 ##
 ##    Remote applets for the Rivendell Radio Automation System
 ##
@@ -20,7 +20,7 @@
 ##
 
 Summary: Remote applets for the Rivendell Radio Automation System
-Name: rivendell-browser
+Name: rivendell-producer
 Version: @VERSION@
 Release: @RPM_RELEASE@%{?dist}
 License: GPLv2
@@ -32,7 +32,7 @@ BuildRoot: /var/tmp/%{name}-@VERSION@
 
 
 %description
-Rivendell-browser is a collection of applets for accessing a Rivendell
+Rivendell-producer is a collection of applets for accessing a Rivendell
 system remotely.
 
 
@@ -73,7 +73,7 @@ rm -rf $RPM_BUILD_ROOT
 %{_datadir}/icons/hicolor/48x48/apps/rdadminb.png
 %{_datadir}/icons/hicolor/48x48/apps/rdlibraryb.png
 %{_datadir}/icons/hicolor/48x48/apps/rdlogeditb.png
-%{_datadir}/applications/rivendell-browser-*.desktop
+%{_datadir}/applications/rivendell-producer-*.desktop
 %doc AUTHORS
 %doc ChangeLog
 %doc COPYING 

@@ -1,6 +1,6 @@
 // config.cpp
 //
-// Rivendell-Browser configuration
+// Rivendell-Producer configuration
 //
 //   (C) Copyright 2016-2017 Fred Gleason <fredg@paravelsystems.com>
 //
@@ -41,7 +41,7 @@ Config::Config(QWidget *parent)
   setWindowTitle(tr("Rivendell Login"));
   QCoreApplication::setOrganizationName("Radio Free Asia");
   QCoreApplication::setOrganizationDomain("rfa.org");
-  QCoreApplication::setApplicationName("rivendell-browser");
+  QCoreApplication::setApplicationName("Rivendell Producer");
 
   //
   // Fonts

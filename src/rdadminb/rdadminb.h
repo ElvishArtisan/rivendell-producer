@@ -1,6 +1,6 @@
 // rdadminb.h
 //
-// Configuration applet for rivendell-browser
+// Configuration applet for rivendell-producer
 //
 //   (C) Copyright 2016 Fred Gleason <fredg@paravelsystems.com>
 //

@@ -1,6 +1,6 @@
 ## automake.am
 ##
-## icons/automake.am for Rivendell-Browser
+## icons/automake.am for Rivendell-Producer
 ##
 ## (C) Copyright 2002-2006,2016 Fred Gleason <fredg@salemradiolabs.com>
 ##

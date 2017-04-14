@@ -1,6 +1,6 @@
 // datetime.cpp
 //
-// DateTime values for Rivendell Browser
+// DateTime values for Rivendell Producer
 //
 //   (C) Copyright 2017 Fred Gleason <fredg@paravelsystems.com>
 //

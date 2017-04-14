@@ -529,13 +529,13 @@ void EditLogLineDialog::okData()
   if(((edit_logline->type()==LogLine::Cart)||
       (edit_logline->type()==LogLine::Macro))&&
      edit_cart_edit->text().isEmpty()) {
-    QMessageBox::warning(this,tr("Missing Cart"),
+    QMessageBox::warning(this,tr("RDLogEdit - Missing Cart"),
 			 tr("You must supply a cart number!"));
     return;
   }
   if(edit_timetype_box->isChecked()&&
      edit_start_times.contains(edit_time_edit->time())) {
-      QMessageBox::warning(this,tr("Duplicate Start Time"),
+      QMessageBox::warning(this,tr("RDLogEdit - Duplicate Start Time"),
 		  tr("An event is already scheduled with this start time!"));
       return;
   }

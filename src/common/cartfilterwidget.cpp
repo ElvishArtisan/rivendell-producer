@@ -64,8 +64,8 @@ CartFilterWidget::CartFilterWidget(QWidget *parent)
   int err=0;
 
   if((err=cnf->listGroups(&groups,&records))!=0) {
-    QMessageBox::warning(this,tr("RDBrowser - Error"),
-			 tr("Error in rd_groups() call")+
+    QMessageBox::warning(this,tr("Rivendell Producer - Error"),
+			 tr("Error in RD_Groups() call")+
 			 " ["+tr("Error")+QString().sprintf(" %d].",err));
     exit(256);
   }

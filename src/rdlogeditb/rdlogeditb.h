@@ -1,6 +1,6 @@
 // rdlogeditb.h
 //
-// Remote cart browser for Rivendell
+// Remote log editor for Rivendell
 //
 //   (C) Copyright 2016 Fred Gleason <fredg@paravelsystems.com>
 //

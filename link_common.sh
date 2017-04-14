@@ -2,7 +2,7 @@
 
 # link_common.sh
 #
-#  Link common sources for rivendell-browser
+#  Link common sources for rivendell-producer
 #
 #   (C) Copyright 2016 Fred Gleason <fredg@paravelsystems.com>
 #

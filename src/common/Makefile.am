@@ -1,6 +1,6 @@
 ## automake.am
 ##
-## Automake.am for GlassNet src/common
+## Automake.am for Rivendell-producer src/common
 ##
 ##   (C) Copyright 2016 Fred Gleason <fredg@paravelsystems.com>
 ##

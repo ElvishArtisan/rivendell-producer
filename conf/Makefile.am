@@ -1,6 +1,6 @@
 ## automake.am
 ##
-## conf/ automake.am for Rivendell-browser
+## conf/ automake.am for Rivendell-producer
 ##
 ## (C) Copyright 2016 Fred Gleason <fredg@paravelsystems.com>
 ##
@@ -20,7 +20,7 @@
 ##
 ## Use automake to process this into a Makefile.in
 
-EXTRA_DIST = rivendell-browser-sample.conf
+EXTRA_DIST = rivendell-producer-sample.conf
 
 CLEANFILES = *~
 MAINTAINERCLEANFILES = *~\

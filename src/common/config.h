@@ -1,6 +1,6 @@
 // config.h
 //
-// Rivendell-Browser configuration
+// Rivendell-Producer configuration
 //
 //   (C) Copyright 2016-2017 Fred Gleason <fredg@paravelsystems.com>
 //
@@ -40,7 +40,7 @@
 #include <rivendell/rd_listservices.h>
 #include <rivendell/rd_savelog.h>
 
-#define DEFAULT_CONF_FILE QString("/etc/rivendell-browser.conf")
+#define DEFAULT_CONF_FILE QString("/etc/rivendell-producer.conf")
 #define DEFAULT_SERVER_HOSTNAME "localhost"
 #define DEFAULT_SERVER_USERNAME "user"
 #define DEFAULT_SERVER_PASSWORD ""

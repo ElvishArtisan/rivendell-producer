@@ -1,4 +1,4 @@
-# rivendell-browser.nsi
+# rivendell-producer.nsi
 #
 #   Make a Windows Installer using NSIS
 #
@@ -21,10 +21,10 @@
 #
 # Manifest Data
 #
-Name "Rivendell-Browser"
-OutFile "rivendell-browser-@VERSION@-1.exe"
+Name "Rivendell-Producer"
+OutFile "rivendell-producer-@VERSION@-1.exe"
 BrandingText " "
-InstallDir "$PROGRAMFILES\Radio Free Asia\Rivendell-Browser"
+InstallDir "$PROGRAMFILES\Radio Free Asia\Rivendell-Producer"
 LicenseData "COPYING.rtf"
 LicenseText "GNU General Public License v2.0"
 LicenseForceSelection radiobuttons
@@ -105,7 +105,7 @@ Section "Uninstall"
 	#
 	# Names and Paths
 	#
-	StrCpy $1 "\Radio Free Asia\rivendell-browser"
+	StrCpy $1 "\Radio Free Asia\rivendell-producer"
 	StrCpy $INSTDIR $PROGRAMFILES$1
 
 	#

@@ -19,7 +19,6 @@
 //
 
 #include <QPainter>
-#include <QMessageBox>
 
 #include "datedialog.h"
 

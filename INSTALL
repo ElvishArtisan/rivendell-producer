@@ -1,4 +1,4 @@
-This is the INSTALL file for the 'rivendell-browser' package.
+This is the INSTALL file for the 'rivendell-producer' package.
 
 PREREQUISITES
 -------------
@@ -25,7 +25,7 @@ RPM by doing:
 
 BUILDING WINDOWS BINARIES
 -------------------------
-The build system for rivendell-browser uses the MinGW (Minimalist GNU for
+The build system for rivendell-producer uses the MinGW (Minimalist GNU for
 Windows) environment for building Windows binaries, available at
 http://www.mingw.org/. It is also possible to build such binaries on CentOS 7
 using the MinGW cross-compiler packages (available in EPEL). The following

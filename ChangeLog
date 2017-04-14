@@ -256,3 +256,5 @@
 	authentication.
 2017-04-14 Fred Gleason <fredg@paravelsystems.com>
 	* Restored the '-mwindows' flag in 'Makefile.am'.
+2017-04-14 Fred Gleason <fredg@paravelsystems.com>
+	* Changed the project name to 'Rivendell Producer'.

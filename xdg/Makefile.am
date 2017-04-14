@@ -1,6 +1,6 @@
 ## automake.am
 ##
-## xdg/Makefile.am for Rivendell-browser
+## xdg/Makefile.am for Rivendell-producer
 ##
 ##   (C) Copyright 2017 Fred Gleason <fredg@paravelsystems.com>
 ##
@@ -21,16 +21,16 @@
 
 install-exec-am:	
 	mkdir -p $(DESTDIR)@prefix@/share/applications
-	cp rivendell-browser-rdadminb.desktop $(DESTDIR)@prefix@/share/applications/
-	cp rivendell-browser-rdlibraryb.desktop $(DESTDIR)@prefix@/share/applications/
-	cp rivendell-browser-rdlogeditb.desktop $(DESTDIR)@prefix@/share/applications/
+	cp rivendell-producer-rdadminb.desktop $(DESTDIR)@prefix@/share/applications/
+	cp rivendell-producer-rdlibraryb.desktop $(DESTDIR)@prefix@/share/applications/
+	cp rivendell-producer-rdlogeditb.desktop $(DESTDIR)@prefix@/share/applications/
 
 uninstall-local:	
-	rm -f $(DESTDIR)@prefix@/share/applications/rivendell-browser-*.desktop
+	rm -f $(DESTDIR)@prefix@/share/applications/rivendell-producer-*.desktop
 
-EXTRA_DIST = rivendell-browser-rdadminb.desktop\
-             rivendell-browser-rdlibraryb.desktop\
-             rivendell-browser-rdlogeditb.desktop
+EXTRA_DIST = rivendell-producer-rdadminb.desktop\
+             rivendell-producer-rdlibraryb.desktop\
+             rivendell-producer-rdlogeditb.desktop
 
 CLEANFILES = *~
 
