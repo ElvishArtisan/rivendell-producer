@@ -32,6 +32,7 @@ install-exec-am:
 	mkdir -p $(DESTDIR)@prefix@/share/rivendell-producer
 	cp rdlogeditb-splashscreen.png $(DESTDIR)@prefix@/share/rivendell-producer/
 	cp rdlibraryb-splashscreen.png $(DESTDIR)@prefix@/share/rivendell-producer/
+	cp rdadminb-splashscreen.png $(DESTDIR)@prefix@/share/rivendell-producer/
 
 
 uninstall-local:	
@@ -43,6 +44,7 @@ uninstall-local:
 	rm -f $(DESTDIR)@prefix@/share/icons/hicolor/48x48/apps/rdlogeditb.png
 	rm -f $(DESTDIR)@prefix@/share/rivendell-producer/rdlogeditb-splashscreen.png
 	rm -f $(DESTDIR)@prefix@/share/rivendell-producer/rdlibraryb-splashscreen.png
+	rm -f $(DESTDIR)@prefix@/share/rivendell-producer/rdadminb-splashscreen.png
 
 
 EXTRA_DIST = audiocart.xpm\
@@ -59,6 +61,8 @@ EXTRA_DIST = audiocart.xpm\
              rdadminb-16x16.png\
              rdadminb-16x16.xpm\
              rdadminb-48x48.png\
+             rdadminb-splashscreen.bmp\
+             rdadminb-splashscreen.png\
              rdlibraryb.ico\
              rdlibraryb-16x16.png\
              rdlibraryb-16x16.xpm\

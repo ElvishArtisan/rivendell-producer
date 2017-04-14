@@ -264,3 +264,5 @@
 	* Added splash pages for rdlibraryb(1) and rdlogeditb(1).
 2017-04-14 Fred Gleason <fredg@paravelsystems.com>
 	* Added BMP versions of the splash pages.
+2017-04-14 Fred Gleason <fredg@paravelsystems.com>
+	* Added a splash page for rdadminb(8).
