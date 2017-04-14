@@ -199,8 +199,9 @@ int Config::addLog(const QString &logname,const QString &svcname)
 {
   int ret;
   do {
-    ret=RD_AddLog(serverHostname(),serverUsername(),serverPassword(),
-		    serverTicket(),logname,svcname);
+    ret=RD_AddLog(serverHostname().toUtf8(),serverUsername().toUtf8(),
+		  serverPassword().toUtf8(),serverTicket().toUtf8(),
+		  logname.toUtf8(),svcname.toUtf8());
     if(ret==0) {
       LockIdentity();
       return ret;
@@ -220,8 +221,9 @@ int Config::deleteLog(const QString &logname)
 {
   int ret;
   do {
-    ret=RD_DeleteLog(serverHostname(),serverUsername(),serverPassword(),
-		       serverTicket(),logname);
+    ret=RD_DeleteLog(serverHostname().toUtf8(),serverUsername().toUtf8(),
+		     serverPassword().toUtf8(),serverTicket().toUtf8(),
+		     logname.toUtf8());
     if(ret==0) {
       LockIdentity();
       return ret;
@@ -242,8 +244,9 @@ int Config::listCarts(struct rd_cart **carts,unsigned *numrecs,
 {
   int ret;
   do {
-    ret=RD_ListCarts(carts,serverHostname(),serverUsername(),serverPassword(),
-		       serverTicket(),grp_name,filter,type,numrecs);
+    ret=RD_ListCarts(carts,serverHostname().toUtf8(),serverUsername().toUtf8(),
+		     serverPassword().toUtf8(),serverTicket().toUtf8(),
+		     grp_name.toUtf8(),filter.toUtf8(),type.toUtf8(),numrecs);
     if(ret==0) {
       LockIdentity();
       return ret;
@@ -263,8 +266,9 @@ int Config::listGroups(struct rd_group **grps,unsigned *numrecs)
 {
   int ret;
   do {
-    ret=RD_ListGroups(grps,serverHostname(),serverUsername(),
-		      serverPassword(),serverTicket(),numrecs);
+    ret=RD_ListGroups(grps,serverHostname().toUtf8(),serverUsername().toUtf8(),
+		      serverPassword().toUtf8(),serverTicket().toUtf8(),
+		      numrecs);
     if(ret==0) {
       LockIdentity();
       return ret;
@@ -285,8 +289,9 @@ int Config::listLog(struct rd_logline **lines,unsigned *numrecs,
 {
   int ret;
   do {
-    ret=RD_ListLog(lines,serverHostname(),serverUsername(),serverPassword(),
-		     serverTicket(),logname,numrecs);
+    ret=RD_ListLog(lines,serverHostname().toUtf8(),serverUsername().toUtf8(),
+		   serverPassword().toUtf8(),serverTicket().toUtf8(),
+		   logname.toUtf8(),numrecs);
     if(ret==0) {
       LockIdentity();
       return ret;
@@ -308,8 +313,9 @@ int Config::listLogs(struct rd_log **logs,unsigned *numrecs,
 {
   int ret;
   do {
-    ret=RD_ListLogs(logs,serverHostname(),serverUsername(),serverPassword(),
-		      serverTicket(),logname,svcname,trackable,numrecs);
+    ret=RD_ListLogs(logs,serverHostname().toUtf8(),serverUsername().toUtf8(),
+		    serverPassword().toUtf8(),serverTicket().toUtf8(),
+		    logname.toUtf8(),svcname.toUtf8(),trackable,numrecs);
     if(ret==0) {
       LockIdentity();
       return ret;
@@ -330,8 +336,10 @@ int Config::listServices(struct rd_service **svcs,unsigned *numrecs,
 {
   int ret;
   do {
-    ret=RD_ListServices(svcs,serverHostname(),serverUsername(),
-			  serverPassword(),serverTicket(),trackable,numrecs);
+    ret=RD_ListServices(svcs,serverHostname().toUtf8(),
+			serverUsername().toUtf8(),
+			serverPassword().toUtf8(),serverTicket().toUtf8(),
+			trackable,numrecs);
     if(ret==0) {
       LockIdentity();
       return ret;
@@ -353,8 +361,9 @@ int Config::saveLog(struct save_loghdr_values *hdr,
 {
   int ret;
   do {
-    ret=RD_SaveLog(hdr,lines,numrecs,serverHostname(),serverUsername(),
-		     serverPassword(),serverTicket(),logname);
+    ret=RD_SaveLog(hdr,lines,numrecs,serverHostname().toUtf8(),
+		   serverUsername().toUtf8(),serverPassword().toUtf8(),
+		   serverTicket().toUtf8(),logname.toUtf8());
     if(ret==0) {
       LockIdentity();
       return ret;
@@ -477,8 +486,9 @@ void Config::okData()
   struct rd_ticketinfo *tktinfo=NULL;
   unsigned records=0;
   int err=0;
-  if((err=RD_CreateTicket(&tktinfo,serverHostname(),serverUsername(),
-			  serverPassword(),&records))!=0) {
+  if((err=RD_CreateTicket(&tktinfo,serverHostname().toUtf8(),
+			  serverUsername().toUtf8(),serverPassword().toUtf8(),
+			  &records))!=0) {
     if(err==403) {
       QMessageBox::warning(this,tr("Rivendell Login"),
 			   tr("Incorrect Username or Password."));
@@ -574,7 +584,7 @@ void Config::SaveTicket() const
     fprintf(f,"TicketExpiration=%s\n",(const char *)serverTicketExpiration().
 	    toString("yyyyMMddhhmmss").toUtf8());
     fclose(f);
-    rename(filename,(dir.path()+"/.rivendell/ticket").toUtf8());
+    rename(filename.toUtf8(),(dir.path()+"/.rivendell/ticket").toUtf8());
   }
 #endif  // ALSA
 }

@@ -4,7 +4,7 @@ dnl Autoconf configuration
 dnl
 dnl Use autoconf to process this into a configure script
 dnl
-dnl   (C) Copyright 2016 Fred Gleason <fredg@paravelsystems.com>
+dnl   (C) Copyright 2016-2017 Fred Gleason <fredg@paravelsystems.com>
 dnl
 dnl   This program is free software; you can redistribute it and/or modify
 dnl   it under the terms of the GNU General Public License version 2 as
@@ -34,7 +34,7 @@ AC_LANG(C++)
 #
 # Check for Qt4 (Mandatory)
 #
-PKG_CHECK_MODULES(QT4,QtGui QtCore QtNetwork Qt3Support QtCLucene QtDBus QtDeclarative QtHelp QtMultimedia QtOpenGL QtScript QtScriptTools QtSql QtSvg QtTest QtUiTools QtWebKit QtXml QtXmlPatterns,[],[AC_MSG_ERROR([*** Qt4 not found ***])])
+PKG_CHECK_MODULES(QT4,QtGui QtCore QtNetwork Qt3Support,[],[AC_MSG_ERROR([*** Qt4 not found ***])])
 AC_CHECK_PROG(MOC_NAME,moc-qt4,[moc-qt4],[moc])
 AC_SUBST(MOC,$MOC_NAME)
 

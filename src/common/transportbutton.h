@@ -21,12 +21,7 @@
 #ifndef TRANSPORTBUTTON_H
 #define TRANSPORTBUTTON_H
 
-#include <qwidget.h>
-#include <qpushbutton.h>
-#include <qpixmap.h>
-#include <qcolor.h>
-//Added by qt3to4:
-#include <QResizeEvent>
+#include <QPushButton>
 
 #define TRANSPORTBUTTON_DEFAULT_ON_COLOR Qt::green
 
@@ -38,7 +33,7 @@ class TransportButton : public QPushButton
 		  Pause=6,PlayFrom=7,PlayBetween=8,Loop=9,Up=10,Down=11,
 		  PlayTo=12};
   enum TransState {On=0,Off=1,Flashing=2}; 
-  TransportButton(TransportButton::TransType type,QWidget *parent=0);
+  TransportButton(TransportButton::TransType type,QWidget *parent);
   TransportButton::TransType getType() const;
   void setType(TransportButton::TransType type);
   QColor onColor() const;

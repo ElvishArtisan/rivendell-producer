@@ -268,3 +268,6 @@
 	* Added a splash page for rdadminb(8).
 2017-04-14 Fred Gleason <fredg@paravelsystems.com>
 	* Got splash pages working under MingW.
+2017-04-14 Fred Gleason <fredg@paravelsystems.com>
+	* Removed Qt3Support calls from 'src/common/config.cpp'.
+	* Removed Qt3Support calls from 'src/common/transportbutton.cpp'.
