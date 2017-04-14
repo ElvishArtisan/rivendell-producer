@@ -254,3 +254,5 @@
 	* Added support for storage of tickets in the Windows registry.
 	* Added code to prevent changes in identity after the first successful
 	authentication.
+2017-04-14 Fred Gleason <fredg@paravelsystems.com>
+	* Restored the '-mwindows' flag in 'Makefile.am'.
