@@ -121,3 +121,9 @@ rm -f src/$DESTDIR/*.ico
 ln -s ../../icons/rdadminb.ico src/$DESTDIR/rdadminb.ico
 ln -s ../../icons/rdlibraryb.ico src/$DESTDIR/rdlibraryb.ico
 ln -s ../../icons/rdlogeditb.ico src/$DESTDIR/rdlogeditb.ico
+
+rm -f src/$DESTDIR/*.bmp
+ln -s ../../icons/rdadminb-splashscreen.bmp src/$DESTDIR/rdadminb-splashscreen.bmp
+ln -s ../../icons/rdlibraryb-splashscreen.bmp src/$DESTDIR/rdlibraryb-splashscreen.bmp
+ln -s ../../icons/rdlogeditb-splashscreen.bmp src/$DESTDIR/rdlogeditb-splashscreen.bmp
+

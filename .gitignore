@@ -18,6 +18,7 @@ Makefile
 Makefile.in
 missing
 moc_*
+qrc_*
 src/rdadminb/*.ico
 src/rdadminb/cartfilterwidget.cpp
 src/rdadminb/cartfilterwidget.h
@@ -46,6 +47,9 @@ src/rdadminb/playerfactory.h
 src/rdadminb/profile.cpp
 src/rdadminb/profile.h
 src/rdadminb/rdadminb
+src/rdadminb/rdadminb-splashscreen.bmp
+src/rdadminb/rdlibraryb-splashscreen.bmp
+src/rdadminb/rdlogeditb-splashscreen.bmp
 src/rdadminb/ringbuffer.cpp
 src/rdadminb/ringbuffer.h
 src/rdadminb/streamplayer*
@@ -80,7 +84,10 @@ src/rdlibraryb/playerfactory.cpp
 src/rdlibraryb/playerfactory.h
 src/rdlibraryb/profile.cpp
 src/rdlibraryb/profile.h
+src/rdlibraryb/rdadminb-splashscreen.bmp
 src/rdlibraryb/rdlibraryb
+src/rdlibraryb/rdlibraryb-splashscreen.bmp
+src/rdlibraryb/rdlogeditb-splashscreen.bmp
 src/rdlibraryb/ringbuffer.cpp
 src/rdlibraryb/ringbuffer.h
 src/rdlibraryb/streamplayer*
@@ -88,6 +95,7 @@ src/rdlibraryb/tableview.cpp
 src/rdlibraryb/tableview.h
 src/rdlibraryb/transportbutton.cpp
 src/rdlibraryb/transportbutton.h
+src/rdlibraryb/qrc_bitmaps.cpp
 src/rdlogeditb/*.ico
 src/rdlogeditb/cartfilterwidget.cpp
 src/rdlogeditb/cartfilterwidget.h
@@ -115,6 +123,10 @@ src/rdlogeditb/playerfactory.cpp
 src/rdlogeditb/playerfactory.h
 src/rdlogeditb/profile.cpp
 src/rdlogeditb/profile.h
+src/rdlogeditb/rdlibraryb-splashscreen.bmp
+src/rdlogeditb/rdlogeditb-splashscreen.bmp
+src/rdlogeditb/rdlogeditb.qrc
+src/rdlogeditb/rdadminb-splashscreen.bmp
 src/rdlogeditb/rdlogeditb
 src/rdlogeditb/ringbuffer.cpp
 src/rdlogeditb/ringbuffer.h

@@ -22,9 +22,11 @@
 AM_CPPFLAGS = -Wall -DPREFIX=\"$(prefix)\" -Wno-strict-aliasing @QT4_CFLAGS@ @RIVCAPI_CFLAGS@
 MOC = @QT4_MOC@
 
-# The dependency for qt's Meta Object Compiler (moc)
+# Qt compiler dependencies
 moc_%.cpp:	%.h
 	@MOC@ $< -o $@
+qrc_%.cpp:	%.qrc
+	rcc $< -o $@
 
 # The dependency for Windows resource compiler
 %.o:	%.rc
@@ -41,6 +43,7 @@ nodist_rdadminb_SOURCES = cmdswitch.cpp cmdswitch.h\
                           moc_combobox.cpp\
                           moc_config.cpp\
                           moc_rdadminb.cpp\
+                          qrc_bitmaps.cpp\
                           profile.cpp profile.h
 
 EXTRA_rdadminb_DEPENDENCIES = @RESOURCES@
@@ -48,7 +51,8 @@ EXTRA_rdadminb_DEPENDENCIES = @RESOURCES@
 rdadminb_LDADD = @QT4_LIBS@ @RIVCAPI_LIBS@ @MME_LIBS@ -lexpat @RESOURCES@ -lpthread
 rdadminb_LDFLAGS = @LDFLAGS@
 
-EXTRA_DIST = icons.rc
+EXTRA_DIST = bitmaps.qrc\
+             icons.rc
 
 CLEANFILES = *~\
              moc_*\
@@ -57,7 +61,8 @@ CLEANFILES = *~\
              *.pdb\
              *ilk
 
-DISTCLEANFILES = *.ico\
+DISTCLEANFILES = *.bmp\
+                 *.ico\
                  cartfilterwidget.cpp cartfilterwidget.h\
                  cmdswitch.cpp cmdswitch.h\
                  combobox.cpp combobox.h\

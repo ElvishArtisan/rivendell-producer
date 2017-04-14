@@ -266,3 +266,5 @@
 	* Added BMP versions of the splash pages.
 2017-04-14 Fred Gleason <fredg@paravelsystems.com>
 	* Added a splash page for rdadminb(8).
+2017-04-14 Fred Gleason <fredg@paravelsystems.com>
+	* Got splash pages working under MingW.

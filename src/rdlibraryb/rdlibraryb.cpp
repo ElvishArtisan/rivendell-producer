@@ -51,14 +51,15 @@ MainWidget::MainWidget(QWidget *parent)
   //
   // Configuration
   //
+#ifdef MME
+  cnf=new Config(":/rdlibraryb-splashscreen.bmp",this);
+#endif  // MME
+#ifdef ALSA
   cnf=new Config("/usr/share/rivendell-producer/rdlibraryb-splashscreen.png",
 		 this);
+#endif  // ALSA
   cnf->load();
-  /*
-  if(!cnf->exec()) {
-    exit(0);
-  }
-  */
+
   //
   // Initialize Curl
   //

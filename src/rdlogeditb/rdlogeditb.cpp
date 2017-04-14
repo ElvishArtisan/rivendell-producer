@@ -23,6 +23,8 @@
 
 #include <curl/curl.h>
 
+#include <QDir>
+
 #include <QApplication>
 #include <QMessageBox>
 #include <QSplashScreen>
@@ -51,8 +53,13 @@ MainWidget::MainWidget(QWidget *parent)
   //
   // Configuration
   //
+#ifdef MME
+  cnf=new Config(":/rdlogeditb-splashscreen.bmp",this);
+#endif  // MME
+#ifdef ALSA
   cnf=new Config("/usr/share/rivendell-producer/rdlogeditb-splashscreen.png",
 		 this);
+#endif  // ALSA
   cnf->load();
 
   //

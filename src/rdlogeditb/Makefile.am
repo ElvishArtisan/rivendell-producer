@@ -22,9 +22,11 @@
 AM_CPPFLAGS = -Wall -DPREFIX=\"$(prefix)\" -Wno-strict-aliasing @QT4_CFLAGS@ @RIVCAPI_CFLAGS@ @CURL_CFLAGS@ @SRC_CFLAGS@ @ALSA_CFLAGS@
 MOC = @QT4_MOC@
 
-# The dependency for qt's Meta Object Compiler (moc)
+# Qt compiler dependencies
 moc_%.cpp:	%.h
 	@MOC@ $< -o $@
+qrc_%.cpp:	%.qrc
+	rcc $< -o $@
 
 # The dependency for Windows resource compiler
 %.o:	%.rc
@@ -77,6 +79,7 @@ nodist_rdlogeditb_SOURCES = cartfilterwidget.cpp cartfilterwidget.h\
                             mpeg1decoder.cpp mpeg1decoder.h\
                             playerfactory.cpp playerfactory.h\
                             profile.cpp profile.h\
+                            qrc_bitmaps.cpp\
                             ringbuffer.cpp ringbuffer.h\
                             streamplayer.cpp streamplayer.h\
                             streamplayer_alsa.cpp streamplayer_alsa.h\
@@ -89,7 +92,8 @@ EXTRA_rdlogeditb_DEPENDENCIES = @RESOURCES@
 rdlogeditb_LDADD = @QT4_LIBS@ @RIVCAPI_LIBS@ @CURL_LIBS@ @SRC_LIBS@ @MAD_LIBS@ @ALSA_LIBS@ @MME_LIBS@ -lexpat @RESOURCES@ -lpthread
 rdlogeditb_LDFLAGS = @LDFLAGS@
 
-EXTRA_DIST = icons.rc
+EXTRA_DIST = bitmaps.qrc\
+             icons.rc
 
 CLEANFILES = *~\
              moc_*\
@@ -98,7 +102,8 @@ CLEANFILES = *~\
              *.pdb\
              *ilk
 
-DISTCLEANFILES = *.ico\
+DISTCLEANFILES = *.bmp\
+                 *.ico\
                  cartfilterwidget.cpp cartfilterwidget.h\
                  cmdswitch.cpp cmdswitch.h\
                  combobox.cpp combobox.h\

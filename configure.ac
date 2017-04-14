@@ -34,7 +34,7 @@ AC_LANG(C++)
 #
 # Check for Qt4 (Mandatory)
 #
-PKG_CHECK_MODULES(QT4,QtGui QtCore QtNetwork Qt3Support,[],[AC_MSG_ERROR([*** Qt4 not found ***])])
+PKG_CHECK_MODULES(QT4,QtGui QtCore QtNetwork Qt3Support QtCLucene QtDBus QtDeclarative QtHelp QtMultimedia QtOpenGL QtScript QtScriptTools QtSql QtSvg QtTest QtUiTools QtWebKit QtXml QtXmlPatterns,[],[AC_MSG_ERROR([*** Qt4 not found ***])])
 AC_CHECK_PROG(MOC_NAME,moc-qt4,[moc-qt4],[moc])
 AC_SUBST(MOC,$MOC_NAME)
 
@@ -93,7 +93,7 @@ AC_SUBST(VENDOR,$ar_gcc_distro)
 AC_SUBST(ARCH,$ar_gcc_arch)
 if test $ar_gcc_os = mingw32 ; then
   AC_DEFINE(WIN32)
-  AC_SUBST(RESOURCES,icons.o)
+  AC_SUBST(RESOURCES,"icons.o")
   AC_SUBST(LDFLAGS,"-mwindows")
   AC_DEFINE(MINGW32,"yes")
 else
