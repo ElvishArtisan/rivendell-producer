@@ -32,14 +32,12 @@ TransportButton::TransportButton(TransportButton::TransType type,
   button_type=type;
   button_state=TransportButton::Off;
   on_color=QColor(TRANSPORTBUTTON_DEFAULT_ON_COLOR);
-  accent_color=QColor(colorGroup().shadow());
+  accent_color=palette().shadow().color();
+  on_cap=NULL;
+  off_cap=NULL;
   on_cap=new QPixmap();
-  drawOnCap();
   off_cap=new QPixmap();
-  drawOffCap();
-  setPixmap(*off_cap);
-
-  flash_timer=new QTimer(this,"flash_timer");
+  flash_timer=new QTimer(this);
   connect(flash_timer,SIGNAL(timeout()),this,SLOT(flashClock()));
   flash_state=false;
 }
@@ -91,19 +89,18 @@ void TransportButton::setAccentColor(QColor color)
 
 void TransportButton::setState(TransportButton::TransState state)
 {
-  QKeySequence a=accel();
   button_state=state;
   switch(button_state) {
       case TransportButton::On:
 	flashOff();
 	if(isEnabled()) {
-	  setPixmap(*on_cap);
+	  setIcon(*on_cap);
 	}
 	break;
       case TransportButton::Off:
 	flashOff();
 	if(isEnabled()) {
-	  setPixmap(*off_cap);
+	  setIcon(*off_cap);
 	}
 	break;
       case TransportButton::Flashing:
@@ -112,7 +109,6 @@ void TransportButton::setState(TransportButton::TransState state)
 	}
 	break;
   }
-  setAccel(a);
 }
 
 
@@ -136,50 +132,45 @@ void TransportButton::flash()
 
 void TransportButton::resizeEvent(QResizeEvent *event)
 {
-  QKeySequence a=accel();
+  setIconSize(size());
   drawOnCap();
   drawOffCap();
   switch(button_state) {
       case TransportButton::Off:
-	setPixmap(*off_cap);
+	setIcon(*off_cap);
 	break;
       case TransportButton::On:
-	setPixmap(*on_cap);
+	setIcon(*on_cap);
 	break;
       default:
-	setPixmap(*off_cap);
+	setIcon(*off_cap);
 	break;
   }
-  setAccel(a);
 }
 
 
 void TransportButton::enabledChange(bool oldEnabled)
 {
-  QKeySequence a=accel();
   if(isEnabled()&&!oldEnabled) {
     setState(button_state);
     update();
   }
   if(!isEnabled()&&oldEnabled) {
     update();
-    setAccel(a);
   }
 }
  
 
 void TransportButton::flashClock()
 {
-  QKeySequence a=accel();
   if(flash_state) {
     flash_state=false;
-    setPixmap(*off_cap);
+    setIcon(*off_cap);
   }
   else {
     flash_state=true;
-    setPixmap(*on_cap);
+    setIcon(*on_cap);
   }
-  setAccel(a);
 }
 
 
@@ -187,20 +178,20 @@ void TransportButton::updateCaps()
 {
   switch(button_state) {
       case TransportButton::On:
-	setPixmap(*on_cap);
+	setIcon(*on_cap);
 	break;
 
       case TransportButton::Flashing:
 	if(flash_state) {
-	  setPixmap(*on_cap);
+	  setIcon(*on_cap);
 	}
 	else {
-	  setPixmap(*off_cap);
+	  setIcon(*off_cap);
 	}
 	break;
 
       case TransportButton::Off:
-	setPixmap(*off_cap);
+	setIcon(*off_cap);
 	break;
   }
 }
@@ -219,7 +210,7 @@ void TransportButton::drawMask(QPixmap *cap)
   else {
     edge=width();
   }
-  cap->resize(size());
+  //  cap->resize(size());
   b.begin(bitmap);
   b.fillRect(0,0,size().width(),size().height(),QColor(Qt::color0));
   b.setPen(QColor(Qt::color1));
@@ -293,9 +284,6 @@ void TransportButton::drawMask(QPixmap *cap)
 	b.drawPolygon(triangle);
 	break;
       case TransportButton::Loop:
-//	b.moveTo(width()/2-(2*edge)/10+1,height()/2+(edge)/4);
-//	b.moveTo(width()/2+(edge)/10+1,height()/2-edge/10);
-//	b.moveTo(width()/2-(2*edge)/10+1,height()/2+(edge)/4);
 	b.drawArc(width()/6,height()/2-edge/9,2*width()/3,
 		  height()/3+edge/10,1440,5760);
 	triangle.setPoint(0,width()/2-(2*edge)/10+1,height()/2-(edge)/4);
@@ -339,6 +327,11 @@ void TransportButton::drawOnCap()
   QPolygon triangle=QPolygon(3);
   int edge;
 
+  if(on_cap!=NULL) {
+    delete on_cap;
+  }
+  on_cap=new QPixmap(size());
+
   if(height()<width()) {
     edge=height();
   }
@@ -355,25 +348,25 @@ void TransportButton::drawOnCap()
 	triangle.setPoint(1,width()/2+(3*edge)/10,height()/2);
 	triangle.setPoint(2,width()/2-(3*edge)/10,height()/2+(3*edge)/10);
 	p.drawPolygon(triangle);
-	p.setPen(QColor(colorGroup().shadow()));
+	p.setPen(palette().shadow().color());
 	p.drawLine(width()/2-(3*edge)/10,height()/2+(3*edge)/10,
 		  width()/2-(3*edge)/10,height()/2-(3*edge)/10);
-	p.setPen(QColor(colorGroup().dark()));
+	p.setPen(palette().dark().color());
 	p.drawLine(width()/2-(3*edge)/10,height()/2-(3*edge)/10,
 		   width()/2+(3*edge)/10,height()/2);
-	p.setPen(QColor(colorGroup().light()));
+	p.setPen(palette().light().color());
 	p.drawLine(width()/2+(3*edge)/10,height()/2,
 		   width()/2-(3*edge)/10,height()/2+(3*edge)/10);
 	break;
       case TransportButton::Stop:
 	p.fillRect(width()/2-edge*3/10,height()/2-edge*3/10,
 		   edge*3/5,edge*3/5,QColor(on_color));
-	p.setPen(QColor(colorGroup().shadow()));
+	p.setPen(palette().shadow().color());
 	p.drawLine(width()/2-edge*3/10,height()/2+edge*3/10,
 		   width()/2-edge*3/10,height()/2-edge*3/10);
 	p.drawLine(width()/2-edge*3/10,height()/2-edge*3/10,
 		   width()/2+edge*3/10,height()/2-edge*3/10);
-	p.setPen(QColor(colorGroup().light()));
+	p.setPen(palette().light().color());
 	p.drawLine(width()/2+edge*3/10,height()/2-edge*3/10,
 		   width()/2+edge*3/10,height()/2+edge*3/10);
 	p.drawLine(width()/2+edge*3/10,height()/2+edge*3/10,
@@ -390,26 +383,26 @@ void TransportButton::drawOnCap()
 	triangle.setPoint(1,width()/2,height()/2);
 	triangle.setPoint(2,width()/2-(3*edge)/10,height()/2+(3*edge)/10);
 	p.drawPolygon(triangle);
-	p.setPen(QColor(colorGroup().shadow()));
+	p.setPen(palette().shadow().color());
 	p.drawLine(width()/2-(3*edge)/10,height()/2+(3*edge)/10,
 		   width()/2-(3*edge)/10,height()/2-(3*edge)/10);
-	p.setPen(QColor(colorGroup().dark()));
+	p.setPen(palette().dark().color());
 	p.drawLine(width()/2-(3*edge)/10,height()/2-(3*edge)/10,
 		   width()/2,height()/2);
-	p.setPen(QColor(colorGroup().light()));
+	p.setPen(palette().light().color());
 	p.drawLine(width()/2,height()/2,
 		   width()/2-(3*edge)/10,height()/2+(3*edge)/10);
 	triangle.setPoint(0,width()/2,height()/2-(3*edge)/10);
 	triangle.setPoint(1,width()/2+(3*edge)/10,height()/2);
 	triangle.setPoint(2,width()/2,height()/2+(3*edge)/10);
 	p.drawPolygon(triangle);
-	p.setPen(QColor(colorGroup().shadow()));
+	p.setPen(palette().shadow().color());
 	p.drawLine(width()/2,height()/2+(3*edge)/10,
 		   width()/2,height()/2-(3*edge)/10);
-	p.setPen(QColor(colorGroup().dark()));
+	p.setPen(palette().dark().color());
 	p.drawLine(width()/2,height()/2-(3*edge)/10,
 		   width()/2+(3*edge)/10,height()/2);
-	p.setPen(QColor(colorGroup().light()));
+	p.setPen(palette().light().color());
 	p.drawLine(width()/2+(3*edge)/10,height()/2,
 		   width()/2,height()/2+(3*edge)/10);
 	break;
@@ -418,13 +411,13 @@ void TransportButton::drawOnCap()
 	triangle.setPoint(1,width()/2,height()/2);
 	triangle.setPoint(2,width()/2+(3*edge)/10,height()/2+(3*edge)/10);
 	p.drawPolygon(triangle);
-	p.setPen(QColor(colorGroup().shadow()));
+	p.setPen(palette().shadow().color());
 	p.drawLine(width()/2+(3*edge)/10,height()/2-(3*edge)/10,
 		   width()/2,height()/2);
-	p.setPen(QColor(colorGroup().dark()));
+	p.setPen(palette().dark().color());
 	p.drawLine(width()/2,height()/2,
 		   width()/2+(3*edge)/10,height()/2+(3*edge)/10);
-	p.setPen(QColor(colorGroup().light()));
+	p.setPen(palette().light().color());
 	p.drawLine(width()/2+(3*edge)/10,height()/2+(3*edge)/10,
 		   width()/2+(3*edge)/10,height()/2-(3*edge)/10);
 	triangle.setPoint(0,width()/2,height()/2-(3*edge)/10);
@@ -432,13 +425,13 @@ void TransportButton::drawOnCap()
 	triangle.setPoint(2,width()/2,height()/2+(3*edge)/10);
 	p.drawPolygon(triangle);
 	p.drawPolygon(triangle);
-	p.setPen(QColor(colorGroup().shadow()));
+	p.setPen(palette().shadow().color());
 	p.drawLine(width()/2,height()/2-(3*edge)/10,
 		   width()/2-(3*edge)/10,height()/2);
-	p.setPen(QColor(colorGroup().dark()));
+	p.setPen(palette().dark().color());
 	p.drawLine(width()/2-(3*edge)/10,height()/2,
 		   width()/2,height()/2+(3*edge)/10);
-	p.setPen(QColor(colorGroup().light()));
+	p.setPen(palette().light().color());
 	p.drawLine(width()/2,height()/2+(3*edge)/10,
 		   width()/2,height()/2-(3*edge)/10);
 	break;
@@ -447,23 +440,23 @@ void TransportButton::drawOnCap()
 	triangle.setPoint(1,width()/2+(3*edge)/10,height()/2);
 	triangle.setPoint(2,width()/2-(3*edge)/10,height()/2);
 	p.drawPolygon(triangle);
-	p.setPen(QColor(colorGroup().shadow()));
+	p.setPen(palette().shadow().color());
 	p.drawLine(width()/2-(3*edge)/10,height()/2,
 		   width()/2,height()/2-(3*edge)/10);
-	p.setPen(QColor(colorGroup().dark()));
+	p.setPen(palette().dark().color());
 	p.drawLine(width()/2,height()/2-(3*edge)/10,
 		   width()/2+(3*edge)/10,height()/2);
-	p.setPen(QColor(colorGroup().light()));
+	p.setPen(palette().light().color());
 	p.drawLine(width()/2+(3*edge)/10,height()/2,
 		   width()/2-(3*edge)/10,height()/2);
 	p.fillRect(width()/2-(3*edge)/10,height()/2+edge/10,
 		   (3*edge)/5,edge/5,on_color);
-	p.setPen(QColor(colorGroup().shadow()));
+	p.setPen(palette().shadow().color());
 	p.drawLine(width()/2-(3*edge)/10,height()/2+edge/10+edge/5,
 		   width()/2-(3*edge)/10,height()/2+edge/10);
 	p.drawLine(width()/2-(3*edge)/10,height()/2+edge/10,
 		   width()/2+(3*edge)/10,height()/2+edge/10);
-	p.setPen(QColor(colorGroup().light()));
+	p.setPen(palette().light().color());
 	p.drawLine(width()/2+(3*edge)/10,height()/2+edge/10,
 		   width()/2+(3*edge)/10,height()/2+edge/10+edge/5);
 	p.drawLine(width()/2+(3*edge)/10,height()/2+edge/10+edge/5,
@@ -472,24 +465,24 @@ void TransportButton::drawOnCap()
       case TransportButton::Pause:
 	p.fillRect(width()/2-(3*edge)/10,height()/2-(3*edge)/10,
 		   (3*edge)/15,(3*edge)/5,on_color);
-	p.setPen(QColor(colorGroup().shadow()));
+	p.setPen(palette().shadow().color());
 	p.drawLine(width()/2-(3*edge)/10,height()/2+(3*edge)/10,
 		   width()/2-(3*edge)/10,height()/2-(3*edge)/10);
 	p.drawLine(width()/2-(3*edge)/10,height()/2-(3*edge)/10,
 		   width()/2-(3*edge)/10+(3*edge)/15,height()/2-(3*edge)/10);
-	p.setPen(QColor(colorGroup().light()));
+	p.setPen(palette().light().color());
 	p.drawLine(width()/2-(3*edge)/10+(3*edge)/15,height()/2-(3*edge)/10,
 		   width()/2-(3*edge)/10+(3*edge)/15,height()/2+(3*edge)/10);
 	p.drawLine(width()/2-(3*edge)/10+(3*edge)/15,height()/2+(3*edge)/10,
 		   width()/2-(3*edge)/10,height()/2+(3*edge)/10);
 	p.fillRect(width()/2+(3*edge)/30,height()/2-(3*edge)/10,
 		   (3*edge)/15,(3*edge)/5,on_color);
-	p.setPen(QColor(colorGroup().shadow()));
+	p.setPen(palette().shadow().color());
 	p.drawLine(width()/2+(3*edge)/30,height()/2+(3*edge)/10,
 		   width()/2+(3*edge)/30,height()/2-(3*edge)/10);
 	p.drawLine(width()/2+(3*edge)/30,height()/2-(3*edge)/10,
 		   width()/2+(3*edge)/10,height()/2-(3*edge)/10);
-	p.setPen(QColor(colorGroup().light()));
+	p.setPen(palette().light().color());
 	p.drawLine(width()/2+(3*edge)/10,height()/2-(3*edge)/10,
 		   width()/2+(3*edge)/10,height()/2+(3*edge)/10);
 	p.drawLine(width()/2+(3*edge)/10,height()/2+(3*edge)/10,
@@ -502,13 +495,13 @@ void TransportButton::drawOnCap()
 	triangle.setPoint(1,width()/2+(3*edge)/10+1,height()/2);
 	triangle.setPoint(2,width()/2-(2*edge)/10+1,height()/2+(3*edge)/10);
 	p.drawPolygon(triangle);
-	p.setPen(QColor(colorGroup().shadow()));
+	p.setPen(palette().shadow().color());
 	p.drawLine(width()/2-(2*edge)/10+1,height()/2+(3*edge)/10,
 		   width()/2-(2*edge)/10+1,height()/2-(3*edge)/10);  
-	p.setPen(QColor(colorGroup().dark()));
+	p.setPen(palette().dark().color());
 	p.drawLine(width()/2-(2*edge)/10+1,height()/2-(3*edge)/10,
 		   width()/2+(3*edge)/10+1,height()/2);
-	p.setPen(QColor(colorGroup().light()));
+	p.setPen(palette().light().color());
 	p.drawLine(width()/2+(3*edge)/10+1,height()/2,
 		   width()/2-(2*edge)/10+1,height()/2+(3*edge)/10);
 	break;
@@ -521,25 +514,24 @@ void TransportButton::drawOnCap()
 	triangle.setPoint(1,width()/2+(2*edge)/10+1,height()/2);
 	triangle.setPoint(2,width()/2-(2*edge)/10+1,height()/2+(3*edge)/10);
 	p.drawPolygon(triangle);
-	p.setPen(QColor(colorGroup().shadow()));
+	p.setPen(palette().shadow().color());
 	p.drawLine(width()/2-(2*edge)/10+1,height()/2+(3*edge)/10,
 		   width()/2-(2*edge)/10+1,height()/2-(3*edge)/10);
-	p.setPen(QColor(colorGroup().dark()));
+	p.setPen(palette().dark().color());
 	p.drawLine(width()/2-(2*edge)/10+1,height()/2-(3*edge)/10,
 		   width()/2+(2*edge)/10+1,height()/2);
-	p.setPen(QColor(colorGroup().light()));
+	p.setPen(palette().light().color());
 	p.drawLine(width()/2+(2*edge)/10+1,height()/2,
 		   width()/2-(2*edge)/10+1,height()/2+(3*edge)/10);
 	break;
       case TransportButton::Loop:
-	p.setPen(QColor(colorGroup().shadow()));
+	p.setPen(palette().shadow().color());
 	p.drawLine(width()/2-(2*edge)/10+1,height()/2+(edge)/4,
 		   width()/2+(edge)/10+1,height()/2-edge/10);
-	p.setPen(QColor(colorGroup().dark()));
-	p.setPen(QColor(colorGroup().light()));
+	p.setPen(palette().light().color());
 	p.drawLine(width()/2+(edge)/10+1,height()/2-edge/10,
 		   width()/2-(2*edge)/10+1,height()/2+(edge)/4);
-	p.setPen(QColor(colorGroup().shadow()));
+	p.setPen(palette().shadow().color());
 	p.drawArc(width()/6,height()/2-edge/9,2*width()/3,
 		  height()/3+edge/10,1440,5760);
 	triangle.setPoint(0,width()/2-(2*edge)/10+1,height()/2-(edge)/4);
@@ -552,13 +544,13 @@ void TransportButton::drawOnCap()
 	triangle.setPoint(1,width()/2+(3*edge)/10,height()-(3*edge)/10);
 	triangle.setPoint(2,width()/2-(3*edge)/10,height()-(3*edge)/10);
 	p.drawPolygon(triangle);
-	p.setPen(QColor(colorGroup().shadow()));
+	p.setPen(palette().shadow().color());
 	p.drawLine(width()/2-(3*edge)/10,height()-(3*edge)/10,
 		   width()/2,(3*edge)/10);
-	p.setPen(QColor(colorGroup().dark()));
+	p.setPen(palette().dark().color());
 	p.drawLine(width()/2,(3*edge)/10,
 		   width()/2+(3*edge)/10,height()-(3*edge)/10);
-	p.setPen(QColor(colorGroup().light()));
+	p.setPen(palette().light().color());
 	p.drawLine(width()/2+(3*edge)/10,height()-(3*edge)/10,
 		   width()/2-(3*edge)/10,height()-(3*edge)/10);
 	break;
@@ -567,13 +559,13 @@ void TransportButton::drawOnCap()
 	triangle.setPoint(1,width()/2+(3*edge)/10,(3*edge)/10);
 	triangle.setPoint(2,width()/2-(3*edge)/10,(3*edge)/10);
 	p.drawPolygon(triangle);
-	p.setPen(QColor(colorGroup().dark()));
+	p.setPen(palette().dark().color());
 	p.drawLine(width()/2-(3*edge)/10,(3*edge)/10,
 		   width()/2,height()-(3*edge)/10);
-	p.setPen(QColor(colorGroup().light()));
+	p.setPen(palette().light().color());
 	p.drawLine(width()/2,height()-(3*edge)/10,
 		   width()/2+(3*edge)/10,(3*edge)/10);
-	p.setPen(QColor(colorGroup().shadow()));
+	p.setPen(palette().shadow().color());
 	p.drawLine(width()/2+(3*edge)/10,(3*edge)/10,
 		 width()/2-(3*edge)/10,(3*edge)/10);
 	break;
@@ -584,13 +576,13 @@ void TransportButton::drawOnCap()
 	triangle.setPoint(1,width()/2+(2*edge)/10+1,height()/2);
 	triangle.setPoint(2,width()/2-(3*edge)/10,height()/2+(3*edge)/10);
 	p.drawPolygon(triangle);
-	p.setPen(QColor(colorGroup().shadow()));
+	p.setPen(palette().shadow().color());
 	p.drawLine(width()/2-(3*edge)/10,height()/2+(3*edge)/10,
 		   width()/2-(3*edge)/10,height()/2-(3*edge)/10);
-	p.setPen(QColor(colorGroup().dark()));
+	p.setPen(palette().dark().color());
 	p.drawLine(width()/2-(3*edge)/10,height()/2-(3*edge)/10,
 		   width()/2+(2*edge)/10+1,height()/2);
-	p.setPen(QColor(colorGroup().light()));
+	p.setPen(palette().light().color());
 	p.drawLine(width()/2+(2*edge)/10+1,height()/2,
 		   width()/2-(3*edge)/10,height()/2+(3*edge)/10);
 	break;
@@ -604,6 +596,11 @@ void TransportButton::drawOffCap()
   QPainter p;
   QPolygon triangle=QPolygon(3);
   int edge;
+
+  if(off_cap!=NULL) {
+    delete off_cap;
+  }
+  off_cap=new QPixmap(size());
 
   if(height()<width()) {
     edge=height();
@@ -621,25 +618,25 @@ void TransportButton::drawOffCap()
 	triangle.setPoint(1,width()/2+(3*edge)/10,height()/2);
 	triangle.setPoint(2,width()/2-(3*edge)/10,height()/2+(3*edge)/10);
 	p.drawPolygon(triangle);
-	p.setPen(QColor(colorGroup().shadow()));
+	p.setPen(palette().shadow().color());
 	p.drawLine(width()/2-(3*edge)/10,height()/2+(3*edge)/10,
 		   width()/2-(3*edge)/10,height()/2-(3*edge)/10);
-	p.setPen(QColor(colorGroup().dark()));
+	p.setPen(palette().dark().color());
 	p.drawLine(width()/2-(3*edge)/10,height()/2-(3*edge)/10,
 		   width()/2+(3*edge)/10,height()/2);
-	p.setPen(QColor(colorGroup().light()));
+	p.setPen(palette().light().color());
 	p.drawLine(width()/2+(3*edge)/10,height()/2,
 		   width()/2-(3*edge)/10,height()/2+(3*edge)/10);
 	break;
       case TransportButton::Stop:
 	p.fillRect(width()/2-edge*3/10,height()/2-edge*3/10,
-		   edge*3/5,edge*3/5,QColor(colorGroup().shadow()));
-	p.setPen(QColor(colorGroup().shadow()));
+		   edge*3/5,edge*3/5,palette().shadow().color());
+	p.setPen(palette().shadow().color());
 	p.drawLine(width()/2-edge*3/10,height()/2+edge*3/10,
 		   width()/2-edge*3/10,height()/2-edge*3/10);
 	p.drawLine(width()/2-edge*3/10,height()/2-edge*3/10,
 		   width()/2+edge*3/10,height()/2-edge*3/10);
-	p.setPen(QColor(colorGroup().light()));
+	p.setPen(palette().light().color());
 	p.drawLine(width()/2+edge*3/10,height()/2-edge*3/10,
 		   width()/2+edge*3/10,height()/2+edge*3/10);
 	p.drawLine(width()/2+edge*3/10,height()/2+edge*3/10,
@@ -656,13 +653,13 @@ void TransportButton::drawOffCap()
 	triangle.setPoint(1,width()/2,height()/2);
 	triangle.setPoint(2,width()/2-(3*edge)/10,height()/2+(3*edge)/10);
 	p.drawPolygon(triangle);
-	p.setPen(QColor(colorGroup().shadow()));
+	p.setPen(palette().shadow().color());
 	p.drawLine(width()/2-(3*edge)/10,height()/2+(3*edge)/10,
 		   width()/2-(3*edge)/10,height()/2-(3*edge)/10);
-	p.setPen(QColor(colorGroup().dark()));
+	p.setPen(palette().dark().color());
 	p.drawLine(width()/2-(3*edge)/10,height()/2-(3*edge)/10,
 		   width()/2,height()/2);
-	p.setPen(QColor(colorGroup().light()));
+	p.setPen(palette().light().color());
 	p.drawLine(width()/2,height()/2,
 		   width()/2-(3*edge)/10,height()/2+(3*edge)/10);
 	triangle.setPoint(0,width()/2,height()/2-(3*edge)/10);
@@ -670,13 +667,13 @@ void TransportButton::drawOffCap()
 	triangle.setPoint(2,width()/2,height()/2+(3*edge)/10);
 	p.drawPolygon(triangle);
 	p.drawPolygon(triangle);
-	p.setPen(QColor(colorGroup().shadow()));
+	p.setPen(palette().shadow().color());
 	p.drawLine(width()/2,height()/2+(3*edge)/10,
 		   width()/2,height()/2-(3*edge)/10);
-	p.setPen(QColor(colorGroup().dark()));
+	p.setPen(palette().dark().color());
 	p.drawLine(width()/2,height()/2-(3*edge)/10,
 		   width()/2+(3*edge)/10,height()/2);
-	p.setPen(QColor(colorGroup().light()));
+	p.setPen(palette().light().color());
 	p.drawLine(width()/2+(3*edge)/10,height()/2,
 		   width()/2,height()/2+(3*edge)/10);
 	break;
@@ -685,26 +682,26 @@ void TransportButton::drawOffCap()
 	triangle.setPoint(1,width()/2,height()/2);
 	triangle.setPoint(2,width()/2+(3*edge)/10,height()/2+(3*edge)/10);
 	p.drawPolygon(triangle);
-	p.setPen(QColor(colorGroup().shadow()));
+	p.setPen(palette().shadow().color());
 	p.drawLine(width()/2+(3*edge)/10,height()/2-(3*edge)/10,
 		   width()/2,height()/2);
-	p.setPen(QColor(colorGroup().dark()));
+	p.setPen(palette().dark().color());
 	p.drawLine(width()/2,height()/2,
 		   width()/2+(3*edge)/10,height()/2+(3*edge)/10);
-	p.setPen(QColor(colorGroup().light()));
+	p.setPen(palette().light().color());
 	p.drawLine(width()/2+(3*edge)/10,height()/2+(3*edge)/10,
 		   width()/2+(3*edge)/10,height()/2-(3*edge)/10);
 	triangle.setPoint(0,width()/2,height()/2-(3*edge)/10);
 	triangle.setPoint(1,width()/2-(3*edge)/10,height()/2);
 	triangle.setPoint(2,width()/2,height()/2+(3*edge)/10);
 	p.drawPolygon(triangle);
-	p.setPen(QColor(colorGroup().shadow()));
+	p.setPen(palette().shadow().color());
 	p.drawLine(width()/2,height()/2-(3*edge)/10,
 		   width()/2-(3*edge)/10,height()/2);
-	p.setPen(QColor(colorGroup().dark()));
+	p.setPen(palette().dark().color());
 	p.drawLine(width()/2-(3*edge)/10,height()/2,
 		   width()/2,height()/2+(3*edge)/10);
-	p.setPen(QColor(colorGroup().light()));
+	p.setPen(palette().light().color());
 	p.drawLine(width()/2,height()/2+(3*edge)/10,
 		   width()/2,height()/2-(3*edge)/10);
 	break;
@@ -719,24 +716,24 @@ void TransportButton::drawOffCap()
       case TransportButton::Pause:
 	p.fillRect(width()/2-(3*edge)/10,height()/2-(3*edge)/10,
 		   (3*edge)/15,(3*edge)/5,QColor(Qt::black));
-	p.setPen(QColor(colorGroup().shadow()));
+	p.setPen(palette().shadow().color());
 	p.drawLine(width()/2-(3*edge)/10,height()/2+(3*edge)/10,
 		   width()/2-(3*edge)/10,height()/2+(3*edge)/10);
 	p.drawLine(width()/2-(3*edge)/10,height()/2+(3*edge)/10,
 		   width()/2-(3*edge)/10+(3*edge)/15,height()/2-(3*edge)/10);
-	p.setPen(QColor(colorGroup().light()));
+	p.setPen(palette().light().color());
 	p.drawLine(width()/2-(3*edge)/10+(3*edge)/15,height()/2-(3*edge)/10,
 		   width()/2-(3*edge)/10+(3*edge)/15,height()/2+(3*edge)/10);
 	p.drawLine(width()/2-(3*edge)/10+(3*edge)/15,height()/2+(3*edge)/10,
 		   width()/2-(3*edge)/10,height()/2+(3*edge)/10);
 	p.fillRect(width()/2+(3*edge)/30,height()/2-(3*edge)/10,
 		   (3*edge)/15,(3*edge)/5,QColor(Qt::black));
-	p.setPen(QColor(colorGroup().shadow()));
+	p.setPen(palette().shadow().color());
 	p.drawLine(width()/2+(3*edge)/30,height()/2+(3*edge)/10,
 		   width()/2+(3*edge)/30,height()/2-(3*edge)/10);
 	p.drawLine(width()/2+(3*edge)/30,height()/2-(3*edge)/10,
 		  width()/2+(3*edge)/10,height()/2-(3*edge)/10);
-	p.setPen(QColor(colorGroup().light()));
+	p.setPen(palette().light().color());
 	p.drawLine(width()/2+(3*edge)/10,height()/2-(3*edge)/10,
 		   width()/2+(3*edge)/10,height()/2+(3*edge)/10);
 	p.drawLine(width()/2+(3*edge)/10,height()/2+(3*edge)/10,
@@ -749,13 +746,13 @@ void TransportButton::drawOffCap()
 	triangle.setPoint(1,width()/2+(3*edge)/10+1,height()/2);
 	triangle.setPoint(2,width()/2-(2*edge)/10+1,height()/2+(3*edge)/10);
 	p.drawPolygon(triangle);
-	p.setPen(QColor(colorGroup().shadow()));
+	p.setPen(palette().shadow().color());
 	p.drawLine(width()/2-(2*edge)/10+1,height()/2+(3*edge)/10,
 		   width()/2-(2*edge)/10+1,height()/2-(3*edge)/10);
-	p.setPen(QColor(colorGroup().dark()));
+	p.setPen(palette().dark().color());
 	p.drawLine(width()/2-(2*edge)/10+1,height()/2-(3*edge)/10,
 		   width()/2+(3*edge)/10+1,height()/2);
-	p.setPen(QColor(colorGroup().light()));
+	p.setPen(palette().light().color());
 	p.drawLine(width()/2+(3*edge)/10+1,height()/2,
 		   width()/2-(2*edge)/10+1,height()/2+(3*edge)/10);
 	break;
@@ -768,13 +765,13 @@ void TransportButton::drawOffCap()
 	triangle.setPoint(1,width()/2+(2*edge)/10+1,height()/2);
 	triangle.setPoint(2,width()/2-(2*edge)/10+1,height()/2+(3*edge)/10);
 	p.drawPolygon(triangle);
-	p.setPen(QColor(colorGroup().shadow()));
+	p.setPen(palette().shadow().color());
 	p.drawLine(width()/2-(2*edge)/10+1,height()/2+(3*edge)/10,
 		   width()/2-(2*edge)/10+1,height()/2-(3*edge)/10);
-	p.setPen(QColor(colorGroup().dark()));
+	p.setPen(palette().dark().color());
 	p.drawLine(width()/2-(2*edge)/10+1,height()/2-(3*edge)/10,
 		   width()/2+(2*edge)/10+1,height()/2);
-	p.setPen(QColor(colorGroup().light()));
+	p.setPen(palette().light().color());
 	p.drawLine(width()/2+(2*edge)/10+1,height()/2,
 		   width()/2-(2*edge)/10+1,height()/2+(3*edge)/10);
 	break;
@@ -783,14 +780,14 @@ void TransportButton::drawOffCap()
 	triangle.setPoint(1,width()/2+(edge)/10+1,height()/2-edge/10);
 	triangle.setPoint(2,width()/2-(2*edge)/10+1,height()/2+edge/20);
 	p.drawPolygon(triangle);
-	p.setPen(QColor(colorGroup().shadow()));
+	p.setPen(palette().shadow().color());
 	p.drawLine(width()/2-(2*edge)/10+1,height()/2+(edge)/4,
 		   width()/2+(edge)/10+1,height()/2-edge/10);
-	p.setPen(QColor(colorGroup().dark()));
-	p.setPen(QColor(colorGroup().light()));
+	p.setPen(palette().dark().color());
+	p.setPen(palette().light().color());
 	p.drawLine(width()/2+(edge)/10+1,height()/2-edge/10,
 		   width()/2-(2*edge)/10+1,height()/2+(edge)/4);
-	p.setPen(QColor(colorGroup().shadow()));
+	p.setPen(palette().shadow().color());
 	p.drawArc(width()/6,height()/2-edge/9,2*width()/3,
 		  height()/3+edge/10,1440,5760);
 	break;
@@ -813,13 +810,13 @@ void TransportButton::drawOffCap()
 	triangle.setPoint(1,width()/2+(2*edge)/10+1,height()/2);
 	triangle.setPoint(2,width()/2-(3*edge)/10,height()/2+(3*edge)/10);
 	p.drawPolygon(triangle);
-	p.setPen(QColor(colorGroup().shadow()));
+	p.setPen(palette().shadow().color());
 	p.drawLine(width()/2-(3*edge)/10,height()/2+(3*edge)/10,
 		   width()/2-(3*edge)/10,height()/2-(3*edge)/10);
-	p.setPen(QColor(colorGroup().dark()));
+	p.setPen(palette().dark().color());
 	p.drawLine(width()/2-(3*edge)/10,height()/2-(3*edge)/10,
 		   width()/2+(2*edge)/10+1,height()/2);
-	p.setPen(QColor(colorGroup().light()));
+	p.setPen(palette().light().color());
 	p.drawLine(width()/2+(2*edge)/10+1,height()/2,
 		   width()/2-(3*edge)/10,height()/2+(3*edge)/10);
 	break;

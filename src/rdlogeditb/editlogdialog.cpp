@@ -380,7 +380,7 @@ int EditLogDialog::exec(const QString &logname)
     edit_logdelete_check->setChecked(false);
   }
   edit_service_box->setCurrentItemData(edit_log_model->serviceName());
-  edit_autorefresh_box->setCurrentItem(edit_log_model->autorefresh());
+  edit_autorefresh_box->setCurrentIndex(edit_log_model->autorefresh());
   if(edit_log_model->startDate().isValid()) {
     edit_startdate_edit->setDate(edit_log_model->startDate());
     edit_startdate_label->setEnabled(true);
@@ -857,7 +857,7 @@ void EditLogDialog::resizeEvent(QResizeEvent *e)
 
 void EditLogDialog::paintEvent(QPaintEvent *e)
 {
-  QColor system_mid_color = colorGroup().mid();
+  QColor system_mid_color = palette().mid().color();
   QPainter *p=new QPainter(this);
   p->fillRect(60,8,size().width()-120,24,QColor(system_mid_color));
   p->fillRect(9,size().height()-130,size().width()-20,60,

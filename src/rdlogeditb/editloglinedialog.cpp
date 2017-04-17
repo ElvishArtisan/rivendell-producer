@@ -61,7 +61,7 @@ EditLogLineDialog::EditLogLineDialog(QWidget *parent)
   //
   edit_timetype_box=new QCheckBox(this);
   edit_timetype_box->setGeometry(10,22,15,15);
-  edit_timetype_label=new QLabel(edit_timetype_box,tr("Start at:"),this);
+  edit_timetype_label=new QLabel(tr("Start at:"),this);
   edit_timetype_label->setGeometry(30,21,80,17);
   edit_timetype_label->setFont(label_font);
   edit_timetype_label->setAlignment(Qt::AlignLeft|Qt::AlignVCenter);
@@ -115,7 +115,7 @@ EditLogLineDialog::EditLogLineDialog(QWidget *parent)
   edit_transtype_box->insertItem(-1,tr("Play"),LogLine::Play);
   edit_transtype_box->insertItem(-1,tr("Segue"),LogLine::Segue);
   edit_transtype_box->insertItem(-1,tr("Stop"),LogLine::Stop);
-  edit_time_label=new QLabel(edit_transtype_box,tr("Transition Type:"),this);
+  edit_time_label=new QLabel(tr("Transition Type:"),this);
   edit_time_label->setGeometry(190,68,290,26);
   edit_time_label->setFont(label_font);
   edit_time_label->setAlignment(Qt::AlignRight|Qt::AlignVCenter);
@@ -123,11 +123,10 @@ EditLogLineDialog::EditLogLineDialog(QWidget *parent)
   // Overlap Box
   edit_overlap_box=new QCheckBox(this);
   edit_overlap_box->setGeometry(30,72,15,15);
-  edit_overlap_label=
-    new QLabel(edit_overlap_box,tr("No Fade on Segue Out"),this);
+  edit_overlap_label=new QLabel(tr("No Fade on Segue Out"),this);
   edit_overlap_label->setGeometry(50,68,130,26);
   edit_overlap_label->setFont(button_font);
-  edit_overlap_label->setAlignment(Qt::AlignLeft|Qt::AlignVCenter|Qt::TextShowMnemonic);
+  edit_overlap_label->setAlignment(Qt::AlignLeft|Qt::AlignVCenter);
   
 
   //
@@ -478,9 +477,7 @@ void EditLogLineDialog::timeChangedData(const QTime &time)
   if(edit_timetype_box->isChecked()) {
     str=QString(tr("Transition If Previous Cart Ends Before"));
     edit_time_label->
-      setText(QString().sprintf("%s %s:",(const char *)str,
-				(const char *)edit_time_edit->time().
-				toString("hh:mm:ss.zzz").left(10)));
+      setText(str+" "+edit_time_edit->time().toString("hh:mm:ss.zzz").left(10));
   }
 }
 
@@ -495,9 +492,7 @@ void EditLogLineDialog::timeToggledData(bool state)
     graceClickedData(edit_grace_group->checkedId());
     str=QString(tr("Transition If Previous Cart Ends Before"));
     edit_time_label->
-      setText(QString().sprintf("%s %s:",(const char *)str,
-				(const char *)edit_time_edit->time().
-				toString("hh:mm:ss.zzz").left(10)));
+      setText(str+" "+edit_time_edit->time().toString("hh:mm:ss.zzz").left(10));
   }
   else {
     edit_grace_edit->setDisabled(true);

@@ -26,14 +26,14 @@
 // Global Classes
 //
 DateDialog::DateDialog(int low_year,int high_year,QWidget *parent)
-  :QDialog(parent,"",true)
+  :QDialog(parent)
 {
   QFont font;
 
   font=QFont("Helvetica",12,QFont::Bold);
   font.setPixelSize(12);
 
-  setCaption(tr("Select Date"));
+  setWindowTitle(tr("Select Date"));
 
   //
   // Datepicker
@@ -46,7 +46,7 @@ DateDialog::DateDialog(int low_year,int high_year,QWidget *parent)
   //
   // OK Button
   //
-  QPushButton *button=new QPushButton(this,"ok_button");
+  QPushButton *button=new QPushButton(this);
   button->setGeometry(sizeHint().width()-130,sizeHint().height()-40,50,30);
   button->setFont(font);
   button->setText(tr("&OK"));
@@ -55,7 +55,7 @@ DateDialog::DateDialog(int low_year,int high_year,QWidget *parent)
   //
   // Cancel Button
   //
-  button=new QPushButton(this,"cancel_button");
+  button=new QPushButton(this);
   button->setGeometry(sizeHint().width()-65,sizeHint().height()-40,55,30);
   button->setFont(font);
   button->setText(tr("&Cancel"));

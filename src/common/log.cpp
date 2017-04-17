@@ -318,8 +318,8 @@ bool Log::save(const QString &name,QString *err_msg)
   struct save_loghdr_values loghdr;
 
   memset(&loghdr,0,sizeof(loghdr));
-  strncpy(loghdr.loghdr_service,log_service_name.utf8(),11);
-  strncpy(loghdr.loghdr_description,log_description.utf8(),65);
+  strncpy(loghdr.loghdr_service,log_service_name.toUtf8(),11);
+  strncpy(loghdr.loghdr_description,log_description.toUtf8(),65);
   loghdr.loghdr_autorefresh=log_autorefresh;
   loghdr.loghdr_purge_date=log_purge_date.toTm();
   loghdr.loghdr_start_date=log_end_date.toTm();
@@ -350,9 +350,9 @@ bool Log::save(const QString &name,QString *err_msg)
     strncpy(ll[i].logline_marker_label,at(i).markerLabel().toUtf8(),64);
     strncpy(ll[i].logline_marker_comment,at(i).markerComment().toUtf8(),255);
     ll[i].logline_origin_datetime=DateTime(at(i).originDateTime()).toTm();
-    strncpy(ll[i].logline_origin_user,at(i).originUser(),255);
+    strncpy(ll[i].logline_origin_user,at(i).originUser().toUtf8(),255);
     ll[i].logline_event_length=at(i).eventLength();
-    strncpy(ll[i].logline_link_event_name,at(i).linkEventName(),64);
+    strncpy(ll[i].logline_link_event_name,at(i).linkEventName().toUtf8(),64);
     ll[i].logline_link_starttime=DateTime(QDate(),at(i).linkStartTime()).toTm();
     ll[i].logline_link_length=at(i).linkLength();
     ll[i].logline_link_start_slop=at(i).linkStartSlop();
@@ -361,10 +361,10 @@ bool Log::save(const QString &name,QString *err_msg)
     ll[i].logline_link_embedded=at(i).linkEmbedded();
     ll[i].logline_ext_starttime=DateTime(QDate(),at(i).extStartTime()).toTm();
     ll[i].logline_ext_length=at(i).extLength();
-    strncpy(ll[i].logline_ext_cart_name,at(i).extCartName(),32);
-    strncpy(ll[i].logline_ext_data,at(i).extData(),32);
-    strncpy(ll[i].logline_ext_event_id,at(i).extEventId(),32);
-    strncpy(ll[i].logline_ext_annc_type,at(i).extAnncType(),8);
+    strncpy(ll[i].logline_ext_cart_name,at(i).extCartName().toUtf8(),32);
+    strncpy(ll[i].logline_ext_data,at(i).extData().toUtf8(),32);
+    strncpy(ll[i].logline_ext_event_id,at(i).extEventId().toUtf8(),32);
+    strncpy(ll[i].logline_ext_annc_type,at(i).extAnncType().toUtf8(),8);
   }
 
   if((err=cnf->saveLog(&loghdr,ll,size(),name.toUtf8()))!=0) {

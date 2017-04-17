@@ -39,10 +39,10 @@ DatePicker::DatePicker(int low_year,int high_year,QWidget *parent)
   //
   // Month
   //
-  pick_month_box=new QComboBox(this,"pick_month_box");
+  pick_month_box=new QComboBox(this);
   pick_month_box->setGeometry(0,0,120,26);
   for(int i=1;i<13;i++) {
-    pick_month_box->insertItem(QDate::longMonthName(i));
+    pick_month_box->insertItem(-1,QDate::longMonthName(i));
   }
   connect(pick_month_box,SIGNAL(activated(int)),
 	  this,SLOT(monthActivatedData(int)));
@@ -51,17 +51,17 @@ DatePicker::DatePicker(int low_year,int high_year,QWidget *parent)
   // Year
   //
   if((high_year-low_year)<=10) {
-    pick_year_box=new QComboBox(this,"pick_year_box");
+    pick_year_box=new QComboBox(this);
     pick_year_box->setGeometry(130,0,90,26);
     for(int i=low_year;i<(high_year+1);i++) {
-      pick_year_box->insertItem(QString().sprintf("%04d",i));
+      pick_year_box->insertItem(-1,QString().sprintf("%04d",i));
     }
     connect(pick_year_box,SIGNAL(activated(int)),
 	    this,SLOT(yearActivatedData(int)));
     pick_year_spin=NULL;
   }
   else {
-    pick_year_spin=new QSpinBox(this,"pick_year_spin");
+    pick_year_spin=new QSpinBox(this);
     pick_year_spin->setGeometry(160,0,60,26);
     pick_year_spin->setRange(low_year,high_year);
     pick_year_box=NULL;
@@ -73,50 +73,50 @@ DatePicker::DatePicker(int low_year,int high_year,QWidget *parent)
   // Date Labels
   //
   QPalette weekend_palette=palette();
-  weekend_palette.setColor(QPalette::Active,QColorGroup::Background,
+  weekend_palette.setColor(QPalette::Active,QPalette::Background,
 			   palette().color(QPalette::Active,
-					   QColorGroup::Mid));
-  weekend_palette.setColor(QPalette::Inactive,QColorGroup::Background,
+					   QPalette::Mid));
+  weekend_palette.setColor(QPalette::Inactive,QPalette::Background,
 			   palette().color(QPalette::Active,
-					   QColorGroup::Mid));
+					   QPalette::Mid));
 
-  QLabel *label=new QLabel(tr("Mo"),this,"monday_label");
+  QLabel *label=new QLabel(tr("Mo"),this);
   label->setGeometry(DATEPICKER_X_ORIGIN,30,30,30);
   label->setFont(header_font);
   label->setAlignment(Qt::AlignCenter);
 
-  label=new QLabel(tr("Tu"),this,"tuesday_label");
+  label=new QLabel(tr("Tu"),this);
   label->setGeometry(DATEPICKER_X_ORIGIN+DATEPICKER_X_INTERVAL,
 		     DATEPICKER_Y_ORIGIN,30,30);
   label->setFont(header_font);
   label->setAlignment(Qt::AlignCenter);
 
-  label=new QLabel(tr("We"),this,"wednesday_label");
+  label=new QLabel(tr("We"),this);
   label->setGeometry(DATEPICKER_X_ORIGIN+DATEPICKER_X_INTERVAL*2,
 		     DATEPICKER_Y_ORIGIN,30,30);
   label->setFont(header_font);
   label->setAlignment(Qt::AlignCenter);
 
-  label=new QLabel(tr("Th"),this,"thursday_label");
+  label=new QLabel(tr("Th"),this);
   label->setGeometry(DATEPICKER_X_ORIGIN+DATEPICKER_X_INTERVAL*3,
 		     DATEPICKER_Y_ORIGIN,30,30);
   label->setFont(header_font);
   label->setAlignment(Qt::AlignCenter);
 
-  label=new QLabel(tr("Fr"),this,"friday_label");
+  label=new QLabel(tr("Fr"),this);
   label->setGeometry(DATEPICKER_X_ORIGIN+DATEPICKER_X_INTERVAL*4,
 		     DATEPICKER_Y_ORIGIN,30,30);
   label->setFont(header_font);
   label->setAlignment(Qt::AlignCenter);
 
-  label=new QLabel(tr("Sa"),this,"saturday_label");
+  label=new QLabel(tr("Sa"),this);
   label->setGeometry(DATEPICKER_X_ORIGIN+DATEPICKER_X_INTERVAL*5,
 		     DATEPICKER_Y_ORIGIN,30,30);
   label->setFont(header_font);
   label->setAlignment(Qt::AlignCenter);
   label->setPalette(weekend_palette);
 
-  label=new QLabel(tr("Su"),this,"sunday_label");
+  label=new QLabel(tr("Su"),this);
   label->setGeometry(DATEPICKER_X_ORIGIN+DATEPICKER_X_INTERVAL*6,
 		     DATEPICKER_Y_ORIGIN,30,30);
   label->setFont(header_font);
@@ -126,7 +126,7 @@ DatePicker::DatePicker(int low_year,int high_year,QWidget *parent)
 
   for(int i=0;i<6;i++) {
     for(int j=0;j<7;j++) {
-      pick_date_label[i][j]=new QLabel(this,"date_label");
+      pick_date_label[i][j]=new QLabel(this);
       pick_date_label[i][j]->
 	setGeometry(DATEPICKER_X_ORIGIN+DATEPICKER_X_INTERVAL*j,
 		    DATEPICKER_Y_ORIGIN+20+DATEPICKER_Y_INTERVAL*i,30,30);
@@ -169,9 +169,9 @@ bool DatePicker::setDate(QDate date)
     return false;
   }
   pick_date=date;
-  pick_month_box->setCurrentItem(date.month()-1);
+  pick_month_box->setCurrentIndex(date.month()-1);
   if(pick_year_box!=NULL) {
-    pick_year_box->setCurrentItem(date.year()-pick_low_year);
+    pick_year_box->setCurrentIndex(date.year()-pick_low_year);
   }
   else {
     pick_year_spin->setValue(date.year());
@@ -196,14 +196,14 @@ void DatePicker::monthActivatedData(int id)
 
 void DatePicker::yearActivatedData(int id)
 {
-  QDate date=QDate(pick_low_year+pick_year_box->currentItem(),
+  QDate date=QDate(pick_low_year+pick_year_box->currentIndex(),
 		   pick_date.month(),1);
   if(pick_date.day()<=date.daysInMonth()) {
-    pick_date=QDate(pick_low_year+pick_year_box->currentItem(),
+    pick_date=QDate(pick_low_year+pick_year_box->currentIndex(),
 		    pick_date.month(),pick_date.day());
   }
   else {
-    pick_date=QDate(pick_low_year+pick_year_box->currentItem(),
+    pick_date=QDate(pick_low_year+pick_year_box->currentIndex(),
 		    pick_date.month(),date.daysInMonth());
   }
   PrintDays();
@@ -256,12 +256,12 @@ void DatePicker::PrintDays()
   // Clear Days
   //
   QPalette weekend_palette=palette();
-  weekend_palette.setColor(QPalette::Active,QColorGroup::Background,
+  weekend_palette.setColor(QPalette::Active,QPalette::Background,
 			   palette().color(QPalette::Active,
-					   QColorGroup::Mid));
-  weekend_palette.setColor(QPalette::Inactive,QColorGroup::Background,
+					   QPalette::Mid));
+  weekend_palette.setColor(QPalette::Inactive,QPalette::Background,
 			   palette().color(QPalette::Active,
-					   QColorGroup::Mid));
+					   QPalette::Mid));
   for(int i=0;i<6;i++) {
     for(int j=0;j<5;j++) {
       pick_date_label[i][j]->clear();
@@ -279,11 +279,11 @@ void DatePicker::PrintDays()
   // Get Top of Month
   //
   if(pick_year_box!=NULL) {
-    top_date=QDate(pick_low_year+pick_year_box->currentItem(),
-		   pick_month_box->currentItem()+1,1);
+    top_date=QDate(pick_low_year+pick_year_box->currentIndex(),
+		   pick_month_box->currentIndex()+1,1);
   }
   else {
-    top_date=QDate(pick_year_spin->value(),pick_month_box->currentItem()+1,1);
+    top_date=QDate(pick_year_spin->value(),pick_month_box->currentIndex()+1,1);
   }
 
   //
@@ -315,26 +315,26 @@ void DatePicker::SelectDay(int day,int dow_offset,bool state)
   int dow=slot-7*week;
   QPalette pal=palette();
   if(state) {
-    pal.setColor(QPalette::Active,QColorGroup::Foreground,
+    pal.setColor(QPalette::Active,QPalette::Foreground,
 		 palette().
-		 color(QPalette::Active,QColorGroup::HighlightedText));
-    pal.setColor(QPalette::Active,QColorGroup::Background,
-		 palette().color(QPalette::Active,QColorGroup::Highlight));
-    pal.setColor(QPalette::Inactive,QColorGroup::Foreground,
+		 color(QPalette::Active,QPalette::HighlightedText));
+    pal.setColor(QPalette::Active,QPalette::Background,
+		 palette().color(QPalette::Active,QPalette::Highlight));
+    pal.setColor(QPalette::Inactive,QPalette::Foreground,
 		 palette().
-		 color(QPalette::Active,QColorGroup::HighlightedText));
-    pal.setColor(QPalette::Inactive,QColorGroup::Background,
-		 palette().color(QPalette::Active,QColorGroup::Highlight));
+		 color(QPalette::Active,QPalette::HighlightedText));
+    pal.setColor(QPalette::Inactive,QPalette::Background,
+		 palette().color(QPalette::Active,QPalette::Highlight));
   }
   else {
-    pal.setColor(QPalette::Active,QColorGroup::Foreground,
-		 palette().color(QPalette::Active,QColorGroup::Text));
-    pal.setColor(QPalette::Active,QColorGroup::Background,
-		 palette().color(QPalette::Active,QColorGroup::Background));
-    pal.setColor(QPalette::Inactive,QColorGroup::Foreground,
-		 palette().color(QPalette::Active,QColorGroup::Text));
-    pal.setColor(QPalette::Inactive,QColorGroup::Background,
-		 palette().color(QPalette::Active,QColorGroup::Background));
+    pal.setColor(QPalette::Active,QPalette::Foreground,
+		 palette().color(QPalette::Active,QPalette::Text));
+    pal.setColor(QPalette::Active,QPalette::Background,
+		 palette().color(QPalette::Active,QPalette::Background));
+    pal.setColor(QPalette::Inactive,QPalette::Foreground,
+		 palette().color(QPalette::Active,QPalette::Text));
+    pal.setColor(QPalette::Inactive,QPalette::Background,
+		 palette().color(QPalette::Active,QPalette::Background));
   }
   pick_date_label[week][dow]->setPalette(pal);
 }
