@@ -135,5 +135,12 @@ Section "Uninstall"
 	Delete $INSTDIR\rdadminb.exe
 	Delete $INSTDIR\rdlibraryb.exe
 	Delete $INSTDIR\rdlogeditb.exe
+
+	#
+	# Remove Shortcuts
+	#
+	delete "$SMPROGRAMS\RDAdmin Remote.lnk"
+	delete "$SMPROGRAMS\RDLibrary Remote.lnk"
+	delete "$SMPROGRAMS\RDLogEdit Remote.lnk"
 SectionEnd
 

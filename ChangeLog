@@ -275,3 +275,5 @@
 	* Removed Qt3Support dependency.
 2017-04-17 Fred Gleason <fredg@paravelsystems.com>
 	* Set the 'WindowStyasOnTopHint' flag for the Login dialog.
+2017-04-17 Fred Gleason <fredg@paravelsystems.com>
+	* Added code to uninstall shortcuts in 'rivendell-producer.nsi.in'.
