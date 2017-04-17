@@ -279,3 +279,6 @@
 	* Added code to uninstall shortcuts in 'rivendell-producer.nsi.in'.
 2017-04-17 Fred Gleason <fredg@paravelsystems.com>
 	* Incremented the package version to 0.6.3.
+2017-04-17 Fred Gleason <fredg@paravelsystems.com>
+	* Added a rule to the 'make distclean' target to remove 'qrc_*'
+	files.

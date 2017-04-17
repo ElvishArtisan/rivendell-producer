@@ -94,6 +94,7 @@ DISTCLEANFILES = *.bmp\
                  mpeg1decoder.cpp mpeg1decoder.h\
                  playerfactory.cpp playerfactory.h\
                  profile.cpp profile.h\
+                 qrc_*\
                  ringbuffer.cpp ringbuffer.h\
                  streamplayer.cpp streamplayer.h\
                  streamplayer_alsa.cpp streamplayer_alsa.h\
