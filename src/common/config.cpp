@@ -36,7 +36,7 @@
 Config *cnf; 
 
 Config::Config(const QString &splash_path,QWidget *parent)
-  : QDialog(parent)
+  : QDialog(parent,Qt::WindowStaysOnTopHint)
 {
   setWindowTitle(tr("Rivendell Login"));
   QCoreApplication::setOrganizationName("Radio Free Asia");

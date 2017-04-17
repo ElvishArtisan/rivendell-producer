@@ -273,3 +273,5 @@
 	* Removed Qt3Support calls from 'src/common/transportbutton.cpp'.
 2017-04-17 Fred Gleason <fredg@paravelsystems.com>
 	* Removed Qt3Support dependency.
+2017-04-17 Fred Gleason <fredg@paravelsystems.com>
+	* Set the 'WindowStyasOnTopHint' flag for the Login dialog.
