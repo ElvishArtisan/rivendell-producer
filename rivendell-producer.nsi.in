@@ -81,6 +81,7 @@ Section
 	#
 	# Create Shortcuts
 	#
+	SetShellVarContext all
 	createShortCut "$SMPROGRAMS\RDAdmin Remote.lnk" "$INSTDIR\rdadminb.exe"
 
 	WriteUninstaller $INSTDIR\uninstaller.exe
@@ -90,6 +91,7 @@ SectionEnd
 Section "RDLibrary Remote"
 	SetOutPath $INSTDIR
 	File "rdlibraryb.exe"
+	SetShellVarContext all
 	createShortCut "$SMPROGRAMS\RDLibrary Remote.lnk" "$INSTDIR\rdlibraryb.exe"
 SectionEnd
 
@@ -97,6 +99,7 @@ SectionEnd
 Section "RDLogEdit Remote"
 	SetOutPath $INSTDIR
 	File "rdlogeditb.exe"
+	SetShellVarContext all
 	createShortCut "$SMPROGRAMS\RDLogEdit Remote.lnk" "$INSTDIR\rdlogeditb.exe"
 SectionEnd
 
@@ -139,6 +142,7 @@ Section "Uninstall"
 	#
 	# Remove Shortcuts
 	#
+	SetShellVarContext all
 	delete "$SMPROGRAMS\RDAdmin Remote.lnk"
 	delete "$SMPROGRAMS\RDLibrary Remote.lnk"
 	delete "$SMPROGRAMS\RDLogEdit Remote.lnk"

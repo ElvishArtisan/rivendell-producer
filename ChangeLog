@@ -282,3 +282,6 @@
 2017-04-17 Fred Gleason <fredg@paravelsystems.com>
 	* Added a rule to the 'make distclean' target to remove 'qrc_*'
 	files.
+2017-04-17 Fred Gleason <fredg@paravelsystems.com>
+	* Modified 'rivendell-producer.nsi.in' to install program shortcuts
+	in system context.
