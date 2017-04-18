@@ -288,3 +288,5 @@
 2017-04-18 Fred Gleason <fredg@paravelsystems.com>
 	* Changed DEFAULT_SERVER_HOSTNAME to "172.30.5.133".
 	* Changed DEFAULT_SERVER_USERNAME to "".
+2017-04-18 Fred Gleason <fredg@paravelsystems.com>
+	* Incremented the package version to 0.6.4.
