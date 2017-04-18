@@ -42,8 +42,8 @@
 #include <rivendell/rd_savelog.h>
 
 #define DEFAULT_CONF_FILE QString("/etc/rivendell-producer.conf")
-#define DEFAULT_SERVER_HOSTNAME "localhost"
-#define DEFAULT_SERVER_USERNAME "user"
+#define DEFAULT_SERVER_HOSTNAME "172.30.5.133"
+#define DEFAULT_SERVER_USERNAME ""
 #define DEFAULT_SERVER_PASSWORD ""
 
 #define DEFAULT_AUDIO_DEVICE_NAME QString("plughw:0")

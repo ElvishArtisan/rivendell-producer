@@ -285,3 +285,6 @@
 2017-04-17 Fred Gleason <fredg@paravelsystems.com>
 	* Modified 'rivendell-producer.nsi.in' to install program shortcuts
 	in system context.
+2017-04-17 Fred Gleason <fredg@paravelsystems.com>
+	* Changed DEFAULT_SERVER_HOSTNAME to "172.30.5.133".
+	* Changed DEFAULT_SERVER_USERNAME to "".
