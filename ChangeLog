@@ -296,3 +296,6 @@
 2017-05-10 Fred Gleason <fredg@paravelsystems.com>
 	* Fixed a bug in rdlogeditb(1) that caused the log list metadata to
 	fail to be updated after doing 'Save' and then 'Cancel' on a log.
+2017-05-10 Fred Gleason <fredg@paravelsystems.com>
+	* Commented out the block that checks for Administrator permissions
+	in 'rivendell-producer.nsi.in'.

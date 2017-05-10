@@ -45,11 +45,11 @@ Section
 	#
 	# Are we an Administrator?
 	#
-	UserInfo::getAccountType
-	Pop $0
-	StrCmp $0 "Admin" +3
-	MessageBox MB_OK "You must have Administrator privileges to install this package."
-	Return
+#	UserInfo::getAccountType
+#	Pop $0
+#	StrCmp $0 "Admin" +3
+#	MessageBox MB_OK "You must have Administrator privileges to install this package."
+#	Return
 
 	#
 	# Install Files
