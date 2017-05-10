@@ -187,9 +187,8 @@ void MainWidget::editData()
   QItemSelectionModel *s=main_loglist_view->selectionModel();
   if(s->hasSelection()) {
     QString logname=main_loglist_model->logName(s->selectedRows()[0].row());
-    if(main_editlog_dialog->exec(logname)) {
-      main_loglist_model->update();
-    }
+    main_editlog_dialog->exec(logname);
+    main_loglist_model->update();
   }
 }
 

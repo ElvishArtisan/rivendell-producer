@@ -293,3 +293,6 @@
 2017-05-10 Fred Gleason <fredg@paravelsystems.com>
 	* Fixed a bug in rdlogeditb(1) that caused log header data to fail
 	to be saved from the Edit Log dialog. [GitHub issue #000001].
+2017-05-10 Fred Gleason <fredg@paravelsystems.com>
+	* Fixed a bug in rdlogeditb(1) that caused the log list metadata to
+	fail to be updated after doing 'Save' and then 'Cancel' on a log.
