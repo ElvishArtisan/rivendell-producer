@@ -872,6 +872,27 @@ void EditLogDialog::Save()
   QString err_msg;
 
   if(edit_modified) {
+    edit_log_model->setServiceName(edit_service_box->currentText());
+    edit_log_model->setDescription(edit_description_edit->text());
+    edit_log_model->setAutorefresh(edit_autorefresh_box->currentIndex());
+    if(edit_logdelete_check->isChecked()) {
+      edit_log_model->setPurgeDate(edit_logdelete_edit->date());
+    }
+    else {
+      edit_log_model->setPurgeDate(QDate());
+    }
+    if(edit_startdate_check->isChecked()) {
+      edit_log_model->setStartDate(edit_startdate_edit->date());
+    }
+    else {
+      edit_log_model->setStartDate(QDate());
+    }
+    if(edit_enddate_check->isChecked()) {
+      edit_log_model->setEndDate(edit_enddate_edit->date());
+    }
+    else {
+      edit_log_model->setEndDate(QDate());
+    }
     if(edit_log_model->save(edit_name_label->text(),&err_msg)) {
       SetModified(false);
     }

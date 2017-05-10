@@ -322,7 +322,7 @@ bool Log::save(const QString &name,QString *err_msg)
   strncpy(loghdr.loghdr_description,log_description.toUtf8(),65);
   loghdr.loghdr_autorefresh=log_autorefresh;
   loghdr.loghdr_purge_date=log_purge_date.toTm();
-  loghdr.loghdr_start_date=log_end_date.toTm();
+  loghdr.loghdr_start_date=log_start_date.toTm();
   loghdr.loghdr_end_date=log_end_date.toTm();
 
   //
