@@ -304,3 +304,7 @@
 2017-06-26 Fred Gleason <fredg@paravelsystems.com>
 	* Fixed bugs that caused 'FADEUP_GAIN' and 'FADEDOWN_GAIN' parameter
 	values to fail to be preserved when editing a log.
+2017-06-26 Fred Gleason <fredg@paravelsystems.com>
+	* Removed rdlibraryb(1) from the Windows installer.
+	* Made rdlogeditb(1) a mandatory component in the Windows installer.
+	* Added a desktop shortcut for rdlogeditb(1) in the Windows installer.
