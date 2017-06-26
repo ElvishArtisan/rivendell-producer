@@ -344,7 +344,9 @@ bool Log::save(const QString &name,QString *err_msg)
       at(i).segueStartPoint(LogLine::LogPointer);
     ll[i].logline_segue_end_point_log=at(i).segueEndPoint(LogLine::LogPointer);
     ll[i].logline_fadeup_point_log=at(i).fadeupPoint(LogLine::LogPointer);
+    ll[i].logline_fadeup_gain=at(i).fadeupGain();
     ll[i].logline_fadedown_point_log=at(i).fadedownPoint(LogLine::LogPointer);
+    ll[i].logline_fadedown_gain=at(i).fadedownGain();
     ll[i].logline_duckup_gain=at(i).duckupGain();
     ll[i].logline_duckdown_gain=at(i).duckdownGain();
     strncpy(ll[i].logline_marker_label,at(i).markerLabel().toUtf8(),64);

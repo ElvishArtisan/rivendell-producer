@@ -119,8 +119,12 @@ class LogLine
   void setSegueGain(int gain);
   int fadeupPoint(PointerSource src) const;
   void setFadeupPoint(PointerSource src,int msec);
+  int fadeupGain() const;
+  void setFadeupGain(int gain);
   int fadedownPoint(PointerSource src) const;
   void setFadedownPoint(PointerSource src,int msec);
+  int fadedownGain() const;
+  void setFadedownGain(int gain);
   int duckupGain() const;
   void setDuckupGain(int gain);
   int duckdownGain() const;
@@ -208,7 +212,9 @@ class LogLine
   int logline_segue_end_point[2];
   int logline_segue_gain;
   int logline_fadeup_point[2];
+  int logline_fadeup_gain;
   int logline_fadedown_point[2];
+  int logline_fadedown_gain;
   int logline_duckup_gain;
   int logline_duckdown_gain;
   int logline_talk_start_point;

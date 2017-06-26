@@ -540,6 +540,18 @@ void LogLine::setFadeupPoint(LogLine::PointerSource src,int msec)
 }
 
 
+int LogLine::fadeupGain() const
+{
+  return logline_fadeup_gain;
+}
+
+
+void LogLine::setFadeupGain(int gain)
+{
+  logline_fadeup_gain=gain;
+}
+
+
 int LogLine::fadedownPoint(LogLine::PointerSource src) const
 {
   if(src==LogLine::AutoPointer) {
@@ -557,6 +569,18 @@ int LogLine::fadedownPoint(LogLine::PointerSource src) const
 void LogLine::setFadedownPoint(LogLine::PointerSource src,int msec)
 {
   logline_fadedown_point[src]=msec;
+}
+
+
+int LogLine::fadedownGain() const
+{
+  return logline_fadedown_gain;
+}
+
+
+void LogLine::setFadedownGain(int gain)
+{
+  logline_fadedown_gain=gain;
 }
 
 
@@ -846,6 +870,8 @@ void LogLine::clear()
     logline_fadeup_point[i]=-1;
     logline_fadedown_point[i]=-1;
   }
+  logline_fadeup_gain=-3000;
+  logline_fadedown_gain=-3000;
   logline_segue_gain=-3000;
   logline_duckup_gain=0;
   logline_duckdown_gain=0;
