@@ -582,8 +582,10 @@ void EditLogDialog::deleteData()
   QItemSelectionModel *s=edit_log_view->selectionModel();
   if(s->hasSelection()&&
      (s->selectedRows().at(0).row()<(edit_log_model->rowCount()-1))) {
+    int newrow=s->selectedRows().at(0).row();
     edit_log_model->
       removeAt(s->selectedRows().at(0).row(),s->selectedRows().size());
+    edit_log_view->select(newrow,1);
     SetModified(true);
   }
 }

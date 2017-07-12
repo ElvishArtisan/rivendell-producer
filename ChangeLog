@@ -318,3 +318,6 @@
 2017-07-12 Fred Gleason <fredg@paravelsystems.com>
 	* Fixed a bug that caused the Service name to default to the first
 	entry on the list when doing a 'Save As' for a log.
+2017-07-12 Fred Gleason <fredg@paravelsystems.com>
+	* Fixed a bug in the 'Edit Log' dialog that cuased focus to be lost
+	when clicking the 'Cut' or 'Delete' buttons.

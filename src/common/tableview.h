@@ -32,6 +32,7 @@ class TableView : public QTableView
   TableView(QWidget *parent=0);
   bool select(int column,unsigned value);
   bool select(int column,const QString &value,bool case_sensitive=true);
+  void select(int row,int row_quan);
 };
 
 

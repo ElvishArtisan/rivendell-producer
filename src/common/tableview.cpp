@@ -69,3 +69,11 @@ bool TableView::select(int column,const QString &value,bool case_sensitive)
   }
   return false;
 }
+
+
+void TableView::select(int row,int row_quan)
+{
+  selectionModel()->
+    select(model()->index(row,0),
+	   QItemSelectionModel::ClearAndSelect|QItemSelectionModel::Rows);
+}
