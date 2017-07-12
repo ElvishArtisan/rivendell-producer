@@ -310,3 +310,5 @@
 	* Added a desktop shortcut for rdlogeditb(1) in the Windows installer.
 2017-06-26 Fred Gleason <fredg@paravelsystems.com>
 	* Incremented the package version to 0.6.6.
+2017-07-12 Fred Gleason <fredg@paravelsystems.com>
+	* Updated 'INSTALL'.

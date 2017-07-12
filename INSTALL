@@ -28,7 +28,12 @@ BUILDING WINDOWS BINARIES
 The build system for rivendell-producer uses the MinGW (Minimalist GNU for
 Windows) environment for building Windows binaries, available at
 http://www.mingw.org/. It is also possible to build such binaries on CentOS 7
-using the MinGW cross-compiler packages (available in EPEL). The following
+using the MinGW cross-compiler packages (available in EPEL). The follow command
+will install the necessary packages:
+
+yum install mingw32-pkg-config mingw32-headers mingw-binutils-generic mingw32-libtiff mingw32-qt mingw32-sqlite-static mingw32-qt-static mingw32-pixman mingw32-gettext mingw32-libogg mingw32-openssl mingw32-libmad mingw-filesystem-base mingw32-crt mingw32-zlib mingw32-libjpeg-turbo mingw32-expat mingw32-qt-qmake mingw32-binutils mingw32-gcc-c++ mingw32-dbus mingw32-sqlite mingw32-zlib-static mingw32-libtiff-static mingw32-libpng-static mingw32-libjpeg-turbo-static mingw32-bzip2 mingw32-fontconfig mingw32-win-iconv mingw32-termcap mingw32-glib2 mingw32-cairo-static mingw32-libsamplerate mingw32-libvorbis mingw32-libltdl mingw32-libssh2 mingw32-curl mingw32-filesystem mingw32-winpthreads mingw32-cpp mingw32-gcc mingw32-libpng mingw32-dbus-static mingw32-winpthreads-static mingw32-freetype mingw32-libffi mingw32-cairo mingw32-libsndfile mingw32-opus mingw32-libidn mingw32-nsis
+
+The following
 environmental variables need to be configured in the MinGW configuration on
 CentOS 7:
 
