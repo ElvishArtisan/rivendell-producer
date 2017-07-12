@@ -321,3 +321,5 @@
 2017-07-12 Fred Gleason <fredg@paravelsystems.com>
 	* Fixed a bug in the 'Edit Log' dialog that caused focus to be lost
 	when clicking the 'Cut' or 'Delete' buttons.
+2017-07-12 Fred Gleason <fredg@paravelsystems.com>
+	* Incremented the package version to 1.0.0.
