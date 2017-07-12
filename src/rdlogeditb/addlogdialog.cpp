@@ -33,7 +33,7 @@ AddLogDialog::AddLogDialog(QWidget *parent)
 
   edit_servicename_label=new QLabel(tr("Service Name")+":",this);
   edit_servicename_label->setAlignment(Qt::AlignRight);
-  edit_servicename_box=new ComboBox(this);
+  edit_servicename_box=new ServiceBox(this);
 
   edit_logname_label=new QLabel(tr("Log Name")+":",this);
   edit_logname_label->setAlignment(Qt::AlignRight);
@@ -57,23 +57,9 @@ QSize AddLogDialog::sizeHint() const
 
 int AddLogDialog::exec(QString *svcname,QString *logname)
 {
-  struct rd_service *svc=NULL;
-  unsigned svc_quan=0;
-  int err;
-
   edit_service_name=svcname;
   edit_log_name=logname;
-
-  if((err=cnf->listServices(&svc,&svc_quan,false))!=0) {
-    QMessageBox::warning(this,tr("RDLogEdit - Error"),
-			 tr("Error in RD_ListServices() call")+
-			 " ["+tr("Error")+QString().sprintf(" %d].",err));
-  }
-  edit_servicename_box->clear();
-  for(unsigned i=0;i<svc_quan;i++) {
-    edit_servicename_box->
-      insertItem(edit_servicename_box->count(),svc[i].service_name);
-  }
+  edit_servicename_box->reload();
   edit_servicename_box->setCurrentItemData(*svcname);
   edit_logname_edit->setText(*logname);
 

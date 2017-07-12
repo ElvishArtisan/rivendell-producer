@@ -706,7 +706,7 @@ void EditLogDialog::saveData()
 
 void EditLogDialog::saveasData()
 {
-  QString svcname;
+  QString svcname=edit_service_box->currentText();
   QString logname;
   struct rd_log *logs;
   unsigned log_quan;

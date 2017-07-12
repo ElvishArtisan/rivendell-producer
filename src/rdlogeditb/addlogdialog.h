@@ -27,7 +27,7 @@
 #include <QLineEdit>
 #include <QPushButton>
 
-#include "combobox.h"
+#include "servicebox.h"
 
 class AddLogDialog : public QDialog
 {
@@ -49,7 +49,7 @@ class AddLogDialog : public QDialog
 
  private:
   QLabel *edit_servicename_label;
-  ComboBox *edit_servicename_box;
+  ServiceBox *edit_servicename_box;
   QLabel *edit_logname_label;
   QLineEdit *edit_logname_edit;
   QPushButton *edit_ok_button;
