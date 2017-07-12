@@ -71,7 +71,8 @@ int AddLogDialog::exec(QString *svcname,QString *logname)
   }
   edit_servicename_box->clear();
   for(unsigned i=0;i<svc_quan;i++) {
-    edit_servicename_box->insertItem(-1,svc[i].service_name);
+    edit_servicename_box->
+      insertItem(edit_servicename_box->count(),svc[i].service_name);
   }
   edit_servicename_box->setCurrentItemData(*svcname);
   edit_logname_edit->setText(*logname);
