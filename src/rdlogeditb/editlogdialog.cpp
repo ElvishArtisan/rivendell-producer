@@ -219,6 +219,17 @@ EditLogDialog::EditLogDialog(AddLogDialog *ad,QWidget *parent)
 	  this,SLOT(eventDoubleClickedData(const QModelIndex &)));
 
   //
+  // Run Length Widget
+  //
+  edit_runlength_widget=
+    new RunLengthWidget(edit_log_model,edit_log_view->selectionModel(),this);
+  edit_runlength_widget->setFont(bold_font);
+  connect(edit_log_view->selectionModel(),
+	  SIGNAL(selectionChanged(const QItemSelection &,const QItemSelection &)),
+	  edit_runlength_widget,
+	  SLOT(updateSelection(const QItemSelection &,const QItemSelection &)));
+
+  //
   // Insert Cart Button
   //
   edit_insertcart_button=new QPushButton(tr("Insert")+"\n"+tr("Cart"),this);
@@ -327,7 +338,7 @@ EditLogDialog::EditLogDialog(AddLogDialog *ad,QWidget *parent)
 
 QSize EditLogDialog::sizeHint() const
 {
-  return QSize(800,600);
+  return QSize(810,600);
 }
 
 
@@ -814,25 +825,27 @@ void EditLogDialog::resizeEvent(QResizeEvent *e)
   edit_logdelete_edit->setGeometry(size().width()-170,40,100,20);
   edit_logdelete_button->setGeometry(size().width()-60,37,50,26);
 
-  edit_service_box->setGeometry(110,68,120,22);
-  //  edit_service_edit->setGeometry(110,68,120,22);
-  edit_service_label->setGeometry(10,68,95,22);
+  edit_service_box->setGeometry(110,73,120,22);
+  //  edit_service_edit->setGeometry(110,73,120,22);
+  edit_service_label->setGeometry(10,73,95,22);
 
-  edit_autorefresh_box->setGeometry(180,94,50,22);
-  //  edit_autorefresh_edit->setGeometry(180,94,50,22);
-  edit_autorefresh_label->setGeometry(10,94,165,22);
+  edit_autorefresh_box->setGeometry(180,104,50,22);
+  //  edit_autorefresh_edit->setGeometry(180,104,50,22);
+  edit_autorefresh_label->setGeometry(10,104,165,22);
 
-  edit_startdate_label->setGeometry(240,68,90,22);
-  edit_startdate_edit->setGeometry(335,68,100,22);
-  edit_startdate_check->setGeometry(250,98,15,15);
-  edit_startdate_check_label->setGeometry(270,96,175,20);
+  edit_startdate_label->setGeometry(240,73,90,22);
+  edit_startdate_edit->setGeometry(335,73,100,22);
+  edit_startdate_check->setGeometry(250,108,15,15);
+  edit_startdate_check_label->setGeometry(270,108,175,20);
 
-  edit_enddate_label->setGeometry(435,68,90,22);
-  edit_enddate_edit->setGeometry(530,68,100,22);
-  edit_enddate_check->setGeometry(450,98,15,15);
-  edit_enddate_check_label->setGeometry(470,96,175,20);
+  edit_enddate_label->setGeometry(435,73,90,22);
+  edit_enddate_edit->setGeometry(530,73,100,22);
+  edit_enddate_check->setGeometry(450,108,15,15);
+  edit_enddate_check_label->setGeometry(470,106,175,20);
 
-  edit_log_view->setGeometry(10,120,size().width()-20,size().height()-250);
+  edit_runlength_widget->setGeometry(640,68,250,85);
+
+  edit_log_view->setGeometry(10,150,size().width()-20,size().height()-280);
 
   edit_insertcart_button->setGeometry(20,size().height()-125,80,50);
   edit_insertmeta_button->setGeometry(110,size().height()-125,80,50);

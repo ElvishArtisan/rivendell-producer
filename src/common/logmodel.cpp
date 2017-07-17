@@ -303,6 +303,37 @@ LogLine *LogModel::logLine(int row)
 }
 
 
+int LogModel::length(int from_row,int to_row)
+{
+  int ret=0;
+
+  for(int i=from_row;i<to_row;i++) {
+    if(logLine(i)!=NULL) {
+      if(((i+1)>=(rowCount()-1))||(logLine(i+1)->transType()!=LogLine::Segue)||
+	 (logLine(i)->segueStartPoint(LogLine::CartPointer)<0)) {
+	ret+=logLine(i)->length(LogLine::CartPointer);
+      }
+      else {
+	ret+=logLine(i)->segueStartPoint(LogLine::CartPointer)-
+	  logLine(i)->startPoint(LogLine::CartPointer);
+      }
+    }
+  }
+  return ret;
+}
+
+
+int LogModel::lengthToStop(int from_row)
+{
+  for(int i=from_row;i<(rowCount()-1);i++) {
+    if(logLine(i)->transType()==LogLine::Stop) {
+      return length(from_row,i);
+    }
+  }
+  return -1;
+}
+
+
 void LogModel::setBoldFont(const QFont &font)
 {
   model_bold_font=QVariant(font);

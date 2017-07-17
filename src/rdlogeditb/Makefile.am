@@ -43,6 +43,7 @@ dist_rdlogeditb_SOURCES = addlogdialog.cpp addlogdialog.h\
                           listlogsdialog.cpp listlogsdialog.h\
                           pickcartdialog.cpp pickcartdialog.h\
                           rdlogeditb.cpp rdlogeditb.h\
+                          runlengthwidget.cpp runlengthwidget.h\
                           servicebox.cpp servicebox.h
 
 nodist_rdlogeditb_SOURCES = cartfilterwidget.cpp cartfilterwidget.h\
@@ -70,6 +71,7 @@ nodist_rdlogeditb_SOURCES = cartfilterwidget.cpp cartfilterwidget.h\
                             moc_logmodel.cpp\
                             moc_pickcartdialog.cpp\
                             moc_rdlogeditb.cpp\
+                            moc_runlengthwidget.cpp\
                             moc_servicebox.cpp\
                             moc_streamplayer.cpp\
                             moc_streamplayer_alsa.cpp\

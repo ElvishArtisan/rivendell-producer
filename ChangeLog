@@ -323,3 +323,5 @@
 	when clicking the 'Cut' or 'Delete' buttons.
 2017-07-12 Fred Gleason <fredg@paravelsystems.com>
 	* Incremented the package version to 1.0.0.
+2017-07-17 Fred Gleason <fredg@paravelsystems.com>
+	* Added 'Run Length' counters to the Edit Log dialog.

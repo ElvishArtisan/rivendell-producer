@@ -36,6 +36,7 @@
 #include "editloglinedialog.h"
 #include "insertmetadialog.h"
 #include "logmodel.h"
+#include "runlengthwidget.h"
 #include "servicebox.h"
 #include "streamplayer.h"
 #include "tableview.h"
@@ -118,6 +119,8 @@ class EditLogDialog : public QDialog
   QDateTimeEdit *edit_startdate_edit;
   QLabel *edit_enddate_label;
   QDateTimeEdit *edit_enddate_edit;
+
+  RunLengthWidget *edit_runlength_widget;
 
   QLabel *edit_autorefresh_label;
   QComboBox *edit_autorefresh_box;
