@@ -55,6 +55,11 @@ void RunLengthWidget::updateSelection(const QItemSelection &new_sel,
 {
   int len=0;
 
+  if(run_sel_model->selectedRows().size()==0) {
+    run_nextstop_edit->clear();
+    run_logend_edit->clear();
+    return;
+  }
   if(run_sel_model->selectedRows().size()==1) {
     run_nextstop_label->setText(tr("Next Stop")+":");
     run_nextstop_edit->clear();
