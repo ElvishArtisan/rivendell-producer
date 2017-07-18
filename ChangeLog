@@ -331,3 +331,6 @@
 2017-07-18 Fred Gleason <fredg@paravelsystems.com>
 	* Fixed a bug in 'src/common/log.cpp' that caused newly inserted
 	cart events to show a length value of '00:00'.
+2017-07-18 Fred Gleason <fredg@paravelsystems.com>
+	* Fixed a bug in 'src/common/transportbutton.cpp' that caused the
+	Stop button to be the incorrect color.

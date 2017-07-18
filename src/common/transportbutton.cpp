@@ -630,7 +630,7 @@ void TransportButton::drawOffCap()
 	break;
       case TransportButton::Stop:
 	p.fillRect(width()/2-edge*3/10,height()/2-edge*3/10,
-		   edge*3/5,edge*3/5,palette().shadow().color());
+		   edge*3/5,edge*3/5,Qt::black);
 	p.setPen(palette().shadow().color());
 	p.drawLine(width()/2-edge*3/10,height()/2+edge*3/10,
 		   width()/2-edge*3/10,height()/2-edge*3/10);
