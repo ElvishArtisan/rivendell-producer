@@ -173,6 +173,67 @@ bool Log::trafficLinked() const
 }
 
 
+void Log::insert(int row,LogLine ll)
+{
+  //  struct rd_cart *cart=NULL;
+  struct rd_cut *cuts=NULL;
+  unsigned numrecs=0;
+  /*
+  if(cnf->listCart(&cart,ll.cartNumber())) {
+    ll.setType((LogLine::Type)cart->cart_type);
+    ll.setCartType((LogLine::CartType)cart->cart_type);
+    ll.setCartNumber(cart->cart_number);
+    ll.setGroupName(cart->cart_grp_name);
+    ll.setTitle(cart->cart_title);
+    ll.setArtist(cart->cart_artist);
+    ll.setAlbum(cart->cart_album);
+    ll.setYear(cart->cart_year);
+    ll.setLabel(cart->cart_label);
+    ll.setClient(cart->cart_client);
+    ll.setAgency(cart->cart_agency);
+    ll.setPublisher(cart->cart_publisher);
+    ll.setComposer(cart->cart_composer);
+    ll.setConductor(cart->cart_conductor);
+    ll.setUserDefined(cart->cart_user_defined);
+    ll.setUsageCode((LogLine::UsageCode)cart->cart_usage_code);
+    ll.setEnforceLength(cart->cart_enforce_length);
+    ll.setForcedLength(cart->cart_forced_length);
+    ll.setSource(LogLine::Manual);
+    ll.setTimeType(LogLine::Relative);
+    ll.setTransType(LogLine::Play);
+    ll.setCutQuantity(cart->cart_cut_quantity);
+    ll.setLastCutPlayed(cart->cart_last_cut_played);
+    //    ll.setGroupColor(cart->cart_group_color);
+    //    ll.setMarkerComment(cart->cart_marker_comment);
+    //    ll.setMarkerLabel(cart->cart_marker_label);
+    //    ll.setOriginUser(cart->cart_origin_user);
+    //    ll.setOriginDateTime(DateTime::fromTm(cart->cart_origin_datetime));
+    ::free(cart);
+  }
+  */
+  if((cnf->listCuts(&cuts,ll.cartNumber(),&numrecs)==0)&&(numrecs>0)) {
+    ll.setStartPoint(LogLine::CartPointer,cuts->cut_start_point);
+    ll.setEndPoint(LogLine::CartPointer,cuts->cut_end_point);
+    ll.setCutNumber(cuts->cut_cut_number);
+    ll.setEvergreen(cuts->cut_evergreen);
+    //    ll.setStartTime(cuts->cut_start_daypart);
+    ll.setStartPoint(LogLine::CartPointer,cuts->cut_start_point);
+    ll.setEndPoint(LogLine::CartPointer,cuts->cut_end_point);
+    ll.setSegueStartPoint(LogLine::CartPointer,cuts->cut_segue_start_point);
+    ll.setSegueEndPoint(LogLine::CartPointer,cuts->cut_segue_end_point);
+    ll.setSegueGain(cuts->cut_segue_gain);
+    ll.setFadeupPoint(LogLine::CartPointer,cuts->cut_fadeup_point);
+    ll.setFadedownPoint(LogLine::CartPointer,cuts->cut_fadedown_point);
+    ll.setTalkStartPoint(cuts->cut_talk_start_point);
+    ll.setTalkEndPoint(cuts->cut_talk_end_point);
+    ll.setHookStartPoint(cuts->cut_hook_start_point);
+    ll.setHookEndPoint(cuts->cut_hook_end_point);
+    ::free(cuts);
+  }
+  QList<LogLine>::insert(row,ll);
+}
+
+
 bool Log::load(const QString &name,QString *err_msg)
 {
   //

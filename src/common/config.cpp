@@ -238,6 +238,31 @@ int Config::deleteLog(const QString &logname)
   return ret;  
 }
 
+
+bool Config::listCart(struct rd_cart **cart,const unsigned cartnum)
+{
+  int ret;
+  unsigned numrecs=0;
+  do {
+    printf("cartnum: %u\n",cartnum);
+    ret=RD_ListCart(cart,serverHostname().toUtf8(),serverUsername().toUtf8(),
+		    serverPassword().toUtf8(),serverTicket().toUtf8(),
+		    cartnum,&numrecs);
+    if(ret==0) {
+      LockIdentity();
+      return true;
+    }
+    if((ret==403)||(ret==-1)) {
+      if(!exec()) {
+	exit(0);
+      }
+    }
+  } while((ret==403)||(ret==-1));
+
+  return false;
+}
+
+
 int Config::listCarts(struct rd_cart **carts,unsigned *numrecs,
 		      const QString &grp_name,const QString &filter,
 		      const QString &type)
@@ -247,6 +272,52 @@ int Config::listCarts(struct rd_cart **carts,unsigned *numrecs,
     ret=RD_ListCarts(carts,serverHostname().toUtf8(),serverUsername().toUtf8(),
 		     serverPassword().toUtf8(),serverTicket().toUtf8(),
 		     grp_name.toUtf8(),filter.toUtf8(),type.toUtf8(),numrecs);
+    if(ret==0) {
+      LockIdentity();
+      return ret;
+    }
+    if((ret==403)||(ret==-1)) {
+      if(!exec()) {
+	exit(0);
+      }
+    }
+  } while((ret==403)||(ret==-1));
+
+  return ret;
+}
+
+
+int Config::listCuts(struct rd_cut **cuts,const unsigned cartnum,
+		     unsigned *numrecs)
+{
+  int ret;
+  do {
+    ret=RD_ListCuts(cuts,serverHostname().toUtf8(),serverUsername().toUtf8(),
+		    serverPassword().toUtf8(),serverTicket().toUtf8(),
+		    cartnum,numrecs);
+    if(ret==0) {
+      LockIdentity();
+      return ret;
+    }
+    if((ret==403)||(ret==-1)) {
+      if(!exec()) {
+	exit(0);
+      }
+    }
+  } while((ret==403)||(ret==-1));
+
+  return ret;
+}
+
+
+int Config::listCut(struct rd_cut **cuts,const unsigned cartnum,
+		    const unsigned cutnum,unsigned *numrecs)
+{
+  int ret;
+  do {
+    ret=RD_ListCut(cuts,serverHostname().toUtf8(),serverUsername().toUtf8(),
+		   serverPassword().toUtf8(),serverTicket().toUtf8(),
+		   cartnum,cutnum,numrecs);
     if(ret==0) {
       LockIdentity();
       return ret;

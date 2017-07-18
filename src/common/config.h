@@ -34,7 +34,10 @@
 
 #include <rivendell/rd_addlog.h>
 #include <rivendell/rd_deletelog.h>
+#include <rivendell/rd_listcart.h>
 #include <rivendell/rd_listcarts.h>
+#include <rivendell/rd_listcut.h>
+#include <rivendell/rd_listcuts.h>
 #include <rivendell/rd_listgroups.h>
 #include <rivendell/rd_listlog.h>
 #include <rivendell/rd_listlogs.h>
@@ -75,9 +78,13 @@ class Config : public QDialog
   void setUiIncludeAllGroup(bool state);
   int addLog(const QString &logname,const QString &svcname);
   int deleteLog(const QString &logname);
+  bool listCart(struct rd_cart **cart,const unsigned cartnum);
   int listCarts(struct rd_cart **carts,unsigned *numrecs,
 		const QString &grp_name,const QString &filter,
 		const QString &type);
+  int listCuts(struct rd_cut **cuts,const unsigned cartnum,unsigned *numrecs);
+  int listCut(struct rd_cut **cuts,const unsigned cartnum,
+	      const unsigned cutnum,unsigned *numrecs);
   int listGroups(struct rd_group **grps,unsigned *numrecs);
   int listLog(struct rd_logline **lines,unsigned *numrecs,
 	      const QString &logname);

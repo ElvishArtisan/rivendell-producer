@@ -55,6 +55,7 @@ class Log : public QList<LogLine>
   bool musicLinked() const;
   int trafficLinks() const;
   bool trafficLinked() const;
+  void insert(int row,LogLine ll);
   bool load(const QString &name,QString *err_msg);
   bool save(const QString &name,QString *err_msg);
   void update();
