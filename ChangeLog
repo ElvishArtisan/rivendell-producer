@@ -339,3 +339,5 @@
 2017-07-18 Fred Gleason <fredg@paravelsystems.com>
 	* Fixed bugs in the report viewer under Windows.
 	* Added a 'version.txt' to the Windows installation.
+2017-07-18 Fred Gleason <fredg@paravelsystems.com>
+	* Incremeneted the package version to 1.1.0.
