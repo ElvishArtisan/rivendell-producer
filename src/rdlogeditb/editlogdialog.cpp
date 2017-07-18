@@ -28,6 +28,7 @@
 #include "cmdswitch.h"
 #include "datetime.h"
 #include "playerfactory.h"
+#include "textreport.h"
 
 #include "editlogdialog.h"
 
@@ -304,6 +305,13 @@ EditLogDialog::EditLogDialog(AddLogDialog *ad,QWidget *parent)
   edit_saveas_button=new QPushButton(tr("Save")+"\n"+tr("As"),this);
   edit_saveas_button->setFont(bold_font);
   connect(edit_saveas_button,SIGNAL(clicked()),this,SLOT(saveasData()));
+
+  //
+  // Print Button
+  //
+  edit_print_button=new QPushButton(tr("Print"),this);
+  edit_print_button->setFont(bold_font);
+  connect(edit_print_button,SIGNAL(clicked()),this,SLOT(printData()));
 
   //
   // Play Button
@@ -717,6 +725,156 @@ void EditLogDialog::saveData()
 }
 
 
+void EditLogDialog::printData()
+{
+  QString report="";
+
+  //
+  // Generate Header
+  //
+  QString refresh="No ";
+  if(edit_autorefresh_box->currentIndex()) {
+    refresh="Yes";
+  }
+  QString start_date=tr("[none]");
+  if(edit_startdate_check->isChecked()) {
+    start_date=edit_startdate_edit->date().toString("MM/dd/yyyy");
+  }
+  QString end_date=tr("[none]");
+  if(edit_enddate_check->isChecked()) {
+    end_date=edit_enddate_edit->date().toString("MM/dd/yyyy");
+  }
+  report="                                                     Rivendell Log Listing\n";
+  report+=QString().
+    sprintf("Generated: %s                        Log: %-30s  Description: %s\n",
+	    (const char *)QDateTime::currentDateTime().
+	    toString("MM/dd/yyyy - hh:mm:ss").toUtf8(),
+	    (const char *)edit_name_label->text().left(30).toUtf8(),
+	    (const char *)edit_description_edit->text().left(27).toUtf8());
+  report+=QString().
+    sprintf("Service: %-10s          AutoRefresh Enabled: %-3s   Start Date: %-10s               End Date: %s\n",
+	    (const char *)edit_service_box->currentText().toUtf8(),
+	    (const char *)refresh.toUtf8(),
+	    (const char *)start_date.toUtf8(),(const char *)end_date.toUtf8());
+  report+="\n";
+  report+="-Type-- -Time---- Trans -Cart- -Group---- -Length- -Title--------------------------- -Artist----------------------- -Source----- Line\n";
+
+  //
+  // Generate Event Listing
+  //
+  LogLine *logline;
+  for(int i=0;i<(edit_log_model->rowCount()-1);i++) {
+    logline=edit_log_model->logLine(i);
+
+    //
+    // Type
+    //
+    report+=QString().sprintf("%-7s ",
+	       (const char *)LogLine::typeText(logline->type()).toUtf8());
+
+    //
+    // Time
+    //
+    if(logline->timeType()==LogLine::Hard) {
+      report+="T";
+    }
+    else {
+      report+=" ";
+    }
+    if(!logline->startTime().isNull()) {
+      report+=QString().sprintf("%-8s ",
+				 (const char *)logline->startTime().
+				 toString("hh:mm:ss").toUtf8());
+    }
+    else {
+      report+="         ";
+    }
+
+    //
+    // Transition Type
+    //
+    report+=QString().sprintf("%-5s ",
+      (const char *)LogLine::transText(logline->transType()).left(5).toUtf8());
+
+    switch(logline->type()) {
+    case LogLine::Cart:
+    case LogLine::Macro:
+      report+=QString().sprintf("%06u ",logline->cartNumber());
+      report+=QString().sprintf("%-10s ",
+				(const char *)logline->groupName().toUtf8());
+      report+=QString().sprintf("%8s ",(const char *)QTime().addMSecs(logline->length(LogLine::CartPointer)).toString("h:mm:ss").toUtf8());
+      report+=
+	QString().sprintf("%-33s ",
+			  (const char *)logline->title().left(33).toUtf8());
+      report+=
+	QString().sprintf("%-30s ",
+			  (const char *)logline->artist().left(30).toUtf8());
+      break;
+
+    case LogLine::Marker:
+    case LogLine::Track:
+      report+="       ";
+      report+="           ";
+      report+="     :00 ";
+      report+=
+	QString().sprintf("%-30s ",
+		    (const char *)logline->markerComment().left(30).toUtf8());
+      report+="                               ";
+      break;
+
+    case LogLine::TrafficLink:
+      report+="       ";
+      report+="           ";
+      report+="     :00 ";
+      report+="Traffic Import                 ";
+      report+="                               ";
+      break;
+
+    case LogLine::MusicLink:
+      report+="       ";
+      report+="           ";
+      report+="     :00 ";
+      report+="Music Import                 ";
+      report+="                               ";
+      break;
+
+    case LogLine::Chain:
+      report+="       ";
+      report+="           ";
+      report+="         ";
+      report+=
+	QString().sprintf("%-30s ",
+		      (const char *)logline->markerLabel().left(30).toUtf8());
+      report+="                               ";
+      break;
+      break;
+
+    case LogLine::OpenBracket:
+    case LogLine::CloseBracket:
+    case LogLine::UnknownType:
+      break;
+    }
+
+    //
+    // Source
+    //
+    report+=QString().sprintf("%-12s ",
+	      (const char *)LogLine::sourceText(logline->source()).toUtf8());
+
+    //
+    // Line
+    //
+    report+=QString().sprintf("%4d",i);
+
+    //
+    // End of Line
+    //
+    report+="\n";
+  }
+  TextReport(report);
+}
+
+
 void EditLogDialog::saveasData()
 {
   QString svcname=edit_service_box->currentText();
@@ -861,6 +1019,8 @@ void EditLogDialog::resizeEvent(QResizeEvent *e)
 
   edit_save_button->setGeometry(10,size().height()-60,80,50);
   edit_saveas_button->setGeometry(100,size().height()-60,80,50);
+
+  edit_print_button->setGeometry(270,size().height()-60,80,50);
 
   edit_play_button->setGeometry(size().width()-390,size().height()-60,80,50);
   edit_stop_button->setGeometry(size().width()-300,size().height()-60,80,50);

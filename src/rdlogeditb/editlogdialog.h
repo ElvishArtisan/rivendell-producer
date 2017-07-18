@@ -78,6 +78,7 @@ class EditLogDialog : public QDialog
   void playerErrorData(const QString &msg);
   void saveData();
   void saveasData();
+  void printData();
   void okData();
   void cancelData();
   void capiErrorData(int err,const QString &err_msg);
@@ -145,6 +146,7 @@ class EditLogDialog : public QDialog
 
   QPushButton *edit_save_button;
   QPushButton *edit_saveas_button;
+  QPushButton *edit_print_button;
   TransportButton *edit_play_button;
   TransportButton *edit_stop_button;
   StreamPlayer *edit_stream_player;

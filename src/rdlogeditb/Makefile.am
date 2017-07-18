@@ -44,7 +44,8 @@ dist_rdlogeditb_SOURCES = addlogdialog.cpp addlogdialog.h\
                           pickcartdialog.cpp pickcartdialog.h\
                           rdlogeditb.cpp rdlogeditb.h\
                           runlengthwidget.cpp runlengthwidget.h\
-                          servicebox.cpp servicebox.h
+                          servicebox.cpp servicebox.h\
+                          textreport.cpp textreport.h
 
 nodist_rdlogeditb_SOURCES = cartfilterwidget.cpp cartfilterwidget.h\
                             cmdswitch.cpp cmdswitch.h\

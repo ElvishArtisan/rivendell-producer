@@ -941,3 +941,40 @@ QString LogLine::transText(LogLine::TransType type)
 
   return ret;
 }
+
+
+QString LogLine::typeText(Type type)
+{
+  switch(type) {
+      case LogLine::Cart:
+	return QObject::tr("Audio");
+
+      case LogLine::Marker:
+	return QObject::tr("Marker");
+
+      case LogLine::Macro:
+	return QObject::tr("Macro");
+
+      case LogLine::OpenBracket:
+	return QObject::tr("Open Bracket");
+
+      case LogLine::CloseBracket:
+	return QObject::tr("Close Bracket");
+
+      case LogLine::Chain:
+	return QObject::tr("Chain");
+
+      case LogLine::Track:
+	return QObject::tr("Track");
+
+      case LogLine::MusicLink:
+	return QObject::tr("MusicLink");
+
+      case LogLine::TrafficLink:
+	return QObject::tr("TrafficLink");
+
+      case LogLine::UnknownType:
+	return QObject::tr("Unknown");
+  }
+  return QObject::tr("Unknown");
+}

@@ -171,6 +171,7 @@ class LogLine
   void clear();
   static QString sourceText(Source src);
   static QString transText(TransType type);
+  static QString typeText(Type type);
 
  private:
   int logline_id;
