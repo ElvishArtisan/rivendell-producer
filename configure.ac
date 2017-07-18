@@ -136,6 +136,7 @@ AC_CONFIG_FILES([ \
     Makefile \
     rivendell-producer.nsi \
     rivendell-producer.spec \
+    version.txt \
 ])
 AC_OUTPUT()
 

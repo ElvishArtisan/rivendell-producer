@@ -26,17 +26,36 @@
 
 #include <QMessageBox>
 #include <QProcess>
+#include <QDateTime>
 
 #include "textreport.h"
 
+QString TempDir()
+{
+#ifdef WIN32
+  if(getenv("TEMP")!=NULL) {
+    return QString(getenv("TEMP"));
+  }
+  if(getenv("TMP")!=NULL) {
+    return QString(getenv("TMP"));
+  }
+  return QString("C:\\");
+#else
+  if(getenv("TMPDIR")!=NULL) {
+    return QString(getenv("TMPDIR"));
+  }
+  return QString("/tmp");
+#endif  // WIN32
+}
+
+
 bool TextReport(const QString &data)
 {
-  char tmpfile[256];
   QString editor;
 
   if(getenv("VISUAL")==NULL) {
 #ifdef WIN32
-    editor="wordpad";
+    editor="notepad";
 #else
     editor="xterm -e vi";
 #endif  // WIN32
@@ -45,22 +64,22 @@ bool TextReport(const QString &data)
     editor=getenv("VISUAL");
   }
 #ifdef WIN32
-  QString tempfile=QString().sprintf("%s\\rd-%s",(const char *)RDTempDir(),
-	           (const char *)QTime::currentTime().toString("hhmmsszzz"));
-  FILE *f=fopen(tempfile,"w");
+  QString tempfile=TempDir()+"\\rdlogeditb-"+QTime::currentTime().toString("hhmmsszzzz");
+  FILE *f=fopen(tempfile.toUtf8(),"w");
   if(f==NULL) {
     QMessageBox::warning(NULL,"File Error","Unable to create temporary file");
     return false;
   }
-  fprintf(f,"%s",(const char *)data);
+  fprintf(f,"%s",(const char *)data.toUtf8());
   fclose(f);
   QStringList args;
-  args+=editor;
-  args+=tempfile;
-  QProcess *proc=new QProcess(args);
-  proc->launch("");
-  delete proc;
+  args.push_back(tempfile);
+  QProcess *proc=new QProcess();
+  proc->start(editor,args);
+  proc->waitForStarted();
 #else
+  char tmpfile[256];
+
   strcpy(tmpfile,"/tmp/rdreportXXXXXX");
   int fd=mkstemp(tmpfile);
   if(fd<0) {

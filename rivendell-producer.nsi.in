@@ -78,6 +78,7 @@ Section
 	File "zlib1.dll"
 	File "rdadminb.exe"
 	File "rdlogeditb.exe"
+	File "version.txt"
 
 	#
 	# Create Shortcuts
@@ -143,6 +144,7 @@ Section "Uninstall"
 	Delete $INSTDIR\rdadminb.exe
 	Delete $INSTDIR\rdlibraryb.exe
 	Delete $INSTDIR\rdlogeditb.exe
+	Delete $INSTDIR\version.txt
 
 	#
 	# Remove Shortcuts

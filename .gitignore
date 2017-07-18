@@ -19,6 +19,7 @@ Makefile.in
 missing
 moc_*
 qrc_*
+version.txt
 src/rdadminb/*.ico
 src/rdadminb/cartfilterwidget.cpp
 src/rdadminb/cartfilterwidget.h

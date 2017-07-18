@@ -64,7 +64,8 @@ EXTRA_DIST = autogen.sh\
              rivendell-producer.nsi.in\
              rivendell-producer.spec.in\
              COPYING.rtf\
-             PACKAGE_VERSION
+             PACKAGE_VERSION\
+             version.txt.in
 
 CLEANFILES = *~\
              *.deb\
@@ -80,7 +81,8 @@ DISTCLEANFILES = rivendell-producer.nsi\
                  rivendell-producer.spec\
                  config.guess\
                  config.sub\
-                 ltmain.sh
+                 ltmain.sh\
+                 version.txt
 
 MAINTAINERCLEANFILES = *~\
                        *.tar.gz\

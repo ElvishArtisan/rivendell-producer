@@ -336,3 +336,6 @@
 	Stop button to be the incorrect color.
 2017-07-18 Fred Gleason <fredg@paravelsystems.com>
 	* Added a 'Print' button to the Edit Log dialog.
+2017-07-18 Fred Gleason <fredg@paravelsystems.com>
+	* Fixed bugs in the report viewer under Windows.
+	* Added a 'version.txt' to the Windows installation.
