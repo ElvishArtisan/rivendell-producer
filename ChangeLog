@@ -350,3 +350,5 @@
 2017-07-26 Fred Gleason <fredg@paravelsystems.com>
 	* Fixed a bug in RDLogEditb(1) that caused the incorrect icon to be
 	displayed for macro carts when editing a log.
+2017-07-26 Fred Gleason <fredg@paravelsystems.com>
+	* Added RDLibraryb(1) to the Windows installer.

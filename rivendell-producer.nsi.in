@@ -87,27 +87,29 @@ Section
 	createShortCut "$SMPROGRAMS\RDAdmin Remote.lnk" "$INSTDIR\rdadminb.exe"
 
 	SetShellVarContext all
-	createShortCut "$SMPROGRAMS\RDLogEdit Remote.lnk" "$INSTDIR\rdlogeditb.exe"
-	createShortcut "$desktop\RDLogEdit Remote.lnk" "$instdir\rdlogeditb.exe"
+#	createShortCut "$SMPROGRAMS\RDLogEdit Remote.lnk" "$INSTDIR\rdlogeditb.exe"
+#	createShortcut "$desktop\RDLogEdit Remote.lnk" "$instdir\rdlogeditb.exe"
 
 	WriteUninstaller $INSTDIR\uninstaller.exe
 SectionEnd
 
 
-#Section "RDLibrary Remote"
-#	SetOutPath $INSTDIR
-#	File "rdlibraryb.exe"
-#	SetShellVarContext all
-#	createShortCut "$SMPROGRAMS\RDLibrary Remote.lnk" "$INSTDIR\rdlibraryb.exe"
-#SectionEnd
+Section "RDLibrary Remote"
+	SetOutPath $INSTDIR
+	File "rdlibraryb.exe"
+	SetShellVarContext all
+	createShortCut "$SMPROGRAMS\RDLibrary Remote.lnk" "$INSTDIR\rdlibraryb.exe"
+	createShortcut "$desktop\RDLibrary Remote.lnk" "$instdir\rdlibraryb.exe"
+SectionEnd
 
 
-#Section "RDLogEdit Remote"
-#	SetOutPath $INSTDIR
-#	File "rdlogeditb.exe"
-#	SetShellVarContext all
-#	createShortCut "$SMPROGRAMS\RDLogEdit Remote.lnk" "$INSTDIR\rdlogeditb.exe"
-#SectionEnd
+Section "RDLogEdit Remote"
+	SetOutPath $INSTDIR
+	File "rdlogeditb.exe"
+	SetShellVarContext all
+	createShortCut "$SMPROGRAMS\RDLogEdit Remote.lnk" "$INSTDIR\rdlogeditb.exe"
+	createShortcut "$desktop\RDLogEdit Remote.lnk" "$instdir\rdlogeditb.exe"
+SectionEnd
 
 
 Section "Uninstall"
