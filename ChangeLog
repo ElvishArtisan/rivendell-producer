@@ -347,3 +347,6 @@
 2017-07-26 Fred Gleason <fredg@paravelsystems.com>
 	* Fixed a bug in RDLogEditb(1) that caused start times to fail to be
 	updated after inserting new events.
+2017-07-26 Fred Gleason <fredg@paravelsystems.com>
+	* Fixed a bug in RDLogEditb(1) that caused the incorrect icon to be
+	displayed for macro carts when editing a log.

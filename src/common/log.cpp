@@ -179,8 +179,11 @@ void Log::insert(int row,unsigned cartnum)
   LogLine ll;
 
   if(cnf->listCart(&cart,cartnum)) {
-    ll.setType(LogLine::Cart);
     ll.setCartType((LogLine::CartType)cart->cart_type);
+    ll.setType(LogLine::Cart);
+    if(ll.cartType()==LogLine::MacroCart) {
+      ll.setType(LogLine::Macro);
+    }
     ll.setCartNumber(cart->cart_number);
     ll.setGroupName(cart->cart_grp_name);
     ll.setTitle(cart->cart_title);
