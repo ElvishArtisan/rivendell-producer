@@ -204,7 +204,6 @@ void Log::insert(int row,unsigned cartnum)
     ll.setLastCutPlayed(cart->cart_last_cut_played);
     ::free(cart);
     ll.setId(GetNextId());
-    SetStartTimes();
   }
   insert(row,ll);
 }
@@ -234,6 +233,7 @@ void Log::insert(int row,LogLine ll)
     ::free(cuts);
   }
   QList<LogLine>::insert(row,ll);
+  SetStartTimes();
 }
 
 

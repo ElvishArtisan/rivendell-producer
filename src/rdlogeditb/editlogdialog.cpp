@@ -367,7 +367,6 @@ int EditLogDialog::exec(const QString &logname)
   edit_paste_button->setDisabled(true);
 
   edit_selected_logid=-1;
-  edit_log_view->resizeColumnsToContents();
   edit_log_view->clearSelection();
   edit_play_button->setDisabled(true);
   edit_stop_button->setDisabled(true);

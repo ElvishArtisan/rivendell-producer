@@ -344,3 +344,6 @@
 2017-07-26 Fred Gleason <fredg@paravelsystems.com>
 	* Implemented cart dragging in RDLibraryb(1).
 	* Implemented cart dropping in RDLogEditb(1).
+2017-07-26 Fred Gleason <fredg@paravelsystems.com>
+	* Fixed a bug in RDLogEditb(1) that caused start times to fail to be
+	updated after inserting new events.
