@@ -30,8 +30,8 @@
 
 #include "cartfilterwidget.h"
 #include "librarymodel.h"
+#include "libtableview.h"
 #include "streamplayer.h"
-#include "tableview.h"
 #include "transportbutton.h"
 
 #define RDLIBRARYB_USAGE "\n"
@@ -57,7 +57,7 @@ class MainWidget : public QMainWindow
 
  private:
   LibraryModel *main_library_model;
-  TableView *main_library_view;
+  LibTableView *main_library_view;
   TransportButton *main_play_button;
   TransportButton *main_stop_button;
   QPushButton *main_close_button;  

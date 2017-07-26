@@ -54,6 +54,7 @@
 #define DEFAULT_UI_INCLUDE_ALL_GROUP 0
 
 #define RD_FADE_DEPTH -3000
+#define RDMIMETYPE_CART "application/rivendell-cart"
 
 class Config : public QDialog
 {

@@ -36,10 +36,10 @@
 #include "editloglinedialog.h"
 #include "insertmetadialog.h"
 #include "logmodel.h"
+#include "logtableview.h"
 #include "runlengthwidget.h"
 #include "servicebox.h"
 #include "streamplayer.h"
-#include "tableview.h"
 #include "transportbutton.h"
 
 class EditLogDialog : public QDialog
@@ -82,6 +82,7 @@ class EditLogDialog : public QDialog
   void okData();
   void cancelData();
   void capiErrorData(int err,const QString &err_msg);
+  void logChangedData();
 
  protected:
   void closeEvent(QCloseEvent *e);
@@ -132,7 +133,7 @@ class EditLogDialog : public QDialog
 
   AddLogDialog *edit_addlog_dialog;
   LogModel *edit_log_model;
-  TableView *edit_log_view;
+  LogTableView *edit_log_view;
 
   QPushButton *edit_insertcart_button;
   QPushButton *edit_insertmeta_button;

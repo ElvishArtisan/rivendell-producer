@@ -206,7 +206,7 @@ EditLogDialog::EditLogDialog(AddLogDialog *ad,QWidget *parent)
   edit_log_model->setBoldFont(bold_font);
   connect(edit_log_model,SIGNAL(capiError(int,const QString &)),
 	  this,SLOT(capiErrorData(int,const QString &)));
-  edit_log_view=new TableView(this);
+  edit_log_view=new LogTableView(this);
   edit_log_view->setSelectionMode(QAbstractItemView::ContiguousSelection);
   edit_log_view->setModel(edit_log_model);
   edit_log_view->resizeColumnsToContents();
@@ -218,6 +218,7 @@ EditLogDialog::EditLogDialog(AddLogDialog *ad,QWidget *parent)
 					 const QItemSelection &)));
   connect(edit_log_view,SIGNAL(doubleClicked(const QModelIndex &)),
 	  this,SLOT(eventDoubleClickedData(const QModelIndex &)));
+  connect(edit_log_view,SIGNAL(changed()),this,SLOT(logChangedData()));
 
   //
   // Run Length Widget
@@ -953,6 +954,12 @@ void EditLogDialog::capiErrorData(int err,const QString &err_msg)
 {
   QMessageBox::warning(this,tr("RDLogEdit - C API Error"),
 		       err_msg+QString().sprintf(" [Error: %d]",err));
+}
+
+
+void EditLogDialog::logChangedData()
+{
+  SetModified(true);
 }
 
 

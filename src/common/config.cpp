@@ -244,7 +244,6 @@ bool Config::listCart(struct rd_cart **cart,const unsigned cartnum)
   int ret;
   unsigned numrecs=0;
   do {
-    printf("cartnum: %u\n",cartnum);
     ret=RD_ListCart(cart,serverHostname().toUtf8(),serverUsername().toUtf8(),
 		    serverPassword().toUtf8(),serverTicket().toUtf8(),
 		    cartnum,&numrecs);

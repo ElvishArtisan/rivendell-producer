@@ -24,6 +24,7 @@
 #include <vector>
 
 #include <QString>
+#include <QStringList>
 #include <QTime>
 #include <QHostAddress>
 
@@ -65,7 +66,9 @@ class Profile
   Profile();
   QString source() const;
   bool setSource(const QString &filename);
-  bool setSource(std::vector<QString> *values);
+  //  bool setSource(std::vector<QString> *values);
+  bool setSource(const QStringList &values);
+  bool setSourceText(const QString &text);
   QString stringValue(const QString &section,const QString &tag,
 		      const QString &default_value="",bool *ok=0) const;
   int intValue(const QString &section,const QString &tag,

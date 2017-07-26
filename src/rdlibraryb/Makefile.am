@@ -34,7 +34,8 @@ qrc_%.cpp:	%.qrc
 
 bin_PROGRAMS = rdlibraryb
 
-dist_rdlibraryb_SOURCES = rdlibraryb.cpp rdlibraryb.h
+dist_rdlibraryb_SOURCES = libtableview.cpp libtableview.h\
+                          rdlibraryb.cpp rdlibraryb.h
 
 nodist_rdlibraryb_SOURCES = cartfilterwidget.cpp cartfilterwidget.h\
                             cmdswitch.cpp cmdswitch.h\
@@ -46,6 +47,7 @@ nodist_rdlibraryb_SOURCES = cartfilterwidget.cpp cartfilterwidget.h\
                             moc_cartfilterwidget.cpp\
                             moc_combobox.cpp\
                             moc_config.cpp\
+                            moc_libtableview.cpp\
                             moc_librarymodel.cpp\
                             moc_rdlibraryb.cpp\
                             moc_streamplayer.cpp\

@@ -173,14 +173,13 @@ bool Log::trafficLinked() const
 }
 
 
-void Log::insert(int row,LogLine ll)
+void Log::insert(int row,unsigned cartnum)
 {
-  //  struct rd_cart *cart=NULL;
-  struct rd_cut *cuts=NULL;
-  unsigned numrecs=0;
-  /*
-  if(cnf->listCart(&cart,ll.cartNumber())) {
-    ll.setType((LogLine::Type)cart->cart_type);
+  struct rd_cart *cart=NULL;
+  LogLine ll;
+
+  if(cnf->listCart(&cart,cartnum)) {
+    ll.setType(LogLine::Cart);
     ll.setCartType((LogLine::CartType)cart->cart_type);
     ll.setCartNumber(cart->cart_number);
     ll.setGroupName(cart->cart_grp_name);
@@ -203,14 +202,18 @@ void Log::insert(int row,LogLine ll)
     ll.setTransType(LogLine::Play);
     ll.setCutQuantity(cart->cart_cut_quantity);
     ll.setLastCutPlayed(cart->cart_last_cut_played);
-    //    ll.setGroupColor(cart->cart_group_color);
-    //    ll.setMarkerComment(cart->cart_marker_comment);
-    //    ll.setMarkerLabel(cart->cart_marker_label);
-    //    ll.setOriginUser(cart->cart_origin_user);
-    //    ll.setOriginDateTime(DateTime::fromTm(cart->cart_origin_datetime));
     ::free(cart);
+    ll.setId(GetNextId());
+    SetStartTimes();
   }
-  */
+  insert(row,ll);
+}
+
+
+void Log::insert(int row,LogLine ll)
+{
+  struct rd_cut *cuts=NULL;
+  unsigned numrecs=0;
   if((cnf->listCuts(&cuts,ll.cartNumber(),&numrecs)==0)&&(numrecs>0)) {
     ll.setStartPoint(LogLine::CartPointer,cuts->cut_start_point);
     ll.setEndPoint(LogLine::CartPointer,cuts->cut_end_point);
@@ -437,6 +440,19 @@ bool Log::save(const QString &name,QString *err_msg)
   delete ll;
 
   return true;
+}
+
+
+int Log::GetNextId()
+{
+  int id=0;
+
+  for(int i=0;i<size();i++) {
+    if(at(i).id()>=id) {
+      id=at(i).id()+1;
+    }
+  }
+  return id;
 }
 
 

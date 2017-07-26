@@ -61,6 +61,7 @@ class LogModel : public QAbstractTableModel
   bool trafficLinked() const;
   void updateRow(int row);
   void move(int from_row,int to_row);
+  void insert(int row,unsigned cartnum);
   void insert(int row,LogLine *ll);
   void removeAt(int row,int num_rows);
   bool load(const QString &name,QString *err_msg);

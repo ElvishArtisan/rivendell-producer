@@ -341,3 +341,6 @@
 	* Added a 'version.txt' to the Windows installation.
 2017-07-18 Fred Gleason <fredg@paravelsystems.com>
 	* Incremeneted the package version to 1.1.0.
+2017-07-26 Fred Gleason <fredg@paravelsystems.com>
+	* Implemented cart dragging in RDLibraryb(1).
+	* Implemented cart dropping in RDLogEditb(1).

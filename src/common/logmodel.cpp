@@ -247,6 +247,14 @@ void LogModel::move(int from_row,int to_row)
 }
 
 
+void LogModel::insert(int row,unsigned cartnum)
+{
+  beginInsertRows(QModelIndex(),row,row);
+  model_log->insert(row,cartnum);
+  endInsertRows();
+}
+
+
 void LogModel::insert(int row,LogLine *ll)
 {
   beginInsertRows(QModelIndex(),row,row);

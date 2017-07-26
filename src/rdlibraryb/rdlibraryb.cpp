@@ -108,7 +108,7 @@ MainWidget::MainWidget(QWidget *parent)
 	  SIGNAL(updateRequested(const QString &,const QString &,bool,bool)),
 	  main_library_model,
 	  SLOT(update(const QString &,const QString &,bool,bool)));
-  main_library_view=new TableView(this);
+  main_library_view=new LibTableView(this);
   main_library_view->setModel(main_library_model);
   connect(main_library_view,SIGNAL(clicked(const QModelIndex &)),
 	  this,SLOT(cartClickedData(const QModelIndex &)));
