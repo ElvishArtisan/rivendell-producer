@@ -354,3 +354,5 @@
 	* Added RDLibraryb(1) to the Windows installer.
 2017-07-26 Fred Gleason <fredg@paravelsystems.com>
 	* Incremented the package version to 1.1.0int00.
+2017-07-27 Fred Gleason <fredg@paravelsystems.com>
+	* Incremented the package version to 1.2.0.
