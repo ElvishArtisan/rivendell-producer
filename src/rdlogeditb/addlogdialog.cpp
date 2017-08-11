@@ -23,6 +23,7 @@
 
 #include "addlogdialog.h"
 #include "config.h"
+#include "lognamevalidator.h"
 
 AddLogDialog::AddLogDialog(QWidget *parent)
   : QDialog(parent)
@@ -39,6 +40,7 @@ AddLogDialog::AddLogDialog(QWidget *parent)
   edit_logname_label->setAlignment(Qt::AlignRight);
   edit_logname_edit=new QLineEdit(this);
   edit_logname_edit->setMaxLength(64);
+  edit_logname_edit->setValidator(new LogNameValidator(this));
 
   edit_ok_button=new QPushButton(tr("OK"),this);
   connect(edit_ok_button,SIGNAL(clicked()),this,SLOT(okData()));

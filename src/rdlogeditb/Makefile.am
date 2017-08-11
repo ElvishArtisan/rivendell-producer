@@ -41,6 +41,7 @@ dist_rdlogeditb_SOURCES = addlogdialog.cpp addlogdialog.h\
                           editloglinedialog.cpp editloglinedialog.h\
                           insertmetadialog.cpp insertmetadialog.h\
                           listlogsdialog.cpp listlogsdialog.h\
+                          lognamevalidator.cpp lognamevalidator.h\
                           logtableview.cpp logtableview.h\
                           pickcartdialog.cpp pickcartdialog.h\
                           rdlogeditb.cpp rdlogeditb.h\
@@ -70,6 +71,7 @@ nodist_rdlogeditb_SOURCES = cartfilterwidget.cpp cartfilterwidget.h\
                             moc_librarymodel.cpp\
                             moc_listlogsdialog.cpp\
                             moc_loglistmodel.cpp\
+                            moc_lognamevalidator.cpp\
                             moc_logmodel.cpp\
                             moc_logtableview.cpp\
                             moc_pickcartdialog.cpp\

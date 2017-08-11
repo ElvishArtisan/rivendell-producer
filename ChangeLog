@@ -359,3 +359,6 @@
 2017-08-11 Fred Gleason <fredg@paravelsystems.com>
 	* Removed 'ALL' from the list of services in the 'Add New Log' and
 	'Edit Log' dialogs.
+2017-08-11 Fred Gleason <fredg@paravelsystems.com>
+	* Fixed a bug that permitted logs to be created with names containing
+	spaces.
