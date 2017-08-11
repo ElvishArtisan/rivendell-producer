@@ -33,7 +33,7 @@ AddLogDialog::AddLogDialog(QWidget *parent)
 
   edit_servicename_label=new QLabel(tr("Service Name")+":",this);
   edit_servicename_label->setAlignment(Qt::AlignRight);
-  edit_servicename_box=new ServiceBox(this);
+  edit_servicename_box=new ServiceBox(false,this);
 
   edit_logname_label=new QLabel(tr("Log Name")+":",this);
   edit_logname_label->setAlignment(Qt::AlignRight);

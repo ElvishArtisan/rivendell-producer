@@ -37,7 +37,7 @@ ListLogsDialog::ListLogsDialog(QWidget *parent)
   //
   // Service
   //
-  list_service_box=new ServiceBox(this);
+  list_service_box=new ServiceBox(true,this);
   list_service_label=new QLabel(tr("Service")+":",this);
   list_service_label->setFont(bold_font);
   list_service_label->setAlignment(Qt::AlignVCenter|Qt::AlignRight);

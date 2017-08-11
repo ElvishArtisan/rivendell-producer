@@ -137,7 +137,7 @@ EditLogDialog::EditLogDialog(AddLogDialog *ad,QWidget *parent)
   edit_service_label=new QLabel(tr("Service")+":",this);
   edit_service_label->setAlignment(Qt::AlignVCenter|Qt::AlignRight);
   edit_service_label->setFont(bold_font);
-  edit_service_box=new ServiceBox(this);
+  edit_service_box=new ServiceBox(false,this);
   connect(edit_service_box,SIGNAL(activated(int)),
 	  this,SLOT(boxActivatedData(int)));
   if((err=edit_service_box->reload())!=0) {

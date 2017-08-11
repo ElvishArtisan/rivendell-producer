@@ -27,8 +27,11 @@ class ServiceBox : public ComboBox
 {
  Q_OBJECT;
  public:
-  ServiceBox(QWidget *parent=0);
+ ServiceBox(bool incl_all,QWidget *parent=0);
   int reload();
+
+ private:
+  bool svc_include_all;
 };
 
 

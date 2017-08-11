@@ -356,3 +356,6 @@
 	* Incremented the package version to 1.1.0int00.
 2017-07-27 Fred Gleason <fredg@paravelsystems.com>
 	* Incremented the package version to 1.2.0.
+2017-08-11 Fred Gleason <fredg@paravelsystems.com>
+	* Removed 'ALL' from the list of services in the 'Add New Log' and
+	'Edit Log' dialogs.

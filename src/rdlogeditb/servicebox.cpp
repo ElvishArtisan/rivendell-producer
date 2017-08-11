@@ -21,9 +21,10 @@
 #include "config.h"
 #include "servicebox.h"
 
-ServiceBox::ServiceBox(QWidget *parent)
+ServiceBox::ServiceBox(bool incl_all,QWidget *parent)
   : ComboBox(parent)
 {
+  svc_include_all=incl_all;
 }
 
 
@@ -34,7 +35,9 @@ int ServiceBox::reload()
   int err=0;
 
   clear();
-  insertItem(0,tr("ALL"),tr("ALL"));
+  if(svc_include_all) {
+    insertItem(0,tr("ALL"),tr("ALL"));
+  }
   if((err=cnf->listServices(&services,&records,false))!=0) {
     return err;
   }

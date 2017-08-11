@@ -97,7 +97,7 @@ MainWidget::MainWidget(QWidget *parent)
   main_service_label=new QLabel(tr("Service")+":",this);
   main_service_label->setFont(bold_font);
   main_service_label->setAlignment(Qt::AlignRight|Qt::AlignVCenter);
-  main_service_box=new ServiceBox(this);
+  main_service_box=new ServiceBox(true,this);
   if((err=main_service_box->reload())!=0) {
     QMessageBox::warning(this,tr("RDLogEdit - Error"),
 			 tr("Error in rd_listservices() call")+
@@ -157,7 +157,7 @@ QSize MainWidget::sizeHint() const
 
 void MainWidget::addData()
 {
-  QString svcname;
+  QString svcname=main_service_box->currentText();
   QString logname;
   int err;
 
