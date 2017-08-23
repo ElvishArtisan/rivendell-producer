@@ -362,3 +362,6 @@
 2017-08-11 Fred Gleason <fredg@paravelsystems.com>
 	* Fixed a bug that permitted logs to be created with names containing
 	spaces.
+2017-08-23 Fred Gleason <fredg@paravelsystems.com>
+	* Fixed a bug in rdlogeditb(1) that caused insertion of new meta
+	events to fail to be saved.

@@ -571,6 +571,7 @@ void EditLogDialog::insertMetaData()
 	    GetStartTimes(s->selectedRows()[0].row()))) {
       ll->setId(GetNextId());
       edit_log_model->insert(s->selectedRows()[0].row(),ll);
+      SetModified(true);
     }
   }
 }

@@ -435,7 +435,6 @@ bool Log::save(const QString &name,QString *err_msg)
     strncpy(ll[i].logline_ext_event_id,at(i).extEventId().toUtf8(),32);
     strncpy(ll[i].logline_ext_annc_type,at(i).extAnncType().toUtf8(),8);
   }
-
   if((err=cnf->saveLog(&loghdr,ll,size(),name.toUtf8()))!=0) {
     *err_msg=QString().sprintf("RD_SaveLog() failed [code: %d]",err);
     return false;
