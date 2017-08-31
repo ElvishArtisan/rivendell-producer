@@ -54,10 +54,11 @@ MainWidget::MainWidget(QWidget *parent)
   // Configuration
   //
 #ifdef MME
-  cnf=new Config(":/rdlogeditb-splashscreen.bmp",this);
+  cnf=new Config("rdlogeditb",":/rdlogeditb-splashscreen.bmp",this);
 #endif  // MME
 #ifdef ALSA
-  cnf=new Config("/usr/share/rivendell-producer/rdlogeditb-splashscreen.png",
+  cnf=new Config("rdlogeditb",
+		 "/usr/share/rivendell-producer/rdlogeditb-splashscreen.png",
 		 this);
 #endif  // ALSA
   cnf->load();

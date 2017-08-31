@@ -365,3 +365,5 @@
 2017-08-23 Fred Gleason <fredg@paravelsystems.com>
 	* Fixed a bug in rdlogeditb(1) that caused insertion of new meta
 	events to fail to be saved.
+2017-08-31 Fred Gleason <fredg@paravelsystems.com>
+	* Added support for the 'user_agent' field in the Rivendell-C-API.

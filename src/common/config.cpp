@@ -35,13 +35,19 @@
 
 Config *cnf; 
 
-Config::Config(const QString &splash_path,QWidget *parent)
+Config::Config(const QString &module_name,const QString &splash_path,
+	       QWidget *parent)
   : QDialog(parent,Qt::WindowStaysOnTopHint)
 {
   setWindowTitle(tr("Rivendell Login"));
   QCoreApplication::setOrganizationName("Radio Free Asia");
   QCoreApplication::setOrganizationDomain("rfa.org");
   QCoreApplication::setApplicationName("Rivendell Producer");
+
+  //
+  // HTTP User Agent
+  //
+  conf_user_agent=QString("rivendell-producer/")+VERSION+" ("+module_name+")";
 
   //
   // Splash Screen
@@ -201,7 +207,8 @@ int Config::addLog(const QString &logname,const QString &svcname)
   do {
     ret=RD_AddLog(serverHostname().toUtf8(),serverUsername().toUtf8(),
 		  serverPassword().toUtf8(),serverTicket().toUtf8(),
-		  logname.toUtf8(),svcname.toUtf8());
+		  logname.toUtf8(),svcname.toUtf8(),
+		  conf_user_agent.toUtf8());
     if(ret==0) {
       LockIdentity();
       return ret;
@@ -223,7 +230,8 @@ int Config::deleteLog(const QString &logname)
   do {
     ret=RD_DeleteLog(serverHostname().toUtf8(),serverUsername().toUtf8(),
 		     serverPassword().toUtf8(),serverTicket().toUtf8(),
-		     logname.toUtf8());
+		     logname.toUtf8(),
+		     conf_user_agent.toUtf8());
     if(ret==0) {
       LockIdentity();
       return ret;
@@ -246,7 +254,7 @@ bool Config::listCart(struct rd_cart **cart,const unsigned cartnum)
   do {
     ret=RD_ListCart(cart,serverHostname().toUtf8(),serverUsername().toUtf8(),
 		    serverPassword().toUtf8(),serverTicket().toUtf8(),
-		    cartnum,&numrecs);
+		    cartnum,conf_user_agent.toUtf8(),&numrecs);
     if(ret==0) {
       LockIdentity();
       return true;
@@ -270,7 +278,8 @@ int Config::listCarts(struct rd_cart **carts,unsigned *numrecs,
   do {
     ret=RD_ListCarts(carts,serverHostname().toUtf8(),serverUsername().toUtf8(),
 		     serverPassword().toUtf8(),serverTicket().toUtf8(),
-		     grp_name.toUtf8(),filter.toUtf8(),type.toUtf8(),numrecs);
+		     grp_name.toUtf8(),filter.toUtf8(),type.toUtf8(),
+		     conf_user_agent.toUtf8(),numrecs);
     if(ret==0) {
       LockIdentity();
       return ret;
@@ -293,7 +302,7 @@ int Config::listCuts(struct rd_cut **cuts,const unsigned cartnum,
   do {
     ret=RD_ListCuts(cuts,serverHostname().toUtf8(),serverUsername().toUtf8(),
 		    serverPassword().toUtf8(),serverTicket().toUtf8(),
-		    cartnum,numrecs);
+		    cartnum,conf_user_agent.toUtf8(),numrecs);
     if(ret==0) {
       LockIdentity();
       return ret;
@@ -316,7 +325,7 @@ int Config::listCut(struct rd_cut **cuts,const unsigned cartnum,
   do {
     ret=RD_ListCut(cuts,serverHostname().toUtf8(),serverUsername().toUtf8(),
 		   serverPassword().toUtf8(),serverTicket().toUtf8(),
-		   cartnum,cutnum,numrecs);
+		   cartnum,cutnum,conf_user_agent.toUtf8(),numrecs);
     if(ret==0) {
       LockIdentity();
       return ret;
@@ -338,7 +347,7 @@ int Config::listGroups(struct rd_group **grps,unsigned *numrecs)
   do {
     ret=RD_ListGroups(grps,serverHostname().toUtf8(),serverUsername().toUtf8(),
 		      serverPassword().toUtf8(),serverTicket().toUtf8(),
-		      numrecs);
+		      conf_user_agent.toUtf8(),numrecs);
     if(ret==0) {
       LockIdentity();
       return ret;
@@ -361,7 +370,7 @@ int Config::listLog(struct rd_logline **lines,unsigned *numrecs,
   do {
     ret=RD_ListLog(lines,serverHostname().toUtf8(),serverUsername().toUtf8(),
 		   serverPassword().toUtf8(),serverTicket().toUtf8(),
-		   logname.toUtf8(),numrecs);
+		   logname.toUtf8(),conf_user_agent.toUtf8(),numrecs);
     if(ret==0) {
       LockIdentity();
       return ret;
@@ -385,7 +394,8 @@ int Config::listLogs(struct rd_log **logs,unsigned *numrecs,
   do {
     ret=RD_ListLogs(logs,serverHostname().toUtf8(),serverUsername().toUtf8(),
 		    serverPassword().toUtf8(),serverTicket().toUtf8(),
-		    logname.toUtf8(),svcname.toUtf8(),trackable,numrecs);
+		    logname.toUtf8(),svcname.toUtf8(),trackable,
+		    conf_user_agent.toUtf8(),numrecs);
     if(ret==0) {
       LockIdentity();
       return ret;
@@ -409,7 +419,7 @@ int Config::listServices(struct rd_service **svcs,unsigned *numrecs,
     ret=RD_ListServices(svcs,serverHostname().toUtf8(),
 			serverUsername().toUtf8(),
 			serverPassword().toUtf8(),serverTicket().toUtf8(),
-			trackable,numrecs);
+			trackable,conf_user_agent.toUtf8(),numrecs);
     if(ret==0) {
       LockIdentity();
       return ret;
@@ -433,7 +443,8 @@ int Config::saveLog(struct save_loghdr_values *hdr,
   do {
     ret=RD_SaveLog(hdr,lines,numrecs,serverHostname().toUtf8(),
 		   serverUsername().toUtf8(),serverPassword().toUtf8(),
-		   serverTicket().toUtf8(),logname.toUtf8());
+		   serverTicket().toUtf8(),logname.toUtf8(),
+		   conf_user_agent.toUtf8());
     if(ret==0) {
       LockIdentity();
       return ret;
@@ -558,7 +569,7 @@ void Config::okData()
   int err=0;
   if((err=RD_CreateTicket(&tktinfo,serverHostname().toUtf8(),
 			  serverUsername().toUtf8(),serverPassword().toUtf8(),
-			  &records))!=0) {
+			  conf_user_agent.toUtf8(),&records))!=0) {
     if(err==403) {
       QMessageBox::warning(this,tr("Rivendell Login"),
 			   tr("Incorrect Username or Password."));

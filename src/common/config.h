@@ -60,7 +60,8 @@ class Config : public QDialog
 {
   Q_OBJECT;
  public:
-  Config(const QString &splash_path,QWidget *parent=0);
+  Config(const QString &module_name,const QString &splash_path,
+	 QWidget *parent=0);
   QSize sizeHint() const;
   QSplashScreen *splashScreen() const;
   QString serverHostname() const;
@@ -124,6 +125,7 @@ class Config : public QDialog
   QPushButton *conf_quit_button;
   QString conf_audio_device_name;
   bool conf_ui_include_all_group;
+  QString conf_user_agent;
 };
 
 extern Config *cnf; 
