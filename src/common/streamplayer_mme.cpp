@@ -356,6 +356,8 @@ void *__StreamPlayerMme_CurlThread(void *priv)
   curl_easy_setopt(curl,CURLOPT_WRITEFUNCTION,
 		   __StreamPlayerMme_CurlWriteCallback);
   curl_easy_setopt(curl,CURLOPT_WRITEDATA,dev);
+  curl_easy_setopt(curl,CURLOPT_USERAGENT,
+		   (const char *)dev->config()->userAgent().toUtf8());
   curl_easy_setopt(curl,CURLOPT_NOPROGRESS,1);
 
   if((curl_code=curl_easy_perform(curl))!=CURLE_OK) {
