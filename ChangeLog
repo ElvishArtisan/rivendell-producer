@@ -367,3 +367,6 @@
 	events to fail to be saved.
 2017-08-31 Fred Gleason <fredg@paravelsystems.com>
 	* Added support for the 'user_agent' field in the Rivendell-C-API.
+2017-09-01 Fred Gleason <fredg@paravelsystems.com>
+	* Added support for the 'user_agent' field for direct GET http calls
+	from the ALSA stream player.

@@ -78,6 +78,7 @@ class Config : public QDialog
   void setAudioDeviceName(const QString &str);
   bool uiIncludeAllGroup() const;
   void setUiIncludeAllGroup(bool state);
+  QString userAgent() const;
   int addLog(const QString &logname,const QString &svcname);
   int deleteLog(const QString &logname);
   bool listCart(struct rd_cart **cart,const unsigned cartnum);

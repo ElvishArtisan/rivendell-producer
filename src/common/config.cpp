@@ -201,6 +201,12 @@ void Config::setUiIncludeAllGroup(bool state)
 }
 
 
+QString Config::userAgent() const
+{
+  return conf_user_agent;
+}
+
+
 int Config::addLog(const QString &logname,const QString &svcname)
 {
   int ret;

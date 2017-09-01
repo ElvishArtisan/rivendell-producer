@@ -378,12 +378,12 @@ void *__StreamPlayerAlsa_CurlThread(void *priv)
 		   __StreamPlayerAlsa_CurlWriteCallback);
   curl_easy_setopt(curl,CURLOPT_WRITEDATA,dev);
   curl_easy_setopt(curl,CURLOPT_NOPROGRESS,1);
+  curl_easy_setopt(curl,CURLOPT_USERAGENT,(const char *)dev->config()->userAgent().toUtf8());
 
   if((curl_code=curl_easy_perform(curl))!=CURLE_OK) {
     switch(curl_code) {
     case CURLE_WRITE_ERROR:
       if(dev->alsa_data->pcm!=NULL) {
-	//	pthread_join(dev->alsa_data->alsa_pthread,NULL);
 	snd_pcm_close(dev->alsa_data->pcm);
 	dev->alsa_data->pcm=NULL;
 	dev->alsa_state=StreamPlayerAlsa::Stopped;
