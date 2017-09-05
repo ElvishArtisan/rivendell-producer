@@ -19,7 +19,7 @@
 ##
 ## Use automake to process this into a Makefile.in
 
-AM_CPPFLAGS = -Wall -DPREFIX=\"$(prefix)\" -Wno-strict-aliasing @QT4_CFLAGS@ @RIVCAPI_CFLAGS@
+AM_CPPFLAGS = -Wall -DPREFIX=\"$(prefix)\" -DARCH=\"@ARCH@\" -DOS=\"@OS@\" -Wno-strict-aliasing @QT4_CFLAGS@ @RIVCAPI_CFLAGS@
 MOC = @QT4_MOC@
 
 # Qt compiler dependencies

@@ -47,8 +47,13 @@ Config::Config(const QString &module_name,const QString &splash_path,
   //
   // HTTP User Agent
   //
-  conf_user_agent=QString("rivendell-producer/")+VERSION+" ("+module_name+")";
-
+#ifdef WIN32
+  conf_user_agent=QString("Mozilla/5.0 (Windows NT; Win32 ")+ARCH+") "+
+    module_name+"/"+VERSION;
+#else
+  conf_user_agent=QString("Mozilla/5.0 (X11; Linux ")+ARCH+") "+
+    module_name+"/"+VERSION;
+#endif  // WIN32
   //
   // Splash Screen
   //

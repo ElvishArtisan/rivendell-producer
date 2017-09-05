@@ -373,3 +373,6 @@
 2017-09-01 Fred Gleason <fredg@paravelsystems.com>
 	* Added support for the 'user_agent' field for direct GET http calls
 	from the MME stream player.
+2017-09-05 Fred Gleason <fredg@paravelsystems.com>
+	* Modified USER_AGENT string for Linux to include OS and architecture
+	information.
