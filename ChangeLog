@@ -379,3 +379,6 @@
 2017-09-05 Fred Gleason <fredg@paravelsystems.com>
 	* Modified USER_AGENT string for Windows to include OS and architecture
 	information.
+2017-09-05 Fred Gleason <fredg@paravelsystems.com>
+	* Modified USER_AGENT string for Linux to include OS and architecture
+	information.

@@ -52,12 +52,11 @@ Config::Config(const QString &module_name,const QString &splash_path,
     "rivendell-producer/"+VERSION+" ("+module_name+")";
 #else
   conf_user_agent=QString("Mozilla/5.0 (X11; Linux ")+ARCH+") "+
-    module_name+"/"+VERSION;
+    "rivendell-producer/"+VERSION+" ("+module_name+")";
 #endif  // WIN32
   //
   // Splash Screen
   //
-  //  QPixmap pix("/usr/share/rivendell-producer/rdlogeditb-splashscreen.png");
   conf_splash_screen=new QSplashScreen(QPixmap(splash_path));
   conf_splash_screen->show();
   conf_splash_screen->showMessage("Contacting server...",Qt::AlignRight);
