@@ -28,6 +28,8 @@
 #include <QSettings>
 
 #include <rivendell/rd_createticket.h>
+#include <rivendell/rd_getuseragent.h>
+#include <rivendell/rd_getversion.h>
 
 #include "config.h"
 #include "datetime.h"
@@ -49,10 +51,12 @@ Config::Config(const QString &module_name,const QString &splash_path,
   //
 #ifdef WIN32
   conf_user_agent=QString("Mozilla/5.0 (Windows NT; Win32; ")+ARCH+") "+
-    "rivendell-producer/"+VERSION+" ("+module_name+")";
+    "rivendell-producer/"+VERSION+" ("+module_name+") "+RD_GetUserAgent()+
+    RD_GetVersion();
 #else
   conf_user_agent=QString("Mozilla/5.0 (X11; Linux ")+ARCH+") "+
-    "rivendell-producer/"+VERSION+" ("+module_name+")";
+    "rivendell-producer/"+VERSION+" ("+module_name+") "+RD_GetUserAgent()+
+    RD_GetVersion();
 #endif  // WIN32
   //
   // Splash Screen
