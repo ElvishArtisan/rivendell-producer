@@ -384,3 +384,5 @@
 	information.
 2017-09-11 Fred Gleason <fredg@paravelsystems.com>
 	* Added a USER_AGENT entry for the Rivendell-C-API.
+2017-09-21 Fred Gleason <fredg@paravelsystems.com>
+	* Incremented the package version to 1.2.1.
