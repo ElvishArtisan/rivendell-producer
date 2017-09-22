@@ -50,9 +50,10 @@ Config::Config(const QString &module_name,const QString &splash_path,
   // HTTP User Agent
   //
 #ifdef WIN32
+  printf("VERSION: %s\n",PACKAGE_VERSION);
   conf_user_agent=QString("Mozilla/5.0 (Windows NT; Win32; ")+ARCH+") "+
-    "rivendell-producer/"+VERSION+" ("+module_name+") "+RD_GetUserAgent()+
-    RD_GetVersion();
+    "rivendell-producer/"+PACKAGE_VERSION+" ("+module_name+") "+
+    RD_GetUserAgent()+RD_GetVersion();
 #else
   conf_user_agent=QString("Mozilla/5.0 (X11; Linux ")+ARCH+") "+
     "rivendell-producer/"+VERSION+" ("+module_name+") "+RD_GetUserAgent()+
