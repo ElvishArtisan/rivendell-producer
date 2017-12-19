@@ -136,12 +136,17 @@ MainWidget::MainWidget(QWidget *parent)
   //
   main_loglist_model=new LogListModel(this);
   main_loglist_view=new TableView(this);
+  main_loglist_view->setSelectionMode(QAbstractItemView::ExtendedSelection);
   main_loglist_view->setModel(main_loglist_model);
   main_loglist_view->resizeColumnsToContents();
+  connect(main_loglist_view->selectionModel(),
+	  SIGNAL(selectionChanged(const QItemSelection &,
+				  const QItemSelection &)),
+	  this,
+	  SLOT(selectionChangedData(const QItemSelection &,
+				    const QItemSelection &)));
   connect(main_loglist_view,SIGNAL(doubleClicked(const QModelIndex &)),
 	  this,SLOT(doubleClickedData(const QModelIndex &)));
-  //  connect(main_service_box,SIGNAL(activated(const QString &)),
-  //	  main_loglist_model,SLOT(setServiceName(const QString &)));
   connect(main_service_box,SIGNAL(activated(const QString &)),
 	  this,SLOT(searchModifiedData(const QString &)));
 
@@ -157,6 +162,7 @@ MainWidget::MainWidget(QWidget *parent)
   //
   main_edit_button=new QPushButton(tr("Edit"),this);
   main_edit_button->setFont(bold_font);
+  main_edit_button->setDisabled(true);
   connect(main_edit_button,SIGNAL(clicked()),this,SLOT(editData()));
 
   //
@@ -164,6 +170,7 @@ MainWidget::MainWidget(QWidget *parent)
   //
   main_delete_button=new QPushButton(tr("Delete"),this);
   main_delete_button->setFont(bold_font);
+  main_delete_button->setDisabled(true);
   connect(main_delete_button,SIGNAL(clicked()),this,SLOT(deleteData()));
 
   //
@@ -223,6 +230,15 @@ void MainWidget::editData()
 }
 
 
+void MainWidget::selectionChangedData(const QItemSelection &selected,
+				      const QItemSelection &dselected)
+{
+  QItemSelectionModel *s=main_loglist_view->selectionModel();
+  main_edit_button->setEnabled(s->selectedRows().size()==1);
+  main_delete_button->setEnabled(s->selectedRows().size()>0);
+}
+
+
 void MainWidget::doubleClickedData(const QModelIndex &index)
 {
   editData();
@@ -233,7 +249,7 @@ void MainWidget::deleteData()
 {
   int err;
   QItemSelectionModel *s=main_loglist_view->selectionModel();
-  if(s->hasSelection()) {
+  if(s->selectedRows().size()==1) {
     QString logname=main_loglist_model->logName(s->selectedRows()[0].row());
     if(QMessageBox::question(this,"RDLogEdit - Delete Log",
 			     tr("Are you sure you want to delete the")+
@@ -241,15 +257,26 @@ void MainWidget::deleteData()
 			     QMessageBox::Yes,QMessageBox::No)!=QMessageBox::Yes) {
       return;
     }
-    if((err=cnf->deleteLog(logname))!=0) {
-      QMessageBox::critical(this,"RDLogEdit - Delete Log",
-			    tr("Unable to delete log")+" ["+tr("error code")+
-			    QString().sprintf(": %d",err));
+  }
+  else {
+    if(QMessageBox::question(this,"RDLogEdit - Delete Log",
+			     tr("Are you sure you want to delete these logs?"),
+			     QMessageBox::Yes,QMessageBox::No)!=QMessageBox::Yes) {
       return;
     }
-    main_loglist_model->
-      update(main_filter_edit->text(),main_recent_check->isChecked());
   }
+  QModelIndexList indices=s->selectedRows();
+  for(int i=0;i<indices.size();i++) {
+    QString logname=main_loglist_model->logName(indices.at(i).row());
+    if((err=cnf->deleteLog(logname))!=0) {
+      QMessageBox::critical(this,"RDLogEdit - Delete Log",
+			    tr("Unable to delete log")+"\""+logname+
+			    "\" ["+tr("error code")+
+			    QString().sprintf(": %d",err));
+    }
+  }
+  main_loglist_model->
+    update(main_filter_edit->text(),main_recent_check->isChecked());
 }
 
 

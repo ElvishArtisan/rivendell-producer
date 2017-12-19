@@ -49,6 +49,8 @@ class MainWidget : public QMainWindow
  private slots:
   void addData();
   void editData();
+  void selectionChangedData(const QItemSelection &selected,
+			    const QItemSelection &dselected);
   void doubleClickedData(const QModelIndex &index);
   void deleteData();
   void searchData();

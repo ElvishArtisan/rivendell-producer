@@ -391,3 +391,5 @@
 	string to mis-report the version number under Windows.
 2017-12-19 Fred Gleason <fredg@paravelsystems.com>
 	* Added filter controls to rdlogeditb(1).
+2017-12-19 Fred Gleason <fredg@paravelsystems.com>
+	* Enabled deletion of multiple logs in rdlogeditb(1).
