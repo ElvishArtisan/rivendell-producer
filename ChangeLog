@@ -389,3 +389,5 @@
 2017-09-22 Fred Gleason <fredg@paravelsystems.com>
 	* Fixed a bug in 'src/common/config.cpp' that caused the USER_AGENT
 	string to mis-report the version number under Windows.
+2017-12-19 Fred Gleason <fredg@paravelsystems.com>
+	* Added filter controls to rdlogeditb(1).

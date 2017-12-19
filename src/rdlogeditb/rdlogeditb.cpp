@@ -107,6 +107,31 @@ MainWidget::MainWidget(QWidget *parent)
   }
 
   //
+  // Filter
+  //
+  main_filter_label=new QLabel(tr("Filter"),this);
+  main_filter_label->setFont(bold_font);
+  main_filter_label->setAlignment(Qt::AlignRight|Qt::AlignVCenter);
+  main_filter_edit=new QLineEdit(this);
+  connect(main_filter_edit,SIGNAL(returnPressed()),this,SLOT(searchData()));
+  connect(main_filter_edit,SIGNAL(textChanged(const QString &)),
+	  this,SLOT(searchModifiedData(const QString &)));
+  main_search_button=new QPushButton(tr("Search"),this);
+  main_search_button->setFont(bold_font);
+  main_search_button->setDisabled(true);
+  connect(main_search_button,SIGNAL(clicked()),this,SLOT(searchData()));
+  main_clear_button=new QPushButton(tr("Clear"),this);
+  main_clear_button->setFont(bold_font);
+  main_clear_button->setDisabled(true);
+  connect(main_clear_button,SIGNAL(clicked()),this,SLOT(clearData()));
+  main_recent_check=new QCheckBox(this);
+  connect(main_recent_check,SIGNAL(toggled(bool)),
+	  this,SLOT(searchModifiedData(bool)));
+  main_recent_label=new QLabel(tr("Show Only Recent Logs"),this);
+  main_recent_label->setFont(bold_font);
+  main_recent_label->setAlignment(Qt::AlignLeft|Qt::AlignVCenter);
+
+  //
   // Log List
   //
   main_loglist_model=new LogListModel(this);
@@ -115,8 +140,10 @@ MainWidget::MainWidget(QWidget *parent)
   main_loglist_view->resizeColumnsToContents();
   connect(main_loglist_view,SIGNAL(doubleClicked(const QModelIndex &)),
 	  this,SLOT(doubleClickedData(const QModelIndex &)));
+  //  connect(main_service_box,SIGNAL(activated(const QString &)),
+  //	  main_loglist_model,SLOT(setServiceName(const QString &)));
   connect(main_service_box,SIGNAL(activated(const QString &)),
-	  main_loglist_model,SLOT(setServiceName(const QString &)));
+	  this,SLOT(searchModifiedData(const QString &)));
 
   //
   // Add Button
@@ -170,7 +197,8 @@ void MainWidget::addData()
       return;
     }
     if(main_editlog_dialog->exec(logname)) {
-      main_loglist_model->update();
+      main_loglist_model->
+	update(main_filter_edit->text(),main_recent_check->isChecked());
       QModelIndex index=main_loglist_model->index(logname);
       main_loglist_view->selectionModel()->
 	select(main_loglist_model->index(logname),QItemSelectionModel::Rows|
@@ -189,7 +217,8 @@ void MainWidget::editData()
   if(s->hasSelection()) {
     QString logname=main_loglist_model->logName(s->selectedRows()[0].row());
     main_editlog_dialog->exec(logname);
-    main_loglist_model->update();
+    main_loglist_model->
+      update(main_filter_edit->text(),main_recent_check->isChecked());
   }
 }
 
@@ -218,8 +247,42 @@ void MainWidget::deleteData()
 			    QString().sprintf(": %d",err));
       return;
     }
-    main_loglist_model->update();
+    main_loglist_model->
+      update(main_filter_edit->text(),main_recent_check->isChecked());
   }
+}
+
+
+void MainWidget::searchData()
+{
+  QString service_name=main_service_box->currentText();
+  if(service_name==tr("ALL")) {
+    service_name="";
+  }
+  main_loglist_model->setServiceName(service_name);
+  main_loglist_model->
+    update(main_filter_edit->text(),main_recent_check->isChecked());
+  main_search_button->setDisabled(true);
+}
+
+
+void MainWidget::clearData()
+{
+  main_filter_edit->clear();
+  searchModifiedData("");
+}
+
+
+void MainWidget::searchModifiedData(const QString &str)
+{
+  searchModifiedData(false);
+  main_clear_button->setDisabled(str.isEmpty());
+}
+
+
+void MainWidget::searchModifiedData(bool state)
+{
+  main_search_button->setEnabled(true);
 }
 
 
@@ -231,10 +294,17 @@ void MainWidget::closeEvent(QCloseEvent *e)
 
 void MainWidget::resizeEvent(QResizeEvent *e)
 {
-  main_service_label->setGeometry(10,5,60,20);
-  main_service_box->setGeometry(75,5,120,20);
+  main_service_label->setGeometry(10,7,60,20);
+  main_service_box->setGeometry(75,7,120,20);
 
-  main_loglist_view->setGeometry(10,32,size().width()-20,size().height()-112);
+  main_filter_label->setGeometry(210,7,60,20);
+  main_filter_edit->setGeometry(275,7,size().width()-450,20);
+  main_search_button->setGeometry(size().width()-140,5,60,25);
+  main_clear_button->setGeometry(size().width()-70,5,60,25);
+  main_recent_check->setGeometry(275,31,15,15);
+  main_recent_label->setGeometry(295,29,size().width()-305,20);
+
+  main_loglist_view->setGeometry(10,54,size().width()-20,size().height()-134);
 
   main_add_button->setGeometry(10,size().height()-60,80,50);
   main_edit_button->setGeometry(100,size().height()-60,80,50);

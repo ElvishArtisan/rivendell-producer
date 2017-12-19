@@ -50,7 +50,6 @@ Config::Config(const QString &module_name,const QString &splash_path,
   // HTTP User Agent
   //
 #ifdef WIN32
-  printf("VERSION: %s\n",PACKAGE_VERSION);
   conf_user_agent=QString("Mozilla/5.0 (Windows NT; Win32; ")+ARCH+") "+
     "rivendell-producer/"+PACKAGE_VERSION+" ("+module_name+") "+
     RD_GetUserAgent()+RD_GetVersion();
@@ -403,14 +402,14 @@ int Config::listLog(struct rd_logline **lines,unsigned *numrecs,
 
 int Config::listLogs(struct rd_log **logs,unsigned *numrecs,
 		     const QString &logname,const QString &svcname,
-		     bool trackable)
+		     bool trackable,const QString &filter,bool recent)
 {
   int ret;
   do {
     ret=RD_ListLogs(logs,serverHostname().toUtf8(),serverUsername().toUtf8(),
 		    serverPassword().toUtf8(),serverTicket().toUtf8(),
-		    logname.toUtf8(),svcname.toUtf8(),trackable,
-		    conf_user_agent.toUtf8(),numrecs);
+		    logname.toUtf8(),svcname.toUtf8(),trackable,filter.toUtf8(),
+		    recent,conf_user_agent.toUtf8(),numrecs);
     if(ret==0) {
       LockIdentity();
       return ret;

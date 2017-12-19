@@ -93,7 +93,7 @@ class Config : public QDialog
 	      const QString &logname);
   int listLogs(struct rd_log **logs,unsigned *numrecs,
 	       const QString &logname,const QString &svcname,
-	       bool trackable);
+	       bool trackable,const QString &filter,bool recent);
   int listServices(struct rd_service **svcs,unsigned *numrecs,
 		   bool trackable);
   int saveLog(struct save_loghdr_values *hdr,struct save_logline_values *lines,

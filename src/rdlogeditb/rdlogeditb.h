@@ -24,7 +24,9 @@
 
 #include <vector>
 
+#include <QCheckBox>
 #include <QLabel>
+#include <QLineEdit>
 #include <QMainWindow>
 #include <QPushButton>
 
@@ -49,6 +51,10 @@ class MainWidget : public QMainWindow
   void editData();
   void doubleClickedData(const QModelIndex &index);
   void deleteData();
+  void searchData();
+  void clearData();
+  void searchModifiedData(const QString &str);
+  void searchModifiedData(bool state);
 
  protected:
   void closeEvent(QCloseEvent *e);
@@ -57,6 +63,12 @@ class MainWidget : public QMainWindow
  private:
   QLabel *main_service_label;
   ServiceBox *main_service_box;
+  QLabel *main_filter_label;
+  QLineEdit *main_filter_edit;
+  QPushButton *main_search_button;
+  QPushButton *main_clear_button;
+  QCheckBox *main_recent_check;
+  QLabel *main_recent_label;
   LogListModel *main_loglist_model;
   TableView *main_loglist_view;
   AddLogDialog *main_addlog_dialog;

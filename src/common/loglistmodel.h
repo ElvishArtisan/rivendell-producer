@@ -36,7 +36,7 @@ class LogListModel : public QAbstractTableModel
   QString logName(int row) const;
   QString description(int row) const;
   QModelIndex index(const QString &logname) const;
-  void update();
+  void update(const QString &filter,bool recent);
   int rowCount(const QModelIndex &parent=QModelIndex()) const;
   int columnCount(const QModelIndex &parent=QModelIndex()) const;
   QVariant data(const QModelIndex &index,int role=Qt::DisplayRole) const;
@@ -63,6 +63,8 @@ class LogListModel : public QAbstractTableModel
   QList<QVariant> model_column_alignments;
   QList<QStringList> model_column_fields;
   QStringList model_log_names;
+  QString model_filter;
+  bool model_recent;
 };
 
 

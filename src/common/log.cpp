@@ -249,7 +249,7 @@ bool Log::load(const QString &name,QString *err_msg)
   unsigned log_quan=0;
   int err=0;
 
-  if((err=cnf->listLogs(&loghdr,&log_quan,"",name,false))!=0) {
+  if((err=cnf->listLogs(&loghdr,&log_quan,"",name,false,"",false))!=0) {
     *err_msg=QString().sprintf("RD_ListLogs() failed [code: %d]",err);
     return false;
   }

@@ -886,7 +886,8 @@ void EditLogDialog::saveasData()
   QString err_str;
 
   if(edit_addlog_dialog->exec(&svcname,&logname)) {
-    if((err=cnf->listLogs(&logs,&log_quan,"",logname,false))==0) {
+    if((err=cnf->listLogs(&logs,&log_quan,edit_service_box->currentText(),
+			  logname,false,"",false))==0) {
       if(log_quan>0) {
 	if(QMessageBox::question(this,"RDLogEdit - Save As",
 				 tr("Log")+" \""+logname+"\" "+
