@@ -398,3 +398,6 @@
 2017-12-27 Fred Gleason <fredg@paravelsystems.com>
 	* Fixed a bug in rdlogeditb(1) that caused the Date Picker dialog to
 	load/save incorrect date values.
+2017-12-27 Fred Gleason <fredg@paravelsystems.com>
+	* Fixed a bug in rdlibraryb(1) and rdlogeditb(1) that caused the
+	incorrect version string to be displayed on the title bar.

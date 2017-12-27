@@ -45,7 +45,7 @@ MainWidget::MainWidget(QWidget *parent)
   //
   // Read Command Options
   //
-  CmdSwitch *cmd=new CmdSwitch("walltime-panel",VERSION,RDLOGEDITB_USAGE);
+  CmdSwitch *cmd=new CmdSwitch("walltime-panel",PACKAGE_VERSION,RDLOGEDITB_USAGE);
   for(unsigned i=0;i<cmd->keys();i++) {
   }
   delete cmd;
@@ -71,7 +71,7 @@ MainWidget::MainWidget(QWidget *parent)
   //
   // Window Title Bar
   //
-  setWindowTitle(tr("RDLogEdit Remote")+" v"+VERSION+
+  setWindowTitle(tr("RDLogEdit Remote")+" v"+PACKAGE_VERSION+
 		 " [Host: "+cnf->serverHostname()+
 		 ",User: "+cnf->serverUsername()+"]");
   setWindowIcon(QPixmap(rdlogeditb_16x16_xpm));
