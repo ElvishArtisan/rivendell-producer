@@ -42,7 +42,7 @@ DatePicker::DatePicker(int low_year,int high_year,QWidget *parent)
   pick_month_box=new QComboBox(this);
   pick_month_box->setGeometry(0,0,120,26);
   for(int i=1;i<13;i++) {
-    pick_month_box->insertItem(-1,QDate::longMonthName(i));
+    pick_month_box->insertItem(pick_month_box->count(),QDate::longMonthName(i));
   }
   connect(pick_month_box,SIGNAL(activated(int)),
 	  this,SLOT(monthActivatedData(int)));
@@ -54,7 +54,7 @@ DatePicker::DatePicker(int low_year,int high_year,QWidget *parent)
     pick_year_box=new QComboBox(this);
     pick_year_box->setGeometry(130,0,90,26);
     for(int i=low_year;i<(high_year+1);i++) {
-      pick_year_box->insertItem(-1,QString().sprintf("%04d",i));
+      pick_year_box->insertItem(pick_year_box->count(),QString().sprintf("%04d",i));
     }
     connect(pick_year_box,SIGNAL(activated(int)),
 	    this,SLOT(yearActivatedData(int)));
@@ -169,6 +169,7 @@ bool DatePicker::setDate(QDate date)
     return false;
   }
   pick_date=date;
+
   pick_month_box->setCurrentIndex(date.month()-1);
   if(pick_year_box!=NULL) {
     pick_year_box->setCurrentIndex(date.year()-pick_low_year);

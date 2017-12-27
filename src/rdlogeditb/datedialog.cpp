@@ -92,11 +92,11 @@ int DateDialog::exec(QDate *date)
 void DateDialog::okData()
 {
   *date_date=date_picker->date();
-  done(0);
+  done(true);
 }
 
 
 void DateDialog::cancelData()
 {
-  done(-1);
+  done(false);
 }

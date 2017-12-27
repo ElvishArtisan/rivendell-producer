@@ -395,3 +395,6 @@
 	* Enabled deletion of multiple logs in rdlogeditb(1).
 2017-12-19 Fred Gleason <fredg@paravelsystems.com>
 	* Incremented the package version to 1.3.0.
+2017-12-27 Fred Gleason <fredg@paravelsystems.com>
+	* Fixed a bug in rdlogeditb(1) that caused the Date Picker dialog to
+	load/save incorrect date values.
