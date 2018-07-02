@@ -403,3 +403,6 @@
 	incorrect version string to be displayed on the title bar.
 2017-12-27 Fred Gleason <fredg@paravelsystems.com>
 	* Incremented the package version to 1.3.1.
+2018-07-02 Fred Gleason <fredg@paravelsystems.com>
+	* Fixed a race that caused segfaults when stopping audio playout
+	under ALSA.

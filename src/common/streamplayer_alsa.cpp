@@ -250,7 +250,6 @@ void *__StreamPlayerAlsa_AlsaCallback(void *priv)
   //
   // Clean up
   //
-  snd_pcm_drain(alsa_data->pcm);
   delete pcm;
   delete pcm16;
   delete pcm24;
