@@ -42,5 +42,6 @@ Environmental Variables for Cross-compiling for Windows
 export MINGW32_SYS_ROOT=/usr/i686-w64-mingw32/sys-root/mingw
 export PKG_CONFIG_PATH=$MINGW32_SYS_ROOT/lib/pkgconfig
 
+export CC=i686-w64-mingw32-gcc
 export CXX=i686-w64-mingw32-g++
 export WINDRES=i686-w64-mingw32-windres
