@@ -27,9 +27,9 @@
 #include <QMessageBox>
 #include <QSettings>
 
-#include <rivendell/rd_createticket.h>
-#include <rivendell/rd_getuseragent.h>
-#include <rivendell/rd_getversion.h>
+#include <rivwebcapi/rd_createticket.h>
+#include <rivwebcapi/rd_getuseragent.h>
+#include <rivwebcapi/rd_getversion.h>
 
 #include "config.h"
 #include "datetime.h"

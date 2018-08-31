@@ -19,7 +19,7 @@
 ##
 ## Use automake to process this into a Makefile.in
 
-AM_CPPFLAGS = -Wall -DPREFIX=\"$(prefix)\" -DARCH=\"@ARCH@\" -DOS=\"@OS@\" -Wno-strict-aliasing @QT4_CFLAGS@ @RIVCAPI_CFLAGS@ @CURL_CFLAGS@ @SRC_CFLAGS@ @ALSA_CFLAGS@
+AM_CPPFLAGS = -Wall -DPREFIX=\"$(prefix)\" -DARCH=\"@ARCH@\" -DOS=\"@OS@\" -Wno-strict-aliasing @QT4_CFLAGS@ @RIVWEBCAPI_CFLAGS@ @CURL_CFLAGS@ @SRC_CFLAGS@ @ALSA_CFLAGS@
 MOC = @QT4_MOC@
 
 # Qt compiler dependencies
@@ -68,7 +68,7 @@ nodist_rdlibraryb_SOURCES = cartfilterwidget.cpp cartfilterwidget.h\
 
 EXTRA_rdlibraryb_DEPENDENCIES = @RESOURCES@
 
-rdlibraryb_LDADD = @QT4_LIBS@ @RIVCAPI_LIBS@ @CURL_LIBS@ @SRC_LIBS@ @MAD_LIBS@ @ALSA_LIBS@ @MME_LIBS@ -lexpat @RESOURCES@ -lpthread
+rdlibraryb_LDADD = @QT4_LIBS@ @RIVWEBCAPI_LIBS@ @CURL_LIBS@ @SRC_LIBS@ @MAD_LIBS@ @ALSA_LIBS@ @MME_LIBS@ -lexpat @RESOURCES@ -lpthread
 rdlibraryb_LDFLAGS = @LDFLAGS@
 
 EXTRA_DIST = bitmaps.qrc\

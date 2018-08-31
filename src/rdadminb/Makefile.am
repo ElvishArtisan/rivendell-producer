@@ -19,7 +19,7 @@
 ##
 ## Use automake to process this into a Makefile.in
 
-AM_CPPFLAGS = -Wall -DPREFIX=\"$(prefix)\" -DARCH=\"@ARCH@\" -DOS=\"@OS@\" -Wno-strict-aliasing @QT4_CFLAGS@ @RIVCAPI_CFLAGS@
+AM_CPPFLAGS = -Wall -DPREFIX=\"$(prefix)\" -DARCH=\"@ARCH@\" -DOS=\"@OS@\" -Wno-strict-aliasing @QT4_CFLAGS@ @RIVWEBCAPI_CFLAGS@
 MOC = @QT4_MOC@
 
 # Qt compiler dependencies
@@ -48,7 +48,7 @@ nodist_rdadminb_SOURCES = cmdswitch.cpp cmdswitch.h\
 
 EXTRA_rdadminb_DEPENDENCIES = @RESOURCES@
 
-rdadminb_LDADD = @QT4_LIBS@ @RIVCAPI_LIBS@ @MME_LIBS@ -lexpat @RESOURCES@ -lpthread
+rdadminb_LDADD = @QT4_LIBS@ @RIVWEBCAPI_LIBS@ @MME_LIBS@ -lexpat @RESOURCES@ -lpthread
 rdadminb_LDFLAGS = @LDFLAGS@
 
 EXTRA_DIST = bitmaps.qrc\
