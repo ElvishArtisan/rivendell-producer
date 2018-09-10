@@ -32,17 +32,17 @@
 #include <QSplashScreen>
 #include <QString>
 
-#include <rivendell/rd_addlog.h>
-#include <rivendell/rd_deletelog.h>
-#include <rivendell/rd_listcart.h>
-#include <rivendell/rd_listcarts.h>
-#include <rivendell/rd_listcut.h>
-#include <rivendell/rd_listcuts.h>
-#include <rivendell/rd_listgroups.h>
-#include <rivendell/rd_listlog.h>
-#include <rivendell/rd_listlogs.h>
-#include <rivendell/rd_listservices.h>
-#include <rivendell/rd_savelog.h>
+#include <rivwebcapi/rd_addlog.h>
+#include <rivwebcapi/rd_deletelog.h>
+#include <rivwebcapi/rd_listcart.h>
+#include <rivwebcapi/rd_listcarts.h>
+#include <rivwebcapi/rd_listcut.h>
+#include <rivwebcapi/rd_listcuts.h>
+#include <rivwebcapi/rd_listgroups.h>
+#include <rivwebcapi/rd_listlog.h>
+#include <rivwebcapi/rd_listlogs.h>
+#include <rivwebcapi/rd_listservices.h>
+#include <rivwebcapi/rd_savelog.h>
 
 #define DEFAULT_CONF_FILE QString("/etc/rivendell-producer.conf")
 #define DEFAULT_SERVER_HOSTNAME "172.30.5.133"

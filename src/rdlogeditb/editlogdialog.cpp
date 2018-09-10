@@ -383,7 +383,8 @@ int EditLogDialog::exec(const QString &logname)
   edit_origin_label->setText(edit_log_model->originUsername()+" - "+
 			     edit_log_model->originDateTime().
 			     toString("MM/dd/yyyy - hh:mm:ss"));
-  edit_description_edit->setText(edit_log_model->description());
+  edit_description_edit->
+    setText(edit_log_model->description());
   if(edit_log_model->purgeDate().isValid()) {
     edit_logdelete_edit->setDate(edit_log_model->purgeDate());
     edit_logdelete_label->setEnabled(true);

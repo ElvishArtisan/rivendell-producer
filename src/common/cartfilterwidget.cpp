@@ -74,7 +74,8 @@ CartFilterWidget::CartFilterWidget(QWidget *parent)
   }
   for(unsigned i=0;i<records;i++) {
     main_group_box->
-      insertItem(main_group_box->count(),groups[i].grp_name,groups[i].grp_name);
+      insertItem(main_group_box->count(),QString::fromUtf8(groups[i].grp_name),
+		 QString::fromUtf8(groups[i].grp_name));
   }
   connect(main_group_box,SIGNAL(activated(int)),
 	  this,SLOT(groupChangedData(int)));

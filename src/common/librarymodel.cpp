@@ -221,18 +221,29 @@ void LibraryModel::update(const QString &filter,const QString &grp_name,
 	  push_back(QString().sprintf("%u",carts[i].cart_type));
 	model_column_fields.back().
 	  push_back(QString().sprintf("%06u",carts[i].cart_number));
-	model_column_fields.back().push_back(carts[i].cart_grp_name);
+	model_column_fields.back().
+	  push_back(QString::fromUtf8(carts[i].cart_grp_name));
 	model_column_fields.back().push_back(GetLength(&carts[i]));
-	model_column_fields.back().push_back(carts[i].cart_title);
-	model_column_fields.back().push_back(carts[i].cart_artist);
-	model_column_fields.back().push_back(carts[i].cart_album);
-	model_column_fields.back().push_back(carts[i].cart_label);
-	model_column_fields.back().push_back(carts[i].cart_composer);
-	model_column_fields.back().push_back(carts[i].cart_conductor);
-	model_column_fields.back().push_back(carts[i].cart_publisher);
-	model_column_fields.back().push_back(carts[i].cart_client);
-	model_column_fields.back().push_back(carts[i].cart_agency);
-	model_column_fields.back().push_back(carts[i].cart_user_defined);
+	model_column_fields.back().
+	  push_back(QString::fromUtf8(carts[i].cart_title));
+	model_column_fields.back().
+	  push_back(QString::fromUtf8(carts[i].cart_artist));
+	model_column_fields.back().
+	  push_back(QString::fromUtf8(carts[i].cart_album));
+	model_column_fields.back().
+	  push_back(QString::fromUtf8(carts[i].cart_label));
+	model_column_fields.
+	  back().push_back(QString::fromUtf8(carts[i].cart_composer));
+	model_column_fields.
+	  back().push_back(QString::fromUtf8(carts[i].cart_conductor));
+	model_column_fields.
+	  back().push_back(QString::fromUtf8(carts[i].cart_publisher));
+	model_column_fields.
+	  back().push_back(QString::fromUtf8(carts[i].cart_client));
+	model_column_fields.
+	  back().push_back(QString::fromUtf8(carts[i].cart_agency));
+	model_column_fields.
+	  back().push_back(QString::fromUtf8(carts[i].cart_user_defined));
       }
       endInsertRows();
     }

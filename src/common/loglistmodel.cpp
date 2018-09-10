@@ -1,8 +1,8 @@
 // loglistmodel.cpp
 //
-// Remote data model for the Rivendell Library
+// Remote data model for Rivendell Logs
 //
-//   (C) Copyright 2016 Fred Gleason <fredg@paravelsystems.com>
+//   (C) Copyright 2016-2018 Fred Gleason <fredg@paravelsystems.com>
 //
 //   This program is free software; you can redistribute it and/or modify
 //   it under the terms of the GNU General Public License as
@@ -128,13 +128,16 @@ void LogListModel::update(const QString &filter,bool recent)
     if(numrecs>0) {
       beginInsertRows(QModelIndex(),0,numrecs-1);
       for(unsigned i=0;i<numrecs;i++) {
-	model_log_names.push_back(logs[i].log_name);
+	model_log_names.push_back(QString::fromUtf8(logs[i].log_name));
 	model_column_fields.push_back(QStringList());
 	model_column_fields.back().
 	  push_back(QString().sprintf("%u",LogReady(&(logs[i]))));
-	model_column_fields.back().push_back(logs[i].log_name);
-	model_column_fields.back().push_back(logs[i].log_description);
-	model_column_fields.back().push_back(logs[i].log_service);
+	model_column_fields.back().
+	  push_back(QString::fromUtf8(logs[i].log_name));
+	model_column_fields.back().
+	  push_back(QString::fromUtf8(logs[i].log_description));
+	model_column_fields.back().
+	  push_back(QString::fromUtf8(logs[i].log_service));
 	model_column_fields.back().
 	  push_back(QString().sprintf("%d",MusicLinked(&(logs[i]))));
 	model_column_fields.back().
@@ -142,31 +145,13 @@ void LogListModel::update(const QString &filter,bool recent)
 	model_column_fields.back().
 	  push_back(QString().sprintf("%d / %d",logs[i].log_completed_tracks,
 				      logs[i].log_scheduled_tracks));
-	/*
-	if(strlen(logs[i].log_startdate)==0) {
-	  model_column_fields.back().push_back(tr("Always"));
-	}
-	else {
-	*/
 	model_column_fields.back().push_back(DateTime::fromTm(logs[i].log_startdate).toString("MM-dd-yyyy"));
 	  //	}
-	/*
-	if(strlen(logs[i].log_enddate)==0) {
-	  model_column_fields.back().push_back(tr("TFN"));
-	}
-	else {
-	*/
 	model_column_fields.back().push_back(DateTime::fromTm(logs[i].log_enddate).toString("MM/dd/yyyy"));
 	  //	}
 	model_column_fields.back().
-	  push_back(QString(logs[i].log_origin_username)+" - "+
+	  push_back(QString::fromUtf8(logs[i].log_origin_username)+" - "+
 		    DateTime::fromTm(logs[i].log_origin_datetime).toString("MM/dd/yyyy - hh:mm:ss"));
-	/*
-	if(strlen(logs[i].log_link_datetime)==0) {
-	  model_column_fields.back().push_back(tr("Never"));
-	}
-	else {
-	*/
 	model_column_fields.back().push_back(DateTime::fromTm(logs[i].log_link_datetime).toString("MM/dd/yyyy - hh:mm:ss"));
 	  //	}
 	model_column_fields.back().push_back(DateTime::fromTm(logs[i].log_modified_datetime).toString("MM/dd/yyyy -- hh:mm:ss"));

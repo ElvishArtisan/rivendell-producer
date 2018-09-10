@@ -408,3 +408,6 @@
 	under ALSA.
 2018-08-30 Fred Gleason <fredg@paravelsystems.com>
 	* Updated 'INSTALL'.
+2018-09-10 Fred Gleason <fredg@paravelsystems.com>
+	* Modified build system to build against 'rivwebcapi'.
+	* Fixed bugs that caused corruption of UTF-8 strings.

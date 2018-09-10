@@ -42,8 +42,8 @@ int ServiceBox::reload()
     return err;
   }
   for(unsigned i=0;i<records;i++) {
-    insertItem(count(),services[i].service_name,
-	       QString(services[i].service_name));
+    insertItem(count(),QString::fromUtf8(services[i].service_name),
+	       QString::fromUtf8(services[i].service_name));
   }
   free(services);
   return 0;

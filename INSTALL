@@ -7,6 +7,8 @@ installed and properly configured:
 
 Qt4 Toolkit, v4.6 or later (http://www.qt.io/).
 
+Rivendell Web C API ('rivwebcapi'). Included with Rivendell 3.x.
+
 
 BUILDING
 --------
