@@ -2,7 +2,7 @@
 //
 // Remote log editor for Rivendell
 //
-//   (C) Copyright 2017 Fred Gleason <fredg@paravelsystems.com>
+//   (C) Copyright 2017-2019 Fred Gleason <fredg@paravelsystems.com>
 //
 //   This program is free software; you can redistribute it and/or modify
 //   it under the terms of the GNU General Public License as
@@ -373,7 +373,7 @@ int EditLogDialog::exec(const QString &logname)
   if(!edit_log_model->load(logname,&err_msg)) {
     QMessageBox::critical(this,tr("RDLogEdit - Error"),
 			  tr("Log load failed")+" ["+err_msg+"].");
-    return QDialog::exec();
+    return false;
   }
   edit_log_view->resizeColumnsToContents();
   edit_name_label->setText(logname);

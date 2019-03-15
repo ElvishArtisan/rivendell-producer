@@ -411,3 +411,6 @@
 2018-09-10 Fred Gleason <fredg@paravelsystems.com>
 	* Modified build system to build against 'rivwebcapi'.
 	* Fixed bugs that caused corruption of UTF-8 strings.
+2019-03-15 Fred Gleason <fredg@paravelsystems.com>
+	* Fixed a bug in rdlogeditb(1) that failed to abort the log edit
+	operation after getting an error from the 'ListLog' API call.
