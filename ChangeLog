@@ -414,3 +414,6 @@
 2019-03-15 Fred Gleason <fredg@paravelsystems.com>
 	* Fixed a bug in rdlogeditb(1) that failed to abort the log edit
 	operation after getting an error from the 'ListLog' API call.
+2019-03-15 Fred Gleason <fredg@paravelsystems.com>
+	* Fixed a bug in rdlogeditb(1) that caused corruption of log
+	names containing multibyte UTF-8 characters.
