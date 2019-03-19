@@ -2,7 +2,7 @@
 //
 // Configuration applet for rivendell-producer
 //
-//   (C) Copyright 2016 Fred Gleason <fredg@paravelsystems.com>
+//   (C) Copyright 2016-2019 Fred Gleason <fredg@paravelsystems.com>
 //
 //   This program is free software; you can redistribute it and/or modify
 //   it under the terms of the GNU General Public License as
@@ -28,6 +28,7 @@
 #include <mmsystem.h>
 #endif  // MME
 
+#include "cmdswitch.h"
 #include "rdadminb.h"
 
 #include "../../icons/rdadminb-16x16.xpm"
@@ -35,6 +36,14 @@
 MainWidget::MainWidget(QWidget *parent)
   : QMainWindow(parent)
 {
+  //
+  // Read Command Options
+  //
+ CmdSwitch *cmd=new CmdSwitch("rdadminb",PACKAGE_VERSION,RDADMINB_USAGE);
+  for(unsigned i=0;i<cmd->keys();i++) {
+  }
+  delete cmd;
+
   admin_config=new Config("rdadminb","",this);
   admin_config->load(false);
 

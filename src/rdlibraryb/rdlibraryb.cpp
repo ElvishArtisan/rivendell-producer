@@ -2,7 +2,7 @@
 //
 // Remote cart browser for Rivendell
 //
-//   (C) Copyright 2016 Fred Gleason <fredg@paravelsystems.com>
+//   (C) Copyright 2016-2019 Fred Gleason <fredg@paravelsystems.com>
 //
 //   This program is free software; you can redistribute it and/or modify
 //   it under the terms of the GNU General Public License as
@@ -43,7 +43,7 @@ MainWidget::MainWidget(QWidget *parent)
   //
   // Read Command Options
   //
-  CmdSwitch *cmd=new CmdSwitch("walltime-panel",PACKAGE_VERSION,RDLIBRARYB_USAGE);
+  CmdSwitch *cmd=new CmdSwitch("rdlibraryb",PACKAGE_VERSION,RDLIBRARYB_USAGE);
   for(unsigned i=0;i<cmd->keys();i++) {
   }
   delete cmd;

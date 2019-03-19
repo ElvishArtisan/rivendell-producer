@@ -2,7 +2,7 @@
 //
 // Configuration applet for rivendell-producer
 //
-//   (C) Copyright 2016 Fred Gleason <fredg@paravelsystems.com>
+//   (C) Copyright 2016-2019 Fred Gleason <fredg@paravelsystems.com>
 //
 //   This program is free software; you can redistribute it and/or modify
 //   it under the terms of the GNU General Public License as
@@ -32,6 +32,8 @@
 
 #include "combobox.h"
 #include "config.h"
+
+#define RDADMINB_USAGE "\n"
 
 class MainWidget : public QMainWindow
 {

@@ -417,3 +417,8 @@
 2019-03-15 Fred Gleason <fredg@paravelsystems.com>
 	* Fixed a bug in rdlogeditb(1) that caused corruption of log
 	names containing multibyte UTF-8 characters.
+2019-03-19 Fred Gleason <fredg@paravelsystems.com>
+	* Fixed incorrect program names returned by the '--help' and
+	'--versions' switches in rdlibraryb(1) and rdlogeditb(1).
+	* Added support for the '--help' and '--version' switches to
+	rdadminb(1).
