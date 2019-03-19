@@ -101,6 +101,12 @@ class Config : public QDialog
   bool load(bool use_env=true);
   bool save();
 
+ signals:
+  void serverLoginUpdated();
+
+ public slots:
+  int exec();
+
  private slots:
   void okData();
   void quitData();

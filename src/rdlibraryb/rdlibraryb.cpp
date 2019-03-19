@@ -78,9 +78,7 @@ MainWidget::MainWidget(QWidget *parent)
   //
   // Window Title Bar
   //
-  setWindowTitle(tr("RDLibrary Remote")+" v"+PACKAGE_VERSION+
-		 " [Host: "+cnf->serverHostname()+
-		 ",User: "+cnf->serverUsername()+"]");
+  connect(cnf,SIGNAL(serverLoginUpdated()),this,SLOT(serverLoginUpdatedData()));
   setWindowIcon(QPixmap(rdlibraryb_16x16_xpm));
 
   //
@@ -143,6 +141,14 @@ MainWidget::MainWidget(QWidget *parent)
 QSize MainWidget::sizeHint() const
 {
   return QSize(800,600);
+}
+
+
+void MainWidget::serverLoginUpdatedData()
+{
+  setWindowTitle(tr("RDLibrary Remote")+" v"+PACKAGE_VERSION+
+		 " [Host: "+cnf->serverHostname()+
+		 ",User: "+cnf->serverUsername()+"]");
 }
 
 

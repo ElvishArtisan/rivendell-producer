@@ -44,6 +44,7 @@ class MainWidget : public QMainWindow
   QSize sizeHint() const;
 
  private slots:
+  void serverLoginUpdatedData();
   void cartClickedData(const QModelIndex &index);
   void playData();
   void stopData();

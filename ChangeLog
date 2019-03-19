@@ -422,3 +422,7 @@
 	'--versions' switches in rdlibraryb(1) and rdlogeditb(1).
 	* Added support for the '--help' and '--version' switches to
 	rdadminb(1).
+2019-03-19 Fred Gleason <fredg@paravelsystems.com>
+	* Fixed a bug in rdlibraryb(1) and rdlogeditb(1) that caused
+	the title bar of the main window to display the default host and
+	user name rather than the values actually used for the login.

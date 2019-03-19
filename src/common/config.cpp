@@ -576,6 +576,16 @@ bool Config::save()
 }
 
 
+int Config::exec()
+{
+  if(QDialog::exec()) {
+    emit serverLoginUpdated();
+    return true;
+  }
+  return false;
+}
+
+
 void Config::okData()
 {
   struct rd_ticketinfo *tktinfo=NULL;
