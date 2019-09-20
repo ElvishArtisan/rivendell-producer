@@ -47,3 +47,13 @@ export PKG_CONFIG_PATH=$MINGW32_SYS_ROOT/lib/pkgconfig
 export CC=i686-w64-mingw32-gcc
 export CXX=i686-w64-mingw32-g++
 export WINDRES=i686-w64-mingw32-windres
+
+Then, build the windows binaries as follows:
+
+      ./autogen.sh
+      ./configure --prefix=$MINGW32_SYS_ROOT --host=i686-w64-mingw32
+      make
+
+An NISI-based installation package can be built by doing:
+
+   make nsis-installer
