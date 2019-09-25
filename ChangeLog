@@ -428,3 +428,5 @@
 	user name rather than the values actually used for the login.
 2019-09-20 Fred Gleason <fredg@paravelsystems.com>
 	* Updated 'INSTALL'.
+2019-09-25 Fred Gleason <fredg@paravelsystems.com>
+	* Incremented the package version to 1.3.2.
