@@ -47,7 +47,7 @@ class MainWidget : public QMainWindow
   QSize sizeHint() const;
 
  private slots:
-  void serverLoginUpdatedData();
+  void serverLoginUpdatedData(const QString &username);
   void addData();
   void editData();
   void selectionChangedData(const QItemSelection &selected,

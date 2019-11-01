@@ -102,7 +102,7 @@ class Config : public QDialog
   bool save();
 
  signals:
-  void serverLoginUpdated();
+  void serverLoginUpdated(const QString &username);
 
  public slots:
   int exec();

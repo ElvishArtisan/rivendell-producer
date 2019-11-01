@@ -225,6 +225,7 @@ int Config::addLog(const QString &logname,const QString &svcname)
 		  conf_user_agent.toUtf8());
     if(ret==0) {
       LockIdentity();
+      emit serverLoginUpdated("");
       return ret;
     }
     if((ret==403)||(ret==-1)) {
@@ -248,6 +249,7 @@ int Config::deleteLog(const QString &logname)
 		     conf_user_agent.toUtf8());
     if(ret==0) {
       LockIdentity();
+      emit serverLoginUpdated("");
       return ret;
     }
     if((ret==403)||(ret==-1)) {
@@ -271,6 +273,7 @@ bool Config::listCart(struct rd_cart **cart,const unsigned cartnum)
 		    cartnum,conf_user_agent.toUtf8(),&numrecs);
     if(ret==0) {
       LockIdentity();
+      emit serverLoginUpdated("");
       return true;
     }
     if((ret==403)||(ret==-1)) {
@@ -296,6 +299,7 @@ int Config::listCarts(struct rd_cart **carts,unsigned *numrecs,
 		     conf_user_agent.toUtf8(),numrecs);
     if(ret==0) {
       LockIdentity();
+      emit serverLoginUpdated("");
       return ret;
     }
     if((ret==403)||(ret==-1)) {
@@ -319,6 +323,7 @@ int Config::listCuts(struct rd_cut **cuts,const unsigned cartnum,
 		    cartnum,conf_user_agent.toUtf8(),numrecs);
     if(ret==0) {
       LockIdentity();
+      emit serverLoginUpdated("");
       return ret;
     }
     if((ret==403)||(ret==-1)) {
@@ -342,6 +347,7 @@ int Config::listCut(struct rd_cut **cuts,const unsigned cartnum,
 		   cartnum,cutnum,conf_user_agent.toUtf8(),numrecs);
     if(ret==0) {
       LockIdentity();
+      emit serverLoginUpdated("");
       return ret;
     }
     if((ret==403)||(ret==-1)) {
@@ -364,6 +370,7 @@ int Config::listGroups(struct rd_group **grps,unsigned *numrecs)
 		      conf_user_agent.toUtf8(),numrecs);
     if(ret==0) {
       LockIdentity();
+      emit serverLoginUpdated("");
       return ret;
     }
     if((ret==403)||(ret==-1)) {
@@ -387,6 +394,7 @@ int Config::listLog(struct rd_logline **lines,unsigned *numrecs,
 		   logname.toUtf8(),conf_user_agent.toUtf8(),numrecs);
     if(ret==0) {
       LockIdentity();
+      emit serverLoginUpdated("");
       return ret;
     }
     if((ret==403)||(ret==-1)) {
@@ -412,6 +420,7 @@ int Config::listLogs(struct rd_log **logs,unsigned *numrecs,
 		    recent,conf_user_agent.toUtf8(),numrecs);
     if(ret==0) {
       LockIdentity();
+      emit serverLoginUpdated("");
       return ret;
     }
     if((ret==403)||(ret==-1)) {
@@ -436,6 +445,7 @@ int Config::listServices(struct rd_service **svcs,unsigned *numrecs,
 			trackable,conf_user_agent.toUtf8(),numrecs);
     if(ret==0) {
       LockIdentity();
+      emit serverLoginUpdated("");
       return ret;
     }
     if((ret==403)||(ret==-1)) {
@@ -461,6 +471,7 @@ int Config::saveLog(struct save_loghdr_values *hdr,
 		   conf_user_agent.toUtf8());
     if(ret==0) {
       LockIdentity();
+      emit serverLoginUpdated("");
       return ret;
     }
     if((ret==403)||(ret==-1)) {
@@ -579,7 +590,7 @@ bool Config::save()
 int Config::exec()
 {
   if(QDialog::exec()) {
-    emit serverLoginUpdated();
+    emit serverLoginUpdated(serverUsername());
     return true;
   }
   return false;

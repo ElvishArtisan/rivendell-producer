@@ -71,7 +71,8 @@ MainWidget::MainWidget(QWidget *parent)
   //
   // Window Title Bar
   //
-  connect(cnf,SIGNAL(serverLoginUpdated()),this,SLOT(serverLoginUpdatedData()));
+  connect(cnf,SIGNAL(serverLoginUpdated(const QString &)),
+	  this,SLOT(serverLoginUpdatedData(const QString &)));
   setWindowIcon(QPixmap(rdlogeditb_16x16_xpm));
 
   //
@@ -188,11 +189,17 @@ QSize MainWidget::sizeHint() const
 }
 
 
-void MainWidget::serverLoginUpdatedData()
+void MainWidget::serverLoginUpdatedData(const QString &username)
 {
-  setWindowTitle(tr("RDLogEdit Remote")+" v"+PACKAGE_VERSION+
-		 " [Host: "+cnf->serverHostname()+
-		 ",User: "+cnf->serverUsername()+"]");
+  if(username.isEmpty()) {
+    setWindowTitle(tr("RDLogEdit Remote")+" v"+PACKAGE_VERSION+
+		   " [Host: "+cnf->serverHostname()+"]");
+  }
+  else {
+    setWindowTitle(tr("RDLogEdit Remote")+" v"+PACKAGE_VERSION+
+		   " [Host: "+cnf->serverHostname()+
+		   ",User: "+cnf->serverUsername()+"]");
+  }
 }
 
 

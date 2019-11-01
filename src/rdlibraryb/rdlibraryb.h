@@ -2,7 +2,7 @@
 //
 // Remote cart producer for Rivendell
 //
-//   (C) Copyright 2016 Fred Gleason <fredg@paravelsystems.com>
+//   (C) Copyright 2016-2019 Fred Gleason <fredg@paravelsystems.com>
 //
 //   This program is free software; you can redistribute it and/or modify
 //   it under the terms of the GNU General Public License as
@@ -44,7 +44,7 @@ class MainWidget : public QMainWindow
   QSize sizeHint() const;
 
  private slots:
-  void serverLoginUpdatedData();
+  void serverLoginUpdatedData(const QString &username);
   void cartClickedData(const QModelIndex &index);
   void playData();
   void stopData();

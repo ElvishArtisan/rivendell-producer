@@ -437,3 +437,7 @@
 2019-11-01 Fred Gleason <fredg@paravelsystems.com>
 	* Modified the 'Add Log' dialog in rdlogeditb(1) to disable the
 	'OK' button when the 'Log Name' field is empty.
+2019-11-01 Fred Gleason <fredg@paravelsystems.com>
+	* Fixed a bug that caused the package version and current
+	host login information to fail to appear in the titlebar
+	when authenticating by ticket.
