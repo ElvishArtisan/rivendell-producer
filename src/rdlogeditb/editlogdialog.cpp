@@ -968,6 +968,7 @@ void EditLogDialog::logChangedData()
 void EditLogDialog::closeEvent(QCloseEvent *e)
 {
   cancelData();
+  e->ignore();
 }
 
 

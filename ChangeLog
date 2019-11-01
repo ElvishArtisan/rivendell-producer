@@ -430,3 +430,7 @@
 	* Updated 'INSTALL'.
 2019-09-25 Fred Gleason <fredg@paravelsystems.com>
 	* Incremented the package version to 1.3.2.
+2019-11-01 Fred Gleason <fredg@paravelsystems.com>
+	* Changed the behavior when clicking the 'x' button on the
+	'Unsaved Changes' dialog in rdlogeditb(1) to cancel the
+	current operation.
