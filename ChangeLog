@@ -434,3 +434,6 @@
 	* Changed the behavior when clicking the 'x' button on the
 	'Unsaved Changes' dialog in rdlogeditb(1) to cancel the
 	current operation.
+2019-11-01 Fred Gleason <fredg@paravelsystems.com>
+	* Modified the 'Add Log' dialog in rdlogeditb(1) to disable the
+	'OK' button when the 'Log Name' field is empty.

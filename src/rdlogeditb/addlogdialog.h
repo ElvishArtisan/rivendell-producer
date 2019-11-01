@@ -2,7 +2,7 @@
 //
 // Log Editing Dialog
 //
-//   (C) Copyright 2017 Fred Gleason <fredg@paravelsystems.com>
+//   (C) Copyright 2017-2019 Fred Gleason <fredg@paravelsystems.com>
 //
 //   This program is free software; you can redistribute it and/or modify
 //   it under the terms of the GNU General Public License as
@@ -40,6 +40,7 @@ class AddLogDialog : public QDialog
   int exec(QString *svcname,QString *logname);
 
  private slots:
+  void logNameChanged(const QString &str);
   void okData();
   void cancelData();
 

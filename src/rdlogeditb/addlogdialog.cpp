@@ -2,7 +2,7 @@
 //
 // Log Editing Dialog
 //
-//   (C) Copyright 2017 Fred Gleason <fredg@paravelsystems.com>
+//   (C) Copyright 2017-2019 Fred Gleason <fredg@paravelsystems.com>
 //
 //   This program is free software; you can redistribute it and/or modify
 //   it under the terms of the GNU General Public License as
@@ -41,8 +41,11 @@ AddLogDialog::AddLogDialog(QWidget *parent)
   edit_logname_edit=new QLineEdit(this);
   edit_logname_edit->setMaxLength(64);
   edit_logname_edit->setValidator(new LogNameValidator(this));
+  connect(edit_logname_edit,SIGNAL(textChanged(const QString &)),
+	  this,SLOT(logNameChanged(const QString &)));
 
   edit_ok_button=new QPushButton(tr("OK"),this);
+  edit_ok_button->setDisabled(true);
   connect(edit_ok_button,SIGNAL(clicked()),this,SLOT(okData()));
 
   edit_cancel_button=new QPushButton(tr("Cancel"),this);
@@ -66,6 +69,12 @@ int AddLogDialog::exec(QString *svcname,QString *logname)
   edit_logname_edit->setText(*logname);
 
   return QDialog::exec();
+}
+
+
+void AddLogDialog::logNameChanged(const QString &str)
+{
+  edit_ok_button->setDisabled(str.isEmpty());
 }
 
 
