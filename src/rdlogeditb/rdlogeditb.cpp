@@ -198,7 +198,7 @@ void MainWidget::serverLoginUpdatedData(const QString &username)
   else {
     setWindowTitle(tr("RDLogEdit Remote")+" v"+PACKAGE_VERSION+
 		   " [Host: "+cnf->serverHostname()+
-		   ",User: "+cnf->serverUsername()+"]");
+		   ",User: "+username+"]");
   }
 }
 

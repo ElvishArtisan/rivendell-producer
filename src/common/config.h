@@ -128,6 +128,7 @@ class Config : public QDialog
   QLineEdit *conf_password_edit;
   QString conf_server_ticket;
   QDateTime conf_server_ticket_expiration;
+  QString conf_ticket_username;
   QPushButton *conf_ok_button;
   QPushButton *conf_quit_button;
   QString conf_audio_device_name;
