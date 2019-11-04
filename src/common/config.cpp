@@ -659,16 +659,17 @@ void Config::resizeEvent(QResizeEvent *e)
 void Config::LoadTicket()
 {
   QString username;
-  bool ok=false;
 #ifdef MME
   QSettings s("Radio Free Asia","Rivendell");
   conf_server_ticket=s.value("TicketString").toString();
   conf_server_ticket_expiration=
     QDateTime::fromString("yyyyMMddhhmmss",
 			  s.value("TicketExpiration").toString());
+  conf_ticket_username=s.value("TicketUser").toString();
 #endif  // MME
 
 #ifdef ALSA
+  bool ok=false;
   Profile *p=new Profile();
   p->setSource(QDir::home().path()+"/.rivendell/ticket");
   conf_server_ticket=p->stringValue("Rivendell","TicketString");
@@ -694,6 +695,7 @@ void Config::SaveTicket() const
   s.setValue("TicketString",serverTicket());
   s.setValue("TicketExpiration",serverTicketExpiration().
 	     toString("yyyyMMddhhmmss"));
+  s.setValue("TicketUser",conf_username_edit->text());
 #endif  // MME
 
 #ifdef ALSA

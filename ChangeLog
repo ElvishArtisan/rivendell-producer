@@ -443,3 +443,5 @@
 	when authenticating by ticket.
 2019-11-04 Fred Gleason <fredg@paravelsystems.com>
 	* Added a 'TicketUser=' parameter to login tickets for Linux.
+2019-11-04 Fred Gleason <fredg@paravelsystems.com>
+	* Added a 'TicketUser=' parameter to login tickets for Windows.
