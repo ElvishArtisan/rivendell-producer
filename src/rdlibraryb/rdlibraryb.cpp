@@ -154,7 +154,7 @@ void MainWidget::serverLoginUpdatedData(const QString &username)
   else {
     setWindowTitle(tr("RDLibrary Remote")+" v"+PACKAGE_VERSION+
 		   " [Host: "+cnf->serverHostname()+
-		   ",User: "+cnf->serverUsername()+"]");
+		   ",User: "+username+"]");
   }
 }
 
