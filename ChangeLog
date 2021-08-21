@@ -452,3 +452,5 @@
 	information to be displayed on the titlebar.
 2019-11-04 Fred Gleason <fredg@paravelsystems.com>
 	* Incremented the package version 1.3.4.
+2021-08-21 Fred Gleason <fredg@paravelsystems.com>
+	* Ported to Qt5.

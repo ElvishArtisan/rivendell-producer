@@ -2,7 +2,7 @@
 ##
 ## Makefile for the rdadminb applet
 ##
-## (C) Copyright 2016 Fred Gleason <fredg@paravelsystems.com>
+## (C) Copyright 2016-2021 Fred Gleason <fredg@paravelsystems.com>
 ##
 ##   This program is free software; you can redistribute it and/or modify
 ##   it under the terms of the GNU General Public License version 2 as
@@ -19,12 +19,12 @@
 ##
 ## Use automake to process this into a Makefile.in
 
-AM_CPPFLAGS = -Wall -DPREFIX=\"$(prefix)\" -DARCH=\"@ARCH@\" -DOS=\"@OS@\" -Wno-strict-aliasing @QT4_CFLAGS@ @RIVWEBCAPI_CFLAGS@
-MOC = @QT4_MOC@
+AM_CPPFLAGS = -Wall -DPREFIX=\"$(prefix)\" -DARCH=\"@ARCH@\" -DOS=\"@OS@\" -Wno-strict-aliasing -std=c++11 -fPIC -I$(top_srcdir)/lib @QT5_CFLAGS@ @RIVWEBCAPI_CFLAGS@
+MOC = @QT_MOC@
 
 # Qt compiler dependencies
 moc_%.cpp:	%.h
-	@MOC@ $< -o $@
+	$(MOC) $< -o $@
 qrc_%.cpp:	%.qrc
 	rcc $< -o $@
 
@@ -48,7 +48,7 @@ nodist_rdadminb_SOURCES = cmdswitch.cpp cmdswitch.h\
 
 EXTRA_rdadminb_DEPENDENCIES = @RESOURCES@
 
-rdadminb_LDADD = @QT4_LIBS@ @RIVWEBCAPI_LIBS@ @MME_LIBS@ -lexpat @RESOURCES@ -lpthread
+rdadminb_LDADD = @QT5_LIBS@ @RIVWEBCAPI_LIBS@ @MME_LIBS@ -lexpat @RESOURCES@ -lpthread
 rdadminb_LDFLAGS = @LDFLAGS@
 
 EXTRA_DIST = bitmaps.qrc\

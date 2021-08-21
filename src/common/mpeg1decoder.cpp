@@ -91,7 +91,7 @@ void Mpeg1Decoder::finish()
   int frame_offset=0;
   int err_count=0;
 
-  mpeg1_mpeg.append(0,MAD_BUFFER_GUARD);
+  mpeg1_mpeg.append(QByteArray(MAD_BUFFER_GUARD,(int)0));
   mad_stream_buffer(&mpeg1_mad_stream,(const unsigned char *)mpeg1_mpeg.data(),
 		    mpeg1_mpeg.length());
   do {
