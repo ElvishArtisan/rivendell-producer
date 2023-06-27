@@ -2,7 +2,7 @@
 //
 // Remote log editor for Rivendell
 //
-//   (C) Copyright 2017-2019 Fred Gleason <fredg@paravelsystems.com>
+//   (C) Copyright 2017-2023 Fred Gleason <fredg@paravelsystems.com>
 //
 //   This program is free software; you can redistribute it and/or modify
 //   it under the terms of the GNU General Public License as
@@ -804,7 +804,7 @@ void EditLogDialog::printData()
       report+=QString().sprintf("%06u ",logline->cartNumber());
       report+=QString().sprintf("%-10s ",
 				(const char *)logline->groupName().toUtf8());
-      report+=QString().sprintf("%8s ",(const char *)QTime().addMSecs(logline->length(LogLine::CartPointer)).toString("h:mm:ss").toUtf8());
+      report+=QString().sprintf("%8s ",(const char *)QTime(0,0,0).addMSecs(logline->length(LogLine::CartPointer)).toString("h:mm:ss").toUtf8());
       report+=
 	QString().sprintf("%-33s ",
 			  (const char *)logline->title().left(33).toUtf8());

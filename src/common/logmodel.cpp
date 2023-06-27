@@ -2,7 +2,7 @@
 //
 // Remote data model for a Rivendell Log
 //
-//   (C) Copyright 2017 Fred Gleason <fredg@paravelsystems.com>
+//   (C) Copyright 2017-2023 Fred Gleason <fredg@paravelsystems.com>
 //
 //   This program is free software; you can redistribute it and/or modify
 //   it under the terms of the GNU General Public License as
@@ -596,8 +596,8 @@ QString LogModel::GetLength(const LogLine &ll) const
 {
   int len=ll.length(LogLine::CartPointer);
   if(len>=3600000) {
-    return QTime().addMSecs(len).toString("hh:mm:ss");
+    return QTime(0,0,0).addMSecs(len).toString("hh:mm:ss");
   }
-  return QTime().addMSecs(len).toString("mm:ss");
+  return QTime(0,0,0).addMSecs(len).toString("mm:ss");
 }
 

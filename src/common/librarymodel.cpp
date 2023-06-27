@@ -2,7 +2,7 @@
 //
 // Remote data model for the Rivendell Library
 //
-//   (C) Copyright 2016 Fred Gleason <fredg@paravelsystems.com>
+//   (C) Copyright 2016-2023 Fred Gleason <fredg@paravelsystems.com>
 //
 //   This program is free software; you can redistribute it and/or modify
 //   it under the terms of the GNU General Public License as
@@ -272,10 +272,10 @@ QString LibraryModel::GetLength(struct rd_cart *cart) const
   QTime len;
 
   if(cart->cart_forced_length>0) {
-    len=QTime().addMSecs(cart->cart_forced_length);
+    len=QTime(0,0,0).addMSecs(cart->cart_forced_length);
   }
   else {
-    len=QTime().addMSecs(cart->cart_average_length);
+    len=QTime(0,0,0).addMSecs(cart->cart_average_length);
   }
   if(cart->cart_forced_length<60000) {
     return len.toString("ss.zzz").left(4);

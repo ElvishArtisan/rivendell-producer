@@ -2,7 +2,7 @@
 //
 // RunLengthWidget widget
 //
-//   (C) Copyright 2017 Fred Gleason <fredg@paravelsystems.com>
+//   (C) Copyright 2017-2023 Fred Gleason <fredg@paravelsystems.com>
 //
 //   This program is free software; you can redistribute it and/or modify
 //   it under the terms of the GNU General Public License version 2 as
@@ -67,21 +67,21 @@ void RunLengthWidget::updateSelection(const QItemSelection &new_sel,
       run_nextstop_edit->clear();
     }
     else {
-      run_nextstop_edit->setText(QTime().addMSecs(len).toString("h:mm:ss"));
+      run_nextstop_edit->setText(QTime(0,0,0).addMSecs(len).toString("h:mm:ss"));
     }
 
     if((len=run_log_model->length(run_sel_model->selectedRows()[0].row(),run_log_model->rowCount()-1))==0) {
       run_logend_edit->clear();
     }
     else {
-      run_logend_edit->setText(QTime().addMSecs(len).toString("h:mm:ss"));
+      run_logend_edit->setText(QTime(0,0,0).addMSecs(len).toString("h:mm:ss"));
     }
   }
   else {
     run_nextstop_label->setText(tr("Selected")+":");
     run_logend_edit->clear();
     len=run_log_model->length(run_sel_model->selectedRows()[0].row(),run_sel_model->selectedRows()[run_sel_model->selectedRows().size()-1].row()+1);
-    run_nextstop_edit->setText(QTime().addMSecs(len).toString("h:mm:ss"));
+    run_nextstop_edit->setText(QTime(0,0,0).addMSecs(len).toString("h:mm:ss"));
   }
 }
 

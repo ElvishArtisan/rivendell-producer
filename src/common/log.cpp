@@ -2,7 +2,7 @@
 //
 // Container class for Rivendell logs
 //
-//   (C) Copyright 2017 Fred Gleason <fredg@paravelsystems.com>
+//   (C) Copyright 2017-2023 Fred Gleason <fredg@paravelsystems.com>
 //
 //   This program is free software; you can redistribute it and/or modify
 //   it under the terms of the GNU General Public License as
@@ -319,7 +319,7 @@ bool Log::load(const QString &name,QString *err_msg)
     back().setEvergreen(ll[i].logline_evergreen);
     back().setSource((LogLine::Source)ll[i].logline_source);
     back().setTimeType((LogLine::TimeType)ll[i].logline_time_type);
-    back().setStartTime(QTime().addMSecs(ll[i].logline_starttime));
+    back().setStartTime(QTime(0,0,0).addMSecs(ll[i].logline_starttime));
     back().setTransType((LogLine::TransType)ll[i].logline_transition_type);
     back().setCutQuantity(ll[i].logline_cut_quantity);
     back().setLastCutPlayed(ll[i].logline_last_cut_played);
@@ -354,12 +354,13 @@ bool Log::load(const QString &name,QString *err_msg)
     back().setHookEndPoint(ll[i].logline_hook_end_point);
     back().setEventLength(ll[i].logline_event_length);
     back().setLinkEventName(ll[i].logline_link_event_name);
-    back().setLinkStartTime(QTime().addMSecs(ll[i].logline_link_starttime));
+    back().setLinkStartTime(QTime(0,0,0).addMSecs(ll[i].
+						  logline_link_starttime));
     back().setLinkStartSlop(ll[i].logline_link_start_slop);
     back().setLinkEndSlop(ll[i].logline_link_end_slop);
     back().setLinkId(ll[i].logline_link_id);
     back().setLinkEmbedded(ll[i].logline_link_embedded);
-    back().setExtStartTime(QTime().addMSecs(ll[i].logline_ext_starttime));
+    back().setExtStartTime(QTime(0,0,0).addMSecs(ll[i].logline_ext_starttime));
     back().setExtLength(ll[i].logline_ext_length);
     back().setExtCartName(QString::fromUtf8(ll[i].logline_ext_cart_name));
     back().setExtData(QString::fromUtf8(ll[i].logline_ext_data));
@@ -401,7 +402,7 @@ bool Log::save(const QString &name,QString *err_msg)
     ll[i].logline_type=at(i).type();
     ll[i].logline_source=at(i).source();
     ll[i].logline_cart_number=at(i).cartNumber();
-    ll[i].logline_starttime=QTime().msecsTo(at(i).startTime());
+    ll[i].logline_starttime=QTime(0,0,0).msecsTo(at(i).startTime());
     ll[i].logline_gracetime=at(i).graceTime();
     ll[i].logline_time_type=at(i).timeType();
     ll[i].logline_transition_type=at(i).transType();

@@ -2,7 +2,7 @@
 //
 // Log Event Editing Dialog
 //
-//   (C) Copyright 2017 Fred Gleason <fredg@paravelsystems.com>
+//   (C) Copyright 2017-2023 Fred Gleason <fredg@paravelsystems.com>
 //
 //   This program is free software; you can redistribute it and/or modify
 //   it under the terms of the GNU General Public License as
@@ -294,7 +294,7 @@ int EditLogLineDialog::exec(LogLine *ll,const QString &service,
   default:
     edit_grace_group->button(2)->setChecked(true);
     graceClickedData(2);
-    edit_grace_edit->setTime(QTime().addMSecs(ll->graceTime()));
+    edit_grace_edit->setTime(QTime(0,0,0).addMSecs(ll->graceTime()));
     break;
   }
 
@@ -552,7 +552,7 @@ void EditLogLineDialog::okData()
       break;
 
     case 2:
-      edit_logline->setGraceTime(QTime().msecsTo(edit_grace_edit->time()));
+      edit_logline->setGraceTime(QTime(0,0,0).msecsTo(edit_grace_edit->time()));
       break;
     }
   }
